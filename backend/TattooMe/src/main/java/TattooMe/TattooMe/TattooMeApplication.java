@@ -8,6 +8,7 @@ public class TattooMeApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(TattooMeApplication.class, args);
+
 	}
 
 }
