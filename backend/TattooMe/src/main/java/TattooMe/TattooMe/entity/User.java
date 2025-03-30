@@ -1,4 +1,34 @@
 package TattooMe.TattooMe.entity;
 
+import jakarta.persistence.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
+import java.util.UUID;
+
+@Entity
+@Table(name = "user")
 public class User {
+    @Id
+    @GeneratedValue
+    @JdbcTypeCode(SqlTypes.BINARY)
+    @Column(name = "id", columnDefinition = "BINARY(16)")
+    private UUID id;
+    @Column(name = "password", nullable = false, length = 60)
+    private String password;
+    @Column(name = "nickname", nullable = false, length = 35)
+    private String nickname;
+    @Column(name = "name", length = 35)
+    private String name;
+    @Column(name = "surname", length = 45)
+    private String surname;
+    @Column(name = "description", columnDefinition = "TEXT")
+    private String description;
+    @Lob
+    @Column(name = "profile_picture")
+    private byte[] profilePicture;
+    @Column(name = "phone_number", length = 9)
+    private String phoneNumber;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private UserRole userRole;
 }
