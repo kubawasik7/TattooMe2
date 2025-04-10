@@ -1,5 +1,6 @@
 package TattooMe.TattooMe.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -38,5 +39,6 @@ public class User {
     @Column(name = "phone_number", length = 9)
     private String phoneNumber;
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
     private UserRole userRole;
 }
