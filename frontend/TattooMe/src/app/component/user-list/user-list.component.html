@@ -1,1 +1,12 @@
-<p>user-list works!</p>
+<div class="item-list">
+    <div class="item" *ngFor="let user of users">
+      <div class="profile-pic"></div>
+      <div class="item-content">
+        <h2>{{ user.nickname }}</h2>
+        <p class="nickname">
+          {{ user.name }} | {{ user.nickname }} 
+        </p>
+      </div>
+    </div>
+  </div>
+  
