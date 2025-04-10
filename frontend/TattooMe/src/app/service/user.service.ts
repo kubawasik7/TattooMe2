@@ -1,9 +1,20 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { UUID } from 'node:crypto';
+import { Observable } from 'rxjs';
+export interface User{
+  id: UUID;
+  nickname: string;
+  name: string;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-
-  constructor() { }
+  private apiUrl = 'http://localhost:8080/api/users';
+  constructor(private http: HttpClient) { }
+  getUsers() : Observable<User[]>{
+    return this.http.get<User[]>(this.apiUrl);
+  }
 }
