@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { UserListComponent } from './component/user-list/user-list.component';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './component/login/login.component';
-
+import { FormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     AppComponent,
@@ -16,6 +16,7 @@ import { LoginComponent } from './component/login/login.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FormsModule,
     HttpClientModule
   ],
   providers: [
