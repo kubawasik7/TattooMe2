@@ -1,5 +1,7 @@
 package TattooMe.TattooMe.controller;
 
+import TattooMe.TattooMe.Security.CustomUserDetails;
+import TattooMe.TattooMe.Security.JwtUtil;
 import TattooMe.TattooMe.dto.LoginRequest;
 import TattooMe.TattooMe.dto.LoginResponse;
 import TattooMe.TattooMe.dto.RegisterRequest;
