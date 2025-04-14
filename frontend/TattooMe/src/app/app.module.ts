@@ -8,6 +8,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './component/login/login.component';
 import { FormsModule } from '@angular/forms';
 import { RegisterComponent } from './component/register/register.component';
+import { RouterModule, Routes } from '@angular/router';
+
+const appRoutes: Routes = [
+  { path: '', component: UserListComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: '**', redirectTo: '' }
+];
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,7 +28,8 @@ import { RegisterComponent } from './component/register/register.component';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    RouterModule.forRoot(appRoutes)
   ],
   providers: [
     provideClientHydration(withEventReplay())
