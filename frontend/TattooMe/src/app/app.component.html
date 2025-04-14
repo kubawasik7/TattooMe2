@@ -3,13 +3,15 @@
     <h1>TattooMe</h1>
   </div>
   <ul class="nav-list">
-    <li><a href="#">Tatuaże</a></li>
+    <li><a href="#">Studia Tatuażu</a></li>
+    <li><a href="#">Tatuatorzy</a></li>
     <li><a href="#">Praktykanci</a></li>
     <li><a href="#">Warto wiedzieć</a></li>
-    <li><a href="#">Moje konto</a></li>
-    <li>
-      <button class="login-btn">Zaloguj się</button>
-    </li>
+  
+    <div class="nav-buttons">
+      <button (click)="onLoginClick()">Zaloguj się</button>
+      <button (click)="navigateTo('register')">Zarejestruj się</button>
+    </div>
   </ul>
 </nav>
 
@@ -19,14 +21,13 @@
     class="search-input"
     placeholder="Szukaj..."
    
-  />
-  <button class="filter-btn">Filtry</button>
+  />  
 
-  <select class="sort-select">
     <option value="">Sortuj według</option>
     <option value="rating">Ocena</option>
     <option value="opinions">Ilość opinii</option>
-  </select>
+  
 </div>
 
-<app-user-list></app-user-list>
+
+<router-outlet></router-outlet>
