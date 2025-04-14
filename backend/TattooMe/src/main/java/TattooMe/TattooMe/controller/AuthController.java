@@ -59,7 +59,7 @@ public class AuthController {
             UsernamePasswordAuthenticationToken authToken =
                     new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authToken);
-            
+
             String token = jwtUtil.generateToken(userDetails);
             return ResponseEntity.ok(new LoginResponse(token));
         } catch (AuthenticationException e) {
