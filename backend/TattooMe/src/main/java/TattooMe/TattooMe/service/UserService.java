@@ -4,6 +4,8 @@ import TattooMe.TattooMe.dto.RegisterRequest;
 import TattooMe.TattooMe.entity.User;
 import TattooMe.TattooMe.entity.UserRole;
 import TattooMe.TattooMe.repository.UserRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
