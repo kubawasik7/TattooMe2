@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { AuthService } from '../../service/auth.service';
+import { RegisterRequest } from '../../model/register-request';
 
 @Component({
   selector: 'app-register',
@@ -7,5 +9,22 @@ import { Component } from '@angular/core';
   styleUrl: './register.component.css'
 })
 export class RegisterComponent {
+  registerRequest: RegisterRequest = {
+    nickname: '',
+    email: '',
+    password: '',
+    role: ''
+  };
+  constructor(private authService: AuthService) { }
 
+  onRegister(): void {
+    this.authService.register(this.registerRequest).subscribe(
+      response => {
+        console.log('Rejestracja powiodła się:', response);
+      },
+      error => {
+        console.error('Błąd rejestracji:', error);
+      }
+    );
+  }
 }
