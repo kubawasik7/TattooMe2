@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -59,6 +60,15 @@ public class UserService {
         }
         return userRepository.findByNickname(nickname)
                 .orElseThrow(() -> new RuntimeException("User not found"));
+
+    }
+    public User getUserById(String id){
+        Optional<User> user = userRepository.findById(UUID.fromString(id));
+        if(user.isPresent()){
+            return user.get();
+        }else{
+            throw new RuntimeException("user not found");
+        }
 
     }
     public List<User> findAllUsers(){
