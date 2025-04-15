@@ -15,6 +15,7 @@ const appRoutes: Routes = [
   { path: '', component: UserListComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
+  {path: 'profile/:id', component: ProfileComponent},
   { path: '**', redirectTo: '' }
 ];
 
