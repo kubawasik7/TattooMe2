@@ -5,7 +5,10 @@ import { Observable } from 'rxjs';
 export interface User{
   id: UUID;
   nickname: string;
+  email: string;
   name: string;
+  surname: string;
+  description: string;
 }
 
 @Injectable({
