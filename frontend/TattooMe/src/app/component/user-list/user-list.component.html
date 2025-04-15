@@ -2,7 +2,9 @@
     <div class="item" *ngFor="let user of users">
       <div class="profile-pic"></div>
       <div class="item-content">
+        <a [routerLink]="['/profile', user.id]">
         <h2>{{ user.nickname }}</h2>
+        </a>
         <p class="nickname">
           {{ user.name }} | {{ user.nickname }} 
         </p>
