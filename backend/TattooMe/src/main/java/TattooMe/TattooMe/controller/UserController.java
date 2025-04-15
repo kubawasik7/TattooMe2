@@ -3,12 +3,11 @@ package TattooMe.TattooMe.controller;
 import TattooMe.TattooMe.entity.User;
 import TattooMe.TattooMe.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/users")
@@ -22,5 +21,9 @@ public class UserController {
     @GetMapping
     public List<User> getAllUsers(){
         return userService.findAllUsers();
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getUserById(@PathVariable UUID id) {
+        return ResponseEntity.ok(userService.getUserById(String.valueOf(id)));
     }
 }
