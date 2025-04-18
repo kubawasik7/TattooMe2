@@ -23,25 +23,9 @@ public class UserService {
         if(userRepository.findByNickname(registerRequest.getNickname()).isPresent()){
             throw new RuntimeException("Username is already taken");
         }
-        //!!!!!!!!!!!!!DO POPRAWY, ZMIANA W BAZIE TABELI USER ROLE
-        UserRole userRole = new UserRole();
-        if(registerRequest.getRole().equals("CLIENT")){
-            userRole.setClient(true);
-            userRole.setTrainee(false);
-            userRole.setTattooArtist(false);
-        }else if(registerRequest.getRole().equals("TRAINEE")){
-            userRole.setTrainee(true);
-            userRole.setTattooArtist(false);
-            userRole.setClient(false);
-        }else{
-            userRole.setTrainee(false);
-            userRole.setTattooArtist(true);
-            userRole.setClient(false);
-        }
 
         User user = new User();
-        user.setUserRole(userRole);
-        userRole.setUser(user);
+        user.setRole(registerRequest.getRole());
         user.setNickname(registerRequest.getNickname());
         user.setEmail(registerRequest.getEmail());
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
