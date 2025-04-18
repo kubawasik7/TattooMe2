@@ -40,7 +40,6 @@ public class User {
     private byte[] profilePicture;
     @Column(name = "phone_number", length = 9)
     private String phoneNumber;
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    @JsonIgnore
-    private UserRole userRole;
+    @Column(name = "role", length = 20)
+    private String role;
 }
