@@ -39,7 +39,7 @@ public class UserService {
             System.out.println("id " + user1.getId());
             System.out.println("nickname " + user1.getNickname());
             System.out.println("email " + user1.getEmail());
-            System.out.println("user role " + user1.getUserRole());
+            System.out.println("user role " + user1.getRole());
         }
         return userRepository.findByNickname(nickname)
                 .orElseThrow(() -> new RuntimeException("User not found"));
