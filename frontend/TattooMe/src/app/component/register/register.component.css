@@ -1,0 +1,104 @@
+
+.register-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: #1d1d1d;
+  }
+  
+  .register-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    width: 360px;
+    padding: 24px;
+    text-align: center;
+  }
+  
+  .register-header .logo {
+    font-size: 24px;
+    font-style: italic;
+    margin-bottom: 8px;
+  }
+  
+  .register-header h2 {
+    margin: 0;
+    font-size: 28px;
+  }
+  
+  .register-header p {
+    margin: 4px 0 16px;
+    color: #666;
+    font-size: 14px;
+  }
+  
+  .roles {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+  
+  .roles button {
+    flex: 1;
+    padding: 8px 0;
+    border: none;
+    border-radius: 8px;
+    background: #ddd;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  
+  .roles button.active {
+    background: #f1f1f1;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  }
+  
+
+  .register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    text-align: left;
+  }
+  
+  .register-form label {
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+    color: #333;
+  }
+  
+  .register-form input {
+    margin-top: 4px;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+  }
+  
+  .error {
+    font-size: 12px;
+    color: #d00;
+    margin-top: -8px;
+  }
+  
+  .submit-btn {
+    margin-top: 16px;
+    width: 100%;
+    padding: 12px 0;
+    border: none;
+    border-radius: 16px;
+    background: #888;
+    color: #000;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  
+  .submit-btn:hover {
+    background: #777;
+  }
+  
