@@ -15,15 +15,7 @@ public class CustomUserDetails implements UserDetails {
     }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        //TE ROLE DO POPRAWY TEZ
-        String role;
-        if(user.getUserRole().isClient()){
-            role = "ROLE_CLIENT";
-        }else if( user.getUserRole().isTattooArtist()){
-            role = "ROLE_TATTOO_ARTIST";
-        }else{
-            role = "ROLE_TRAINEE";
-        }
+        String role = user.getRole();
         return Collections.singletonList(new SimpleGrantedAuthority(role));
 
     }
