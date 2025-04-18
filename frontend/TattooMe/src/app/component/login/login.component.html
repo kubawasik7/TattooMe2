@@ -1,8 +1,25 @@
-<div>
-    <h2>Logowanie</h2>
-    <form (ngSubmit)="onLogin()">
-      <input type="text" placeholder="Nickname" [(ngModel)]="loginRequest.nickname" name="nickname" required />
-      <input type="password" placeholder="Password" [(ngModel)]="loginRequest.password" name="password" required />
-      <button type="submit">Zaloguj się</button>
+<div class="login-container">
+  <div class="login-card">
+    <div class="login-header">
+      <div class="logo">Logo</div>
+      <h2>Logowanie</h2>
+    </div>
+
+    <form [formGroup]="form"  class="login-form">
+      <label>
+        Nazwa użytkownika:
+        <input formControlName="username" placeholder="Enter your username" />
+      </label>
+      <div *ngIf="form.get('username')?.touched && form.get('username')?.invalid" class="error">
+        Nazwa jest wymagana.
+      </div>
+      <label>
+        Hasło:
+        <input type="password" formControlName="password" placeholder="Enter your password" />
+      </label>
+      <button type="submit" class="submit-btn" (click)="onLogin()" >
+        Zaloguj się
+      </button>
     </form>
   </div>
+</div>
