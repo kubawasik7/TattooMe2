@@ -12,6 +12,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ProfileComponent } from './component/profile/profile.component';
 import { TattooArtistListComponent } from './component/tattoo-artist-list/tattoo-artist-list.component';
 import { TraineeListComponent } from './component/trainee-list/trainee-list.component';
+import { MainPageComponent } from './component/main-page/main-page.component';
 
 const appRoutes: Routes = [
   { path: '', component: UserListComponent },
@@ -31,7 +32,8 @@ const appRoutes: Routes = [
     RegisterComponent,
     ProfileComponent,
     TattooArtistListComponent,
-    TraineeListComponent
+    TraineeListComponent,
+    MainPageComponent
   ],
   imports: [
     BrowserModule,
