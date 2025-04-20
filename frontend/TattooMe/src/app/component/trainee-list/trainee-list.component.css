@@ -1,0 +1,147 @@
+
+:root {
+    --bg-page: #2a2a2a;
+    --bg-header: #1f1f1f;
+    --bg-card: #333;
+    --border-color: #444;
+    --text-light: #eee;
+    --text-muted: #aaa;
+    --accent: #fbc02d;
+  }
+  
+  .tattoo-me {
+    background: var(--bg-page);
+    color: var(--text-light);
+    font-family: sans-serif;
+    min-height: 100vh;
+  }
+  
+  .tm-header {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1.5rem;
+    background: var(--bg-header);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .tm-logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-right: 2rem;
+  }
+  .tm-nav a {
+    margin-right: 1.25rem;
+    text-decoration: none;
+    color: var(--text-light);
+    font-size: 0.95rem;
+  }
+  .tm-nav a:hover {
+    color: var(--accent);
+  }
+  .tm-user {
+    margin-left: auto;
+  }
+  .tm-user a {
+    margin-left: 1rem;
+    text-decoration: none;
+    color: var(--text-light);
+  }
+  .btn-login {
+    padding: 0.4rem 0.75rem;
+    border: 1px solid var(--text-light);
+    border-radius: 3px;
+  }
+  
+  .tm-search {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border-color);
+  }
+  .search-input input {
+    background: var(--bg-page);
+    border: 1px solid var(--border-color);
+    padding: 0.5rem 0.75rem;
+    border-radius: 3px;
+    color: var(--text-light);
+    margin-right: 0.5rem;
+    width: 200px;
+  }
+  .search-actions button {
+    background: transparent;
+    border: none;
+    color: var(--text-light);
+    cursor: pointer;
+    margin-left: 0.5rem;
+  }
+  .search-actions button:hover {
+    color: var(--accent);
+  }
+  
+  .tm-list {
+    padding: 2rem 1.5rem;
+  }
+  .tm-card {
+    display: flex;
+    padding: 2rem 0;           
+    border-bottom: 1px solid #fff;
+    margin-bottom: 1rem;        
+  }
+  .tm-card:last-child {
+    border-bottom: none;
+  }
+  .avatar {
+    flex-shrink: 0;
+    width: 120px;
+    height: 120px;
+    background: #bbb;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 1.2;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1.5rem;
+  }
+  .info {
+    flex: 1;
+  }
+  .nickname {
+    margin: 0;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-light);
+  }
+  .meta {
+    font-size: 1rem;
+    color: var(--text-muted);
+    margin: 0.25rem 0;
+  }
+  .rating {
+    color: var(--accent);
+    margin-right: 1rem;
+  }
+  .location {
+    color: var(--text-muted);
+  }
+  .tags span {
+    display: inline-block;
+    margin-right: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+  .description {
+    margin: 0.5rem 0;
+    line-height: 1.4;
+    font-size: 0.95rem;
+  }
+  .promo {
+    font-size: 0.9rem;
+    color: var(--accent);
+  }
+  
