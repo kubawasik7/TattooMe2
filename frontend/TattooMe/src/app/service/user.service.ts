@@ -23,4 +23,10 @@ export class UserService {
   getUserById(id: string): Observable<User> {
     return this.http.get<User>(`${this.apiUrl}/${id}`);
   }
+  getTattooArtists() : Observable<User[]>{
+    return this.http.get<User[]>(`${this.apiUrl}/tattooArtist`);
+  }
+  getTrainees() : Observable<User[]>{
+    return this.http.get<User[]>(`${this.apiUrl}/trainee`);
+  }
 }
