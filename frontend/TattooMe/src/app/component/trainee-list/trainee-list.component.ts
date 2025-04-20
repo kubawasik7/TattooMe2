@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { User, UserService } from '../../service/user.service';
 
 @Component({
   selector: 'app-trainee-list',
@@ -7,5 +8,16 @@ import { Component } from '@angular/core';
   styleUrl: './trainee-list.component.css'
 })
 export class TraineeListComponent {
+  users: User[] = [];
 
+  constructor(private userService: UserService){}
+  ngOnInit(): void {
+    this.loadUsers();
+  }
+
+  loadUsers(): void {
+    this.userService.getTrainees().subscribe(data => {
+      this.users = data;
+    });
+  }
 }
