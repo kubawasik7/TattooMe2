@@ -26,4 +26,12 @@ public class UserController {
     public ResponseEntity<?> getUserById(@PathVariable UUID id) {
         return ResponseEntity.ok(userService.getUserById(String.valueOf(id)));
     }
+    @GetMapping("/tattooArtist")
+    public List<User> getAllTattooArtist(){
+        return userService.findAllTattooArtist();
+    }
+    @GetMapping("/trainee")
+    public List<User> getAllTrainee(){
+        return userService.findAllTrainees();
+    }
 }
