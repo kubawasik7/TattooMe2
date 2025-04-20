@@ -15,7 +15,7 @@ import { TraineeListComponent } from './component/trainee-list/trainee-list.comp
 import { MainPageComponent } from './component/main-page/main-page.component';
 
 const appRoutes: Routes = [
-  { path: '', component: UserListComponent },
+  { path: '', component: MainPageComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   {path: 'trainee', component: TraineeListComponent},
