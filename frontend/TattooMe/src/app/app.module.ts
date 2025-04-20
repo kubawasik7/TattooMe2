@@ -10,6 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RegisterComponent } from './component/register/register.component';
 import { RouterModule, Routes } from '@angular/router';
 import { ProfileComponent } from './component/profile/profile.component';
+import { TattooArtistListComponent } from './component/tattoo-artist-list/tattoo-artist-list.component';
 
 const appRoutes: Routes = [
   { path: '', component: UserListComponent },
@@ -25,7 +26,8 @@ const appRoutes: Routes = [
     UserListComponent,
     LoginComponent,
     RegisterComponent,
-    ProfileComponent
+    ProfileComponent,
+    TattooArtistListComponent
   ],
   imports: [
     BrowserModule,
