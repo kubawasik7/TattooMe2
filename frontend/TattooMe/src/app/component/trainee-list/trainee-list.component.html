@@ -1,1 +1,21 @@
-<p>trainee-list works!</p>
+
+<div class="tattoo-me">
+
+
+    <section class="tm-list">
+      <article class="tm-card" *ngFor="let user of users">
+        <div class="avatar">zdjęcie<br/>profilowe</div>
+        <div class="info">
+          <h2 class="nickname">{{ user.nickname }}</h2>
+          <div class="meta">
+            <span class="rating">★ 5/5 </span>
+            <span class="location">📍 </span>
+          </div>
+          
+          <p class="description">opis</p>
+          <p class="promo">promo</p>
+        </div>
+      </article>
+    </section>
+  </div>
+  
