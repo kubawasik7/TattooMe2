@@ -3,7 +3,11 @@
 
 
     <section class="tm-list">
-      <article class="tm-card" *ngFor="let user of users">
+      <article class="tm-card" *ngFor="let user of users | paginate: {
+        itemsPerPage: 5,
+        currentPage: p,
+        totalItems: users.length
+      }">
         <div class="avatar">zdjęcie<br/>profilowe</div>
         <div class="info">
           <h2 class="nickname">{{ user.nickname }}</h2>
@@ -17,5 +21,11 @@
         </div>
       </article>
     </section>
+    <pagination-controls
+    (pageChange)="p = $event"
+    [autoHide]="true"
+    previousLabel="‹ Prev"
+    nextLabel="Next ›"
+  ></pagination-controls>
   </div>
   
