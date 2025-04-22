@@ -9,6 +9,7 @@ import { User, UserService } from '../../service/user.service';
 })
 export class TattooArtistListComponent {
   users: User[] = [];
+  p = 1;
 
   constructor(private userService: UserService){}
   ngOnInit(): void {
