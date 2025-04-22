@@ -144,4 +144,9 @@
     font-size: 0.9rem;
     color: var(--accent);
   }
+  .profile-link {
+    color: #e32dfb;          
+    text-decoration: none;   
+  }
+  
   
