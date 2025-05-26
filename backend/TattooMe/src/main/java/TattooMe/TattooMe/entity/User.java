@@ -21,7 +21,7 @@ public class User {
     @Id
     @GeneratedValue
     @JdbcTypeCode(SqlTypes.BINARY)
-    @Column(name = "id", columnDefinition = "BINARY(16)")
+    @Column(name = "user_id", columnDefinition = "BINARY(16)")
     private UUID id;
     @Column(name = "password", nullable = false, length = 60)
     private String password;
