@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3edfec35-1b61-4674-8cc2-40786e58cc18" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/backend/TattooMe/src/main/java/TattooMe/TattooMe/TattooMeApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/TattooMe/src/main/java/TattooMe/TattooMe/TattooMeApplication.java" afterDir="false" />
-    </list>
+    <list default="true" id="3edfec35-1b61-4674-8cc2-40786e58cc18" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -18,10 +16,10 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 5
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 5
+}</component>
   <component name="ProjectId" id="2uwEwUEBbOOQmRRPSOmT9u6UUmZ" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -33,7 +31,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/kuba/Desktop/TattooMe/backend/TattooMe",
+    "last_opened_file_path": "C:/Users/kuba/Desktop/TattooMe2/backend",
     "nodejs_package_manager_path": "npm",
     "vue.rearranger.settings.migration": "true"
   }
@@ -55,6 +53,7 @@
       <option name="presentableId" value="Default" />
       <updated>1743151475268</updated>
       <workItem from="1743151477490" duration="64000" />
+      <workItem from="1752680920704" duration="38000" />
     </task>
     <servers />
   </component>

@@ -32,6 +32,9 @@ export class AuthService {
   login(loginRequest: LoginRequest): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.baseUrl}/login`, loginRequest);
   }
+  isLoggedIn(): boolean {
+    return !!this.getToken();
+  }
 }
 
 
