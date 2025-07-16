@@ -21,4 +21,8 @@ export class AppComponent {
   navigateTo(path: string): void {
     this.router.navigate([`/${path}`]);
   }
+   onLogout(): void {
+    this.authService.logout();
+    console.log('logout');
+  }
 }
