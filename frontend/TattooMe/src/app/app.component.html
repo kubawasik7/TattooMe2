@@ -9,8 +9,9 @@
     <li><a href="#">Warto wiedzieć</a></li>
   
     <div class="nav-buttons">
-      <button (click)="onLoginClick()">Zaloguj się</button>
-      <button (click)="navigateTo('register')">Zarejestruj się</button>
+      <button *ngIf="!authService.isLoggedIn()" (click)="onLoginClick()">Zaloguj się</button>
+      <button *ngIf="!authService.isLoggedIn()" (click)="navigateTo('register')">Zarejestruj się</button>
+      <button *ngIf="authService.isLoggedIn()" (click)="onLogout()">Wyloguj się</button>
     </div>
   </ul>
 </nav>
