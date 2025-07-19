@@ -9,6 +9,7 @@ export interface User{
   name: string;
   surname: string;
   description: string;
+  profilePicture: string | null;
 }
 
 @Injectable({
