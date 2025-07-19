@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { RegisterRequest } from '../model/register-request';
 import { LoginRequest } from '../model/login-request';
 import { LoginResponse } from '../model/login-response';
-import {jwtDecode} from 'jwt-decode';
+import {jwtDecode, JwtPayload} from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +25,13 @@ export class AuthService {
     const decodedToken: any = jwtDecode(token);
     return decodedToken.role;
   }
+  getUserId(): string | null {
+  const token = this.getToken();
+  if (!token) return null;
+
+  const { sub } = jwtDecode<JwtPayload & { sub?: string }>(token);
+  return sub ?? null;
+}
 
   register(registerRequest: RegisterRequest): Observable<any>{
     return this.http.post(`${this.baseUrl}/register`, registerRequest);
