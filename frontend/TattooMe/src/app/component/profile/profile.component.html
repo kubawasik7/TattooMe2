@@ -1,5 +1,90 @@
-<div *ngIf="user">
-    <h2>Nick: {{ user.nickname }}</h2>
-    <p>Email: {{ user.email }}</p>
-    <p>Opis: {{user.description}}</p>
-  </div>
+  <main class="container profile-page">
+    <section class="profile-header">
+      <div class="profile-picture-wrapper" (click)="fileInput.click()">
+  <img [src]="previewUrl || defaultAvatar" class="profile-picture" alt="Avatar">
+</div>
+<input
+  #fileInput
+  type="file"
+  accept="image/*"
+  style="display: none"
+  (change)="onFileSelected($event)"
+/>
+
+<button
+  *ngIf="selectedFile"
+  (click)="upload()"
+  class="btn btn-primary"
+>
+  Zapisz zdjęcie
+</button>
+      <div class="profile-info">
+        <h2 class="nickname">Nickname <span class="rating">★ 4.5/5 (1230)</span></h2>
+        <p class="location">Miasto, ulica 123/1</p>
+        <button class="btn-message">Napisz do nas</button>
+        <p class="styles"><strong>Style:</strong> dotwork, realizm, minimalizm</p>
+      </div>
+    </section>
+
+    <section class="description">
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras orci sem, bibendum eget tincidunt rutrum, tempus eget tortor...</p>
+    </section>
+
+    <section class="promotions">
+      <h3>Aktualne promocje:</h3>
+      <ul>
+        <li>2+1 gratis</li>
+        <li>-20% na 2. tatuaż w stylu dotwork</li>
+      </ul>
+    </section>
+
+    <section class="slots">
+      <h3>Wolne terminy:</h3>
+      <div class="slot-list">
+        <div class="slot">21.01.2025<br><span>13:00</span></div>
+        <div class="slot">21.01.2025<br><span>13:00</span></div>
+        <div class="slot">21.01.2025<br><span>13:00</span></div>
+        <div class="slot">21.01.2025<br><span>13:00</span></div>
+        <div class="slot">21.01.2025<br><span>13:00</span></div>
+        <div class="slot">21.01.2025<br><span>13:00</span></div>
+        <div class="slot">21.01.2025<br><span>13:00</span></div>
+        <a href="#" class="slot-more">Zobacz więcej…</a>
+      </div>
+    </section>
+
+    <section class="portfolio">
+      <h3>Portfolio</h3>
+      <div class="grid">
+        <div class="item">przykładowa praca/wzór</div>
+        <div class="item">przykładowa praca/wzór</div>
+        <div class="item">przykładowa praca/wzór</div>
+        <div class="item">przykładowa praca/wzór</div>
+        <div class="item">przykładowa praca/wzór</div>
+      </div>
+    </section>
+
+    <section class="offer">
+      <h3>Oferta</h3>
+      <div class="grid">
+        <div class="item">przykładowa praca/wzór</div>
+        <div class="item">przykładowa praca/wzór</div>
+        <div class="item">przykładowa praca/wzór</div>
+        <div class="item">przykładowa praca/wzór</div>
+        <div class="item">przykładowa praca/wzór</div>
+      </div>
+    </section>
+
+    <section class="reviews">
+      <h3>Opinie</h3>
+      <div class="review-list">
+        <div class="review">
+          <h4>Nickname <span class="stars">★★★★☆</span></h4>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+        </div>
+        <div class="review">
+          <h4>Nickname <span class="stars">★★★★☆</span></h4>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+        </div>
+      </div>
+    </section>
+  </main>
