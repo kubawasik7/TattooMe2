@@ -1,24 +1,40 @@
 package TattooMe.TattooMe.Security;
 
 import TattooMe.TattooMe.entity.User;
+import TattooMe.TattooMe.repository.UserRepository;
 import TattooMe.TattooMe.service.UserService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 
 @Service
 public class CustomUserDetailService implements  UserDetailsService{
-    private UserService userService;
+    private final UserRepository userRepository;
 
-    public void CustomUserDetailsService(UserService userService) {
-        this.userService = userService;
+    public CustomUserDetailService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userService.getByNickname(username);
+    public UserDetails loadUserByUsername(String username)
+            throws UsernameNotFoundException {
+        User user = userRepository.findByNickname(username)
+                .orElseThrow(() ->
+                        new UsernameNotFoundException("Nie znaleziono użytkownika o loginie: " + username)
+                );
+
+        return new CustomUserDetails(user);
+    }
+
+    public CustomUserDetails loadUserById(UUID id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() ->
+                        new UsernameNotFoundException("Nie znaleziono użytkownika o ID: " + id)
+                );
         return new CustomUserDetails(user);
     }
 }

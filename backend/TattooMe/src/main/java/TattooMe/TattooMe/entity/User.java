@@ -36,7 +36,7 @@ public class User {
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
     @Lob
-    @Column(name = "profile_picture")
+    @Column(name = "profile_picture", columnDefinition = "LONGBLOB")
     private byte[] profilePicture;
     @Column(name = "phone_number", length = 9)
     private String phoneNumber;

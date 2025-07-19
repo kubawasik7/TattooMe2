@@ -3,15 +3,20 @@ package TattooMe.TattooMe.service;
 import TattooMe.TattooMe.dto.RegisterRequest;
 import TattooMe.TattooMe.entity.User;
 import TattooMe.TattooMe.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@Transactional
 public class UserService {
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
@@ -62,5 +67,27 @@ public class UserService {
     }
     public List<User> findAllUsers(){
         return userRepository.findAll();
+    }
+    public void updateProfilePicture(UUID userId, MultipartFile multipartFile) throws IOException {
+        UUID id;
+        try {
+            id = userId;
+        } catch (IllegalArgumentException ex) {
+            throw new IllegalArgumentException("Nieprawidłowy format UUID: " + userId, ex);
+        }
+
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Użytkownik nie znaleziony: " + id));
+
+        if (multipartFile.isEmpty()) {
+            throw new IllegalArgumentException("Plik awatara nie może być pusty");
+        }
+        String contentType = multipartFile.getContentType();
+        if (contentType == null ||
+                !List.of("image/jpeg", "image/png", "image/gif").contains(contentType)) {
+            throw new IllegalArgumentException("Niedozwolony typ pliku: " + contentType);
+        }
+        byte[] bytes = multipartFile.getBytes();
+        user.setProfilePicture(bytes);
     }
 }
