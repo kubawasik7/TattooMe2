@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { RegisterRequest } from '../model/register-request';
 import { LoginRequest } from '../model/login-request';
 import { LoginResponse } from '../model/login-response';
@@ -36,8 +36,13 @@ export class AuthService {
   register(registerRequest: RegisterRequest): Observable<any>{
     return this.http.post(`${this.baseUrl}/register`, registerRequest);
   }
-  login(loginRequest: LoginRequest): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.baseUrl}/login`, loginRequest);
+ login(loginRequest: LoginRequest): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(`${this.baseUrl}/login`, loginRequest)
+    .pipe(tap(res => {
+               console.log('[AuthService] otrzymany response:', res);
+          console.log('[AuthService] otrzymany token:', res.token);
+      localStorage.setItem('token', res.token)
+    }));
   }
   isLoggedIn(): boolean {
     return !!this.getToken();
