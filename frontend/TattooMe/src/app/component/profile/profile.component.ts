@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { User, UserService } from '../../service/user.service';
 import { ActivatedRoute } from '@angular/router';
+import { ProfileService } from '../../service/profile.service';
 
 @Component({
   selector: 'app-profile',
@@ -32,6 +33,7 @@ ngOnInit(): void {
         this.previewUrl = `data:image/png;base64,${user.profilePicture}`;
       } else {
         this.previewUrl = null;  
+      }
     });
   }
    onFileSelected(event: Event): void {
@@ -55,5 +57,4 @@ ngOnInit(): void {
         error: err => console.error('Błąd uploadu', err)
       });
   }
-
 }
