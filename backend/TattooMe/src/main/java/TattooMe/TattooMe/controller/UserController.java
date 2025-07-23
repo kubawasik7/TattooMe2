@@ -1,6 +1,7 @@
 package TattooMe.TattooMe.controller;
 
 import TattooMe.TattooMe.Security.CustomUserDetails;
+import TattooMe.TattooMe.dto.DescriptionProfileDTO;
 import TattooMe.TattooMe.entity.User;
 import TattooMe.TattooMe.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,13 @@ public class UserController {
     ) throws IOException {
         userService.updateProfilePicture(principal.getId(), avatar);
         return ResponseEntity.ok().build();
+    }
+    @PutMapping("/description")
+    public ResponseEntity<User> updateDescription(
+            @RequestBody DescriptionProfileDTO dto,
+            @AuthenticationPrincipal CustomUserDetails principal) {
+        User updated = userService.updateDescription(principal.getId(), dto.getDescription());
+        return ResponseEntity.ok(updated);
     }
 
 }
