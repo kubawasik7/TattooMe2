@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.type.SqlTypes;
 
 import java.util.UUID;
@@ -19,9 +20,15 @@ import java.util.UUID;
 @AllArgsConstructor
 public class User {
     @Id
-    @GeneratedValue
+    @GeneratedValue  
+    @UuidGenerator
     @JdbcTypeCode(SqlTypes.BINARY)
-    @Column(name = "user_id", columnDefinition = "BINARY(16)")
+    @Column(
+            name = "user_id",
+            columnDefinition = "BINARY(16)",
+            nullable = false,
+            updatable = false
+    )
     private UUID id;
     @Column(name = "password", nullable = false, length = 60)
     private String password;
