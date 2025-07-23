@@ -26,9 +26,18 @@
       </div>
     </section>
 
-    <section class="description">
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras orci sem, bibendum eget tincidunt rutrum, tempus eget tortor...</p>
-    </section>
+  <div class="description-section">
+  <p *ngIf="!editing; else editTpl">
+    {{ user.description || 'Brak opisu...' }}
+    <button class="btn btn-sm" (click)="startEdit()">Edytuj</button>
+  </p>
+
+  <ng-template #editTpl>
+    <textarea [(ngModel)]="draftDescription" rows="3"></textarea>
+    <button class="btn btn-sm" (click)="saveDescription()">✔</button>
+    <button class="btn btn-sm" (click)="cancelEdit()">✖</button>
+  </ng-template>
+</div>
 
     <section class="promotions">
       <h3>Aktualne promocje:</h3>
