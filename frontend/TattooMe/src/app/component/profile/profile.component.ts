@@ -12,6 +12,9 @@ import { ProfileService } from '../../service/profile.service';
 export class ProfileComponent implements OnInit{
   user!: User;
   userId!: string;
+  editing = false;
+  description: string = '';
+  draftDescription: string = '';
    @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
   selectedFile: File | null = null;
   previewUrl: string | null = null;
@@ -55,6 +58,26 @@ ngOnInit(): void {
           this.selectedFile = null;
         },
         error: err => console.error('Błąd uploadu', err)
+      });
+  }
+  startEdit(): void {
+    this.draftDescription = this.description;
+    this.editing = true;
+  }
+
+  cancelEdit(): void {
+    this.editing = false;
+    this.draftDescription = '';
+  }
+
+  saveDescription(): void {
+    this.profileService.updateDescription(this.draftDescription)
+      .subscribe({
+        next: updated => {
+          this.description = updated.description;
+          this.editing = false;
+        },
+        error: err => console.error('Błąd zapisu opisu', err)
       });
   }
 }
