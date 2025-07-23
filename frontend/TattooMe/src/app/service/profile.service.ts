@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { User } from './user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -26,4 +27,10 @@ uploadAvatar(file: File): Observable<void> {
     { headers }
   );
 }
+updateDescription(description: string): Observable<User> {
+    return this.http.put<User>(
+      `${this.baseUrl}/description`,
+      { description }
+    );
+  }
 }
