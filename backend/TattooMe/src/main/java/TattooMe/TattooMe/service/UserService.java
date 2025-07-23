@@ -90,4 +90,10 @@ public class UserService {
         byte[] bytes = multipartFile.getBytes();
         user.setProfilePicture(bytes);
     }
+    public User updateDescription(UUID userId, String newDesc) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Użytkownik nie istnieje"));
+        user.setDescription(newDesc);
+        return userRepository.save(user);
+    }
 }

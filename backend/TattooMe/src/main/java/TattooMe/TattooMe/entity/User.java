@@ -20,7 +20,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class User {
     @Id
-    @GeneratedValue  
+    @GeneratedValue
     @UuidGenerator
     @JdbcTypeCode(SqlTypes.BINARY)
     @Column(
