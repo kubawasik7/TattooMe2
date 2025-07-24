@@ -47,4 +47,18 @@ updateDescription(description: string): Observable<User> {
       { description }
     );
   }
+
+  //SEKCJA OFERT
+  getOffers(): Observable<Offer[]> {
+    return this.http.get<Offer[]>(`${this.baseUrlOffer}`);
+  }
+  createOffer(o: CreateOffer): Observable<Offer> {
+    return this.http.post<Offer>(`${this.baseUrlOffer}`, o);
+  }
+  updateOffer(id: string, o: CreateOffer): Observable<Offer> {
+    return this.http.put<Offer>(`${this.baseUrlOffer}/${id}`, o);
+  }
+  deleteOffer(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrlOffer}/${id}`);
+  }
 }
