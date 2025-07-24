@@ -3,6 +3,19 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from './user.service';
 
+export interface Offer {
+  id: string;
+  startDate: string;
+  endDate: string;
+  description: string;
+}
+
+export interface CreateOffer {
+  startDate: string;
+  endDate: string;
+  description: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
