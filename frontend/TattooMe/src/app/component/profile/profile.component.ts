@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { User, UserService } from '../../service/user.service';
 import { ActivatedRoute } from '@angular/router';
-import { ProfileService } from '../../service/profile.service';
+import { CreateOffer, Offer, ProfileService } from '../../service/profile.service';
 
 @Component({
   selector: 'app-profile',
@@ -15,6 +15,9 @@ export class ProfileComponent implements OnInit{
   editing = false;
   description: string = '';
   draftDescription: string = '';
+  offers: Offer[] = [];
+  editingId: string | null = null;
+  draft: CreateOffer = { startDate: '', endDate: '', description: '' };
    @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
   selectedFile: File | null = null;
   previewUrl: string | null = null;
@@ -37,6 +40,7 @@ ngOnInit(): void {
       } else {
         this.previewUrl = null;  
       }
+      this.load();
     });
   }
    onFileSelected(event: Event): void {
@@ -79,5 +83,42 @@ ngOnInit(): void {
         },
         error: err => console.error('Błąd zapisu opisu', err)
       });
+  }
+
+  //SEKCJA OFERTY
+   load() {
+    this.profileService.getOffers().subscribe(list => this.offers = list);
+  }
+  startNew() {
+    this.editingId = 'new';
+    this.draft = { startDate: '', endDate: '', description: '' };
+  }
+
+  startEditOffer(o: Offer) {
+    this.editingId = o.id;
+    this.draft = {
+      startDate: o.startDate,
+      endDate: o.endDate,
+      description: o.description
+    };
+  }
+
+  save() {
+    if (this.editingId === 'new') {
+      this.profileService.createOffer(this.draft).subscribe(() => this.load());
+    } else {
+      this.profileService.updateOffer(this.editingId!, this.draft).subscribe(() => this.load());
+    }
+    this.editingId = null;
+  }
+
+  cancel() {
+    this.editingId = null;
+  }
+
+  delete(id: string) {
+    if (confirm('Usunąć tę ofertę?')) {
+      this.profileService.deleteOffer(id).subscribe(() => this.load());
+    }
   }
 }
