@@ -39,13 +39,55 @@
   </ng-template>
 </div>
 
-    <section class="promotions">
-      <h3>Aktualne promocje:</h3>
-      <ul>
-        <li>2+1 gratis</li>
-        <li>-20% na 2. tatuaż w stylu dotwork</li>
-      </ul>
-    </section>
+<div class="offer-section">
+  <h3>Aktualne promocje</h3>
+  <button class="btn btn-sm btn-outline-primary" (click)="startNew()">
+    + Dodaj nową
+  </button>
+
+  <table class="table mt-2">
+    <thead>
+      <tr>
+        <th>Start</th>
+        <th>Koniec</th>
+        <th>Opis</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let o of offers">
+        <td>{{ o.startDate | date:'short' }}</td>
+        <td>{{ o.endDate | date:'short' }}</td>
+        <td>{{ o.description }}</td>
+        <td>
+          <button class="btn btn-sm" (click)="startEditOffer(o)">✎</button>
+          <button class="btn btn-sm text-danger" (click)="delete(o.id)">🗑</button>
+        </td>
+      </tr>
+
+      <!-- formularz edycji/dodawania -->
+      <tr *ngIf="editingId">
+        <td>
+          <input type="datetime-local" class="form-control"
+                 [(ngModel)]="draft.startDate">
+        </td>
+        <td>
+          <input type="datetime-local" class="form-control"
+                 [(ngModel)]="draft.endDate">
+        </td>
+        <td>
+          <input type="text" class="form-control"
+                 [(ngModel)]="draft.description">
+        </td>
+        <td>
+          <button class="btn btn-sm btn-success" (click)="save()">✔</button>
+          <button class="btn btn-sm btn-secondary" (click)="cancel()">✖</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
 
     <section class="slots">
       <h3>Wolne terminy:</h3>
