@@ -8,6 +8,7 @@ import { User } from './user.service';
 })
 export class ProfileService {
  private baseUrl = 'http://localhost:8080/api/users';
+ private baseUrlOffer = 'http://localhost:8080/api/offers';
 
 
   constructor(private http: HttpClient) {}
