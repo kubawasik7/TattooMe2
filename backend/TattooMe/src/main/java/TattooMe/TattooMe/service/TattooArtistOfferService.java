@@ -4,6 +4,7 @@ import TattooMe.TattooMe.dto.CreateOfferDTO;
 import TattooMe.TattooMe.dto.OfferDTO;
 import TattooMe.TattooMe.entity.TattooArtistOffer;
 import TattooMe.TattooMe.entity.User;
+import TattooMe.TattooMe.repository.TattooArtistOfferRepository;
 import TattooMe.TattooMe.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
