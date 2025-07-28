@@ -15,6 +15,7 @@ import { TraineeListComponent } from './component/trainee-list/trainee-list.comp
 import { MainPageComponent } from './component/main-page/main-page.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { AuthInterceptor } from './interceptor/auth.interceptor';
+import { ArtistDateComponent } from './component/artist-date/artist-date.component';
 const appRoutes: Routes = [
   { path: '', component: MainPageComponent },
   { path: 'login', component: LoginComponent },
@@ -34,7 +35,8 @@ const appRoutes: Routes = [
     ProfileComponent,
     TattooArtistListComponent,
     TraineeListComponent,
-    MainPageComponent
+    MainPageComponent,
+    ArtistDateComponent
   ],
   imports: [
     BrowserModule,
