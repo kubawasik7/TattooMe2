@@ -3,6 +3,7 @@ package TattooMe.TattooMe.controller;
 import TattooMe.TattooMe.Security.CustomUserDetails;
 import TattooMe.TattooMe.dto.CreateOfferDTO;
 import TattooMe.TattooMe.dto.OfferDTO;
+import TattooMe.TattooMe.service.TattooArtistOfferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
