@@ -1,7 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+export interface ScheduleSlot {
+  id: string;
+  dateTime: string;
+  available: boolean;
+}
 
+export interface CreateSlot {
+  dateTime: string;
+}
 @Injectable({
   providedIn: 'root'
 })
