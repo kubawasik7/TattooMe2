@@ -23,6 +23,17 @@ export class AuthService {
   getToken(): string | null {
     return (typeof window !== 'undefined') ? localStorage.getItem('token') : null;
   }
+    getNickname(): string | null {
+    const token = this.getToken();
+    if (!token) return null;
+
+    try {
+      const decoded = jwtDecode<JwtPayload>(token);
+      return decoded.username || null;
+    } catch (e) {
+      return null;
+    }
+  }
 
   getUserRole(): string | null {
     const token = this.getToken();
