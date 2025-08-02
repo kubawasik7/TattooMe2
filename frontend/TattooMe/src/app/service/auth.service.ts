@@ -4,8 +4,14 @@ import { Observable, tap } from 'rxjs';
 import { RegisterRequest } from '../model/register-request';
 import { LoginRequest } from '../model/login-request';
 import { LoginResponse } from '../model/login-response';
-import {jwtDecode, JwtPayload} from 'jwt-decode';
-
+import {jwtDecode} from 'jwt-decode';
+interface JwtPayload {
+  sub: string;           
+  email?: string;
+  username?: string;  
+  role?: string;
+  exp?: number;
+}
 @Injectable({
   providedIn: 'root'
 })
