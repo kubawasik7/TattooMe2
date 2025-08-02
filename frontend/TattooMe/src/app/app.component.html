@@ -1,34 +1,51 @@
+
+<div class="top-banner">
+  <h1>TattooMe</h1>
+</div>
+
 <nav class="navbar">
-  <div class="logo">
-    <h1>TattooMe</h1>
-  </div>
   <ul class="nav-list">
-    <li><a href="#">Studia Tatuażu</a></li>
+    <li><a href="#">Studia tatuażu</a></li>
     <li><a (click)="navigateTo('tattooArtist')">Tatuatorzy</a></li>
     <li><a (click)="navigateTo('trainee')">Praktykanci</a></li>
     <li><a href="#">Warto wiedzieć</a></li>
-  
-    <div class="nav-buttons">
-      <button *ngIf="!authService.isLoggedIn()" (click)="onLoginClick()">Zaloguj się</button>
-      <button *ngIf="!authService.isLoggedIn()" (click)="navigateTo('register')">Zarejestruj się</button>
-      <button *ngIf="authService.isLoggedIn()" (click)="onLogout()">Wyloguj się</button>
-    </div>
+    <li><a href="#">Kontakt</a></li>
   </ul>
+
+  <div class="navbar-right">
+    <ng-container *ngIf="!authService.isLoggedIn(); else loggedIn">
+      <button (click)="onLoginClick()">Zaloguj się</button>
+      <button (click)="navigateTo('register')">Zarejestruj się</button>
+    </ng-container>
+
+    <ng-template #loggedIn>
+      <a href="#"><i class="fa fa-heart"></i> Ulubione</a>
+      <a href="#">Chat</a>
+      <div class="dropdown">
+        <span><i class="fa fa-user"></i> {{authService.getNickname()}}</span>
+       
+      </div>
+    </ng-template>
+  </div>
 </nav>
 
-<div class="search-container">
-  <input
-    type="text"
-    class="search-input"
-    placeholder="Szukaj..."
-   
-  />  
+<div class="container">
+  <aside class="sidebar-left">
+    <ng-container *ngIf="authService.isLoggedIn()">
+      <a href="#">Twój profil</a>
+      <a href="#">Rezerwacje</a>
+    </ng-container>
+  </aside>
 
-    <option value="">Sortuj według</option>
-    <option value="rating">Ocena</option>
-    <option value="opinions">Ilość opinii</option>
-  
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+
+  <aside class="sidebar-right">
+    <ng-container *ngIf="authService.isLoggedIn()">
+      <a href="#">Dane użytkownika</a>
+      <a href="#">Informacje o użytkowniku</a>
+      <a href="#" (click)="onLogout()">Wyloguj się</a>
+    </ng-container>
+  </aside>
 </div>
-
-
-<router-outlet></router-outlet>
