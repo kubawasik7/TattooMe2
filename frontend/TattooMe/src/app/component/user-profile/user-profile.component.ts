@@ -16,5 +16,13 @@ export class UserProfileComponent {
 
   constructor(private route: ActivatedRoute, private userService: UserService){}
 
+  ngOnInit(){
+     const userId = this.route.snapshot.paramMap.get('id')!;
+
+    this.userService.getUserById(userId).subscribe(user => {
+      this.user = {...user};
+      this.originalUser = {...user};
+    });
+  }
 
 }
