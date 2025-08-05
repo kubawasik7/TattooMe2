@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { UserService } from '../../service/user.service';
+import { User, UserService } from '../../service/user.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -9,7 +9,10 @@ import { UserService } from '../../service/user.service';
   styleUrl: './user-profile.component.css'
 })
 export class UserProfileComponent {
-
+  user!: User;
+  userId!: string;
+  originalUser!: User;
+  editMode = false;
 
   constructor(private route: ActivatedRoute, private userService: UserService){}
 
