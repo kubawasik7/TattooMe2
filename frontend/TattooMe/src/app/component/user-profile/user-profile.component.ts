@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { UserService } from '../../service/user.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -7,5 +9,9 @@ import { Component } from '@angular/core';
   styleUrl: './user-profile.component.css'
 })
 export class UserProfileComponent {
+
+
+  constructor(private route: ActivatedRoute, private userService: UserService){}
+
 
 }
