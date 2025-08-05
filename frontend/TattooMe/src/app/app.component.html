@@ -43,7 +43,7 @@
 
   <aside class="sidebar-right">
     <ng-container *ngIf="authService.isLoggedIn()">
-      <a href="#">Dane użytkownika</a>
+      <a [routerLink]="['/userProfile', getUserId()]">Dane użytkownika</a>
       <a href="#">Informacje o użytkowniku</a>
       <a href="#" (click)="onLogout()">Wyloguj się</a>
     </ng-container>
