@@ -1,6 +1,7 @@
 package TattooMe.TattooMe.service;
 
 import TattooMe.TattooMe.dto.RegisterRequest;
+import TattooMe.TattooMe.dto.UserDTO;
 import TattooMe.TattooMe.entity.User;
 import TattooMe.TattooMe.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -94,6 +95,14 @@ public class UserService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("Użytkownik nie istnieje"));
         user.setDescription(newDesc);
+        return userRepository.save(user);
+    }
+    public User updateUserProfile(UUID userId, UserDTO dto){
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("Uzytkownik nie istnieje"));
+        user.setName(dto.getName());
+        user.setSurname(dto.getSurname());
+        user.setEmail(dto.getEmail());
         return userRepository.save(user);
     }
 }
