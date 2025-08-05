@@ -30,6 +30,10 @@ export class UserProfileComponent {
       this.editMode = false;
     });
   }
+   cancelChanges(): void {
+    this.user = { ...this.originalUser };
+    this.editMode = false;
+  }
 
 
 }
