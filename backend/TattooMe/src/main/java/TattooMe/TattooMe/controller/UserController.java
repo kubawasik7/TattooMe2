@@ -2,6 +2,7 @@ package TattooMe.TattooMe.controller;
 
 import TattooMe.TattooMe.Security.CustomUserDetails;
 import TattooMe.TattooMe.dto.DescriptionProfileDTO;
+import TattooMe.TattooMe.dto.UserDTO;
 import TattooMe.TattooMe.entity.User;
 import TattooMe.TattooMe.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +58,13 @@ public class UserController {
             @AuthenticationPrincipal CustomUserDetails principal) {
         User updated = userService.updateDescription(principal.getId(), dto.getDescription());
         return ResponseEntity.ok(updated);
+    }
+    @PutMapping("/userProfile")
+    public ResponseEntity<User> updateUserProfile(@RequestBody UserDTO dto,
+                                                  @AuthenticationPrincipal CustomUserDetails principal){
+        User updated = userService.updateUserProfile(principal.getId(), dto);
+        return ResponseEntity.ok(updated);
+
     }
 
 }
