@@ -24,5 +24,12 @@ export class UserProfileComponent {
       this.originalUser = {...user};
     });
   }
+    saveChanges(): void {
+    this.userService.updateUser(this.user).subscribe(() => {
+      this.originalUser = { ...this.user };
+      this.editMode = false;
+    });
+  }
+
 
 }
