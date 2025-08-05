@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from './service/auth.service';
+import { jwtDecode } from 'jwt-decode';
 
 @Component({
   selector: 'app-root',
@@ -25,4 +26,11 @@ export class AppComponent {
     this.authService.logout();
     console.log('logout');
   }
+  getUserId(): string | null {
+  const token = localStorage.getItem('token');
+  if (!token) return null;
+
+  const decoded: any = jwtDecode(token);
+  return decoded.sub;
+}
 }
