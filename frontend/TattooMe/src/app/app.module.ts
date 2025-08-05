@@ -24,6 +24,7 @@ const appRoutes: Routes = [
   {path: 'trainee', component: TraineeListComponent},
   {path: 'tattooArtist', component: TattooArtistListComponent},
   {path: 'profile/:id', component: ProfileComponent},
+  {path: 'userProfile/:id', component: UserProfileComponent},
   { path: '**', redirectTo: '' }
 ];
 
