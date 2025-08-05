@@ -1,0 +1,115 @@
+.user-profile-container {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  color: white;
+  background-color: #333;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
+}
+
+.avatar-upload {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.avatar-circle {
+  width: 100px;
+  height: 100px;
+  background-color: #555;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  text-align: center;
+  padding: 0.5rem;
+  transition: background-color 0.3s;
+}
+
+.avatar-circle:hover {
+  background-color: #666;
+}
+
+.user-form .form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.2rem;
+}
+
+.user-form label {
+  font-size: 0.9rem;
+  margin-bottom: 0.3rem;
+}
+
+.user-form input {
+  padding: 0.6rem;
+  border-radius: 5px;
+  border: none;
+  background-color: #444;
+  color: white;
+  font-size: 1rem;
+}
+
+.user-form input:focus {
+  outline: none;
+  background-color: #555;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.edit-btn,
+.change-password-btn {
+  flex: 1;
+  padding: 0.6rem;
+  font-size: 0.95rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #666;
+  color: white;
+  transition: background-color 0.3s;
+}
+
+.edit-btn:hover,
+.change-password-btn:hover {
+  background-color: #888;
+}
+input[readonly] {
+  background-color: #444;
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+.save-btn, .cancel-btn {
+  flex: 1;
+  padding: 0.6rem;
+  font-size: 0.95rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #888;
+  color: white;
+}
+
+.cancel-btn {
+  background-color: #888;
+}
+
+.save-btn:hover {
+  background-color: #45a049;
+}
+
+.cancel-btn:hover {
+  background-color: #e53935;
+}
