@@ -31,6 +31,6 @@ export class UserService {
     return this.http.get<User[]>(`${this.apiUrl}/trainee`);
   }
    updateUser(user: User): Observable<any> {
-    return this.http.put(`${this.apiUrl}/userProfile`, user); // zakładamy PUT i że backend przyjmuje ID w ścieżce
+    return this.http.put(`${this.apiUrl}/userProfile`, user);
   }
 }
