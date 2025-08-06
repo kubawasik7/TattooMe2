@@ -26,6 +26,7 @@ const appRoutes: Routes = [
   {path: 'tattooArtist', component: TattooArtistListComponent},
   {path: 'profile/:id', component: ProfileComponent},
   {path: 'userProfile/:id', component: UserProfileComponent},
+  {path: 'me/:id', component: UserInfoComponent},
   { path: '**', redirectTo: '' }
 ];
 
