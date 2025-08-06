@@ -40,6 +40,9 @@ export class ProfileComponent implements OnInit{
 ngOnInit(): void {
     this.userId = this.route.snapshot.paramMap.get('id')!;
 
+    this.workStyleService.getAllStyles().subscribe(styles => this.allStyles = styles);
+
+
     this.userService.getUserById(this.userId).subscribe(user => {
       this.user = user;
 
