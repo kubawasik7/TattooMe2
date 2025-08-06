@@ -22,9 +22,42 @@
         <h2 class="nickname">Nickname <span class="rating">★ 4.5/5 (1230)</span></h2>
         <p class="location">Miasto, ulica 123/1</p>
         <button class="btn-message">Napisz do nas</button>
-        <p class="styles"><strong>Style:</strong> dotwork, realizm, minimalizm</p>
       </div>
     </section>
+    <div class="style-section">
+  <strong>Style:</strong>
+
+  <div class="style-tags">
+    <ng-container *ngIf="!editStyleMode">
+      <span
+        *ngFor="let style of styles"
+        class="tag readonly selected">
+        {{ style.name }}
+      </span>
+    </ng-container>
+
+    <ng-container *ngIf="editStyleMode">
+      <span
+        *ngFor="let style of allStyles"
+        class="tag"
+        [class.selected]="selectedStyleIds.includes(style.id)"
+        (click)="toggleStyle(style.id)">
+        {{ style.name }}
+      </span>
+    </ng-container>
+  </div>
+
+  <div class="edit-actions">
+    <button *ngIf="!editStyleMode" class="edit-btn" (click)="startEditStyle()">Edytuj</button>
+    <div *ngIf="editStyleMode">
+      <button class="save-btn" (click)="saveStyles()">Zapisz</button>
+      <button class="cancel-btn" (click)="cancelEditStyle()">Anuluj</button>
+    </div>
+  </div>
+</div>
+
+
+
 
   <div class="description-section">
   <p *ngIf="!editing; else editTpl">
