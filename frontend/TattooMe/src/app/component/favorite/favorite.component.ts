@@ -31,6 +31,6 @@ favorites: User[] = [];
     });
   }
   goToArtistProfile(artistId: string): void {
-  this.router.navigate(['/userProfile', artistId]);
+  this.router.navigate(['/profile', artistId]);
 }
 }
