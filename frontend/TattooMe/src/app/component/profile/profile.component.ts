@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { User, UserService } from '../../service/user.service';
 import { ActivatedRoute } from '@angular/router';
 import { CreateOffer, Offer, ProfileService } from '../../service/profile.service';
+import { TattooStyle } from '../../model/tattoo-style';
 
 @Component({
   selector: 'app-profile',
