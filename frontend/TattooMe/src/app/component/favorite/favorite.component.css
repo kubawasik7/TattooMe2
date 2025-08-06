@@ -1,0 +1,47 @@
+.section-title {
+  text-align: center;
+  font-size: 2rem;
+  margin: 2rem 0;
+  color: white;
+}
+
+.favorite-card {
+  background-color: #333;
+  margin: 1rem 0;
+  display: flex;
+  padding: 1rem;
+  border-radius: 10px;
+  align-items: center;
+  gap: 1.5rem;
+  color: white;
+}
+
+.avatar {
+  width: 100px;
+  height: 100px;
+  background-color: #555;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+.info {
+  flex: 1;
+}
+
+.styles {
+  font-style: italic;
+  font-size: 0.85rem;
+  color: #ccc;
+}
+
+.delete-btn {
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  cursor: pointer;
+  color: white;
+}
