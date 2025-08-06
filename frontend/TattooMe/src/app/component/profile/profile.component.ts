@@ -90,6 +90,15 @@ ngOnInit(): void {
     this.editing = false;
     this.draftDescription = '';
   }
+  startEditStyle(): void {
+  this.editStyleMode = true;
+  this.originalSelectedStyleIds = [...this.selectedStyleIds];
+  }
+
+  cancelEditStyle(): void {
+  this.selectedStyleIds = [...this.originalSelectedStyleIds];
+  this.editStyleMode = false;
+  }
   
 
   saveDescription(): void {
