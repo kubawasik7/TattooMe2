@@ -1,0 +1,62 @@
+.info-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+  color: white;
+  background-color: #333;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.info-subtitle {
+  font-size: 0.9rem;
+  color: #aaa;
+  margin-bottom: 1.5rem;
+}
+
+.info-form .form-group {
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.info-form label {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-weight: bold;
+}
+
+textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 0.7rem;
+  border-radius: 6px;
+  border: none;
+  background-color: #444;
+  color: white;
+  resize: vertical;
+}
+
+textarea[readonly] {
+  background-color: #555;
+  cursor: not-allowed;
+}
+
+.form-actions {
+  margin-top: 1.5rem;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+button {
+  padding: 0.6rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background-color: #666;
+  color: white;
+}
+
+button:hover {
+  background-color: #888;
+}
