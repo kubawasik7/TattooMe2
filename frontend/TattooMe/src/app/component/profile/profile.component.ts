@@ -90,6 +90,8 @@ ngOnInit(): void {
     this.editing = false;
     this.draftDescription = '';
   }
+
+  //SEKCJA STYLE
   startEditStyle(): void {
   this.editStyleMode = true;
   this.originalSelectedStyleIds = [...this.selectedStyleIds];
@@ -99,6 +101,15 @@ ngOnInit(): void {
   this.selectedStyleIds = [...this.originalSelectedStyleIds];
   this.editStyleMode = false;
   }
+
+  saveStyles(): void {
+  this.workStyleService.saveUserStyles(this.userId, this.selectedStyleIds)
+    .subscribe(() => {
+      this.editStyleMode = false;
+      alert('Zapisano style.');
+    });
+  }
+
   
 
   saveDescription(): void {
