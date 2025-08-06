@@ -23,6 +23,7 @@ export class ProfileComponent implements OnInit{
   allStyles: TattooStyle[] = [];
   editStyleMode = false;
   selectedStyleIds: string[] = [];
+  originalSelectedStyleIds: string[] = [];
 
   draft: CreateOffer = { startDate: '', endDate: '', description: '' };
    @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
@@ -89,6 +90,7 @@ ngOnInit(): void {
     this.editing = false;
     this.draftDescription = '';
   }
+  
 
   saveDescription(): void {
     this.profileService.updateDescription(this.draftDescription)
