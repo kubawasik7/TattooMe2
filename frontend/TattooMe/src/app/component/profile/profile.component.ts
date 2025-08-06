@@ -38,9 +38,9 @@ export class ProfileComponent implements OnInit{
 
 
 ngOnInit(): void {
-    const userId = this.route.snapshot.paramMap.get('id')!;
+    this.userId = this.route.snapshot.paramMap.get('id')!;
 
-    this.userService.getUserById(userId).subscribe(user => {
+    this.userService.getUserById(this.userId).subscribe(user => {
       this.user = user;
 
       if (user.profilePicture) {
