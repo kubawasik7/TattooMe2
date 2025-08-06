@@ -17,6 +17,11 @@ export class ProfileComponent implements OnInit{
   draftDescription: string = '';
   offers: Offer[] = [];
   editingId: string | null = null;
+  styles: TattooStyle[] = [];
+  allStyles: TattooStyle[] = [];
+  editStyleMode = false;
+  selectedStyleIds: string[] = [];
+
   draft: CreateOffer = { startDate: '', endDate: '', description: '' };
    @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
   selectedFile: File | null = null;
