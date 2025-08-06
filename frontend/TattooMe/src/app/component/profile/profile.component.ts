@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CreateOffer, Offer, ProfileService } from '../../service/profile.service';
 import { TattooStyle } from '../../model/tattoo-style';
 import { WorkStyleService } from '../../service/work-style.service';
+import { FavoriteService } from '../../service/favorite.service';
 
 @Component({
   selector: 'app-profile',
@@ -34,7 +35,7 @@ export class ProfileComponent implements OnInit{
 
   constructor(private route: ActivatedRoute,
     private userService: UserService, private profileService: ProfileService,
-    private workStyleService: WorkStyleService
+    private workStyleService: WorkStyleService, private favoriteService: FavoriteService
   ){}
 
 
@@ -109,7 +110,7 @@ ngOnInit(): void {
       alert('Zapisano style.');
     });
   }
-  
+
   toggleStyle(id: string): void {
     if (this.selectedStyleIds.includes(id)) {
       this.selectedStyleIds = this.selectedStyleIds.filter(s => s !== id);
