@@ -28,6 +28,7 @@ const appRoutes: Routes = [
   {path: 'profile/:id', component: ProfileComponent},
   {path: 'userProfile/:id', component: UserProfileComponent},
   {path: 'me/:id', component: UserInfoComponent},
+  {path: 'favorites/:id', component: FavoriteComponent},
   { path: '**', redirectTo: '' }
 ];
 
