@@ -1,1 +1,34 @@
-<p>user-info works!</p>
+<div class="info-container">
+  <h2>Informacje</h2>
+  <p class="info-subtitle">Te dane będą widoczne dla tatuatorów podczas składania rezerwacji.</p>
+
+  <form class="info-form">
+    <div class="form-group">
+      <label>Alergie</label>
+      <textarea [(ngModel)]="info.allergies" name="allergies" [readonly]="!editMode" placeholder="type something..."></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Choroby przewlekłe</label>
+      <textarea [(ngModel)]="info.chronicDiseases" name="chronic" [readonly]="!editMode" placeholder="type something..."></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Przyjmowane leki</label>
+      <textarea [(ngModel)]="info.medicines" name="medicines" [readonly]="!editMode" placeholder="type something..."></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Poprzednie doświadczenia</label>
+      <textarea [(ngModel)]="info.experiences" name="experience" [readonly]="!editMode" placeholder="type something..."></textarea>
+    </div>
+
+    <div class="form-actions">
+      <button *ngIf="!editMode" (click)="enableEdit()" type="button">Edytuj informacje</button>
+      <ng-container *ngIf="editMode">
+        <button (click)="saveChanges()" type="button">Zapisz</button>
+        <button (click)="cancelChanges()" type="button">Anuluj</button>
+      </ng-container>
+    </div>
+  </form>
+</div>
