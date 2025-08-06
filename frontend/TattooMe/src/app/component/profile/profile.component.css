@@ -62,10 +62,7 @@
 .btn-message:hover {
   background: #555;
 }
-.styles {
-  font-size: 0.9rem;
-  color: #ccc;
-}
+
 .description-section {
   background: #333;
   padding: 1rem;
@@ -184,6 +181,70 @@
   font-size: 0.95rem;
   color: #ccc;
   line-height: 1.5;
+}
+
+.tag.selected {
+  background-color: #899192;
+  color: black;
+}
+
+.save-btn {
+  margin-top: 10px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  background-color: #ccc;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+.save-btn:hover {
+  background-color: #bbb;
+}
+.style-section {
+  margin-top: 20px;
+  color: white;
+}
+
+.style-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.tag {
+  padding: 5px 12px;
+  border-radius: 20px;
+  background-color: #444;
+  color: white;
+  user-select: none;
+  transition: background-color 0.3s, color 0.3s;
+  cursor: pointer;
+}
+
+.tag.readonly {
+  background-color: #666;
+  cursor: default;
+}
+
+.tag.selected {
+  background-color: #8a8d8d;
+  color: black;
+}
+
+.edit-btn,
+.save-btn,
+.cancel-btn {
+  padding: 6px 12px;
+  margin-right: 10px;
+  border: none;
+  border-radius: 6px;
+  background-color: #ccc;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
 }
 
 @media (max-width: 600px) {
