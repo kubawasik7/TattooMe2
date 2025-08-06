@@ -91,6 +91,13 @@ ngOnInit(): void {
     this.editing = false;
     this.draftDescription = '';
   }
+  //SEKCJA FAVORITE
+  addToFavorites(artistId: string) {
+  this.favoriteService.addFavorite(artistId).subscribe(() => {
+    alert('Dodano do ulubionych');
+  });
+}
+
 
   //SEKCJA STYLE
   startEditStyle(): void {
