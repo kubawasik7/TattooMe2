@@ -109,6 +109,14 @@ ngOnInit(): void {
       alert('Zapisano style.');
     });
   }
+  
+  toggleStyle(id: string): void {
+    if (this.selectedStyleIds.includes(id)) {
+      this.selectedStyleIds = this.selectedStyleIds.filter(s => s !== id);
+    } else {
+      this.selectedStyleIds.push(id);
+    }
+  }
 
   
 
