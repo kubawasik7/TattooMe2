@@ -17,6 +17,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { AuthInterceptor } from './interceptor/auth.interceptor';
 import { ArtistDateComponent } from './component/artist-date/artist-date.component';
 import { UserProfileComponent } from './component/user-profile/user-profile.component';
+import { UserInfoComponent } from './component/user-info/user-info.component';
 const appRoutes: Routes = [
   { path: '', component: MainPageComponent },
   { path: 'login', component: LoginComponent },
@@ -39,7 +40,8 @@ const appRoutes: Routes = [
     TraineeListComponent,
     MainPageComponent,
     ArtistDateComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    UserInfoComponent
   ],
   imports: [
     BrowserModule,
