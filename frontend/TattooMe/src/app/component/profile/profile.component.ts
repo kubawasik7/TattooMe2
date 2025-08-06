@@ -42,6 +42,11 @@ ngOnInit(): void {
 
     this.workStyleService.getAllStyles().subscribe(styles => this.allStyles = styles);
 
+    this.workStyleService.getUserStyles(this.userId).subscribe(styles => {
+      this.styles = styles;
+      this.selectedStyleIds = styles.map(s => s.id);
+    });
+
 
     this.userService.getUserById(this.userId).subscribe(user => {
       this.user = user;
