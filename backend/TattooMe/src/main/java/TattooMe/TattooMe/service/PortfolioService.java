@@ -15,6 +15,7 @@ import java.util.UUID;
 
 @Service
 public class PortfolioService {
+    @Autowired
     private PortfolioRepository portfolioRepository;
 
     @Autowired
