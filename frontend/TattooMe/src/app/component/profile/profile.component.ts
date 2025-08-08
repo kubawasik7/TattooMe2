@@ -9,6 +9,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { PortfolioService } from '../../service/portfolio.service';
 import { Portfolio } from '../../model/portfolio';
 import { Flash } from '../../model/flash';
+import { FlashService } from '../../service/flash.service';
 
 @Component({
   selector: 'app-profile',
@@ -54,7 +55,7 @@ export class ProfileComponent implements OnInit{
   constructor(private route: ActivatedRoute,
     private userService: UserService, private profileService: ProfileService,
     private workStyleService: WorkStyleService, private favoriteService: FavoriteService,
-    private portfolioService: PortfolioService
+    private portfolioService: PortfolioService, private flashService: FlashService
   ){}
 
 
