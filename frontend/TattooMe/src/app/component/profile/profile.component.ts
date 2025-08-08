@@ -185,4 +185,29 @@ ngOnInit(): void {
       this.profileService.deleteOffer(id).subscribe(() => this.load());
     }
   }
+
+  //SEKCJA PORTFOLIO
+  deleteImagePortfolio(id: string) {
+  this.portfolioService.delete(id).subscribe(() => {
+    this.portfolioItems = this.portfolioItems.filter(p => p.id !== id);
+  });
+
+}
+
+  onFileSelectedPortfolio(event: any): void {
+    if (event.target.files.length > 0) {
+      this.selectedFile = event.target.files[0];
+    }
+  }
+
+  uploadPortfolio(): void {
+    if (!this.selectedFile) return;
+
+    this.portfolioService.uploadImage(this.selectedFile).subscribe({
+      next: () => {
+        this.selectedFile = null;
+      },
+      error: err => console.error('Błąd uploadu portfolio', err)
+    });
+  }
 }
