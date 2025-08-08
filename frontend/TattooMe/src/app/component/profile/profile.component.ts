@@ -135,9 +135,7 @@ ngOnInit(): void {
       this.selectedStyleIds.push(id);
     }
   }
-
   
-
   saveDescription(): void {
     this.profileService.updateDescription(this.draftDescription)
       .subscribe({
