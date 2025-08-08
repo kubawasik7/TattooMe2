@@ -6,6 +6,7 @@ import { TattooStyle } from '../../model/tattoo-style';
 import { WorkStyleService } from '../../service/work-style.service';
 import { FavoriteService } from '../../service/favorite.service';
 import { SafeUrl } from '@angular/platform-browser';
+import { PortfolioService } from '../../service/portfolio.service';
 
 @Component({
   selector: 'app-profile',
@@ -37,7 +38,8 @@ export class ProfileComponent implements OnInit{
 
   constructor(private route: ActivatedRoute,
     private userService: UserService, private profileService: ProfileService,
-    private workStyleService: WorkStyleService, private favoriteService: FavoriteService
+    private workStyleService: WorkStyleService, private favoriteService: FavoriteService,
+    private portfolioService: PortfolioService
   ){}
 
 
