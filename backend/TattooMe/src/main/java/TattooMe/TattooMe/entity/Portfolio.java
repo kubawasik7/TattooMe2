@@ -36,14 +36,6 @@ public class Portfolio {
     @Column(name = "picture", nullable = false)
     private byte[] picture;
 
-    @Column(name = "created_at", nullable = false)
-    private Instant createdAt;
-
-    @PrePersist
-    public void prePersist() {
-        if (createdAt == null) createdAt = Instant.now();
-    }
-
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", nullable = false, columnDefinition = "BINARY(16)")
     private User user;
