@@ -73,6 +73,10 @@ ngOnInit(): void {
       this.portfolioItems = items;
     });
 
+    this.flashService.getByUser(this.userId).subscribe(offers => {
+      this.flashes= offers;
+    });
+
 
     this.userService.getUserById(this.userId).subscribe(user => {
       this.user = user;
