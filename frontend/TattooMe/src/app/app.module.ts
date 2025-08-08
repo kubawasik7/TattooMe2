@@ -19,6 +19,7 @@ import { ArtistDateComponent } from './component/artist-date/artist-date.compone
 import { UserProfileComponent } from './component/user-profile/user-profile.component';
 import { UserInfoComponent } from './component/user-info/user-info.component';
 import { FavoriteComponent } from './component/favorite/favorite.component';
+import { ContactComponent } from './component/contact/contact.component';
 const appRoutes: Routes = [
   { path: '', component: MainPageComponent },
   { path: 'login', component: LoginComponent },
@@ -45,7 +46,8 @@ const appRoutes: Routes = [
     ArtistDateComponent,
     UserProfileComponent,
     UserInfoComponent,
-    FavoriteComponent
+    FavoriteComponent,
+    ContactComponent
   ],
   imports: [
     BrowserModule,
