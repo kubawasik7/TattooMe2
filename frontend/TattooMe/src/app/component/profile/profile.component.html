@@ -160,15 +160,69 @@
   </section>
 
     <section class="offer">
-      <h3>Oferta</h3>
-      <div class="grid">
-        <div class="item">przykładowa praca/wzór</div>
-        <div class="item">przykładowa praca/wzór</div>
-        <div class="item">przykładowa praca/wzór</div>
-        <div class="item">przykładowa praca/wzór</div>
-        <div class="item">przykładowa praca/wzór</div>
+  <div class="offer-header">
+    <h3>Oferta</h3>
+    <button class="btn btn-sm btn-outline-primary" (click)="openFlashModal()">+ Dodaj zdjęcie</button>
+  </div>
+
+  <div class="offer-grid">
+    <div class="offer-card" *ngFor="let f of flashes">
+      <img *ngIf="f.picture" [src]="'data:image/png;base64,' + f.picture" alt="flash" />
+      <div class="offer-info">
+        <div class="row">
+          <span>Rozmiar:</span> <strong>{{ f.sizeMin }}–{{ f.sizeMax }} cm</strong>
+        </div>
+        <div class="row">
+          <span>Cena:</span> <strong>{{ f.priceMin }}–{{ f.priceMax }} zł</strong>
+        </div>
+        <div class="row">
+          <span>Miejsce:</span> <strong>{{ f.reccomendedPlace || '—' }}</strong>
+        </div>
+        <p class="desc">{{ f.description || 'Brak opisu' }}</p>
       </div>
-    </section>
+    </div>
+  </div>
+</section>
+
+<div class="modal-backdrop" *ngIf="showFlashModal">
+  <div class="modal">
+    <h4>Nowa oferta</h4>
+
+    <label class="form-label">Zdjęcie</label>
+    <input type="file" (change)="onFlashFileSelected($event)" />
+
+    <label class="form-label">Opis</label>
+    <textarea [(ngModel)]="newFlash.description" rows="2"></textarea>
+
+    <div class="grid-2">
+      <div>
+        <label>Rozmiar min (cm)</label>
+        <input type="number" [(ngModel)]="newFlash.sizeMin" />
+      </div>
+      <div>
+        <label>Rozmiar max (cm)</label>
+        <input type="number" [(ngModel)]="newFlash.sizeMax" />
+      </div>
+      <div>
+        <label>Cena min (zł)</label>
+        <input type="number" [(ngModel)]="newFlash.priceMin" />
+      </div>
+      <div>
+        <label>Cena max (zł)</label>
+        <input type="number" [(ngModel)]="newFlash.priceMax" />
+      </div>
+    </div>
+
+    <label class="form-label">Sugerowane miejsce</label>
+    <input type="text" [(ngModel)]="newFlash.reccomendedPlace" />
+
+    <div class="actions">
+      <button class="btn btn-success" (click)="submitFlash()" [disabled]="!flashFile">Zapisz</button>
+      <button class="btn btn-secondary" (click)="closeFlashModal()">Anuluj</button>
+    </div>
+  </div>
+</div>
+
 
     <section class="reviews">
       <h3>Opinie</h3>
