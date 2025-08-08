@@ -8,6 +8,7 @@ import { FavoriteService } from '../../service/favorite.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { PortfolioService } from '../../service/portfolio.service';
 import { Portfolio } from '../../model/portfolio';
+import { Flash } from '../../model/flash';
 
 @Component({
   selector: 'app-profile',
@@ -30,6 +31,18 @@ export class ProfileComponent implements OnInit{
   originalSelectedStyleIds: string[] = [];
   portfolioItems: Portfolio[] = [];
   showAllPortfolio = false;
+  flashes: Flash[] = [];
+  showFlashModal = false;
+  flashFile: File | null = null;
+  newFlash: Flash = {
+    description: '',
+    reccomendedPlace: '',
+    sizeMin: 0,
+    sizeMax: 0,
+    priceMin: 0,
+    priceMax: 0
+  };
+
 
   draft: CreateOffer = { startDate: '', endDate: '', description: '' };
    @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
