@@ -5,6 +5,7 @@ import { CreateOffer, Offer, ProfileService } from '../../service/profile.servic
 import { TattooStyle } from '../../model/tattoo-style';
 import { WorkStyleService } from '../../service/work-style.service';
 import { FavoriteService } from '../../service/favorite.service';
+import { SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-profile',
@@ -25,6 +26,7 @@ export class ProfileComponent implements OnInit{
   editStyleMode = false;
   selectedStyleIds: string[] = [];
   originalSelectedStyleIds: string[] = [];
+  portfolioImages: SafeUrl[] = [];
 
   draft: CreateOffer = { startDate: '', endDate: '', description: '' };
    @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
