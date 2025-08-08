@@ -29,6 +29,7 @@ export class ProfileComponent implements OnInit{
   selectedStyleIds: string[] = [];
   originalSelectedStyleIds: string[] = [];
   portfolioItems: Portfolio[] = [];
+  showAllPortfolio = false;
 
   draft: CreateOffer = { startDate: '', endDate: '', description: '' };
    @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
