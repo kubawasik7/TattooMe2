@@ -33,7 +33,7 @@ public class Portfolio {
     private UUID id;
 
     @Lob
-    @Column(name = "picture", nullable = false)
+    @Column(name = "picture", nullable = false, columnDefinition = "LONGBLOB")
     private byte[] picture;
 
     @ManyToOne(optional = false)
