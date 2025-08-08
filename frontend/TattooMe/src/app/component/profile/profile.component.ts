@@ -226,4 +226,48 @@ ngOnInit(): void {
       error: err => console.error('Błąd uploadu portfolio', err)
     });
   }
+
+  //SEKCJA FLASHE
+  openFlashModal(): void {
+    this.showFlashModal = true;
+  }
+
+  closeFlashModal(): void {
+    this.showFlashModal = false;
+    this.flashFile = null;
+    this.newFlash = {
+      description: '',
+      reccomendedPlace: '',
+      sizeMin: 0, sizeMax: 0, priceMin: 0, priceMax: 0
+    };
+  }
+
+  onFlashFileSelected(evt: Event): void {
+    const input = evt.target as HTMLInputElement;
+    if (input.files?.length) {
+      this.flashFile = input.files[0];
+    }
+  }
+    loadFlashes(): void {
+    this.flashService.getByUser(this.userId).subscribe({
+      next: (data) => this.flashes = data,
+      error: (e)   => console.error('Błąd pobierania flashy', e)
+    });
+  }
+
+  submitFlash(): void {
+    if (!this.flashFile) return;
+
+    const form = new FormData();
+    form.append('file', this.flashFile);
+    form.append(
+      'data',
+      new Blob([JSON.stringify(this.newFlash)], { type: 'application/json' })
+    );
+
+    this.flashService.upload(form).subscribe({
+      next: () => { this.closeFlashModal(); this.loadFlashes(); },
+      error: (e) => console.error('Błąd uploadu flasha', e)
+    });
+  }
 }
