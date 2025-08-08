@@ -7,6 +7,7 @@ import { WorkStyleService } from '../../service/work-style.service';
 import { FavoriteService } from '../../service/favorite.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { PortfolioService } from '../../service/portfolio.service';
+import { Portfolio } from '../../model/portfolio';
 
 @Component({
   selector: 'app-profile',
@@ -27,7 +28,7 @@ export class ProfileComponent implements OnInit{
   editStyleMode = false;
   selectedStyleIds: string[] = [];
   originalSelectedStyleIds: string[] = [];
-  portfolioImages: SafeUrl[] = [];
+  portfolioItems: Portfolio[] = [];
 
   draft: CreateOffer = { startDate: '', endDate: '', description: '' };
    @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
