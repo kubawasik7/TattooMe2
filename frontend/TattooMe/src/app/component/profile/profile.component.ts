@@ -54,7 +54,7 @@ export class ProfileComponent implements OnInit{
   constructor(private route: ActivatedRoute,
     private userService: UserService, private profileService: ProfileService,
     private workStyleService: WorkStyleService, private favoriteService: FavoriteService,
-    private portfolioService: PortfolioService, private sanitizer: DomSanitizer
+    private portfolioService: PortfolioService
   ){}
 
 
