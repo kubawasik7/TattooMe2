@@ -55,6 +55,10 @@ ngOnInit(): void {
       this.selectedStyleIds = styles.map(s => s.id);
     });
 
+      this.portfolioService.getByUser(this.userId).subscribe(items => {
+      this.portfolioItems = items;
+    });
+
 
     this.userService.getUserById(this.userId).subscribe(user => {
       this.user = user;
