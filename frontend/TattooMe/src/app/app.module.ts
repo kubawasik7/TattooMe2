@@ -21,6 +21,7 @@ import { UserInfoComponent } from './component/user-info/user-info.component';
 import { FavoriteComponent } from './component/favorite/favorite.component';
 import { ContactComponent } from './component/contact/contact.component';
 import { StyleComponent } from './component/profile/style/style.component';
+import { OfferComponent } from './component/profile/offer/offer.component';
 const appRoutes: Routes = [
   { path: '', component: MainPageComponent },
   { path: 'login', component: LoginComponent },
@@ -50,7 +51,8 @@ const appRoutes: Routes = [
     UserInfoComponent,
     FavoriteComponent,
     ContactComponent,
-    StyleComponent
+    StyleComponent,
+    OfferComponent
   ],
   imports: [
     BrowserModule,
