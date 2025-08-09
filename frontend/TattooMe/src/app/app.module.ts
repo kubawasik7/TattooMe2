@@ -20,6 +20,7 @@ import { UserProfileComponent } from './component/user-profile/user-profile.comp
 import { UserInfoComponent } from './component/user-info/user-info.component';
 import { FavoriteComponent } from './component/favorite/favorite.component';
 import { ContactComponent } from './component/contact/contact.component';
+import { StyleComponent } from './component/profile/style/style.component';
 const appRoutes: Routes = [
   { path: '', component: MainPageComponent },
   { path: 'login', component: LoginComponent },
@@ -48,7 +49,8 @@ const appRoutes: Routes = [
     UserProfileComponent,
     UserInfoComponent,
     FavoriteComponent,
-    ContactComponent
+    ContactComponent,
+    StyleComponent
   ],
   imports: [
     BrowserModule,
