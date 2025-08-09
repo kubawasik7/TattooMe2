@@ -1,0 +1,98 @@
+.offer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 16px 0;
+}
+
+.offer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 14px;
+}
+
+.offer-card {
+  background: #2b2b2b;
+  border: 1px solid #3b3b3b;
+  border-radius: 8px;
+  overflow: hidden;
+  color: #fff;
+}
+
+.offer-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+}
+
+.offer-info {
+  padding: 10px 12px;
+}
+
+.offer-info .row {
+  display: flex;
+  gap: 6px;
+  font-size: 0.92rem;
+  margin: 4px 0;
+}
+
+.offer-info .desc {
+  margin-top: 6px;
+  font-size: 0.9rem;
+  color: #ddd;
+}
+
+/* Modal */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+
+.modal {
+  width: 420px;
+  background: #1f1f1f;
+  border: 1px solid #3b3b3b;
+  border-radius: 10px;
+  padding: 18px;
+  color: #fff;
+}
+
+.form-label {
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.modal input[type="text"],
+.modal input[type="number"],
+.modal textarea {
+  width: 100%;
+  padding: 8px;
+  background: #2a2a2a;
+  color: #fff;
+  border: 1px solid #3a3a3a;
+  border-radius: 6px;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 14px;
+  margin-top: 8px;
+}
+
+.actions {
+  margin-top: 14px;
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.btn { cursor: pointer; }
