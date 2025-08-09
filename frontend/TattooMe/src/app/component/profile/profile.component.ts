@@ -25,11 +25,7 @@ export class ProfileComponent implements OnInit{
   draftDescription: string = '';
   offers: Offer[] = [];
   editingId: string | null = null;
-  styles: TattooStyle[] = [];
-  allStyles: TattooStyle[] = [];
   editStyleMode = false;
-  selectedStyleIds: string[] = [];
-  originalSelectedStyleIds: string[] = [];
   portfolioItems: Portfolio[] = [];
   showAllPortfolio = false;
 
@@ -42,20 +38,13 @@ export class ProfileComponent implements OnInit{
 
   constructor(private route: ActivatedRoute,
     private userService: UserService, private profileService: ProfileService,
-    private workStyleService: WorkStyleService, private favoriteService: FavoriteService,
+    private favoriteService: FavoriteService,
     private portfolioService: PortfolioService
   ){}
 
 
 ngOnInit(): void {
     this.userId = this.route.snapshot.paramMap.get('id')!;
-
-    this.workStyleService.getAllStyles().subscribe(styles => this.allStyles = styles);
-
-    this.workStyleService.getUserStyles(this.userId).subscribe(styles => {
-      this.styles = styles;
-      this.selectedStyleIds = styles.map(s => s.id);
-    });
 
       this.portfolioService.getByUser(this.userId).subscribe(items => {
       this.portfolioItems = items;
@@ -108,34 +97,6 @@ ngOnInit(): void {
     alert('Dodano do ulubionych');
   });
 }
-
-
-  //SEKCJA STYLE
-  startEditStyle(): void {
-  this.editStyleMode = true;
-  this.originalSelectedStyleIds = [...this.selectedStyleIds];
-  }
-
-  cancelEditStyle(): void {
-  this.selectedStyleIds = [...this.originalSelectedStyleIds];
-  this.editStyleMode = false;
-  }
-
-  saveStyles(): void {
-  this.workStyleService.saveUserStyles(this.userId, this.selectedStyleIds)
-    .subscribe(() => {
-      this.editStyleMode = false;
-      alert('Zapisano style.');
-    });
-  }
-
-  toggleStyle(id: string): void {
-    if (this.selectedStyleIds.includes(id)) {
-      this.selectedStyleIds = this.selectedStyleIds.filter(s => s !== id);
-    } else {
-      this.selectedStyleIds.push(id);
-    }
-  }
   
   saveDescription(): void {
     this.profileService.updateDescription(this.draftDescription)
