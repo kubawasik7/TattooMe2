@@ -1,205 +1,194 @@
-  <main class="container profile-page">
-    <section class="profile-header">
-      <div class="profile-picture-wrapper" (click)="fileInput.click()">
-  <img [src]="previewUrl || defaultAvatar" class="profile-picture" alt="Avatar">
-</div>
-<input
-  #fileInput
-  type="file"
-  accept="image/*"
-  style="display: none"
-  (change)="onFileSelected($event)"
-/>
+<main class="container profile-page">
+  <section class="profile-header">
+    <div class="profile-picture-wrapper" (click)="fileInput.click()">
+      <img [src]="previewUrl || defaultAvatar" class="profile-picture" alt="Avatar">
+    </div>
+    <input #fileInput type="file" accept="image/*" style="display: none" (change)="onFileSelected($event)" />
 
-<button
-  *ngIf="selectedFile"
-  (click)="upload()"
-  class="btn btn-primary"
->
-  Zapisz zdjęcie
-</button>
-      <div class="profile-info">
-        <h2 class="nickname">Nickname <span class="rating">★ 4.5/5 (1230)</span></h2>
-        <p class="location">Miasto, ulica 123/1</p>
-        <button class="btn-message">Napisz do nas</button>
-      </div>
-    </section>
-    <button (click)="addToFavorites(user.id)">❤️ Dodaj do ulubionych</button>
+    <button *ngIf="selectedFile" (click)="upload()" class="btn btn-primary">
+      Zapisz zdjęcie
+    </button>
+    <div class="profile-info">
+      <h2 class="nickname">Nickname <span class="rating">★ 4.5/5 (1230)</span></h2>
+      <p class="location">Miasto, ulica 123/1</p>
+      <button class="btn-message">Napisz do nas</button>
+    </div>
+  </section>
+  <button (click)="addToFavorites(user.id)">❤️ Dodaj do ulubionych</button>
+
+  <app-style [userId]="userId"></app-style>
 
   <div class="description-section">
-  <p *ngIf="!editing; else editTpl">
-    {{ user.description || 'Brak opisu...' }}
-    <button class="btn btn-sm" (click)="startEdit()">Edytuj</button>
-  </p>
+    <p *ngIf="!editing; else editTpl">
+      {{ user.description || 'Brak opisu...' }}
+      <button class="btn btn-sm" (click)="startEdit()">Edytuj</button>
+    </p>
 
-  <ng-template #editTpl>
-    <textarea [(ngModel)]="draftDescription" rows="3"></textarea>
-    <button class="btn btn-sm" (click)="saveDescription()">✔</button>
-    <button class="btn btn-sm" (click)="cancelEdit()">✖</button>
-  </ng-template>
-</div>
-
-<div class="offer-section">
-  <h3>Aktualne promocje</h3>
-  <button class="btn btn-sm btn-outline-primary" (click)="startNew()">
-    + Dodaj nową
-  </button>
-
-  <table class="table mt-2">
-    <thead>
-      <tr>
-        <th>Start</th>
-        <th>Koniec</th>
-        <th>Opis</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let o of offers">
-        <td>{{ o.startDate | date:'short' }}</td>
-        <td>{{ o.endDate | date:'short' }}</td>
-        <td>{{ o.description }}</td>
-        <td>
-          <button class="btn btn-sm" (click)="startEditOffer(o)">✎</button>
-          <button class="btn btn-sm text-danger" (click)="delete(o.id)">🗑</button>
-        </td>
-      </tr>
-
-      <tr *ngIf="editingId">
-        <td>
-          <input type="datetime-local" class="form-control"
-                 [(ngModel)]="draft.startDate">
-        </td>
-        <td>
-          <input type="datetime-local" class="form-control"
-                 [(ngModel)]="draft.endDate">
-        </td>
-        <td>
-          <input type="text" class="form-control"
-                 [(ngModel)]="draft.description">
-        </td>
-        <td>
-          <button class="btn btn-sm btn-success" (click)="save()">✔</button>
-          <button class="btn btn-sm btn-secondary" (click)="cancel()">✖</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-
-    <section class="slots">
-      <h3>Wolne terminy:</h3>
-      <div class="slot-list">
-        <div class="slot">21.01.2025<br><span>13:00</span></div>
-        <div class="slot">21.01.2025<br><span>13:00</span></div>
-        <div class="slot">21.01.2025<br><span>13:00</span></div>
-        <div class="slot">21.01.2025<br><span>13:00</span></div>
-        <div class="slot">21.01.2025<br><span>13:00</span></div>
-        <div class="slot">21.01.2025<br><span>13:00</span></div>
-        <div class="slot">21.01.2025<br><span>13:00</span></div>
-        <a href="#" class="slot-more">Zobacz więcej…</a>
-      </div>
-    </section>
-
-    <section class="portfolio">
-  <h3>Portfolio</h3>
-
-  <div class="grid">
-    <div class="item" *ngFor="let item of (showAllPortfolio ? portfolioItems : portfolioItems.slice(0, 6))">
-      <img [src]="'data:image/png;base64,' + item.picture" alt="Tattoo" />
-      <button (click)="deleteImagePortfolio(item.id)">✖</button>
-    </div>
+    <ng-template #editTpl>
+      <textarea [(ngModel)]="draftDescription" rows="3"></textarea>
+      <button class="btn btn-sm" (click)="saveDescription()">✔</button>
+      <button class="btn btn-sm" (click)="cancelEdit()">✖</button>
+    </ng-template>
   </div>
-  
-  <div *ngIf="portfolioItems.length > 6">
-    <button class="btn btn-sm" (click)="showAllPortfolio = !showAllPortfolio">
-      {{ showAllPortfolio ? 'Zwiń' : 'Pokaż więcej' }}
+
+  <div class="offer-section">
+    <h3>Aktualne promocje</h3>
+    <button class="btn btn-sm btn-outline-primary" (click)="startNew()">
+      + Dodaj nową
     </button>
+
+    <table class="table mt-2">
+      <thead>
+        <tr>
+          <th>Start</th>
+          <th>Koniec</th>
+          <th>Opis</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let o of offers">
+          <td>{{ o.startDate | date:'short' }}</td>
+          <td>{{ o.endDate | date:'short' }}</td>
+          <td>{{ o.description }}</td>
+          <td>
+            <button class="btn btn-sm" (click)="startEditOffer(o)">✎</button>
+            <button class="btn btn-sm text-danger" (click)="delete(o.id)">🗑</button>
+          </td>
+        </tr>
+
+        <tr *ngIf="editingId">
+          <td>
+            <input type="datetime-local" class="form-control" [(ngModel)]="draft.startDate">
+          </td>
+          <td>
+            <input type="datetime-local" class="form-control" [(ngModel)]="draft.endDate">
+          </td>
+          <td>
+            <input type="text" class="form-control" [(ngModel)]="draft.description">
+          </td>
+          <td>
+            <button class="btn btn-sm btn-success" (click)="save()">✔</button>
+            <button class="btn btn-sm btn-secondary" (click)="cancel()">✖</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-  
-  <div class="upload-section">
-    <input type="file" (change)="onFileSelectedPortfolio($event)" />
-    <button class="btn" (click)="uploadPortfolio()">Dodaj zdjęcie</button>
-  </div>
+
+
+  <section class="slots">
+    <h3>Wolne terminy:</h3>
+    <div class="slot-list">
+      <div class="slot">21.01.2025<br><span>13:00</span></div>
+      <div class="slot">21.01.2025<br><span>13:00</span></div>
+      <div class="slot">21.01.2025<br><span>13:00</span></div>
+      <div class="slot">21.01.2025<br><span>13:00</span></div>
+      <div class="slot">21.01.2025<br><span>13:00</span></div>
+      <div class="slot">21.01.2025<br><span>13:00</span></div>
+      <div class="slot">21.01.2025<br><span>13:00</span></div>
+      <a href="#" class="slot-more">Zobacz więcej…</a>
+    </div>
   </section>
 
-    <section class="offer">
-  <div class="offer-header">
-    <h3>Oferta</h3>
-    <button class="btn btn-sm btn-outline-primary" (click)="openFlashModal()">+ Dodaj zdjęcie</button>
-  </div>
+  <section class="portfolio">
+    <h3>Portfolio</h3>
 
-  <div class="offer-grid">
-    <div class="offer-card" *ngFor="let f of flashes">
-      <img *ngIf="f.picture" [src]="'data:image/png;base64,' + f.picture" alt="flash" />
-      <div class="offer-info">
-        <div class="row">
-          <span>Rozmiar:</span> <strong>{{ f.sizeMin }}–{{ f.sizeMax }} cm</strong>
-        </div>
-        <div class="row">
-          <span>Cena:</span> <strong>{{ f.priceMin }}–{{ f.priceMax }} zł</strong>
-        </div>
-        <div class="row">
-          <span>Miejsce:</span> <strong>{{ f.reccomendedPlace || '—' }}</strong>
-        </div>
-        <p class="desc">{{ f.description || 'Brak opisu' }}</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="modal-backdrop" *ngIf="showFlashModal">
-  <div class="modal">
-    <h4>Nowa oferta</h4>
-
-    <label class="form-label">Zdjęcie</label>
-    <input type="file" (change)="onFlashFileSelected($event)" />
-
-    <label class="form-label">Opis</label>
-    <textarea [(ngModel)]="newFlash.description" rows="2"></textarea>
-
-    <div class="grid-2">
-      <div>
-        <label>Rozmiar min (cm)</label>
-        <input type="number" [(ngModel)]="newFlash.sizeMin" />
-      </div>
-      <div>
-        <label>Rozmiar max (cm)</label>
-        <input type="number" [(ngModel)]="newFlash.sizeMax" />
-      </div>
-      <div>
-        <label>Cena min (zł)</label>
-        <input type="number" [(ngModel)]="newFlash.priceMin" />
-      </div>
-      <div>
-        <label>Cena max (zł)</label>
-        <input type="number" [(ngModel)]="newFlash.priceMax" />
+    <div class="grid">
+      <div class="item" *ngFor="let item of (showAllPortfolio ? portfolioItems : portfolioItems.slice(0, 6))">
+        <img [src]="'data:image/png;base64,' + item.picture" alt="Tattoo" />
+        <button (click)="deleteImagePortfolio(item.id)">✖</button>
       </div>
     </div>
 
-    <label class="form-label">Sugerowane miejsce</label>
-    <input type="text" [(ngModel)]="newFlash.reccomendedPlace" />
-
-    <div class="actions">
-      <button class="btn btn-success" (click)="submitFlash()" [disabled]="!flashFile">Zapisz</button>
-      <button class="btn btn-secondary" (click)="closeFlashModal()">Anuluj</button>
+    <div *ngIf="portfolioItems.length > 6">
+      <button class="btn btn-sm" (click)="showAllPortfolio = !showAllPortfolio">
+        {{ showAllPortfolio ? 'Zwiń' : 'Pokaż więcej' }}
+      </button>
     </div>
-  </div>
-</div>
 
+    <div class="upload-section">
+      <input type="file" (change)="onFileSelectedPortfolio($event)" />
+      <button class="btn" (click)="uploadPortfolio()">Dodaj zdjęcie</button>
+    </div>
+  </section>
 
-    <section class="reviews">
-      <h3>Opinie</h3>
-      <div class="review-list">
-        <div class="review">
-          <h4>Nickname <span class="stars">★★★★☆</span></h4>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
-        </div>
-        <div class="review">
-          <h4>Nickname <span class="stars">★★★★☆</span></h4>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+  <section class="offer">
+    <div class="offer-header">
+      <h3>Oferta</h3>
+      <button class="btn btn-sm btn-outline-primary" (click)="openFlashModal()">+ Dodaj zdjęcie</button>
+    </div>
+
+    <div class="offer-grid">
+      <div class="offer-card" *ngFor="let f of flashes">
+        <img *ngIf="f.picture" [src]="'data:image/png;base64,' + f.picture" alt="flash" />
+        <div class="offer-info">
+          <div class="row">
+            <span>Rozmiar:</span> <strong>{{ f.sizeMin }}–{{ f.sizeMax }} cm</strong>
+          </div>
+          <div class="row">
+            <span>Cena:</span> <strong>{{ f.priceMin }}–{{ f.priceMax }} zł</strong>
+          </div>
+          <div class="row">
+            <span>Miejsce:</span> <strong>{{ f.reccomendedPlace || '—' }}</strong>
+          </div>
+          <p class="desc">{{ f.description || 'Brak opisu' }}</p>
         </div>
       </div>
-    </section>
-  </main>
+    </div>
+  </section>
+
+  <div class="modal-backdrop" *ngIf="showFlashModal">
+    <div class="modal">
+      <h4>Nowa oferta</h4>
+
+      <label class="form-label">Zdjęcie</label>
+      <input type="file" (change)="onFlashFileSelected($event)" />
+
+      <label class="form-label">Opis</label>
+      <textarea [(ngModel)]="newFlash.description" rows="2"></textarea>
+
+      <div class="grid-2">
+        <div>
+          <label>Rozmiar min (cm)</label>
+          <input type="number" [(ngModel)]="newFlash.sizeMin" />
+        </div>
+        <div>
+          <label>Rozmiar max (cm)</label>
+          <input type="number" [(ngModel)]="newFlash.sizeMax" />
+        </div>
+        <div>
+          <label>Cena min (zł)</label>
+          <input type="number" [(ngModel)]="newFlash.priceMin" />
+        </div>
+        <div>
+          <label>Cena max (zł)</label>
+          <input type="number" [(ngModel)]="newFlash.priceMax" />
+        </div>
+      </div>
+
+      <label class="form-label">Sugerowane miejsce</label>
+      <input type="text" [(ngModel)]="newFlash.reccomendedPlace" />
+
+      <div class="actions">
+        <button class="btn btn-success" (click)="submitFlash()" [disabled]="!flashFile">Zapisz</button>
+        <button class="btn btn-secondary" (click)="closeFlashModal()">Anuluj</button>
+      </div>
+    </div>
+  </div>
+
+
+  <section class="reviews">
+    <h3>Opinie</h3>
+    <div class="review-list">
+      <div class="review">
+        <h4>Nickname <span class="stars">★★★★☆</span></h4>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+      </div>
+      <div class="review">
+        <h4>Nickname <span class="stars">★★★★☆</span></h4>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+      </div>
+    </div>
+  </section>
+</main>
