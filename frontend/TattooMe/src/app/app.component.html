@@ -32,7 +32,7 @@
 <div class="container">
   <aside class="sidebar-left">
     <ng-container *ngIf="authService.isLoggedIn()">
-      <a href="#">Twój profil</a>
+      <a [routerLink]="['/profile', getUserId()]">Twój profil</a>
       <a href="#">Rezerwacje</a>
     </ng-container>
   </aside>
