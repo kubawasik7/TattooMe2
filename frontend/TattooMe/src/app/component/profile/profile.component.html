@@ -48,27 +48,7 @@
 
   <app-special-offer></app-special-offer>
 
-  <section class="portfolio">
-    <h3>Portfolio</h3>
-
-    <div class="grid">
-      <div class="item" *ngFor="let item of (showAllPortfolio ? portfolioItems : portfolioItems.slice(0, 6))">
-        <img [src]="'data:image/png;base64,' + item.picture" alt="Tattoo" />
-        <button (click)="deleteImagePortfolio(item.id)">✖</button>
-      </div>
-    </div>
-
-    <div *ngIf="portfolioItems.length > 6">
-      <button class="btn btn-sm" (click)="showAllPortfolio = !showAllPortfolio">
-        {{ showAllPortfolio ? 'Zwiń' : 'Pokaż więcej' }}
-      </button>
-    </div>
-
-    <div class="upload-section">
-      <input type="file" (change)="onFileSelectedPortfolio($event)" />
-      <button class="btn" (click)="uploadPortfolio()">Dodaj zdjęcie</button>
-    </div>
-  </section>
+ 
 
   <app-offer [userId]="userId"></app-offer>
 
