@@ -10,6 +10,7 @@ import { PortfolioService } from '../../service/portfolio.service';
 import { Portfolio } from '../../model/portfolio';
 import { Flash } from '../../model/flash';
 import { FlashService } from '../../service/flash.service';
+import { AuthService } from '../../service/auth.service';
 
 @Component({
   selector: 'app-profile',
@@ -20,11 +21,13 @@ import { FlashService } from '../../service/flash.service';
 export class ProfileComponent implements OnInit{
   user!: User;
   userId!: string;
+  authUserId: string | null = null;
   editing = false;
   description: string = '';
   draftDescription: string = '';
   editingId: string | null = null;
   editStyleMode = false;
+  isOwner = false;
 
    @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
   selectedFile: File | null = null;
@@ -34,12 +37,19 @@ export class ProfileComponent implements OnInit{
 
   constructor(private route: ActivatedRoute,
     private userService: UserService, private profileService: ProfileService,
-    private favoriteService: FavoriteService
+    private favoriteService: FavoriteService, private authService: AuthService
   ){}
 
 
-ngOnInit(): void {
+  ngOnInit(): void {
     this.userId = this.route.snapshot.paramMap.get('id')!;
+
+    this.authUserId = this.authService.getUserId();
+    if (this.authUserId && this.authUserId === this.userId) {
+      this.isOwner = true;
+    } else {
+      this.isOwner = false;
+    }
 
     this.userService.getUserById(this.userId).subscribe(user => {
       this.user = user;
@@ -47,7 +57,7 @@ ngOnInit(): void {
       if (user.profilePicture) {
         this.previewUrl = `data:image/png;base64,${user.profilePicture}`;
       } else {
-        this.previewUrl = null;  
+        this.previewUrl = null;
       }
     });
   }

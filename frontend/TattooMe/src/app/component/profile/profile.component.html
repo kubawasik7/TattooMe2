@@ -17,7 +17,7 @@
 
   <button (click)="addToFavorites(user.id)">❤️ Dodaj do ulubionych</button>
 
-  <app-style [userId]="userId"></app-style>
+  <app-style [userId]="userId" [isOwner]="isOwner"></app-style>
 
   <div class="description-section">
     <p *ngIf="!editing; else editTpl">
@@ -46,9 +46,9 @@
     </div>
   </section>
 
-  <app-special-offer></app-special-offer>
-  <app-portfolio [userId]="userId"></app-portfolio>
-  <app-offer [userId]="userId"></app-offer>
+  <app-special-offer [userId]="userId" [isOwner]="isOwner"></app-special-offer>
+  <app-portfolio [userId]="userId" [isOwner]="isOwner" ></app-portfolio>
+  <app-offer [userId]="userId" [isOwner]="isOwner"></app-offer>
 
   <section class="reviews">
     <h3>Opinie</h3>

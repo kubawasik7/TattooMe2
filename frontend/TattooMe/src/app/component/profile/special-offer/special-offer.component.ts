@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CreateOffer, Offer, ProfileService } from '../../../service/profile.service';
 
 @Component({
@@ -8,6 +8,8 @@ import { CreateOffer, Offer, ProfileService } from '../../../service/profile.ser
   styleUrl: './special-offer.component.css'
 })
 export class SpecialOfferComponent {
+  @Input() userId!: string;
+  @Input() isOwner = false;
   offers: Offer[] = [];
   editingId: string | null = null;
   draft: CreateOffer = { startDate: '', endDate: '', description: '' };

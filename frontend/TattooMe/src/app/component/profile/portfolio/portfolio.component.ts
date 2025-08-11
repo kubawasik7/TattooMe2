@@ -10,6 +10,7 @@ import { PortfolioService } from '../../../service/portfolio.service';
 })
 export class PortfolioComponent {
   @Input() userId!: string;
+  @Input() isOwner = false;
   portfolioItems: Portfolio[] = [];
   selectedFile: File | null = null;
   showAllPortfolio = false;
