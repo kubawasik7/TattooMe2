@@ -15,6 +15,7 @@ export class SpecialOfferComponent {
   constructor(private profileService: ProfileService){}
 
   ngOnInit(): void{
+    this.load();
     
   }
 
