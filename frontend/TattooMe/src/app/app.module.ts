@@ -23,6 +23,7 @@ import { ContactComponent } from './component/contact/contact.component';
 import { StyleComponent } from './component/profile/style/style.component';
 import { OfferComponent } from './component/profile/offer/offer.component';
 import { SpecialOfferComponent } from './component/profile/special-offer/special-offer.component';
+import { PortfolioComponent } from './component/profile/portfolio/portfolio.component';
 const appRoutes: Routes = [
   { path: '', component: MainPageComponent },
   { path: 'login', component: LoginComponent },
@@ -54,7 +55,8 @@ const appRoutes: Routes = [
     ContactComponent,
     StyleComponent,
     OfferComponent,
-    SpecialOfferComponent
+    SpecialOfferComponent,
+    PortfolioComponent
   ],
   imports: [
     BrowserModule,
