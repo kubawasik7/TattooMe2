@@ -56,8 +56,8 @@
     <input type="text" [(ngModel)]="newFlash.reccomendedPlace" />
 
     <div class="actions">
-      <button class="btn btn-success" (click)="submitFlash()" [disabled]="!flashFile">Zapisz</button>
-      <button class="btn btn-secondary" (click)="closeFlashModal()">Anuluj</button>
+      <button *ngIf="isOwner" class="btn btn-success" (click)="submitFlash()" [disabled]="!flashFile">Zapisz</button>
+      <button *ngIf="isOwner" class="btn btn-secondary" (click)="closeFlashModal()">Anuluj</button>
     </div>
   </div>
 </div>

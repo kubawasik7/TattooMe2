@@ -16,6 +16,6 @@
 
     <div class="upload-section">
       <input type="file" (change)="onFileSelectedPortfolio($event)" />
-      <button class="btn" (click)="uploadPortfolio()">Dodaj zdjęcie</button>
+      <button *ngIf="isOwner" class="btn" (click)="uploadPortfolio()">Dodaj zdjęcie</button>
     </div>
   </section>

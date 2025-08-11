@@ -22,9 +22,9 @@
   </div>
 
   <div class="edit-actions">
-    <button *ngIf="!editStyleMode" class="edit-btn" (click)="startEditing()">Edytuj</button>
+    <button  *ngIf="!editStyleMode && isOwner" class="edit-btn" (click)="startEditing()">Edytuj</button>
     <div *ngIf="editStyleMode">
-      <button class="save-btn" (click)="saveStyles()">Zapisz</button>
+      <button *ngIf="isOwner" class="save-btn" (click)="saveStyles()">Zapisz</button>
       <button class="cancel-btn" (click)="cancelEditing()">Anuluj</button>
     </div>
   </div>
