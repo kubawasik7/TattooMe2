@@ -32,20 +32,7 @@
     </ng-template>
   </div>
 
-  <section class="slots">
-    <h3>Wolne terminy:</h3>
-    <div class="slot-list">
-      <div class="slot">21.01.2025<br><span>13:00</span></div>
-      <div class="slot">21.01.2025<br><span>13:00</span></div>
-      <div class="slot">21.01.2025<br><span>13:00</span></div>
-      <div class="slot">21.01.2025<br><span>13:00</span></div>
-      <div class="slot">21.01.2025<br><span>13:00</span></div>
-      <div class="slot">21.01.2025<br><span>13:00</span></div>
-      <div class="slot">21.01.2025<br><span>13:00</span></div>
-      <a href="#" class="slot-more">Zobacz więcej…</a>
-    </div>
-  </section>
-
+  <app-artist-date [userId]="userId" [isOwner]="isOwner"></app-artist-date>
   <app-special-offer [userId]="userId" [isOwner]="isOwner"></app-special-offer>
   <app-portfolio [userId]="userId" [isOwner]="isOwner" ></app-portfolio>
   <app-offer [userId]="userId" [isOwner]="isOwner"></app-offer>
