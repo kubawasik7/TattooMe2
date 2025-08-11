@@ -89,40 +89,6 @@
 .description-section .btn:hover {
   background: #555;
 }
-.offer-section {
-  margin-bottom: 2rem;
-}
-.offer-section .btn-outline-primary {
-  background: none;
-  border: 1px solid #888;
-  color: #ccc;
-  padding: 4px 8px;
-  border-radius: 6px;
-  cursor: pointer;
-}
-.offer-section .btn-outline-primary:hover {
-  background: #555;
-}
-.offer-section table {
-  width: 100%;
-  background: #2c2c2c;
-  color: #ddd;
-  border-collapse: collapse;
-  margin-top: 1rem;
-}
-.offer-section th,
-.offer-section td {
-  padding: 0.75rem;
-  border: 1px solid #444;
-}
-.offer-section input {
-  background: #222;
-  color: #fff;
-  border: 1px solid #666;
-  border-radius: 4px;
-  padding: 4px;
-  width: 100%;
-}
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
