@@ -12,6 +12,7 @@ export class PortfolioComponent {
   @Input() userId!: string;
   portfolioItems: Portfolio[] = [];
   selectedFile: File | null = null;
+  showAllPortfolio = false;
 
   constructor(private portfolioService: PortfolioService){}
 
