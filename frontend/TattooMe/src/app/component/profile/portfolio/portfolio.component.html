@@ -4,7 +4,7 @@
     <div class="grid">
       <div class="item" *ngFor="let item of (showAllPortfolio ? portfolioItems : portfolioItems.slice(0, 6))">
         <img [src]="'data:image/png;base64,' + item.picture" alt="Tattoo" />
-        <button (click)="deleteImagePortfolio(item.id)">✖</button>
+        <button *ngIf="isOwner" (click)="deleteImagePortfolio(item.id)">✖</button>
       </div>
     </div>
 

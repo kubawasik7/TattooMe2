@@ -1,7 +1,7 @@
 <section class="offer">
   <div class="offer-header">
     <h3>Oferta</h3>
-    <button class="btn btn-sm btn-outline-primary" (click)="openFlashModal()">+ Dodaj zdjęcie</button>
+    <button *ngIf="isOwner" class="btn btn-sm btn-outline-primary" (click)="openFlashModal()">+ Dodaj zdjęcie</button>
   </div>
 
   <div class="offer-grid">
