@@ -25,8 +25,6 @@ export class ProfileComponent implements OnInit{
   draftDescription: string = '';
   editingId: string | null = null;
   editStyleMode = false;
-  portfolioItems: Portfolio[] = [];
-  showAllPortfolio = false;
 
    @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
   selectedFile: File | null = null;
@@ -36,17 +34,12 @@ export class ProfileComponent implements OnInit{
 
   constructor(private route: ActivatedRoute,
     private userService: UserService, private profileService: ProfileService,
-    private favoriteService: FavoriteService,
-    private portfolioService: PortfolioService
+    private favoriteService: FavoriteService
   ){}
 
 
 ngOnInit(): void {
     this.userId = this.route.snapshot.paramMap.get('id')!;
-
-      this.portfolioService.getByUser(this.userId).subscribe(items => {
-      this.portfolioItems = items;
-    });
 
     this.userService.getUserById(this.userId).subscribe(user => {
       this.user = user;
@@ -104,30 +97,5 @@ ngOnInit(): void {
         },
         error: err => console.error('Błąd zapisu opisu', err)
       });
-  }
-  
-  //SEKCJA PORTFOLIO
-  deleteImagePortfolio(id: string) {
-  this.portfolioService.delete(id).subscribe(() => {
-    this.portfolioItems = this.portfolioItems.filter(p => p.id !== id);
-  });
-
-}
-
-  onFileSelectedPortfolio(event: any): void {
-    if (event.target.files.length > 0) {
-      this.selectedFile = event.target.files[0];
-    }
-  }
-
-  uploadPortfolio(): void {
-    if (!this.selectedFile) return;
-
-    this.portfolioService.uploadImage(this.selectedFile).subscribe({
-      next: () => {
-        this.selectedFile = null;
-      },
-      error: err => console.error('Błąd uploadu portfolio', err)
-    });
   }
 }
