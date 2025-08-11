@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ArtistDateService, CreateSlot, ScheduleSlot } from '../../service/artist-date.service';
 
@@ -9,13 +9,14 @@ import { ArtistDateService, CreateSlot, ScheduleSlot } from '../../service/artis
   styleUrls: ['./artist-date.component.css'],
 })
 export class ArtistDateComponent implements OnInit {
+  @Input() userId!: string;
+  @Input() isOwner = false;
   slots: ScheduleSlot[] = [];
-
   isNewOpen = false;
   isBookingOpen = false;
   currentSlot?: ScheduleSlot;
 
-slotForm!: FormGroup<{ dateTime: FormControl<string> }>;
+  slotForm!: FormGroup<{ dateTime: FormControl<string> }>;
   bookingForm!: FormGroup<{ clientName: FormControl<string>; contact: FormControl<string> }>;
 
   constructor(
