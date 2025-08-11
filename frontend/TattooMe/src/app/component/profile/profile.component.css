@@ -168,37 +168,6 @@
 .save-btn:hover {
   background-color: #bbb;
 }
-
-.portfolio .grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
-.portfolio .item {
-  background: #333;
-  padding: 0.5rem;
-  border-radius: 6px;
-  position: relative;
-}
-
-.portfolio .item img {
-  width: 100px;
-  height: 100px;
-  object-fit: cover;
-  border-radius: 4px;
-}
-
-.portfolio .item button {
-  position: absolute;
-  top: 4px;
-  right: 4px;
-  background: red;
-  border: none;
-  color: white;
-  border-radius: 50%;
-}
-
 @media (max-width: 600px) {
   .review h4 {
     flex-direction: column;
