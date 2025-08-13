@@ -25,7 +25,9 @@ public class UserService {
         this.userRepository = userRepository;
         this.passwordEncoder = new BCryptPasswordEncoder();
     }
-
+    public List<User> getUsersByRole(String role) {
+        return userRepository.findAllByRole(role);
+    }
     public void registerUser(RegisterRequest registerRequest){
         if(userRepository.findByNickname(registerRequest.getNickname()).isPresent()){
             throw new RuntimeException("Username is already taken");
