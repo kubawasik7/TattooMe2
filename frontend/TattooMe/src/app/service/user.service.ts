@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UUID } from 'node:crypto';
 import { Observable } from 'rxjs';
@@ -18,6 +18,10 @@ export interface User{
 export class UserService {
   private apiUrl = 'http://localhost:8080/api/users';
   constructor(private http: HttpClient) { }
+  getUsersByRole(role: 'tattoo_artist' | 'trainee'): Observable<User[]>{
+    const params = new HttpParams().set('role', role);
+    return this.http.get<User[]>(this.apiUrl, {params});
+  }
   getUsers() : Observable<User[]>{
     return this.http.get<User[]>(this.apiUrl);
   }
