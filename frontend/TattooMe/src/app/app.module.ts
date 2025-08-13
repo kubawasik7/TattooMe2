@@ -24,6 +24,7 @@ import { StyleComponent } from './component/profile/style/style.component';
 import { OfferComponent } from './component/profile/offer/offer.component';
 import { SpecialOfferComponent } from './component/profile/special-offer/special-offer.component';
 import { PortfolioComponent } from './component/profile/portfolio/portfolio.component';
+import { ArtistListComponent } from './component/artist-list/artist-list.component';
 const appRoutes: Routes = [
   { path: '', component: MainPageComponent },
   { path: 'login', component: LoginComponent },
@@ -56,7 +57,8 @@ const appRoutes: Routes = [
     StyleComponent,
     OfferComponent,
     SpecialOfferComponent,
-    PortfolioComponent
+    PortfolioComponent,
+    ArtistListComponent
   ],
   imports: [
     BrowserModule,
