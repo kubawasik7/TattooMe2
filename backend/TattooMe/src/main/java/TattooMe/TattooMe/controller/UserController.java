@@ -25,6 +25,10 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
+    @GetMapping
+    public List<User> getAllArtists(@RequestParam(value = "role", required = false) String role) {
+        return userService.getUsersByRole(role);
+    }
     @GetMapping("/{id}")
     public ResponseEntity<?> getUserById(@PathVariable UUID id) {
         return ResponseEntity.ok(userService.getUserById(String.valueOf(id)));
