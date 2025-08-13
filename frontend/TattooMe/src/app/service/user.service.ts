@@ -22,17 +22,8 @@ export class UserService {
     const params = new HttpParams().set('role', role);
     return this.http.get<User[]>(this.apiUrl, {params});
   }
-  getUsers() : Observable<User[]>{
-    return this.http.get<User[]>(this.apiUrl);
-  }
   getUserById(id: string): Observable<User> {
     return this.http.get<User>(`${this.apiUrl}/${id}`);
-  }
-  getTattooArtists() : Observable<User[]>{
-    return this.http.get<User[]>(`${this.apiUrl}/tattooArtist`);
-  }
-  getTrainees() : Observable<User[]>{
-    return this.http.get<User[]>(`${this.apiUrl}/trainee`);
   }
    updateUser(user: User): Observable<any> {
     return this.http.put(`${this.apiUrl}/userProfile`, user);
