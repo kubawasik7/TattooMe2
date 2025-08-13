@@ -10,7 +10,6 @@ import { RegisterComponent } from './component/register/register.component';
 import { RouterModule, Routes } from '@angular/router';
 import { ProfileComponent } from './component/profile/profile.component';
 import { TattooArtistListComponent } from './component/tattoo-artist-list/tattoo-artist-list.component';
-import { TraineeListComponent } from './component/trainee-list/trainee-list.component';
 import { MainPageComponent } from './component/main-page/main-page.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { AuthInterceptor } from './interceptor/auth.interceptor';
@@ -45,7 +44,6 @@ const appRoutes: Routes = [
     RegisterComponent,
     ProfileComponent,
     TattooArtistListComponent,
-    TraineeListComponent,
     MainPageComponent,
     ArtistDateComponent,
     UserProfileComponent,
