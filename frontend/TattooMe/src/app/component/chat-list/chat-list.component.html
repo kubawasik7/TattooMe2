@@ -1,0 +1,61 @@
+<div class="shell">
+  <div class="sidebar">
+    <div class="sidebar-header">Czaty</div>
+
+    <div class="chat-list" *ngIf="chats?.length; else empty">
+      <button
+        class="chat-item"
+        *ngFor="let c of chats"
+        [class.active]="c.senderId === activeChatId"
+        (click)="openChat(c.senderId)"
+      >
+        <div class="avatar" [attr.data-letter]="(c.receiverName || '?') | slice:0:1"></div>
+        <div class="meta">
+          <div class="name">{{ c.receiverName || 'Użytkownik' }}</div>
+        </div>
+      </button>
+    </div>
+
+    <ng-template #empty>
+      <div class="empty">Brak rozmów</div>
+    </ng-template>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="main" *ngIf="activeChatId; else pickChat">
+    <div class="header">
+      <div class="avatar big" [attr.data-letter]="activeChatName | slice:0:1"></div>
+      <div class="title">{{ activeChatName || 'Rozmowa' }}</div>
+    </div>
+
+    <div class="messages">
+  <div
+    class="msg"
+    *ngFor="let m of messages"
+    [class.sent]="m.senderId === currentUserId"
+    [class.received]="m.senderId !== currentUserId"
+  >
+    <div class="bubble">
+      <div class="text" *ngIf="m.content">{{ m.content }}</div>
+      <img
+        *ngIf="m.base64Attachment"
+        class="img"
+        [src]="'data:image/*;base64,' + m.base64Attachment"
+        alt="attachment"
+      />
+    </div>
+    <div class="time">{{ m.date | date:'dd.MM.yyyy HH:mm' }}</div>
+  </div>
+</div>
+
+    <form class="composer" [formGroup]="form" (ngSubmit)="send()">
+      <input class="input" formControlName="content" type="text" placeholder="Wpisz wiadomość..." />
+      <button class="send" type="submit" [disabled]="sending || (!form.value.content && !attachmentB64)">➤</button>
+    </form>
+  </div>
+
+  <ng-template #pickChat>
+    <div class="placeholder">Wybierz rozmowę po lewej</div>
+  </ng-template>
+</div>

@@ -22,6 +22,7 @@ import { OfferComponent } from './component/profile/offer/offer.component';
 import { SpecialOfferComponent } from './component/profile/special-offer/special-offer.component';
 import { PortfolioComponent } from './component/profile/portfolio/portfolio.component';
 import { ArtistListComponent } from './component/artist-list/artist-list.component';
+import { ChatListComponent } from './component/chat-list/chat-list.component';
 const appRoutes: Routes = [
   { path: '', component: MainPageComponent },
   { path: 'login', component: LoginComponent },
@@ -52,7 +53,8 @@ const appRoutes: Routes = [
     OfferComponent,
     SpecialOfferComponent,
     PortfolioComponent,
-    ArtistListComponent
+    ArtistListComponent,
+    ChatListComponent
   ],
   imports: [
     BrowserModule,
