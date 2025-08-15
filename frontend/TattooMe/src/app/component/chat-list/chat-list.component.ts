@@ -51,6 +51,14 @@ export class ChatListComponent implements OnInit {
     this.activeChatId = chatId;
     const c = this.chats.find(x => x.id === chatId);
     this.activeChatName = c?.receiverName || 'Rozmowa';
+    this.fetchMessages();
+  }
+  fetchMessages(keepPos=false): void {
+    if (!this.activeChatId) return;
+    const prev = this.messages.length;
+    this.messageService.getMessages(this.activeChatId).subscribe(list => {
+      this.messages = list;
+    });
   }
   
   send(): void {
