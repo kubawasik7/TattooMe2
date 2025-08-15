@@ -26,7 +26,7 @@ public class ChatService {
             User other = chat.getInitiator().getId().equals(userId) ? chat.getReceiver() : chat.getInitiator();
 
             ChatDTO chatDTO = new ChatDTO();
-            chatDTO.setSenderId(chat.getId());
+            chatDTO.setId(chat.getId());
 
             if (other != null) {
                 chatDTO.setReceiverId(other.getId());
@@ -53,7 +53,7 @@ public class ChatService {
 
     private ChatDTO toDto(Chat chat, UUID currentUserId) {
         ChatDTO dto = new ChatDTO();
-        dto.setSenderId(chat.getId());
+        dto.setId(chat.getId());
 
         User other = chat.getInitiator().getId().equals(currentUserId) ? chat.getReceiver() : chat.getInitiator();
 
