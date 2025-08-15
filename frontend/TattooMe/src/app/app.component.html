@@ -20,7 +20,7 @@
 
     <ng-template #loggedIn>
       <a [routerLink]="['/favorites', getUserId()]"><i class="fa fa-heart"></i> Ulubione</a>
-      <a href="#">Chat</a>
+      <a (click)="navigateTo('chats')">Chat</a>
       <div class="dropdown">
         <span><i class="fa fa-user"></i> {{authService.getNickname()}}</span>
        
