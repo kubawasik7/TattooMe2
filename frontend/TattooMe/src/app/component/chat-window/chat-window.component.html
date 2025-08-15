@@ -1,0 +1,16 @@
+<h2>Rozmowa</h2>
+
+<div class="chat-box">
+  <div *ngFor="let msg of messages" class="message">
+    <div><strong>{{ msg.senderId }}</strong> ({{ msg.date | date:'short' }})</div>
+    <div>{{ msg.content }}</div>
+    <img *ngIf="msg.base64Attachment" [src]="'data:image/*;base64,' + msg.base64Attachment" class="chat-img"/>
+    <hr />
+  </div>
+</div>
+
+<form [formGroup]="messageForm" (ngSubmit)="sendMessage()" class="message-form">
+  <textarea formControlName="content" rows="3" placeholder="Wpisz wiadomość..."></textarea>
+  <input type="file" (change)="onFileSelected($event)" />
+  <button type="submit">Wyślij</button>
+</form>
