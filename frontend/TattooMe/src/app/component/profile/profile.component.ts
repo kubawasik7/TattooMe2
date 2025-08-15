@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { User, UserService } from '../../service/user.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CreateOffer, Offer, ProfileService } from '../../service/profile.service';
 import { TattooStyle } from '../../model/tattoo-style';
 import { WorkStyleService } from '../../service/work-style.service';
@@ -11,6 +11,7 @@ import { Portfolio } from '../../model/portfolio';
 import { Flash } from '../../model/flash';
 import { FlashService } from '../../service/flash.service';
 import { AuthService } from '../../service/auth.service';
+import { ChatService } from '../../service/chat.service';
 
 @Component({
   selector: 'app-profile',
@@ -37,7 +38,8 @@ export class ProfileComponent implements OnInit{
 
   constructor(private route: ActivatedRoute,
     private userService: UserService, private profileService: ProfileService,
-    private favoriteService: FavoriteService, private authService: AuthService
+    private favoriteService: FavoriteService, private authService: AuthService,
+    private chatService: ChatService, private router: Router
   ){}
 
 
@@ -59,6 +61,12 @@ export class ProfileComponent implements OnInit{
       } else {
         this.previewUrl = null;
       }
+    });
+  }
+    startChat(): void {
+    this.chatService.startChat(this.userId).subscribe({
+      next: chat => this.router.navigate(['/chat', chat.senderId]),
+      error: err => console.error('Błąd podczas rozpoczynania czatu', err)
     });
   }
    onFileSelected(event: Event): void {
