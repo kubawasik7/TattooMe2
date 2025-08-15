@@ -14,7 +14,6 @@ import java.util.UUID;
 @RequestMapping("/api/styles")
 @CrossOrigin(origins = "http://localhost:4200")
 public class WorkStyleController {
-
     @Autowired
     private WorkStyleService service;
     @GetMapping("/all")
