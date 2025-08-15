@@ -35,6 +35,8 @@ const appRoutes: Routes = [
   {path: 'me/:id', component: UserInfoComponent},
   {path: 'favorites/:id', component: FavoriteComponent},
   {path: 'contact', component: ContactComponent},
+  { path: 'chat/:id', component: ChatWindowComponent },
+  { path: 'chats', component: ChatListComponent },
   { path: '**', redirectTo: '' }
 ];
 
