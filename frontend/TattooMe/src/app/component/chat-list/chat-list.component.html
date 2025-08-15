@@ -6,8 +6,8 @@
       <button
         class="chat-item"
         *ngFor="let c of chats"
-        [class.active]="c.senderId === activeChatId"
-        (click)="openChat(c.senderId)"
+        [class.active]="c.id === activeChatId"
+        (click)="openChat(c.id)"
       >
         <div class="avatar" [attr.data-letter]="(c.receiverName || '?') | slice:0:1"></div>
         <div class="meta">

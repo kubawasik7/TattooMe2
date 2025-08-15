@@ -65,7 +65,7 @@ export class ProfileComponent implements OnInit{
   }
     startChat(): void {
     this.chatService.startChat(this.userId).subscribe({
-      next: chat => this.router.navigate(['/chat', chat.senderId]),
+      next: chat => this.router.navigate(['/chat', chat.id]),
       error: err => console.error('Błąd podczas rozpoczynania czatu', err)
     });
   }

@@ -42,14 +42,14 @@ export class ChatListComponent implements OnInit {
     this.chatService.getUserChats().subscribe(chats => {
       this.chats = chats;
       if (!this.activeChatId && chats.length) {
-        this.openChat(chats[0].senderId);
+        this.openChat(chats[0].id);
       }
     });
   }
 
   openChat(chatId: string): void {
     this.activeChatId = chatId;
-    const c = this.chats.find(x => x.senderId === chatId);
+    const c = this.chats.find(x => x.id === chatId);
     this.activeChatName = c?.receiverName || 'Rozmowa';
   }
   
