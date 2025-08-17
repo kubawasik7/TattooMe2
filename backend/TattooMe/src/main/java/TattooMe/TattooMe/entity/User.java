@@ -10,6 +10,8 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.type.SqlTypes;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -49,4 +51,13 @@ public class User {
     private String phoneNumber;
     @Column(name = "role", length = 20)
     private String role;
+
+    @OneToMany(mappedBy = "owner")
+    @JsonIgnore
+    private List<TattooStudio> ownedStudios = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private List<TattooStudioArtist> studiosAsArtist = new ArrayList<>();
+
 }
