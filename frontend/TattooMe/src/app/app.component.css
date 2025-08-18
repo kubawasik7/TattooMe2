@@ -119,3 +119,21 @@ body {
   font-size: 18px;
   overflow-y: auto;
 }
+.btn {
+  background-color: #333;
+  color: #fff;            
+  font-weight: bold;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #444;
+}
+
+.btn:active {
+  background-color: #666;
+}

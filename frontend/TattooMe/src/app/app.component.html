@@ -14,8 +14,8 @@
 
   <div class="navbar-right">
     <ng-container *ngIf="!authService.isLoggedIn(); else loggedIn">
-      <button (click)="onLoginClick()">Zaloguj się</button>
-      <button (click)="navigateTo('register')">Zarejestruj się</button>
+      <button class="btn" (click)="onLoginClick()">Zaloguj się</button>
+      <button class="btn" (click)="navigateTo('register')">Zarejestruj się</button>
     </ng-container>
 
     <ng-template #loggedIn>
