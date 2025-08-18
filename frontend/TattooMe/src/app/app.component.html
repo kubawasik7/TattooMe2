@@ -19,7 +19,7 @@
     </ng-container>
 
     <ng-template #loggedIn>
-      <a [routerLink]="['/favorites', getUserId()]"><i class="fa fa-heart"></i> Ulubione</a>
+      <a [routerLink]="['/favorites', getUserId()]" routerLinkActive="active"><i class="fa fa-heart"></i> Ulubione</a>
       <a (click)="navigateTo('chats')">Chat</a>
       <div class="dropdown">
         <span><i class="fa fa-user"></i> {{authService.getNickname()}}</span>
@@ -32,8 +32,8 @@
 <div class="container">
   <aside class="sidebar-left">
     <ng-container *ngIf="authService.isLoggedIn()">
-      <a [routerLink]="['/profile', getUserId()]">Twój profil</a>
-      <a href="#">Rezerwacje</a>
+      <a [routerLink]="['/profile', getUserId()]" routerLinkActive="active">Twój profil</a>
+      <a [routerLink]="['/#']" routerLinkActive="active">Rezerwacje</a>
     </ng-container>
   </aside>
 
