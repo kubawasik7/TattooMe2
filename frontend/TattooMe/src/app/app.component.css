@@ -104,6 +104,14 @@ body {
   font-size: 15px;
 }
 
+.sidebar-right a.active {
+  font-weight: bold;
+}
+
+.sidebar-left a.active {
+  font-weight: bold;
+}
+
 .main-content {
   flex-grow: 1;
   background-color: #434343;
