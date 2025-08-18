@@ -57,12 +57,16 @@ body {
   display: flex;
   align-items: center;
   gap: 5px;
+  font-size: 18px;
+  font-weight: bold;
 }
 .dropdown > span {
   color: white;
   display: flex;
   align-items: center;
   gap: 5px;
+  font-size: 18px;
+  font-weight: bold;
 }
 .dropdown {
   position: relative;
