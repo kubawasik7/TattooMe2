@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 import { AuthService } from './service/auth.service';
 import { jwtDecode } from 'jwt-decode';
 
@@ -11,21 +10,12 @@ import { jwtDecode } from 'jwt-decode';
 })
 export class AppComponent {
   title = 'TattooMe';
-  constructor(private router: Router, public authService: AuthService) { }
+  constructor(public authService: AuthService) { }
 
-  onLoginClick(): void {
-    console.log('Przycisk logowania został kliknięty.');
-        this.router.navigate(['/login']);
-  }
-
-  
-  navigateTo(path: string): void {
-    this.router.navigate([`/${path}`]);
-  }
    onLogout(): void {
     this.authService.logout();
-    console.log('logout');
   }
+
   getUserId(): string | null {
   const token = localStorage.getItem('token');
   if (!token) return null;
