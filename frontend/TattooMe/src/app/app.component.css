@@ -38,6 +38,10 @@ body {
   color: white;
   font-weight: bold;
 }
+.nav-list a.active {
+  color: #ffa600;
+  border-bottom: px solid #ffcc00;
+}
 .navbar-right {
   display: flex;
   align-items: center;

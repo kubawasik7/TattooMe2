@@ -6,10 +6,10 @@
 <nav class="navbar">
   <ul class="nav-list">
     <li><a href="#">Studia tatuażu</a></li>
-    <li><a (click)="navigateTo('tattooArtist')">Tatuatorzy</a></li>
-    <li><a (click)="navigateTo('trainee')">Praktykanci</a></li>
-    <li><a href="#">Warto wiedzieć</a></li>
-    <li><a (click)="navigateTo('contact')">Kontakt</a></li>
+    <li><a routerLink="/tattooArtist" routerLinkActive="active">Tatuatorzy</a></li>
+    <li><a routerLink="/trainee" routerLinkActive="active">Praktykanci</a></li>
+    <li><a routerLink="/#" routerLinkActive="active">Warto wiedzieć</a></li>
+    <li><a routerLink="/contact" routerLinkActive="active">Kontakt</a></li>
   </ul>
 
   <div class="navbar-right">
