@@ -21,8 +21,6 @@ export class StyleComponent implements OnInit {
   constructor(private workStyleService: WorkStyleService) { }
 
   ngOnInit(): void {
-    this.workStyleService.getAllStyles().subscribe(styles => this.allStyles = styles);
-
     this.workStyleService.getUserStyles(this.userId).subscribe(styles => {
       this.styles = styles;
       this.selectedStyleIds = styles.map(s => s.id);
@@ -30,6 +28,7 @@ export class StyleComponent implements OnInit {
 
   }
   startEditing(): void {
+    this.workStyleService.getAllStyles().subscribe(styles => this.allStyles = styles);
     this.editStyleMode = true;
     this.originalSelectedStyleIds = [...this.selectedStyleIds]; 
   }
