@@ -1,1 +1,41 @@
-<p>artist-date works!</p>
+<div class="date-list">
+ 
+  <div *ngIf="isOwner" class="mb-3">
+  <button class="btn btn-primary" (click)="openNew()">+ Dodaj termin</button>
+</div>
+<div *ngIf="isNewOpen" class="new-slot-form">
+  <form [formGroup]="slotForm" (ngSubmit)="saveNew()">
+    <input type="datetime-local" formControlName="dateTime" class="form-control" />
+    <div class="button-row">
+      <button type="submit" class="btn btn-success">Zapisz</button>
+      <button type="button" class="btn btn-secondary" (click)="closeNew()">Anuluj</button>
+    </div>
+  </form>
+</div>
+<div class="date-list">
+  <a>Wolne terminy</a>
+  <div *ngFor="let slot of slots" class="date-row">
+    <button 
+      class="date-button" 
+      (click)="!isOwner && book(slot)">
+      {{ slot.dateTime | date: 'medium' }}
+
+    </button>
+
+    <div *ngIf="isOwner" class="btn-group">
+      <button class="btn btn-sm btn-danger" (click)="delete(slot.id)">Usuń</button>
+      <button class="btn btn-sm btn-outline-secondary" (click)="toggle(slot.id)">
+        {{ slot.available ? 'Dezaktywuj' : 'Aktywuj' }}
+      </button>
+    </div>
+  </div>
+</div>
+
+</div>
+<app-visit
+  *ngIf="showVisitModal"
+  [artistId]="userId"
+  [artistDateId]="selectedSlotId"
+  (close)="showVisitModal = false"
+></app-visit>
+

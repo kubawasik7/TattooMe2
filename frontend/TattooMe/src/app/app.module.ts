@@ -12,7 +12,7 @@ import { ProfileComponent } from './component/profile/profile.component';
 import { MainPageComponent } from './component/main-page/main-page.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { AuthInterceptor } from './interceptor/auth.interceptor';
-import { ArtistDateComponent } from './component/artist-date/artist-date.component';
+import { ArtistDateComponent } from './component/profile/artist-date/artist-date.component';
 import { UserProfileComponent } from './component/user-profile/user-profile.component';
 import { UserInfoComponent } from './component/user-info/user-info.component';
 import { FavoriteComponent } from './component/favorite/favorite.component';
