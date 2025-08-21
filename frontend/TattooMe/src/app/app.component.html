@@ -33,6 +33,7 @@
     <ng-container *ngIf="authService.isLoggedIn()">
       <a [routerLink]="['/profile', getUserId()]" routerLinkActive="active">Twój profil</a>
       <a [routerLink]="['/#']" routerLinkActive="active">Rezerwacje</a>
+      <a [routerLink]="['/createStudio']" routerLinkActive="active">Studio</a>
     </ng-container>
   </aside>
 
