@@ -1,1 +1,29 @@
-<p>visit works!</p>
+<div class="modal-backdrop">
+  <div class="modal-window">
+    <h2>Zarezerwuj wizytę</h2>
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <label for="comment">Komentarz</label>
+      <textarea id="comment" formControlName="comment" placeholder="Komentarz"></textarea>
+
+      <ng-container *ngIf="showHealthForm">
+        <label for="allergies">Alergie</label>
+        <input id="allergies" formControlName="allergies" placeholder="Alergie" />
+
+        <label for="chronicDiseases">Choroby przewlekłe</label>
+        <input id="chronicDiseases" formControlName="chronicDiseases" placeholder="Choroby przewlekłe" />
+
+        <label for="medicines">Przyjmowane leki</label>
+        <input id="medicines" formControlName="medicines" placeholder="Leki" />
+
+        <label for="experiences">Doświadczenia związane z tatuażem</label>
+        <textarea id="experiences" formControlName="experiences" placeholder="Doświadczenia"></textarea>
+      </ng-container>
+
+      <div class="buttons">
+        <button type="submit">Rezerwuj</button>
+        <button type="button" (click)="cancel()">Anuluj</button>
+      </div>
+    </form>
+  </div>
+</div>
