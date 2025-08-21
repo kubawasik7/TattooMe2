@@ -24,6 +24,7 @@ import { PortfolioComponent } from './component/profile/portfolio/portfolio.comp
 import { ArtistListComponent } from './component/artist-list/artist-list.component';
 import { ChatListComponent } from './component/chat-list/chat-list.component';
 import { ChatWindowComponent } from './component/chat-window/chat-window.component';
+import { VisitComponent } from './component/profile/visit/visit.component';
 const appRoutes: Routes = [
   { path: '', component: MainPageComponent },
   { path: 'login', component: LoginComponent },
@@ -58,7 +59,8 @@ const appRoutes: Routes = [
     PortfolioComponent,
     ArtistListComponent,
     ChatListComponent,
-    ChatWindowComponent
+    ChatWindowComponent,
+    VisitComponent
   ],
   imports: [
     BrowserModule,
