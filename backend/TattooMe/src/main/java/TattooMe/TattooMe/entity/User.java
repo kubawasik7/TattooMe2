@@ -60,4 +60,7 @@ public class User {
     @JsonIgnore
     private List<TattooStudioArtist> studiosAsArtist = new ArrayList<>();
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private PersonInfo personInfo;
 }
