@@ -18,10 +18,9 @@ public class PersonInfoController {
     }
     @GetMapping("/me")
     public ResponseEntity<PersonInfo> getInfo(@AuthenticationPrincipal CustomUserDetails user) {
-        PersonInfo dto = personInfoService.getUserInfo(user.getId());
-        System.out.println("Zwracam DTO: " + dto);
-        System.out.println(dto.getAllergies());
-        return ResponseEntity.ok(personInfoService.getUserInfo(user.getId()));
+        return personInfoService.getUserInfo(user.getId())
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.ok(null));
     }
 
     @PutMapping

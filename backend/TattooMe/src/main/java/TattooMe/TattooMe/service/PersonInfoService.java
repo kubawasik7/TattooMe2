@@ -7,6 +7,7 @@ import TattooMe.TattooMe.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -18,11 +19,9 @@ public class PersonInfoService {
         this.personInfoRepository = personInfoRepository;
         this.userRepository = userRepository;
     }
-    public PersonInfo getUserInfo(UUID userId) {
-        return personInfoRepository.findByUser_Id(userId)
-                .orElseThrow(() -> new EntityNotFoundException("Dane użytkownika nie istnieją"));
+    public Optional<PersonInfo> getUserInfo(UUID userId) {
+        return personInfoRepository.findByUser_Id(userId);
     }
-
 
     public PersonInfo updateUserInfo(UUID userId, PersonInfoDTO dto) {
         PersonInfo info = personInfoRepository.findByUser_Id(userId)
