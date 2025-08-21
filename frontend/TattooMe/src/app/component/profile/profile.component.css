@@ -4,14 +4,17 @@
 }
 .profile-header {
   display: flex;
+  flex-direction: row;         /* ← poziomo obok siebie */
+  justify-content: center;     /* ← wyśrodkowanie w poziomie */
+  align-items: center;         /* ← wyśrodkowanie w pionie */
   gap: 2rem;
   margin-bottom: 2rem;
-  align-items: center;
-  flex-wrap: wrap;
+  flex-wrap: wrap;             /* ← zawijanie w razie małego ekranu */
 }
+
 .profile-picture-wrapper {
-  width: 150px;
-  height: 150px;
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
   overflow: hidden;
   cursor: pointer;
@@ -28,19 +31,30 @@
   background-color: #ffffff;
   color: #000;
   border: none;
-  padding: 8px 16px;
+  padding: 10px 20px;
   font-weight: bold;
   border-radius: 8px;
   cursor: pointer;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
+
 .btn.btn-primary:hover {
   background-color: #dddddd;
 }
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* lub center, jeśli chcesz wyśrodkować tekst */
+}
 .profile-info .nickname {
-  font-size: 1.8rem;
+  font-size: 2.4rem;    /* było 1.8rem */
   font-weight: bold;
   color: #f0f0f0;
+  text-align: center;   /* jeśli tekst ma być wyśrodkowany */
 }
+
 .rating {
   font-size: 1rem;
   color: gold;
