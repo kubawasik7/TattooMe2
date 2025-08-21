@@ -26,6 +26,7 @@ import { ChatListComponent } from './component/chat-list/chat-list.component';
 import { ChatWindowComponent } from './component/chat-window/chat-window.component';
 import { VisitComponent } from './component/profile/visit/visit.component';
 import { CreateStudioComponent } from './component/create-studio/create-studio.component';
+import { StudioListComponent } from './component/studio-list/studio-list.component';
 const appRoutes: Routes = [
   { path: '', component: MainPageComponent },
   { path: 'login', component: LoginComponent },
@@ -62,7 +63,8 @@ const appRoutes: Routes = [
     ChatListComponent,
     ChatWindowComponent,
     VisitComponent,
-    CreateStudioComponent
+    CreateStudioComponent,
+    StudioListComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,29 @@
+<div class="tattoo-me">
+  <section class="tm-list">
+    <article class="tm-card" *ngFor="let studio of studios | paginate: {
+      itemsPerPage: 5,
+      currentPage: p,
+      totalItems: studios.length
+    }">
+      <div class="avatar">zdjęcie<br/>profilowe</div>
+      <div class="info">
+      
+          <h2 class="nickname">{{ studio.name }}</h2>
+  
+        <div class="meta">
+          <span class="rating">★ 5/5 </span>
+          <span class="location">📍 Miasto</span>
+        </div>
+        <p class="description">Opis tatuatora</p>
+        <p class="promo">Specjalna promocja</p>
+      </div>
+    </article>
+  </section>
+
+  <pagination-controls
+    (pageChange)="p = $event"
+    [autoHide]="true"
+    previousLabel="‹ Prev"
+    nextLabel="Next ›"
+  ></pagination-controls>
+</div>
