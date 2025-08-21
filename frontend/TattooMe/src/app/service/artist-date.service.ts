@@ -21,6 +21,11 @@ private base = 'http://localhost:8080/api/schedule';
   getSlots(): Observable<ScheduleSlot[]> {
     return this.http.get<ScheduleSlot[]>(this.base);
   }
+  
+  getAvailableDates(artistId: string): Observable<ScheduleSlot[]> {
+    return this.http.get<ScheduleSlot[]>(`${this.base}/available?artistId=${artistId}`);
+  }
+
   createSlot(o: CreateSlot): Observable<ScheduleSlot> {
     return this.http.post<ScheduleSlot>(this.base, o);
   }
