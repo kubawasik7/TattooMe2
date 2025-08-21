@@ -82,9 +82,15 @@ public class SecurityConfig {
         http.authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/users/tattooArtist").permitAll()
-                .requestMatchers("/api/**").authenticated()
-                .anyRequest().permitAll()
+                .requestMatchers(HttpMethod.GET,"/api/studios").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/users/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/portfolio/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/flashes/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/schedule/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/styles/user/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/offers").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/users/**").permitAll()
+                .anyRequest().authenticated()
         );
 
         http.httpBasic(AbstractHttpConfigurer::disable);
