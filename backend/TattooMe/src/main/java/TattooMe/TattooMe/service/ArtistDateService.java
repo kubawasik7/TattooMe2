@@ -26,6 +26,12 @@ public class ArtistDateService {
                 .map(this::toDto)
                 .toList();
     }
+    public List<ScheduleDTO> getAvailableByArtist(UUID artistId) {
+        return dateRepository.findByTattooArtist_IdAndIsAvailableTrueOrderByDateAsc(artistId)
+                .stream()
+                .map(this::toDto)
+                .toList();
+    }
 
     @Transactional
     public ScheduleDTO createSlot(UUID artistId, CreateScheduleDTO dto) {

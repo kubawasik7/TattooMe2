@@ -9,4 +9,5 @@ import java.util.UUID;
 @Repository
 public interface ArtistDateRepository extends JpaRepository<ArtistDate, UUID> {
     List<ArtistDate> findAllByTattooArtistId(UUID userId);
+    List<ArtistDate> findByTattooArtist_IdAndIsAvailableTrueOrderByDateAsc(UUID artistId);
 }

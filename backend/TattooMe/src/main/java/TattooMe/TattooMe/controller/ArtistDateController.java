@@ -25,6 +25,10 @@ public class ArtistDateController {
     public List<ScheduleDTO> getArtistDates(@AuthenticationPrincipal CustomUserDetails user){
         return artistDateService.listSlots(user.getId());
     }
+    @GetMapping("/available")
+    public List<ScheduleDTO> getAvailableSlots(@RequestParam UUID artistId) {
+        return artistDateService.getAvailableByArtist(artistId);
+    }
     @PostMapping
     public ResponseEntity<ScheduleDTO> create(
             @AuthenticationPrincipal CustomUserDetails user,
