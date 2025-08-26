@@ -3,9 +3,11 @@ package TattooMe.TattooMe.service;
 import TattooMe.TattooMe.dto.NewVisitDTO;
 import TattooMe.TattooMe.entity.*;
 import TattooMe.TattooMe.repository.*;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -19,47 +21,42 @@ public class VisitService {
     private final UserRepository userRepository;
 
     @Transactional
-    public void createVisit(NewVisitDTO newVisitDTO, UUID clientId) {
+    public void createVisit(UUID clientId, NewVisitDTO newVisitDTO) {
         Visit visit = new Visit();
+        visit.setClient(userRepository.getReferenceById(clientId));
 
-        User client = userRepository.getReferenceById(clientId);
         ArtistDate artistDate = artistDateRepository.findById(newVisitDTO.getArtistDateId())
-                .orElseThrow(() -> new IllegalArgumentException("Brak terminu"));
-
-        if (!artistDate.isAvailable()) {
-            throw new IllegalStateException("Termin niedostępny");
-        }
-
-        User artist = artistDate.getTattooArtist();
-        Status status = statusRepository.findByName("OCZEKUJĄCA");
-
-        visit.setClient(client);
-        visit.setArtist(artist);
+                .orElseThrow(() -> new EntityNotFoundException("Brak terminu"));
         visit.setArtistDate(artistDate);
-        visit.setComment(newVisitDTO.getComment());
-        visit.setStatus(status);
+        visit.setArtist(artistDate.getTattooArtist());
 
         if (newVisitDTO.getFlashId() != null) {
             Flash flash = flashRepository.findById(newVisitDTO.getFlashId())
-                    .orElseThrow(() -> new IllegalArgumentException("Nie znaleziono flasha"));
+                    .orElseThrow(() -> new EntityNotFoundException("Brak flasha"));
             visit.setFlash(flash);
         }
 
-        if (client.getPersonInfo() == null) {
+        visit.setComment(newVisitDTO.getComment());
+
+        Status status = statusRepository.findByName("OCZEKUJĄCA");
+        visit.setStatus(status);
+
+        Optional<PersonInfo> existing = personInfoRepository.findByUser_Id(clientId);
+        if (existing.isPresent()) {
+            visit.setPersonInfo(existing.get());
+        } else if (
+                newVisitDTO.getAllergies() != null || newVisitDTO.getChronicDiseases() != null ||
+                        newVisitDTO.getMedicines() != null || newVisitDTO.getExperiences() != null
+        ) {
             PersonInfo personInfo = new PersonInfo();
-            personInfo.setUser(client);
+            personInfo.setUser(userRepository.getReferenceById(clientId));
             personInfo.setAllergies(newVisitDTO.getAllergies());
             personInfo.setChronicDiseases(newVisitDTO.getChronicDiseases());
             personInfo.setMedicines(newVisitDTO.getMedicines());
             personInfo.setExperiences(newVisitDTO.getExperiences());
             personInfoRepository.save(personInfo);
             visit.setPersonInfo(personInfo);
-        } else {
-            visit.setPersonInfo(client.getPersonInfo());
         }
-
-        artistDate.setAvailable(false);
-
         visitRepository.save(visit);
     }
 }
