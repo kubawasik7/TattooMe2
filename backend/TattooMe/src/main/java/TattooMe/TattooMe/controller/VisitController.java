@@ -17,9 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class VisitController {
     private final VisitService visitService;
     @PostMapping
-    public ResponseEntity<Void> createVisit(@RequestBody NewVisitDTO newVisitDTO, @AuthenticationPrincipal CustomUserDetails user)
-    {
-        visitService.createVisit(newVisitDTO, user.getId());
+    public ResponseEntity<Void> createVisit(@AuthenticationPrincipal CustomUserDetails user, @RequestBody NewVisitDTO newVisitDTO) {
+        visitService.createVisit(user.getId(), newVisitDTO);
         return ResponseEntity.ok().build();
     }
 }
