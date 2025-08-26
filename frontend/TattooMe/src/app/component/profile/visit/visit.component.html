@@ -3,24 +3,30 @@
     <h2>Zarezerwuj wizytę</h2>
 
     <form [formGroup]="form" (ngSubmit)="submit()">
-      <label for="comment">Komentarz</label>
-      <textarea id="comment" formControlName="comment" placeholder="Komentarz"></textarea>
+      <label>Wzór tatuażu:</label>
+      <select formControlName="flashId">
+        <option value="">Brak wzoru</option>
+        <option *ngFor="let flash of flashList" [value]="flash.id">Wzór {{ flash.id }}</option>
+      </select>
 
-      <ng-container *ngIf="showHealthForm">
-        <label for="allergies">Alergie</label>
-        <input id="allergies" formControlName="allergies" placeholder="Alergie" />
+      <label>Komentarz:</label>
+      <textarea formControlName="comment" placeholder="Komentarz"></textarea>
 
-        <label for="chronicDiseases">Choroby przewlekłe</label>
-        <input id="chronicDiseases" formControlName="chronicDiseases" placeholder="Choroby przewlekłe" />
+      <div *ngIf="showHealthForm">
+        <label>Alergie:</label>
+        <input formControlName="allergies" placeholder="Alergie" />
 
-        <label for="medicines">Przyjmowane leki</label>
-        <input id="medicines" formControlName="medicines" placeholder="Leki" />
+        <label>Choroby przewlekłe:</label>
+        <input formControlName="chronicDiseases" placeholder="Choroby przewlekłe" />
 
-        <label for="experiences">Doświadczenia związane z tatuażem</label>
-        <textarea id="experiences" formControlName="experiences" placeholder="Doświadczenia"></textarea>
-      </ng-container>
+        <label>Leki:</label>
+        <input formControlName="medicines" placeholder="Leki" />
 
-      <div class="buttons">
+        <label>Doświadczenia:</label>
+        <input formControlName="experiences" placeholder="Doświadczenia" />
+      </div>
+
+      <div class="button-row">
         <button type="submit">Rezerwuj</button>
         <button type="button" (click)="cancel()">Anuluj</button>
       </div>
