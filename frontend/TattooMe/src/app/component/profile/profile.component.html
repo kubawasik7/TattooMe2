@@ -3,33 +3,38 @@
     <div class="profile-picture-wrapper" (click)="fileInput.click()">
       <img [src]="previewUrl || defaultAvatar" class="profile-picture" alt="Avatar">
     </div>
+
     <input #fileInput type="file" accept="image/*" style="display: none" (change)="onFileSelected($event)" />
 
     <button *ngIf="selectedFile" (click)="upload()" class="btn btn-primary">
       Zapisz zdjęcie
     </button>
+
     <div class="profile-info">
-      <h2 class="nickname">{{user.nickname}} <span class="rating">★ 4.5/5 (1230)</span></h2>
+      <h2 class="nickname">{{user.nickname}} <h2 class="rating">★ 4.5/5 (1230)</h2></h2>
       <p class="location">Miasto, ulica 123/1</p>
-      <button class="btn-message">Napisz do nas</button>
+      <app-style [userId]="userId" [isOwner]="isOwner"></app-style>
+    </div>
+
+    <div class="profile-buttons">
+      <button (click)="startChat()" class="button-chat">💬 Wyślij wiadomość</button>
+      <button (click)="addToFavorites(user.id)" class="button-fav">❤️ Dodaj do ulubionych</button>
     </div>
   </section>
-   <button (click)="startChat()" class="btn btn-primary">💬 Wyślij wiadomość</button>
 
-  <button (click)="addToFavorites(user.id)">❤️ Dodaj do ulubionych</button>
-
-  <app-style [userId]="userId" [isOwner]="isOwner"></app-style>
-
-  <div class="description-section">
-    <p *ngIf="!editing; else editTpl">
+   
+  <div class="description">
+     <p *ngIf="!editing; else editTpl">
       {{ user.description || 'Brak opisu...' }}
-      <button class="btn btn-sm" (click)="startEdit()">Edytuj</button>
+      <button class="btn btn-sm edit-btn" (click)="startEdit()">
+        <i class="fas fa-pen"></i>
+      </button>
     </p>
 
     <ng-template #editTpl>
-      <textarea [(ngModel)]="draftDescription" rows="3"></textarea>
-      <button class="btn btn-sm" (click)="saveDescription()">✔</button>
-      <button class="btn btn-sm" (click)="cancelEdit()">✖</button>
+      <textarea [(ngModel)]="draftDescription" rows="3" #autoResize (input)="adjustHeight(autoResize)"></textarea>
+      <button class="button-edit" (click)="saveDescription()">✔</button>
+      <button class="button-edit" (click)="cancelEdit()">✖</button>
     </ng-template>
   </div>
 

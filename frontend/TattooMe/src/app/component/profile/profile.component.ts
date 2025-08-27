@@ -91,13 +91,23 @@ export class ProfileComponent implements OnInit{
       });
   }
   startEdit(): void {
-    this.draftDescription = this.description;
+    this.draftDescription = this.user.description;
     this.editing = true;
+    setTimeout(() => {
+      const textarea = document.querySelector<HTMLTextAreaElement>('textarea');
+      if (textarea) {
+        this.adjustHeight(textarea);
+      }
+    }, 0);
   }
 
   cancelEdit(): void {
     this.editing = false;
     this.draftDescription = '';
+  }
+   adjustHeight(element: HTMLTextAreaElement) {
+    element.style.height = 'auto'; // reset wysokości
+    element.style.height = element.scrollHeight + 'px'; // dopasowanie do treści
   }
   //SEKCJA FAVORITE
   addToFavorites(artistId: string) {

@@ -19,10 +19,12 @@
         {{ style.name }}
       </span>
     </ng-container>
+      <button  *ngIf="!editStyleMode && isOwner" class="btn btn-sm edit-btn" (click)="startEditing()">
+        <i class="fas fa-pen"></i>
+      </button>
   </div>
 
   <div class="edit-actions">
-    <button  *ngIf="!editStyleMode && isOwner" class="edit-btn" (click)="startEditing()">Edytuj</button>
     <div *ngIf="editStyleMode">
       <button *ngIf="isOwner" class="save-btn" (click)="saveStyles()">Zapisz</button>
       <button class="cancel-btn" (click)="cancelEditing()">Anuluj</button>

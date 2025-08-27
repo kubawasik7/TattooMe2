@@ -30,7 +30,19 @@
   color: black;
 }
 
-.edit-btn,
+.edit-btn {
+  background: transparent;
+  border: none;
+  color: #aaa;
+  cursor: pointer;
+  margin-left: 8px;
+  font-size: 1.1rem;
+  transition: color 0.2s ease;
+}
+
+.edit-btn:hover {
+  color: #fff;
+}
 .save-btn,
 .cancel-btn {
   padding: 6px 12px;
