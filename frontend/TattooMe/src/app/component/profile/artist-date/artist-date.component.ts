@@ -19,6 +19,7 @@ export class ArtistDateComponent implements OnInit {
   selectedSlotId = '';
   slotForm!: FormGroup<{ dateTime: FormControl<string> }>;
   bookingForm!: FormGroup<{ clientName: FormControl<string>; contact: FormControl<string> }>;
+  showAll = false;
 
   constructor(
     private artistDateService: ArtistDateService,
