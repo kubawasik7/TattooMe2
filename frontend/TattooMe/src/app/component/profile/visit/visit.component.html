@@ -1,34 +1,48 @@
 <div class="modal-backdrop">
   <div class="modal-window">
-    <h2>Zarezerwuj wizytę</h2>
+    <h2 class="modal-title">Zarezerwuj wizytę</h2>
 
     <form [formGroup]="form" (ngSubmit)="submit()">
-      <label>Wzór tatuażu:</label>
-      <select formControlName="flashId">
-        <option value="">Brak wzoru</option>
-        <option *ngFor="let flash of flashList" [value]="flash.id">Wzór {{ flash.id }}</option>
-      </select>
+      <div class="form-group">
+        <label for="flash">Wzór tatuażu</label>
+        <select id="flash" formControlName="flashId" class="form-control">
+          <option value="">Brak wzoru</option>
+          <option *ngFor="let flash of flashList" [value]="flash.id">Wzór {{ flash.id }}</option>
+        </select>
+      </div>
 
-      <label>Komentarz:</label>
-      <textarea formControlName="comment" placeholder="Komentarz"></textarea>
+      <div class="form-group">
+        <label for="comment">Komentarz</label>
+        <textarea id="comment" formControlName="comment" placeholder="Komentarz"></textarea>
+      </div>
 
-      <div *ngIf="showHealthForm">
-        <label>Alergie:</label>
-        <input formControlName="allergies" placeholder="Alergie" />
+      <div *ngIf="showHealthForm" class="health-section">
+        <h3>Dane zdrowotne</h3>
 
-        <label>Choroby przewlekłe:</label>
-        <input formControlName="chronicDiseases" placeholder="Choroby przewlekłe" />
+        <div class="form-group">
+          <label for="allergies">Alergie</label>
+          <input id="allergies" formControlName="allergies" placeholder="Alergie" />
+        </div>
 
-        <label>Leki:</label>
-        <input formControlName="medicines" placeholder="Leki" />
+        <div class="form-group">
+          <label for="chronicDiseases">Choroby przewlekłe</label>
+          <input id="chronicDiseases" formControlName="chronicDiseases" placeholder="Choroby przewlekłe" />
+        </div>
 
-        <label>Doświadczenia:</label>
-        <input formControlName="experiences" placeholder="Doświadczenia" />
+        <div class="form-group">
+          <label for="medicines">Leki</label>
+          <input id="medicines" formControlName="medicines" placeholder="Leki" />
+        </div>
+
+        <div class="form-group">
+          <label for="experiences">Doświadczenia</label>
+          <input id="experiences" formControlName="experiences" placeholder="Doświadczenia" />
+        </div>
       </div>
 
       <div class="button-row">
-        <button type="submit">Rezerwuj</button>
-        <button type="button" (click)="cancel()">Anuluj</button>
+        <button type="submit" class="btn btn-submit">Rezerwuj</button>
+        <button type="button" class="btn btn-cancel" (click)="cancel()">Anuluj</button>
       </div>
     </form>
   </div>
