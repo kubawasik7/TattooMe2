@@ -13,10 +13,12 @@ export class SpecialOfferComponent {
   offers: Offer[] = [];
   editingId: string | null = null;
   draft: CreateOffer = { startDate: '', endDate: '', description: '' };
+  todayDate!: string;
 
   constructor(private profileService: ProfileService){}
 
   ngOnInit(): void{
+    this.todayDate = new Date().toISOString().slice(0, 16);
     this.load();
     
   }

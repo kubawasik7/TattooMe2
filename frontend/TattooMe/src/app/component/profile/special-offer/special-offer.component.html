@@ -30,7 +30,7 @@
 
       <tr *ngIf="editingId">
         <td>
-          <input type="datetime-local" class="form-control" [(ngModel)]="draft.startDate">
+          <input type="datetime-local" class="form-control" [(ngModel)]="draft.startDate" [min]="todayDate">
         </td>
         <td>
           <input type="datetime-local" class="form-control" [(ngModel)]="draft.endDate">
