@@ -49,8 +49,8 @@ updateDescription(description: string): Observable<User> {
   }
 
   //SEKCJA OFERT
-  getOffers(): Observable<Offer[]> {
-    return this.http.get<Offer[]>(`${this.baseUrlOffer}`);
+  getOffers(id: string): Observable<Offer[]> {
+    return this.http.get<Offer[]>(`${this.baseUrlOffer}/${id}`);
   }
   createOffer(o: CreateOffer): Observable<Offer> {
     return this.http.post<Offer>(`${this.baseUrlOffer}`, o);

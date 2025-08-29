@@ -22,7 +22,7 @@ export class SpecialOfferComponent {
   }
 
   load() {
-    this.profileService.getOffers().subscribe(list => this.offers = list);
+    this.profileService.getOffers(this.userId).subscribe(list => this.offers = list);
   }
   startNew() {
     this.editingId = 'new';
