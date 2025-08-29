@@ -20,9 +20,9 @@ public class TattooArtistOfferController {
     @Autowired
     private TattooArtistOfferService service;
 
-    @GetMapping
-    public List<OfferDTO> list(@AuthenticationPrincipal CustomUserDetails user) {
-        return service.getOffers(user.getId());
+    @GetMapping("/{id}")
+    public List<OfferDTO> list(@PathVariable UUID id) {
+        return service.getOffers(id);
     }
 
     @PostMapping
