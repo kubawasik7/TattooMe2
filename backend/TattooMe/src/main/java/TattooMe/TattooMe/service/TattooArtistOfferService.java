@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.nio.file.AccessDeniedException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -45,6 +46,13 @@ public class TattooArtistOfferService {
 
         if (!offer.getTattooArtist().getId().equals(artistId)) {
             throw new AccessDeniedException("Brak dostępu");
+        }
+
+        if(dto.getStartDate().isBefore(LocalDateTime.now())){
+            throw new IllegalArgumentException("Data rozpoczęcia nie może być wcześniejsza niż teraz");
+        }
+        if(dto.getEndDate().isBefore(LocalDateTime.now())){
+            throw new IllegalArgumentException("Data zakonczenia nie moze byc wcześniejsza niż teraz");
         }
 
         offer.setStartDate(dto.getStartDate());
