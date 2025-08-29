@@ -39,12 +39,12 @@ public class TattooArtistOfferService {
             throw new IllegalArgumentException("Data zakonczenia nie moze byc wcześniejsza niż teraz");
         }
 
-        TattooArtistOffer e = new TattooArtistOffer();
-        e.setTattooArtist(artist);
-        e.setStartDate(dto.getStartDate());
-        e.setEndDate(dto.getEndDate());
-        e.setDescription(dto.getDescription());
-        return toDto(repo.save(e));
+        TattooArtistOffer tattooArtistOffer = new TattooArtistOffer();
+        tattooArtistOffer.setTattooArtist(artist);
+        tattooArtistOffer.setStartDate(dto.getStartDate());
+        tattooArtistOffer.setEndDate(dto.getEndDate());
+        tattooArtistOffer.setDescription(dto.getDescription());
+        return toDto(repo.save(tattooArtistOffer));
     }
 
     @Transactional
