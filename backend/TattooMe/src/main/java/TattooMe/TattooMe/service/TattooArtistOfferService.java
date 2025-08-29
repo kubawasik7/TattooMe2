@@ -31,6 +31,14 @@ public class TattooArtistOfferService {
     public OfferDTO createOffer(UUID artistId, CreateOfferDTO dto) {
         User artist = userRepo.findById(artistId)
                 .orElseThrow(() -> new RuntimeException("Nie znaleziono artysty"));
+
+        if(dto.getStartDate().isBefore(LocalDateTime.now())){
+            throw new IllegalArgumentException("Data rozpoczęcia nie może być wcześniejsza niż teraz");
+        }
+        if(dto.getEndDate().isBefore(LocalDateTime.now())){
+            throw new IllegalArgumentException("Data zakonczenia nie moze byc wcześniejsza niż teraz");
+        }
+
         TattooArtistOffer e = new TattooArtistOffer();
         e.setTattooArtist(artist);
         e.setStartDate(dto.getStartDate());
