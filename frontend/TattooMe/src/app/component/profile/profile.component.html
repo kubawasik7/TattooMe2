@@ -17,8 +17,8 @@
     </div>
 
     <div class="profile-buttons">
-      <button (click)="startChat()" class="button-chat" >💬 Wyślij wiadomość</button>
-      <button (click)="addToFavorites(user.id)" class="button-fav" >❤️ Dodaj do ulubionych</button>
+      <button  *ngIf="!isOwner" (click)="startChat()" class="button-chat" >💬 Wyślij wiadomość</button>
+      <button  *ngIf="!isOwner" (click)="addToFavorites(user.id)" class="button-fav" >❤️ Dodaj do ulubionych</button>
     </div>
   </section>
 
