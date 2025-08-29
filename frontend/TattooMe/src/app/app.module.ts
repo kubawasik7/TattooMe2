@@ -27,6 +27,12 @@ import { ChatWindowComponent } from './component/chat-window/chat-window.compone
 import { VisitComponent } from './component/profile/visit/visit.component';
 import { CreateStudioComponent } from './component/create-studio/create-studio.component';
 import { StudioListComponent } from './component/studio-list/studio-list.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 const appRoutes: Routes = [
   { path: '', component: MainPageComponent },
   { path: 'login', component: LoginComponent },
@@ -75,7 +81,13 @@ const appRoutes: Routes = [
     NgxPaginationModule,
     ReactiveFormsModule,
     HttpClientModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+       MatFormFieldModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatButtonModule,
+    MatIconModule
   ],
   providers: [
     provideClientHydration(withEventReplay()),
