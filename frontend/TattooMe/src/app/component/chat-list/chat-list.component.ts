@@ -6,6 +6,7 @@ import { ChatService } from '../../service/chat.service';
 import { MessageService } from '../../service/message.service';
 import { NewMessage } from '../../model/new-message';
 import { AuthService } from '../../service/auth.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-chat-list',
@@ -18,9 +19,7 @@ export class ChatListComponent implements OnInit {
   activeChatId?: string;
   activeChatName = '';
   messages: Message[] = [];
-
   currentUserId: string = '';
-
   form!: FormGroup;
   attachmentB64: string = '';
   sending = false;
@@ -29,19 +28,26 @@ export class ChatListComponent implements OnInit {
     private chatService: ChatService,
     private messageService: MessageService,
     private fb: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
+    private route: ActivatedRoute,
   ) { }
 
   ngOnInit(): void {
     this.currentUserId = this.authService.getUserId()!;
     this.form = this.fb.group({ content: [''] });
-    this.loadChats();
+
+    this.route.queryParamMap.subscribe(params => {
+      const receiverId = params.get('receiver');
+      this.loadChats(receiverId ?? undefined);
+    });
   }
 
-  loadChats(): void {
+  loadChats(receiverId?: string): void {
     this.chatService.getUserChats().subscribe(chats => {
       this.chats = chats;
-      if (!this.activeChatId && chats.length) {
+      if (receiverId) {
+        this.openOrCreateChat(receiverId);
+      } else if (!this.activeChatId && chats.length) {
         this.openChat(chats[0].id);
       }
     });
@@ -53,21 +59,38 @@ export class ChatListComponent implements OnInit {
     this.activeChatName = c?.receiverName || 'Rozmowa';
     this.fetchMessages();
   }
-  fetchMessages(keepPos=false): void {
+  openOrCreateChat(receiverId: string): void {
+    let chat = this.chats.find(c => c.receiverId === receiverId);
+
+    if (chat) {
+      this.openChat(chat.id);
+    } else {
+      this.chatService.startChat(receiverId).subscribe(newChat => {
+        this.chats = [...this.chats, newChat];
+        this.openChat(newChat.id);
+        this.chatService.getUserChats().subscribe(allChats => {
+          this.chats = allChats;
+        });
+      });
+    }
+  }
+
+  fetchMessages(): void {
     if (!this.activeChatId) return;
-    const prev = this.messages.length;
     this.messageService.getMessages(this.activeChatId).subscribe(list => {
-      this.messages = list;
+      this.messages = list ?? [];
     });
   }
-  
+
   send(): void {
     if (!this.activeChatId || this.sending) return;
+
     const newMessage: NewMessage = {
       chatId: this.activeChatId,
       content: (this.form.value.content || '').trim(),
       base64Attachment: this.attachmentB64 || ''
     };
+
     if (!newMessage.content && !newMessage.base64Attachment) return;
 
     this.sending = true;
@@ -76,8 +99,9 @@ export class ChatListComponent implements OnInit {
         this.form.reset();
         this.attachmentB64 = '';
         this.sending = false;
+        this.fetchMessages();
       },
-      error: () => this.sending = false
+      error: () => (this.sending = false)
     });
   }
 }

@@ -63,12 +63,17 @@ export class ProfileComponent implements OnInit{
       }
     });
   }
-    startChat(): void {
+  startChat(): void {
     this.chatService.startChat(this.userId).subscribe({
       next: chat => this.router.navigate(['/chat', chat.id]),
       error: err => console.error('Błąd podczas rozpoczynania czatu', err)
     });
   }
+  
+  goToChats(userId: string) {
+    window.location.href = `/chats?receiver=${userId}`;
+  }
+
    onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (!input.files?.length) return;

@@ -11,20 +11,25 @@
     </button>
 
     <div class="profile-info">
-      <h2 class="nickname">{{user.nickname}} <h2 class="rating">★ 4.5/5 (1230)</h2></h2>
+      <h2 class="nickname">{{user.nickname}} <h2 class="rating">★ 4.5/5 (1230)</h2>
+      </h2>
       <p class="location">Miasto, ulica 123/1</p>
       <app-style [userId]="userId" [isOwner]="isOwner"></app-style>
     </div>
 
     <div class="profile-buttons">
-      <button  *ngIf="!isOwner" (click)="startChat()" class="button-chat" >💬 Wyślij wiadomość</button>
-      <button  *ngIf="!isOwner" (click)="addToFavorites(user.id)" class="button-fav" >❤️ Dodaj do ulubionych</button>
+
+      <button class="button-chat" (click)="goToChats(user.id)">
+        Wyślij wiadomość
+      </button>
+
+      <button *ngIf="!isOwner" (click)="addToFavorites(user.id)" class="button-fav">❤️ Dodaj do ulubionych</button>
     </div>
   </section>
 
-   
+
   <div class="description">
-     <p *ngIf="!editing; else editTpl">
+    <p *ngIf="!editing; else editTpl">
       {{ user.description || 'Brak opisu...' }}
       <button class="btn btn-sm edit-btn" (click)="startEdit()">
         <i class="fas fa-pen"></i>
@@ -40,7 +45,7 @@
 
   <app-artist-date [userId]="userId" [isOwner]="isOwner"></app-artist-date>
   <app-special-offer [userId]="userId" [isOwner]="isOwner"></app-special-offer>
-  <app-portfolio [userId]="userId" [isOwner]="isOwner" ></app-portfolio>
+  <app-portfolio [userId]="userId" [isOwner]="isOwner"></app-portfolio>
   <app-offer [userId]="userId" [isOwner]="isOwner"></app-offer>
 
   <section class="reviews">
