@@ -23,7 +23,6 @@ import { SpecialOfferComponent } from './component/profile/special-offer/special
 import { PortfolioComponent } from './component/profile/portfolio/portfolio.component';
 import { ArtistListComponent } from './component/artist-list/artist-list.component';
 import { ChatListComponent } from './component/chat-list/chat-list.component';
-import { ChatWindowComponent } from './component/chat-window/chat-window.component';
 import { VisitComponent } from './component/profile/visit/visit.component';
 import { CreateStudioComponent } from './component/create-studio/create-studio.component';
 import { StudioListComponent } from './component/studio-list/studio-list.component';
@@ -68,7 +67,6 @@ const appRoutes: Routes = [
     PortfolioComponent,
     ArtistListComponent,
     ChatListComponent,
-    ChatWindowComponent,
     VisitComponent,
     CreateStudioComponent,
     StudioListComponent
