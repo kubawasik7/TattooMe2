@@ -19,7 +19,7 @@
 
     <div class="profile-buttons">
 
-      <button class="button-chat" (click)="goToChats(user.id)">
+      <button *ngIf="!isOwner" class="button-chat" (click)="goToChats(user.id)">
         Wyślij wiadomość
       </button>
 
