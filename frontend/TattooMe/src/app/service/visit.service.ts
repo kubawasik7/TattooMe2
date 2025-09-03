@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { NewVisit } from '../model/new-visit';
+import { Visit } from '../model/visit';
 
 @Injectable({
   providedIn: 'root'
@@ -13,5 +14,8 @@ export class VisitService {
   
   createVisit(dto: NewVisit): Observable<void> {
     return this.http.post<void>(this.apiUrl, dto);
+  }
+   getMyVisits(): Observable<Visit[]> {
+    return this.http.get<Visit[]>(`${this.apiUrl}/my`);
   }
 }

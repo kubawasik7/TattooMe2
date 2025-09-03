@@ -32,6 +32,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { ReservationsComponent } from './component/reservations/reservations.component';
 const appRoutes: Routes = [
   { path: '', component: MainPageComponent },
   { path: 'login', component: LoginComponent },
@@ -46,6 +47,7 @@ const appRoutes: Routes = [
   { path: 'chats', component: ChatListComponent},
   {path: 'createStudio', component: CreateStudioComponent},
   {path: 'studios', component: StudioListComponent},
+  {path: 'reservations', component: ReservationsComponent},
   { path: '**', redirectTo: '' }
 ];
 
@@ -69,7 +71,8 @@ const appRoutes: Routes = [
     ChatListComponent,
     VisitComponent,
     CreateStudioComponent,
-    StudioListComponent
+    StudioListComponent,
+    ReservationsComponent
   ],
   imports: [
     BrowserModule,
