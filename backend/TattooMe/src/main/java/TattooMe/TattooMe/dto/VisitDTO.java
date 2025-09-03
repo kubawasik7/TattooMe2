@@ -15,4 +15,5 @@ public class VisitDTO {
     private LocalDateTime date;
     private String artistName;
     private String flashDescription;
+    private String clientNickname;
 }

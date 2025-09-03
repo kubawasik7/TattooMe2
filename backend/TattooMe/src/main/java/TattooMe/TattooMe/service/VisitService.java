@@ -1,12 +1,15 @@
 package TattooMe.TattooMe.service;
 
 import TattooMe.TattooMe.dto.NewVisitDTO;
+import TattooMe.TattooMe.dto.VisitDTO;
 import TattooMe.TattooMe.entity.*;
 import TattooMe.TattooMe.repository.*;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -19,7 +22,18 @@ public class VisitService {
     private final FlashRepository flashRepository;
     private final PersonInfoRepository personInfoRepository;
     private final UserRepository userRepository;
+    public List<VisitDTO> getMyVisits(UUID userId, String role) {
+        List<Visit> visits;
 
+        if ("TATTOO_ARTIST".equals(role)) {
+            visits = visitRepository.findByArtist_Id(userId);
+        } else {
+            visits = visitRepository.findByClient_Id(userId);
+        }
+        return visits.stream()
+                .map(this::toDTO)
+                .toList();
+    }
     @Transactional
     public void createVisit(UUID clientId, NewVisitDTO newVisitDTO) {
         Visit visit = new Visit();
@@ -59,4 +73,15 @@ public class VisitService {
         }
         visitRepository.save(visit);
     }
+
+    private VisitDTO toDTO(Visit visit) {
+        VisitDTO dto = new VisitDTO();
+        dto.setId(visit.getId());
+        dto.setDate(visit.getArtistDate().getDate());
+        dto.setStatus(visit.getStatus().getName());
+        dto.setArtistName(visit.getArtist().getNickname());
+        dto.setClientNickname(visit.getClient().getNickname());
+        return dto;
+    }
+
 }
