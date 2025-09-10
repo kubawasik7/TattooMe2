@@ -23,6 +23,12 @@ public class VisitService {
     private final FlashRepository flashRepository;
     private final PersonInfoRepository personInfoRepository;
     private final UserRepository userRepository;
+
+    public VisitDTO getVisitDetails(UUID visitId) {
+        Visit visit = visitRepository.findById(visitId)
+                .orElseThrow(() -> new RuntimeException("Visit not found"));
+        return toDTO(visit);
+    }
     public List<VisitDTO> getActiveVisits(UUID clientId) {
         List<String> statuses = List.of("OCZEKUJĄCA", "ZATWIERDZONA");
         return visitRepository.findByClientAndStatuses(clientId, statuses)
@@ -139,11 +145,29 @@ public class VisitService {
     private VisitDTO toDTO(Visit visit) {
         VisitDTO dto = new VisitDTO();
         dto.setId(visit.getId());
-        dto.setDate(visit.getArtistDate().getDate());
         dto.setStatus(visit.getStatus().getName());
+        dto.setDate(visit.getArtistDate().getDate());
         dto.setArtistName(visit.getArtist().getNickname());
-        dto.setClientNickname(visit.getClient().getNickname());
+        dto.setClientName(visit.getClient().getNickname());
+        dto.setComment(visit.getComment());
+
+        if (visit.getFlash() != null) {
+            dto.setFlashDescription(visit.getFlash().getDescription());
+        }
+
+        if (visit.getTattooStudio() != null) {
+            dto.setTattooStudioName(visit.getTattooStudio().getName());
+        }
+
+        if (visit.getPersonInfo() != null) {
+            dto.setAllergies(visit.getPersonInfo().getAllergies());
+            dto.setChronicDiseases(visit.getPersonInfo().getChronicDiseases());
+            dto.setMedicines(visit.getPersonInfo().getMedicines());
+            dto.setExperiences(visit.getPersonInfo().getExperiences());
+        }
+
         return dto;
     }
+
 
 }

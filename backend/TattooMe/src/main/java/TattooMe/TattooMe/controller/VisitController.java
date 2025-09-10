@@ -25,6 +25,11 @@ public class VisitController {
         visitService.createVisit(user.getId(), newVisitDTO);
         return ResponseEntity.ok().build();
     }
+    @GetMapping("/{id}")
+    public ResponseEntity<VisitDTO> getVisitDetails(@PathVariable UUID id) {
+        return ResponseEntity.ok(visitService.getVisitDetails(id));
+    }
+
     @GetMapping("/active")
     public ResponseEntity<List<VisitDTO>> getActiveVisits(@AuthenticationPrincipal CustomUserDetails user) {
         List<VisitDTO> visits = visitService.getActiveVisits(user.getId());
