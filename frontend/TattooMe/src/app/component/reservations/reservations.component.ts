@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Visit } from '../../model/visit';
 import { VISIT_STATUS, VisitService } from '../../service/visit.service';
-import { forkJoin } from 'rxjs';
-type TabKey = 'active' | 'past' | 'cancelled';
-type VisitStatus = 'ACTIVE' | 'PAST' | 'CANCELLED';
+
 @Component({
   selector: 'app-reservations',
   standalone: false,
@@ -12,6 +10,7 @@ type VisitStatus = 'ACTIVE' | 'PAST' | 'CANCELLED';
 })
 
 export class ReservationsComponent implements OnInit {
+  selectedRoleTab: 'client' | 'artist' = 'client'; 
   selectedTab: 'active' | 'past' | 'cancelled' = 'active';
   visits: Visit[] = [];
 
@@ -25,15 +24,23 @@ export class ReservationsComponent implements OnInit {
     this.selectedTab = tab;
     this.loadVisits();
   }
-
-  loadVisits() {
-    if (this.selectedTab === 'active') {
-      this.visitService.getActive().subscribe(visits => this.visits = visits);
-    } else if (this.selectedTab === 'past') {
-      this.visitService.getPast().subscribe(visits => this.visits = visits);
-    } else {
-      this.visitService.getCancelled().subscribe(visits => this.visits = visits);
-    }
-
+loadVisits() {
+  if (this.selectedRoleTab === 'client') {
+    if (this.selectedTab === 'active') this.visitService.getActive().subscribe(v => this.visits = v);
+    else if (this.selectedTab === 'past') this.visitService.getPast().subscribe(v => this.visits = v);
+    else this.visitService.getCancelled().subscribe(v => this.visits = v);
+  } else {
+    if (this.selectedTab === 'active') this.visitService.getActiveAsArtist().subscribe(v => this.visits = v);
+    else if (this.selectedTab === 'past') this.visitService.getPastAsArtist().subscribe(v => this.visits = v);
+    else this.visitService.getCancelledAsArtist().subscribe(v => this.visits = v);
   }
+}
+  approveVisit(id: string) {
+    this.visitService.approveVisit(id).subscribe(() => this.loadVisits());
+  }
+
+  cancelVisit(id: string) {
+    this.visitService.cancelVisit(id).subscribe(() => this.loadVisits());
+  }
+
 }

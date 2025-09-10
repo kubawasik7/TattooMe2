@@ -35,5 +35,25 @@ export class VisitService {
   getCancelled(): Observable<Visit[]> {
     return this.http.get<Visit[]>(`${this.apiUrl}/cancelled`);
   }
+  getActiveAsArtist(): Observable<Visit[]> {
+    return this.http.get<Visit[]>(`${this.apiUrl}/artist/active`);
+  }
+
+  getPastAsArtist(): Observable<Visit[]> {
+    return this.http.get<Visit[]>(`${this.apiUrl}/artist/past`);
+  }
+
+  getCancelledAsArtist(): Observable<Visit[]> {
+    return this.http.get<Visit[]>(`${this.apiUrl}/artist/cancelled`);
+  }
+
+  approveVisit(id: string): Observable<void> {
+    return this.http.patch<void>(`${this.apiUrl}/${id}/approve`, {});
+  }
+
+  cancelVisit(id: string): Observable<void> {
+    return this.http.patch<void>(`${this.apiUrl}/${id}/cancel`, {});
+  }
+
 
 }

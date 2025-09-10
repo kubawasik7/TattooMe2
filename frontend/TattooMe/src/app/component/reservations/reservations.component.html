@@ -1,16 +1,39 @@
-<div class="tab-buttons">
-  <button [class.active]="selectedTab === 'active'" (click)="selectTab('active')">Aktywne</button>
-  <button [class.active]="selectedTab === 'past'" (click)="selectTab('past')">Przeszłe</button>
-  <button [class.active]="selectedTab === 'cancelled'" (click)="selectTab('cancelled')">Odwołane</button>
+
+<div class="tab-role">
+  <button [class.active]="selectedRoleTab === 'client'" (click)="selectedRoleTab = 'client'; loadVisits()">
+    Jako klient
+  </button>
+  <button [class.active]="selectedRoleTab === 'artist'" (click)="selectedRoleTab = 'artist'; loadVisits()">
+    Jako tatuator
+  </button>
 </div>
 
-<div *ngIf="visits.length === 0">Brak rezerwacji w tej kategorii.</div>
+<div class="tab-buttons">
+  <button [class.active]="selectedTab === 'active'" (click)="selectedTab = 'active'; loadVisits()">
+    Aktywne
+  </button>
+  <button [class.active]="selectedTab === 'past'" (click)="selectedTab = 'past'; loadVisits()">
+    Przeszłe
+  </button>
+  <button [class.active]="selectedTab === 'cancelled'" (click)="selectedTab = 'cancelled'; loadVisits()">
+    Odwołane
+  </button>
+</div>
+
+<div *ngIf="visits.length === 0" class="empty-message">
+  Brak rezerwacji w tej kategorii.
+</div>
 
 <ul *ngIf="visits.length > 0" class="visit-list">
-  <li *ngFor="let visit of visits">
-    <strong>Status:</strong> {{ visit.status }} <br />
-    <strong>Data:</strong> {{ visit.date | date:'short' }} <br />
-    <strong>Tatuator:</strong> {{ visit.artistName }} <br />
-    <strong>Klient:</strong> {{ visit.clientNickname }}
+  <li *ngFor="let visit of visits" class="visit-item">
+    <div><strong>Status:</strong> {{ visit.status }}</div>
+    <div><strong>Data:</strong> {{ visit.date | date:'short' }}</div>
+    <div><strong>Tatuator:</strong> {{ visit.artistName }}</div>
+    <div><strong>Klient:</strong> {{ visit.clientNickname }}</div>
+
+    <div *ngIf="selectedRoleTab === 'artist' && visit.status === 'OCZEKUJĄCA'" class="action-buttons">
+      <button (click)="approveVisit(visit.id)">Zatwierdź</button>
+      <button (click)="cancelVisit(visit.id)">Anuluj</button>
+    </div>
   </li>
 </ul>

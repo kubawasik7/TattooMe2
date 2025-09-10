@@ -1,17 +1,19 @@
-.tab-buttons {
+.tab-role, .tab-buttons {
   display: flex;
   gap: 1rem;
   margin-bottom: 1rem;
 
   button {
     padding: 0.5rem 1rem;
-    background: #444;
-    color: white;
     border: none;
+    background-color: #444;
+    color: white;
     cursor: pointer;
+    border-radius: 6px;
+    font-weight: 500;
 
     &.active {
-      background: #ffcc00;
+      background-color: #ffcc00;
       color: black;
     }
   }
@@ -20,10 +22,53 @@
 .visit-list {
   list-style: none;
   padding: 0;
-  li {
+
+  .visit-item {
     background: #2c2c2c;
+    color: #f5f5f5;
     padding: 1rem;
     margin-bottom: 1rem;
     border-radius: 10px;
+    border: 1px solid #444;
+
+    div {
+      margin-bottom: 0.3rem;
+    }
+
+    .action-buttons {
+      margin-top: 0.8rem;
+      display: flex;
+      gap: 0.5rem;
+
+      button {
+        padding: 0.4rem 0.8rem;
+        font-weight: 500;
+        background-color: #ffcc00;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+
+        &:hover {
+          background-color: #e6b800;
+        }
+
+        &:last-child {
+          background-color: #c0392b;
+          color: white;
+
+          &:hover {
+            background-color: #a93226;
+          }
+        }
+      }
+    }
   }
+}
+
+.empty-message {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.2rem;
+  color: #bbb;
 }
