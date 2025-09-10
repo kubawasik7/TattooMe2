@@ -62,10 +62,10 @@ public class VisitController {
     public ResponseEntity<List<VisitDTO>> getCancelledVisitsAsArtist(@AuthenticationPrincipal CustomUserDetails user) {
         return ResponseEntity.ok(visitService.getCancelledVisitsAsArtist(user.getId()));
     }
-    @PatchMapping("/{id}/approve")
+    @PatchMapping("/{id}/confirm")
     @PreAuthorize("hasRole('tattoo_artist')")
-    public ResponseEntity<Void> approveVisit(@PathVariable UUID id, @AuthenticationPrincipal CustomUserDetails user) {
-        boolean approved = visitService.approveVisit(id, user.getId());
+    public ResponseEntity<Void> confrimVisit(@PathVariable UUID id, @AuthenticationPrincipal CustomUserDetails user) {
+        boolean approved = visitService.confirmVisit(id, user.getId());
         return approved ? ResponseEntity.ok().build() : ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
 

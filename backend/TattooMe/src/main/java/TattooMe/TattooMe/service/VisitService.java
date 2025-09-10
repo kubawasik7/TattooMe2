@@ -9,6 +9,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -127,7 +128,7 @@ public class VisitService {
         }
         visitRepository.save(visit);
     }
-    public boolean approveVisit(UUID visitId, UUID artistId) {
+    public boolean confirmVisit(UUID visitId, UUID artistId) {
         Optional<Visit> optional = visitRepository.findById(visitId);
         if (optional.isPresent()) {
             Visit visit = optional.get();
@@ -153,6 +154,11 @@ public class VisitService {
 
         if (visit.getFlash() != null) {
             dto.setFlashDescription(visit.getFlash().getDescription());
+
+            if (visit.getFlash().getPicture() != null) {
+                String base64 = Base64.getEncoder().encodeToString(visit.getFlash().getPicture());
+                dto.setFlashImage(base64);
+            }
         }
 
         if (visit.getTattooStudio() != null) {
