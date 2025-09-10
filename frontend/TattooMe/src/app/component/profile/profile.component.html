@@ -38,8 +38,8 @@
 
     <ng-template #editTpl>
       <textarea [(ngModel)]="draftDescription" rows="3" #autoResize (input)="adjustHeight(autoResize)"></textarea>
-      <button class="button-edit" (click)="saveDescription()">✔</button>
-      <button class="button-edit" (click)="cancelEdit()">✖</button>
+      <button class="btn2 save-btn" (click)="saveDescription()">Zapisz</button>
+      <button class="btn2 cancel-btn" (click)="cancelEdit()">Anuluj</button>
     </ng-template>
   </div>
 

@@ -147,6 +147,33 @@
   color: #fff;
 }
 
+.btn2 {
+  padding: 6px 12px;
+  margin-right: 10px;
+  border: none;
+  border-radius: 6px;
+  background-color: #ccc;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+.btn2.save-btn {
+  background-color: #2e5c2e;
+}
+
+.btn2.save-btn:hover {
+  background-color: #3b7a3b;
+}
+
+.btn2.cancel-btn {
+  background-color: #5c2b2b;
+}
+
+.btn2.cancel-btn:hover {
+    background-color: #7a3636;
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
