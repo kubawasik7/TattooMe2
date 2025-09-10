@@ -1,20 +1,16 @@
-<div class="reservations-container">
-  <h2>Historia rezerwacji</h2>
-
-  <div class="tabs">
-    <button [class.active]="selectedTab === 'active'" (click)="selectTab('active')">Aktywne</button>
-    <button [class.active]="selectedTab === 'past'" (click)="selectTab('past')">Przeszłe</button>
-    <button [class.active]="selectedTab === 'cancelled'" (click)="selectTab('cancelled')">Odwołane</button>
-  </div>
-
-  <div class="visit-list">
-    <div *ngFor="let visit of getCurrentList()" class="visit-card">
-      <div class="visit-avatar"></div>
-      <div class="visit-info">
-        <p class="nickname">{{ visit.artistNickname }}</p>
-        <p class="date">{{ visit.date | date:'dd.MM.yyyy' }}</p>
-      </div>
-      <button class="details-btn" (click)="showDetails(visit)">szczegóły rezerwacji</button>
-    </div>
-  </div>
+<div class="tab-buttons">
+  <button [class.active]="selectedTab === 'active'" (click)="selectTab('active')">Aktywne</button>
+  <button [class.active]="selectedTab === 'past'" (click)="selectTab('past')">Przeszłe</button>
+  <button [class.active]="selectedTab === 'cancelled'" (click)="selectTab('cancelled')">Odwołane</button>
 </div>
+
+<div *ngIf="visits.length === 0">Brak rezerwacji w tej kategorii.</div>
+
+<ul *ngIf="visits.length > 0" class="visit-list">
+  <li *ngFor="let visit of visits">
+    <strong>Status:</strong> {{ visit.status }} <br />
+    <strong>Data:</strong> {{ visit.date | date:'short' }} <br />
+    <strong>Tatuator:</strong> {{ visit.artistNickname }} <br />
+    <strong>Klient:</strong> {{ visit.clientNickname }}
+  </li>
+</ul>

@@ -21,9 +21,19 @@ public class VisitController {
         visitService.createVisit(user.getId(), newVisitDTO);
         return ResponseEntity.ok().build();
     }
-    @GetMapping("/my")
-    public ResponseEntity<List<VisitDTO>> getMyVisits(@AuthenticationPrincipal CustomUserDetails user) {
-        List<VisitDTO> visits = visitService.getMyVisits(user.getId(), user.getRole());
+    @GetMapping("/active")
+    public ResponseEntity<List<VisitDTO>> getActiveVisits(@AuthenticationPrincipal CustomUserDetails user) {
+        List<VisitDTO> visits = visitService.getActiveVisits(user.getId());
+        return ResponseEntity.ok(visits);
+    }
+    @GetMapping("/past")
+    public ResponseEntity<List<VisitDTO>> getPastVisits(@AuthenticationPrincipal CustomUserDetails user) {
+        List<VisitDTO> visits = visitService.getPastVisits(user.getId());
+        return ResponseEntity.ok(visits);
+    }
+    @GetMapping("/cancelled")
+    public ResponseEntity<List<VisitDTO>> getCancelledVisits(@AuthenticationPrincipal CustomUserDetails user) {
+        List<VisitDTO> visits = visitService.getCancelledVisits(user.getId());
         return ResponseEntity.ok(visits);
     }
 }

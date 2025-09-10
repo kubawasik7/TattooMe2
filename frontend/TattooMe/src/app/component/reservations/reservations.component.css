@@ -1,63 +1,29 @@
-.reservations-container {
-  padding: 1rem;
-  background: #2c2c2c;
-  color: white;
-}
-
-.tabs {
+.tab-buttons {
   display: flex;
   gap: 1rem;
   margin-bottom: 1rem;
-}
 
-.tabs button {
-  padding: 0.5rem 1rem;
-  background: #555;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
+  button {
+    padding: 0.5rem 1rem;
+    background: #444;
+    color: white;
+    border: none;
+    cursor: pointer;
 
-.tabs button.active {
-  background: #222;
-  font-weight: bold;
+    &.active {
+      background: #ffcc00;
+      color: black;
+    }
+  }
 }
 
 .visit-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.visit-card {
-  background: #999;
-  padding: 0.8rem;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.visit-avatar {
-  width: 50px;
-  height: 50px;
-  background: #ccc;
-  border-radius: 50%;
-  margin-right: 1rem;
-}
-
-.visit-info {
-  flex-grow: 1;
-}
-
-.nickname {
-  font-weight: bold;
-}
-
-.details-btn {
-  background: none;
-  border: none;
-  color: white;
-  cursor: pointer;
+  list-style: none;
+  padding: 0;
+  li {
+    background: #2c2c2c;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 10px;
+  }
 }

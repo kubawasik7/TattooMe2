@@ -1,45 +1,38 @@
 import { Component, OnInit } from '@angular/core';
 import { Visit } from '../../model/visit';
-import { VisitService } from '../../service/visit.service';
-
+import { VISIT_STATUS, VisitService } from '../../service/visit.service';
+import { forkJoin } from 'rxjs';
+type TabKey = 'active' | 'past' | 'cancelled';
+type VisitStatus = 'ACTIVE' | 'PAST' | 'CANCELLED';
 @Component({
   selector: 'app-reservations',
   standalone: false,
   templateUrl: './reservations.component.html',
   styleUrl: './reservations.component.css'
 })
+
 export class ReservationsComponent implements OnInit {
+  selectedTab: 'active' | 'past' | 'cancelled' = 'active';
   visits: Visit[] = [];
-  activeVisits: Visit[] = [];
-  pastVisits: Visit[] = [];
-  cancelledVisits: Visit[] = [];
-  selectedTab = 'active';
 
   constructor(private visitService: VisitService) {}
 
   ngOnInit(): void {
-    this.visitService.getMyVisits().subscribe(data => {
-      this.visits = data;
-      this.activeVisits = data.filter(v => v.status === 'OCZEKUJĄCA');
-      this.pastVisits = data.filter(v => v.status === 'ZAKOŃCZONA');
-      this.cancelledVisits = data.filter(v => v.status === 'ANULOWANA');
-    });
+    this.loadVisits();
   }
 
-  selectTab(tab: string): void {
+  selectTab(tab: 'active' | 'past' | 'cancelled') {
     this.selectedTab = tab;
+    this.loadVisits();
   }
 
-  getCurrentList(): Visit[] {
-    switch (this.selectedTab) {
-      case 'past': return this.pastVisits;
-      case 'cancelled': return this.cancelledVisits;
-      default: return this.activeVisits;
+  loadVisits() {
+    if (this.selectedTab === 'active') {
+      this.visitService.getActive().subscribe(visits => this.visits = visits);
+    } else if (this.selectedTab === 'past') {
+      this.visitService.getPast().subscribe(visits => this.visits = visits);
+    } else {
+      this.visitService.getCancelled().subscribe(visits => this.visits = visits);
     }
-  }
-
-  showDetails(visit: Visit): void {
-    console.log('Szczegóły wizyty:', visit);
-    // tutaj dodamy modal ze szczegółami rezerwacji
   }
 }

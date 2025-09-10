@@ -1,8 +1,14 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { NewVisit } from '../model/new-visit';
 import { Visit } from '../model/visit';
+export const VISIT_STATUS = {
+  PENDING: 'OCZEKUJĄCA' as const,
+  APPROVED: 'ZATWIERDZONA' as const,
+  CANCELLED: 'ANULOWANA' as const,
+};
+export type VisitStatusValue = typeof VISIT_STATUS[keyof typeof VISIT_STATUS];
 
 @Injectable({
   providedIn: 'root'
@@ -18,4 +24,16 @@ export class VisitService {
    getMyVisits(): Observable<Visit[]> {
     return this.http.get<Visit[]>(`${this.apiUrl}/my`);
   }
+  getActive(): Observable<Visit[]> {
+    return this.http.get<Visit[]>(`${this.apiUrl}/active`);
+  }
+
+  getPast(): Observable<Visit[]> {
+    return this.http.get<Visit[]>(`${this.apiUrl}/past`);
+  }
+
+  getCancelled(): Observable<Visit[]> {
+    return this.http.get<Visit[]>(`${this.apiUrl}/cancelled`);
+  }
+
 }

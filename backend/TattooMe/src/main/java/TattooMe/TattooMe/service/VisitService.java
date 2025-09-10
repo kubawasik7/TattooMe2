@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -22,18 +23,28 @@ public class VisitService {
     private final FlashRepository flashRepository;
     private final PersonInfoRepository personInfoRepository;
     private final UserRepository userRepository;
-    public List<VisitDTO> getMyVisits(UUID userId, String role) {
-        List<Visit> visits;
-
-        if ("TATTOO_ARTIST".equals(role)) {
-            visits = visitRepository.findByArtist_Id(userId);
-        } else {
-            visits = visitRepository.findByClient_Id(userId);
-        }
-        return visits.stream()
+    public List<VisitDTO> getActiveVisits(UUID clientId) {
+        List<String> statuses = List.of("OCZEKUJĄCA", "ZATWIERDZONA");
+        return visitRepository.findByClientAndStatuses(clientId, statuses)
+                .stream()
                 .map(this::toDTO)
-                .toList();
+                .collect(Collectors.toList());
     }
+
+    public List<VisitDTO> getPastVisits(UUID clientId) {
+        return visitRepository.findPastByClient(clientId)
+                .stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<VisitDTO> getCancelledVisits(UUID clientId) {
+        return visitRepository.findCancelledByClient(clientId)
+                .stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
+    }
+
     @Transactional
     public void createVisit(UUID clientId, NewVisitDTO newVisitDTO) {
         Visit visit = new Visit();
