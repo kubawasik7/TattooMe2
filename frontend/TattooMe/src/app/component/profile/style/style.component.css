@@ -43,8 +43,7 @@
 .edit-btn:hover {
   color: #fff;
 }
-.save-btn,
-.cancel-btn {
+.btn {
   padding: 6px 12px;
   margin-right: 10px;
   border: none;
@@ -54,3 +53,16 @@
   font-weight: bold;
   transition: background-color 0.2s;
 }
+.btn.save-btn {
+  background-color: #2e5c2e;
+}
+.btn.save-btn:hover {
+  background-color: #3b7a3b;
+}
+.btn.cancel-btn {
+  background-color: #5c2b2b;
+}
+.btn.cancel-btn:hover {
+    background-color: #7a3636;
+}
+
