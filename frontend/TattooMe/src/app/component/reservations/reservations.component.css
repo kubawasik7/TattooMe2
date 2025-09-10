@@ -1,67 +1,127 @@
-.tab-role, .tab-buttons {
-  display: flex;
-  gap: 1rem;
-  margin-bottom: 1rem;
+
+.tabs-wrapper {
+  margin-bottom: 0.8rem;
+}
+
+.tabs {
+  display: inline-flex;
+  background: #1f1f1f;
+  border: 1px solid #333;
+  border-radius: 8px;
+  overflow: hidden;
 
   button {
-    padding: 0.5rem 1rem;
+    padding: 0.6rem 1.2rem;
+    background: transparent;
     border: none;
-    background-color: #444;
-    color: white;
+    color: #bbb;
+    font-weight: 600;
     cursor: pointer;
-    border-radius: 6px;
-    font-weight: 500;
+    transition: background-color 0.2s ease, color 0.2s ease;
+
+    &:hover {
+      background: #2a2a2a;
+      color: #fff;
+    }
 
     &.active {
-      background-color: #ffcc00;
-      color: black;
+      background: #444;
+      color: #fff;
+    }
+
+    & + button {
+      border-left: 1px solid #333;
     }
   }
+}
+
+.role-tabs {
+  margin-bottom: 0.5rem;
+}
+
+
+.status-tabs {
+  margin-bottom: 1rem;
 }
 
 .visit-list {
   list-style: none;
   padding: 0;
+  margin: 0;
+}
 
-  .visit-item {
-    background: #2c2c2c;
-    color: #f5f5f5;
-    padding: 1rem;
-    margin-bottom: 1rem;
-    border-radius: 10px;
-    border: 1px solid #444;
+.visit-item {
+  background: #242424;
+  color: #f2f2f2;
+  border: 1px solid #333;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 0.9rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
 
-    div {
-      margin-bottom: 0.3rem;
+  &:hover,
+  &:focus {
+    border-color: #555;
+    box-shadow: 0 0 0 3px rgba(100, 100, 100, 0.2);
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem;
+    margin-bottom: 0.35rem;
+
+    @media (max-width: 640px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .pair {
+    display: flex;
+    gap: 0.5rem;
+    align-items: baseline;
+
+    span {
+      color: #aaa;
+      min-width: 80px;
     }
 
-    .action-buttons {
-      margin-top: 0.8rem;
-      display: flex;
-      gap: 0.5rem;
+    strong {
+      color: #fff;
+      font-weight: 600;
+    }
+  }
 
-      button {
-        padding: 0.4rem 0.8rem;
-        font-weight: 500;
-        background-color: #ffcc00;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s;
+  .action-buttons {
+    margin-top: 0.6rem;
+    display: flex;
+    gap: 0.5rem;
 
-        &:hover {
-          background-color: #e6b800;
-        }
+    .btn {
+      padding: 0.45rem 0.9rem;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: filter 0.2s ease;
 
-        &:last-child {
-          background-color: #c0392b;
-          color: white;
-
-          &:hover {
-            background-color: #a93226;
-          }
-        }
+      &:hover {
+        filter: brightness(1.15);
       }
+    }
+
+    .btn-approve {
+      background-color: #2e5c2e;
+      color: #fff;
+    }
+    .btn-approve:hover{
+      background-color: #3b7a3b;
+    }
+
+    .btn-cancel {
+      background-color: #5c2b2b; 
+      color: #fff;
     }
   }
 }
@@ -69,6 +129,163 @@
 .empty-message {
   text-align: center;
   padding: 2rem;
-  font-size: 1.2rem;
-  color: #bbb;
+  font-size: 1.1rem;
+  color: #888;
+  background: #1e1e1e;
+  border: 1px dashed #444;
+  border-radius: 10px;
 }
+
+.details-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-bottom: 1.5rem;
+
+  .detail {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid #333;
+
+    span {
+      font-size: 0.85rem;
+      color: #999;
+      margin-bottom: 0.2rem;
+    }
+
+    strong {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #f2f2f2;
+    }
+  }
+}
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 40;
+  padding: 1rem;
+}
+
+.modal-content {
+  position: relative;
+  background: #1f1f1f;
+  color: #f5f5f5;
+  width: 640px;
+  max-width: 100%;
+  max-height: 80vh; 
+  border-radius: 12px;
+  border: 1px solid #333;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-body {
+  padding: 1.5rem;
+  overflow-y: auto; 
+  flex: 1;
+}
+
+.modal-actions {
+  margin-top: 1.5rem;
+  display: flex;
+  gap: 0.8rem;
+  justify-content: flex-end;
+}
+
+.btn {
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.25s ease, transform 0.1s ease;
+  user-select: none;
+
+  &:hover {
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(1px);
+  }
+}
+
+  .btn-approve {
+      background-color: #2e5c2e;
+      color: #fff;
+    }
+    .btn-approve:hover{
+      background-color: #3b7a3b;
+    }
+
+.btn-cancel {
+  background-color: #5c2b2b; 
+  color: #f5f5f5;
+
+  &:hover {
+    background-color: #7a3636; 
+  }
+
+  &:disabled {
+    background-color: #3a1f1f;
+    color: #777;
+    cursor: not-allowed;
+  }
+}
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  color: #aaa;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+
+  &:hover {
+    color: #fff;
+  }
+}
+.flash-img {
+  max-width: 100%;
+  max-height: 200px;
+  margin-top: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid #444;
+  object-fit: contain;
+}
+::-webkit-scrollbar {
+  width: 10px;              
+  height: 10px;            
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a1a;     
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #444;         
+  border-radius: 10px;
+  border: 2px solid #1a1a1a; 
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #666;          
+}
+* {
+  scrollbar-width: thin;             
+  scrollbar-color: #444 #1a1a1a;       
+}
+
+
+

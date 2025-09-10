@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Visit } from '../../model/visit';
 import { VISIT_STATUS, VisitService } from '../../service/visit.service';
+import { AuthService } from '../../service/auth.service';
 
 @Component({
   selector: 'app-reservations',
@@ -13,8 +14,11 @@ export class ReservationsComponent implements OnInit {
   selectedRoleTab: 'client' | 'artist' = 'client'; 
   selectedTab: 'active' | 'past' | 'cancelled' = 'active';
   visits: Visit[] = [];
+  currentVisit?: Visit;
+  showDetails: boolean = false;
+  
 
-  constructor(private visitService: VisitService) {}
+  constructor(private visitService: VisitService,  public authService: AuthService) {}
 
   ngOnInit(): void {
     this.loadVisits();
@@ -35,12 +39,23 @@ loadVisits() {
     else this.visitService.getCancelledAsArtist().subscribe(v => this.visits = v);
   }
 }
-  approveVisit(id: string) {
-    this.visitService.approveVisit(id).subscribe(() => this.loadVisits());
+  confirmVisit(id: string) {
+    this.visitService.confirmVisit(id).subscribe(() => this.loadVisits());
   }
 
   cancelVisit(id: string) {
     this.visitService.cancelVisit(id).subscribe(() => this.loadVisits());
+  }
+  openVisitDetails(visitId: string) {
+    this.visitService.getById(visitId).subscribe(details => {
+      this.currentVisit = details;
+      this.showDetails = true;
+    });
+  }
+
+  closeDetails() {
+    this.showDetails = false;
+    this.currentVisit = undefined;
   }
 
 }

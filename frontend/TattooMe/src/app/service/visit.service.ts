@@ -47,13 +47,17 @@ export class VisitService {
     return this.http.get<Visit[]>(`${this.apiUrl}/artist/cancelled`);
   }
 
-  approveVisit(id: string): Observable<void> {
-    return this.http.patch<void>(`${this.apiUrl}/${id}/approve`, {});
+  confirmVisit(id: string): Observable<void> {
+    return this.http.patch<void>(`${this.apiUrl}/${id}/confirm`, {});
   }
 
   cancelVisit(id: string): Observable<void> {
     return this.http.patch<void>(`${this.apiUrl}/${id}/cancel`, {});
   }
+  getById(id: string): Observable<Visit> {
+    return this.http.get<Visit>(`${this.apiUrl}/${id}`);
+  }
+
 
 
 }
