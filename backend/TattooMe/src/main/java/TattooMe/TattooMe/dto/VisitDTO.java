@@ -16,6 +16,7 @@ public class VisitDTO {
     private String clientName;
     private String comment;
     private String flashDescription;
+    private String flashImage;
     private String tattooStudioName;
     private String allergies;
     private String chronicDiseases;
