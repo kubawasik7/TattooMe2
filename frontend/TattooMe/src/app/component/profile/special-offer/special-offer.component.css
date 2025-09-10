@@ -91,7 +91,7 @@
 
 .edit-btn,
 .btn-save {
-   padding: 6px 12px;
+  padding: 6px 12px;
   border-radius: 6px;
   border: none;
   font-size: 0.9rem;
@@ -100,14 +100,17 @@
   justify-content: center;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
-  color: #e0bb13;
-  background-color: #6b6a6a;
-  
+  color: #000000;
+  background-color: #2e5c2e;
 }
-.edit-btn:hover,
+.edit-btn{
+  background-color: #6c757d;
+}
+.edit-btn:hover {
+  background: #868e96;
+}
 .btn-save:hover {
-  background: #e0a800;
-  color: #fff;
+  background: #3b7a3b;
 }
 
 .delete-btn,
@@ -122,9 +125,9 @@
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   color: #fff;
-  background-color: #6b6a6a;
+  background-color: #5c2b2b;
 }
 .delete-btn:hover,
 .btn-cancel:hover {
-  background: #c82333;
+  background: #7a3636;
 }
