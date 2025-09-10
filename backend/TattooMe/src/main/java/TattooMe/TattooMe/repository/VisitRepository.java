@@ -20,5 +20,13 @@ public interface VisitRepository extends JpaRepository<Visit, UUID> {
 
     @Query("SELECT v FROM visit v WHERE v.client.id = :clientId AND v.status.name = 'ANULOWANA'")
     List<Visit> findCancelledByClient(@Param("clientId") UUID clientId);
+    @Query("SELECT v FROM visit v WHERE v.artist.id = :artistId AND v.status.name IN :statuses")
+    List<Visit> findByArtistAndStatuses(@Param("artistId") UUID artistId, @Param("statuses") List<String> statuses);
+
+    @Query("SELECT v FROM visit v WHERE v.artist.id = :artistId AND v.status.name = 'ZATWIERDZONA' AND v.artistDate.date < CURRENT_TIMESTAMP")
+    List<Visit> findPastByArtist(@Param("artistId") UUID artistId);
+
+    @Query("SELECT v FROM visit v WHERE v.artist.id = :artistId AND v.status.name = 'ANULOWANA'")
+    List<Visit> findCancelledByArtist(@Param("artistId") UUID artistId);
 }
 

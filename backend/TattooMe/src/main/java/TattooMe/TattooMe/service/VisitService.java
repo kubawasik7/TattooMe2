@@ -44,6 +44,43 @@ public class VisitService {
                 .map(this::toDTO)
                 .collect(Collectors.toList());
     }
+    public List<VisitDTO> getActiveVisitsAsArtist(UUID artistId) {
+        List<String> statuses = List.of("OCZEKUJĄCA", "ZATWIERDZONA");
+        return visitRepository.findByArtistAndStatuses(artistId, statuses)
+                .stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<VisitDTO> getPastVisitsAsArtist(UUID artistId) {
+        return visitRepository.findPastByArtist(artistId)
+                .stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<VisitDTO> getCancelledVisitsAsArtist(UUID artistId) {
+        return visitRepository.findCancelledByArtist(artistId)
+                .stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
+    }
+    public boolean cancelVisitAsArtist(UUID visitId, UUID artistId) {
+        Optional<Visit> optional = visitRepository.findById(visitId);
+        if (optional.isPresent()) {
+            Visit visit = optional.get();
+
+            if (visit.getArtist().getId().equals(artistId) &&
+                    ("OCZEKUJĄCA".equals(visit.getStatus().getName()) || "ZATWIERDZONA".equals(visit.getStatus().getName()))) {
+
+                Status cancelledStatus = statusRepository.findByName("ANULOWANA");
+                visit.setStatus(cancelledStatus);
+                visitRepository.save(visit);
+                return true;
+            }
+        }
+        return false;
+    }
 
     @Transactional
     public void createVisit(UUID clientId, NewVisitDTO newVisitDTO) {
@@ -84,6 +121,20 @@ public class VisitService {
         }
         visitRepository.save(visit);
     }
+    public boolean approveVisit(UUID visitId, UUID artistId) {
+        Optional<Visit> optional = visitRepository.findById(visitId);
+        if (optional.isPresent()) {
+            Visit visit = optional.get();
+            if (visit.getArtist().getId().equals(artistId) && visit.getStatus().getName().equals("OCZEKUJĄCA")) {
+                Status approvedStatus = statusRepository.findByName("ZATWIERDZONA");
+                visit.setStatus(approvedStatus);
+                visitRepository.save(visit);
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     private VisitDTO toDTO(Visit visit) {
         VisitDTO dto = new VisitDTO();
