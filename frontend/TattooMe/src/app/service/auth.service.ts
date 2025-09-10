@@ -23,6 +23,17 @@ export class AuthService {
   getToken(): string | null {
     return (typeof window !== 'undefined') ? localStorage.getItem('token') : null;
   }
+  isTattooArtist(): boolean | null {
+    const token = this.getToken();
+    if(!token) return null;
+    const decodedToken: any = jwtDecode(token);
+
+    if(decodedToken.role === 'tattoo_artist'){
+      return true;
+    }
+    return false;
+  }
+
     getNickname(): string | null {
     const token = this.getToken();
     if (!token) return null;
