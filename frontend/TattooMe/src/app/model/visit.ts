@@ -2,6 +2,6 @@ export interface Visit {
   id: string;
   date: string;
   status: string;
-  artistNickname: string;
+  artistName: string;
   clientNickname: string;
 }

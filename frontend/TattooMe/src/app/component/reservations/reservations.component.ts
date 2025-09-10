@@ -34,5 +34,6 @@ export class ReservationsComponent implements OnInit {
     } else {
       this.visitService.getCancelled().subscribe(visits => this.visits = visits);
     }
+
   }
 }
