@@ -33,6 +33,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ReservationsComponent } from './component/reservations/reservations.component';
+import { ReviewsComponent } from './component/review/review.component';
 const appRoutes: Routes = [
   { path: '', component: MainPageComponent },
   { path: 'login', component: LoginComponent },
@@ -72,7 +73,8 @@ const appRoutes: Routes = [
     VisitComponent,
     CreateStudioComponent,
     StudioListComponent,
-    ReservationsComponent
+    ReservationsComponent,
+    ReviewsComponent
   ],
   imports: [
     BrowserModule,
