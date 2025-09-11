@@ -104,7 +104,14 @@
         <div class="detail"><span>Leki:</span> <strong>{{ currentVisit?.medicines || '—' }}</strong></div>
         <div class="detail"><span>Doświadczenia:</span> <strong>{{ currentVisit?.experiences || '—' }}</strong></div>
       </div>
+        <h4>Opinia</h4>
+  <app-review
+    [visitId]="currentVisit?.id"
+    [visitStatus]="currentVisit?.status"
+    [visitDate]="currentVisit?.date"
+  ></app-review>
     </div>
+    
 
     <div
       class="modal-actions"
