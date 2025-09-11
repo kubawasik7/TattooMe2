@@ -1,5 +1,6 @@
 package TattooMe.TattooMe.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -39,16 +40,24 @@ public class Review {
 
     @ManyToOne
     @JoinColumn(name = "author_id", nullable = false)
+    @JsonIgnore
     private User author;
 
     @ManyToOne
     @JoinColumn(name = "target_id")
+    @JsonIgnore
     private User target;
 
     @ManyToOne
     @JoinColumn(name = "tattoo_studio_id")
+    @JsonIgnore
     private TattooStudio tattooStudio;
 
     @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<ReviewAnswer> answers = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "visit_id", nullable = false)
+    private Visit visit;
+
 }
