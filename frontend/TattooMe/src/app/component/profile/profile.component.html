@@ -47,18 +47,6 @@
   <app-special-offer [userId]="userId" [isOwner]="isOwner"></app-special-offer>
   <app-portfolio [userId]="userId" [isOwner]="isOwner"></app-portfolio>
   <app-offer [userId]="userId" [isOwner]="isOwner"></app-offer>
-
-  <section class="reviews">
-    <h3>Opinie</h3>
-    <div class="review-list">
-      <div class="review">
-        <h4>Nickname <span class="stars">★★★★☆</span></h4>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
-      </div>
-      <div class="review">
-        <h4>Nickname <span class="stars">★★★★☆</span></h4>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
-      </div>
-    </div>
-  </section>
+  <app-review [artistId]="userId"></app-review>
+ 
 </main>
