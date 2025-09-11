@@ -1,0 +1,71 @@
+<h3>Opinie</h3>
+
+<div *ngIf="canAddReview() && !existingReview" class="review-form-wrapper">
+  <button class="btn-review" (click)="showForm = !showForm">
+    {{ showForm ? 'Anuluj' : 'Wystaw opinię' }}
+  </button>
+
+  <div *ngIf="showForm" class="review-form">
+    <label>Ocena:</label>
+    <div class="stars">
+      <span
+        *ngFor="let star of [1,2,3,4,5]"
+        (click)="setRate(star)"
+        [class.filled]="star <= rate"
+      >
+        ★
+      </span>
+    </div>
+
+    <textarea [(ngModel)]="content" placeholder="Napisz swoją opinię..."></textarea>
+
+    <button class="btn-submit" (click)="submitReview()">Dodaj opinię</button>
+  </div>
+</div>
+
+<div *ngIf="existingReview" class="review-info">
+  ✅ Już wystawiłeś opinię dla tej wizyty.
+  <div class="review-item">
+    <div class="review-header">
+      <div class="review-author">{{ existingReview.authorNickname }}</div>
+      <div class="review-rate">
+        <span *ngFor="let star of [1,2,3,4,5]" [class.filled]="star <= existingReview.rate">★</span>
+      </div>
+    </div>
+    <div class="review-content">{{ existingReview.content }}</div>
+    <div class="review-date">{{ existingReview.createdAt | date:'short' }}</div>
+  </div>
+</div>
+
+<div *ngIf="reviews.length === 0" class="empty-message">
+  Brak opinii.
+</div>
+
+<ul *ngIf="reviews.length > 0" class="review-list">
+  <li *ngFor="let review of reviews" class="review-item">
+    <div class="review-header">
+      <div class="review-author">{{ review.authorNickname }}</div>
+      <div class="review-rate">
+        <span *ngFor="let star of [1,2,3,4,5]" [class.filled]="star <= review.rate">★</span>
+      </div>
+    </div>
+    <div class="review-content">{{ review.content }}</div>
+    <div class="review-date">{{ review.createdAt | date:'short' }}</div>
+
+    <div class="answers" *ngIf="review.answers.length > 0">
+      <div *ngFor="let ans of review.answers" class="answer">
+        <strong>{{ ans.userNickname }}:</strong> {{ ans.content }}
+        <span class="answer-date">{{ ans.createdAt | date:'short' }}</span>
+      </div>
+    </div>
+
+    <div class="answer-form" *ngIf="authService.isTattooArtist()">
+      <input
+        type="text"
+        [(ngModel)]="answerContent[review.id]"
+        placeholder="Napisz odpowiedź..."
+      />
+      <button (click)="addAnswer(review.id)">Odpowiedz</button>
+    </div>
+  </li>
+</ul>
