@@ -1,5 +1,6 @@
 package TattooMe.TattooMe.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -33,14 +34,21 @@ public class ReviewAnswer {
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
+    @ManyToOne
+    @JoinColumn(name = "artist_id")
+    private User artist;
+
 
     @ManyToOne
-    @JoinColumn(name = "tattoo_studio_id", nullable = false)
+    @JoinColumn(name = "tattoo_studio_id")
+    @JsonIgnore
     private TattooStudio tattooStudio;
 
     @ManyToOne
     @JoinColumn(name = "review_id", nullable = false)
+    @JsonIgnore
     private Review review;
 }
