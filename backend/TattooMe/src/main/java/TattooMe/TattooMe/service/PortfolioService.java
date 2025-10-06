@@ -1,5 +1,6 @@
 package TattooMe.TattooMe.service;
 
+import TattooMe.TattooMe.dto.PortfolioDTO;
 import TattooMe.TattooMe.entity.Portfolio;
 import TattooMe.TattooMe.entity.User;
 import TattooMe.TattooMe.repository.PortfolioRepository;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,12 +22,20 @@ public class PortfolioService {
 
     @Autowired
     private UserRepository userRepository;
-    public List<Portfolio> getUserPortfolio(UUID userId) {
-        return portfolioRepository.findAllByUser_Id(userId);
+
+    public List<PortfolioDTO> getUserPortfolio(UUID userId) {
+        return portfolioRepository.findAllByUser_Id(userId)
+                .stream()
+                .map(p -> new PortfolioDTO(
+                        p.getId(),
+                        Base64.getEncoder().encodeToString(p.getPicture())
+                ))
+                .toList();
     }
-    public void uploadPortfolioImage(UUID userId, MultipartFile multipartFile) throws IOException {
+
+    public PortfolioDTO uploadPortfolioImage(UUID userId, MultipartFile multipartFile) throws IOException {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("Użytkownik nie znaleziony: " + userId));
+                .orElseThrow(() -> new EntityNotFoundException("Użytkownik nie znaleziony"));
 
         if (multipartFile.isEmpty()) {
             throw new IllegalArgumentException("Plik nie może być pusty");
@@ -39,8 +49,15 @@ public class PortfolioService {
         Portfolio portfolio = new Portfolio();
         portfolio.setPicture(multipartFile.getBytes());
         portfolio.setUser(user);
-        portfolioRepository.save(portfolio);
+
+        Portfolio saved = portfolioRepository.save(portfolio);
+
+        return new PortfolioDTO(
+                saved.getId(),
+                Base64.getEncoder().encodeToString(saved.getPicture())
+        );
     }
+
     public void deletePortfolioImage(UUID id) {
         portfolioRepository.deleteById(id);
     }
