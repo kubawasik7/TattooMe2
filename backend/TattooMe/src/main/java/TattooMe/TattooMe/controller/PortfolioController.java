@@ -1,6 +1,7 @@
 package TattooMe.TattooMe.controller;
 
 import TattooMe.TattooMe.Security.CustomUserDetails;
+import TattooMe.TattooMe.dto.PortfolioDTO;
 import TattooMe.TattooMe.entity.Portfolio;
 import TattooMe.TattooMe.repository.PortfolioRepository;
 import TattooMe.TattooMe.repository.UserRepository;
@@ -19,27 +20,25 @@ import java.util.UUID;
 @RequestMapping("/api/portfolio")
 @CrossOrigin(origins = "http://localhost:4200")
 public class PortfolioController {
-    private PortfolioRepository portfolioRepository;
-    private UserRepository userRepository;
 
     @Autowired
     private PortfolioService portfolioService;
 
     @GetMapping("/{userId}")
-    public List<Portfolio> getByUser(@PathVariable UUID userId) {
-        return portfolioService.getUserPortfolio(userId);
+    public ResponseEntity<List<PortfolioDTO>> getByUser(@PathVariable UUID userId) {
+        return ResponseEntity.ok(portfolioService.getUserPortfolio(userId));
     }
 
     @PostMapping("/upload")
-    public ResponseEntity<?> uploadPortfolioImage(
+    public ResponseEntity<PortfolioDTO> uploadPortfolioImage(
             @RequestPart("file") MultipartFile file,
-            @AuthenticationPrincipal CustomUserDetails principal) throws IOException {
-        portfolioService.uploadPortfolioImage(principal.getId(), file);
-        return ResponseEntity.ok().build();
+            @AuthenticationPrincipal CustomUserDetails user) throws IOException {
+        return ResponseEntity.ok(portfolioService.uploadPortfolioImage(user.getId(), file));
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable UUID id) {
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
         portfolioService.deletePortfolioImage(id);
+        return ResponseEntity.noContent().build();
     }
 }
