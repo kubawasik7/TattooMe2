@@ -62,3 +62,8 @@ button {
 button:hover {
   background-color: #888;
 }
+.error {
+  margin-top: 0.3rem;
+  color: #ff6b6b;
+  font-size: 0.9rem;
+}
