@@ -1,4 +1,4 @@
 export interface Portfolio {
     id: string;
-    picture: string;
+    base64Image: string;
 }
