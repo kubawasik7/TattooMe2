@@ -1,40 +1,22 @@
 package TattooMe.TattooMe.dto;
 
+import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class PersonInfoDTO {
+
+    @Size(min = 0, max = 255, message = "Pole może mieć maksymalnie 255 znaków")
     private String allergies;
+
+    @Size(min = 0, max = 255, message = "Pole może mieć maksymalnie 255 znaków")
     private String chronicDiseases;
+
+    @Size(min = 0, max = 255, message = "Pole może mieć maksymalnie 255 znaków")
     private String medicines;
+
+    @Size(min = 0, max = 255, message = "Pole może mieć maksymalnie 255 znaków")
     private String experiences;
-
-    public String getAllergies() {
-        return allergies;
-    }
-
-    public void setAllergies(String allergies) {
-        this.allergies = allergies;
-    }
-
-    public String getChronicDiseases() {
-        return chronicDiseases;
-    }
-
-    public void setChronicDiseases(String chronicDiseases) {
-        this.chronicDiseases = chronicDiseases;
-    }
-
-    public String getMedicines() {
-        return medicines;
-    }
-
-    public void setMedicines(String medicines) {
-        this.medicines = medicines;
-    }
-
-    public String getExperiences() {
-        return experiences;
-    }
-
-    public void setExperiences(String experiences) {
-        this.experiences = experiences;
-    }
 }
