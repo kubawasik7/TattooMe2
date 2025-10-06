@@ -8,6 +8,7 @@
   text-align: center;
 }
 
+
 .info-subtitle {
   font-size: 0.9rem;
   color: #aaa;
@@ -18,6 +19,7 @@
   margin-bottom: 1rem;
   text-align: left;
 }
+
 
 .info-form label {
   display: block;
