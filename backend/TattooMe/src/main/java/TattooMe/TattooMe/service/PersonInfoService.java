@@ -5,6 +5,7 @@ import TattooMe.TattooMe.entity.PersonInfo;
 import TattooMe.TattooMe.repository.PersonInfoRepository;
 import TattooMe.TattooMe.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -12,23 +13,22 @@ import java.util.UUID;
 
 @Service
 public class PersonInfoService {
-    private final PersonInfoRepository personInfoRepository;
-    private final UserRepository userRepository;
+    @Autowired
+    private PersonInfoRepository personInfoRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-    public PersonInfoService(PersonInfoRepository personInfoRepository, UserRepository userRepository) {
-        this.personInfoRepository = personInfoRepository;
-        this.userRepository = userRepository;
-    }
-    public Optional<PersonInfo> getUserInfo(UUID userId) {
-        return personInfoRepository.findByUser_Id(userId);
+    public Optional<PersonInfoDTO> getUserInfo(UUID userId) {
+        return personInfoRepository.findByUser_Id(userId)
+                .map(this::toDto);
     }
 
-    public PersonInfo updateUserInfo(UUID userId, PersonInfoDTO dto) {
+    public PersonInfoDTO updateUserInfo(UUID userId, PersonInfoDTO dto) {
         PersonInfo info = personInfoRepository.findByUser_Id(userId)
                 .orElseGet(() -> {
                     PersonInfo newInfo = new PersonInfo();
                     newInfo.setUser(userRepository.findById(userId)
-                            .orElseThrow(() -> new EntityNotFoundException("dane usera z nie istnieje")));
+                            .orElseThrow(() -> new EntityNotFoundException("Użytkownik nie istnieje")));
                     return newInfo;
                 });
 
@@ -37,8 +37,16 @@ public class PersonInfoService {
         info.setMedicines(dto.getMedicines());
         info.setExperiences(dto.getExperiences());
 
-        return personInfoRepository.save(info);
+        PersonInfo saved = personInfoRepository.save(info);
+        return toDto(saved);
     }
 
-
+    private PersonInfoDTO toDto(PersonInfo entity) {
+        PersonInfoDTO dto = new PersonInfoDTO();
+        dto.setAllergies(entity.getAllergies());
+        dto.setChronicDiseases(entity.getChronicDiseases());
+        dto.setMedicines(entity.getMedicines());
+        dto.setExperiences(entity.getExperiences());
+        return dto;
+    }
 }
