@@ -2,33 +2,45 @@
   <h2>Informacje</h2>
   <p class="info-subtitle">Te dane będą widoczne dla tatuatorów podczas składania rezerwacji.</p>
 
-  <form class="info-form">
+  <form [formGroup]="infoForm" class="info-form">
     <div class="form-group">
-      <label>Alergie</label>
-      <textarea [(ngModel)]="info.allergies" name="allergies" [readonly]="!editMode" placeholder="type something..."></textarea>
+      <label for="allergies">Alergie</label>
+      <textarea id="allergies" formControlName="allergies"></textarea>
+      <div class="error" *ngIf="infoForm.get('allergies')?.touched && infoForm.get('allergies')?.hasError('maxlength')">
+        Pole nie może mieć więcej niż 255 znaków
+      </div>
     </div>
 
     <div class="form-group">
-      <label>Choroby przewlekłe</label>
-      <textarea [(ngModel)]="info.chronicDiseases" name="chronic" [readonly]="!editMode" placeholder="type something..."></textarea>
+      <label for="chronicDiseases">Choroby przewlekłe</label>
+      <textarea id="chronicDiseases" formControlName="chronicDiseases"></textarea>
+      <div class="error"
+        *ngIf="infoForm.get('chronicDiseases')?.touched && infoForm.get('chronicDiseases')?.hasError('maxlength')">
+        Pole nie może mieć więcej niż 255 znaków
+      </div>
     </div>
 
     <div class="form-group">
-      <label>Przyjmowane leki</label>
-      <textarea [(ngModel)]="info.medicines" name="medicines" [readonly]="!editMode" placeholder="type something..."></textarea>
+      <label for="medicines">Leki</label>
+      <textarea id="medicines" formControlName="medicines"></textarea>
+      <div class="error" *ngIf="infoForm.get('medicines')?.touched && infoForm.get('medicines')?.hasError('maxlength')">
+        Pole nie może mieć więcej niż 255 znaków
+      </div>
     </div>
 
     <div class="form-group">
-      <label>Poprzednie doświadczenia</label>
-      <textarea [(ngModel)]="info.experiences" name="experience" [readonly]="!editMode" placeholder="type something..."></textarea>
+      <label for="experiences">Doświadczenia</label>
+      <textarea id="experiences" formControlName="experiences"></textarea>
+      <div class="error"
+        *ngIf="infoForm.get('experiences')?.touched && infoForm.get('experiences')?.hasError('maxlength')">
+        Pole nie może mieć więcej niż 255 znaków
+      </div>
     </div>
 
     <div class="form-actions">
-      <button *ngIf="!editMode" (click)="enableEdit()" type="button">Edytuj informacje</button>
-      <ng-container *ngIf="editMode">
-        <button (click)="saveChanges()" type="button">Zapisz</button>
-        <button (click)="cancelChanges()" type="button">Anuluj</button>
-      </ng-container>
+      <button type="button" (click)="enableEdit()" *ngIf="!editMode">Edytuj informacje</button>
+      <button type="button" (click)="saveChanges()" *ngIf="editMode">Zapisz</button>
+      <button type="button" (click)="cancelChanges()" *ngIf="editMode">Anuluj</button>
     </div>
   </form>
 </div>
