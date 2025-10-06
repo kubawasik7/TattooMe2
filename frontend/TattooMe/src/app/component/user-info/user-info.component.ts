@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserInfoService } from '../../service/user-info.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-user-info',
@@ -8,40 +10,65 @@ import { UserInfoService } from '../../service/user-info.service';
   styleUrl: './user-info.component.css'
 })
 export class UserInfoComponent implements OnInit {
-  info: any = {};
-  originalInfo: any = {};
+  infoForm!: FormGroup;
   editMode = false;
+  originalInfo: any;
 
-  constructor(private infoService: UserInfoService) {}
+  constructor(private userInfoService: UserInfoService, private fb: FormBuilder) {}
 
   ngOnInit(): void {
-    this.infoService.getInfo().subscribe(data => {
-      console.log('Dane z backendu:', data);
-      this.info = { ...data };
-      console.log('info:', this.info);
-
-      this.originalInfo = { ...data };
+    this.infoForm = this.fb.group({
+      allergies: [{ value: '', disabled: true }, [Validators.maxLength(255)]],
+      chronicDiseases: [{ value: '', disabled: true }, [Validators.maxLength(255)]],
+      medicines: [{ value: '', disabled: true }, [Validators.maxLength(255)]],
+      experiences: [{ value: '', disabled: true }, [Validators.maxLength(255)]]
     });
+
+    this.loadInfo();
   }
 
-  enableEdit(): void {
-    this.editMode = true;
-  }
-
-  saveChanges(): void {
-    this.infoService.updateInfo(this.info).subscribe({
-      next: () => {
-        this.originalInfo = { ...this.info };
-        this.editMode = false;
-        alert('Zapisano informacje');
+  loadInfo() {
+    this.userInfoService.getInfo().subscribe({
+      next: (data) => {
+        this.originalInfo = { ...data };
+        this.infoForm.patchValue(data);
       },
-      error: () => alert('Błąd')
+      error: (err) => {
+        console.error('Błąd podczas pobierania danych', err);
+      }
     });
   }
 
-  cancelChanges(): void {
-    this.info = { ...this.originalInfo };
-    this.editMode = false;
+  enableEdit() {
+    this.editMode = true;
+    this.infoForm.enable();
   }
 
+  cancelChanges() {
+    this.editMode = false;
+    this.infoForm.disable();
+    this.infoForm.patchValue(this.originalInfo);
+  }
+
+  saveChanges() {
+    if (this.infoForm.invalid) {
+      this.infoForm.markAllAsTouched();
+      return;
+    }
+
+    const formData = this.infoForm.value;
+
+    this.userInfoService.updateInfo(formData).subscribe({
+      next: (updatedInfo) => {
+        this.originalInfo = { ...updatedInfo };
+        this.infoForm.patchValue(updatedInfo);
+        this.infoForm.disable();
+        this.editMode = false;
+
+      },
+      error: (err) => {
+        console.error('Błąd przy zapisie:', err);
+      }
+    });
+  }
 }
