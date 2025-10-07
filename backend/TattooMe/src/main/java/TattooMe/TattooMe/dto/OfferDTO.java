@@ -1,43 +1,26 @@
 package TattooMe.TattooMe.dto;
 
+import jakarta.validation.constraints.*;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+@Getter
+@Setter
 public class OfferDTO {
     private UUID id;
+
+    @NotNull(message = "Data rozpoczęcia jest wymagana")
+    @FutureOrPresent(message = "Data rozpoczęcia nie może być w przeszłości")
     private LocalDateTime startDate;
+
+    @NotNull(message = "Data zakończenia jest wymagana")
+    @Future(message = "Data zakończenia musi być w przyszłości")
     private LocalDateTime endDate;
+
+    @NotBlank(message = "Opis jest wymagany")
+    @Size(max = 500, message = "Opis nie może przekraczać 500 znaków")
     private String description;
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public LocalDateTime getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(LocalDateTime startDate) {
-        this.startDate = startDate;
-    }
-
-    public LocalDateTime getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(LocalDateTime endDate) {
-        this.endDate = endDate;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 }
