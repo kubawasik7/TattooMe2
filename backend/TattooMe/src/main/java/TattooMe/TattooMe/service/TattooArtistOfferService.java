@@ -19,71 +19,69 @@ import java.util.stream.Collectors;
 @Service
 public class TattooArtistOfferService {
     @Autowired
-    private TattooArtistOfferRepository repo;
-    @Autowired private UserRepository userRepo;
+    private TattooArtistOfferRepository artistOfferRepository;
+    @Autowired
+    private UserRepository userRepo;
 
     public List<OfferDTO> getOffers(UUID artistId) {
-        return repo.findAllByTattooArtistId(artistId).stream()
+        return artistOfferRepository.findAllByTattooArtistId(artistId).stream()
                 .map(this::toDto)
                 .collect(Collectors.toList());
     }
 
-    public OfferDTO createOffer(UUID artistId, CreateOfferDTO dto) {
+    public OfferDTO createOffer(UUID artistId, CreateOfferDTO offerDTO) {
         User artist = userRepo.findById(artistId)
                 .orElseThrow(() -> new RuntimeException("Nie znaleziono artysty"));
 
-        if(dto.getStartDate().isBefore(LocalDateTime.now())){
+        if (offerDTO.getStartDate().isBefore(LocalDateTime.now())) {
             throw new IllegalArgumentException("Data rozpoczęcia nie może być wcześniejsza niż teraz");
         }
-        if(dto.getEndDate().isBefore(LocalDateTime.now())){
+        if (offerDTO.getEndDate().isBefore(LocalDateTime.now())) {
             throw new IllegalArgumentException("Data zakonczenia nie moze byc wcześniejsza niż teraz");
         }
 
         TattooArtistOffer tattooArtistOffer = new TattooArtistOffer();
         tattooArtistOffer.setTattooArtist(artist);
-        tattooArtistOffer.setStartDate(dto.getStartDate());
-        tattooArtistOffer.setEndDate(dto.getEndDate());
-        tattooArtistOffer.setDescription(dto.getDescription());
-        return toDto(repo.save(tattooArtistOffer));
+        tattooArtistOffer.setStartDate(offerDTO.getStartDate());
+        tattooArtistOffer.setEndDate(offerDTO.getEndDate());
+        tattooArtistOffer.setDescription(offerDTO.getDescription());
+
+        return toDto(artistOfferRepository.save(tattooArtistOffer));
     }
 
     @Transactional
     public OfferDTO updateOffer(UUID artistId, UUID offerId, CreateOfferDTO dto) throws AccessDeniedException {
-        TattooArtistOffer offer = repo.findById(offerId)
+        TattooArtistOffer offer = artistOfferRepository.findById(offerId)
                 .orElseThrow(() -> new RuntimeException("Nie znaleziono oferty"));
 
         if (!offer.getTattooArtist().getId().equals(artistId)) {
             throw new AccessDeniedException("Brak dostępu");
         }
 
-        if(dto.getStartDate().isBefore(LocalDateTime.now())){
-            throw new IllegalArgumentException("Data rozpoczęcia nie może być wcześniejsza niż teraz");
-        }
-        if(dto.getEndDate().isBefore(LocalDateTime.now())){
-            throw new IllegalArgumentException("Data zakonczenia nie moze byc wcześniejsza niż teraz");
-        }
-
         offer.setStartDate(dto.getStartDate());
         offer.setEndDate(dto.getEndDate());
         offer.setDescription(dto.getDescription());
+
         return toDto(offer);
     }
 
     public void deleteOffer(UUID artistId, UUID offerId) throws AccessDeniedException {
-        TattooArtistOffer e = repo.findById(offerId)
+        TattooArtistOffer offer = artistOfferRepository.findById(offerId)
                 .orElseThrow(() -> new RuntimeException("Nie znaleziono oferty"));
-        if (!e.getTattooArtist().getId().equals(artistId)) {
+
+        if (!offer.getTattooArtist().getId().equals(artistId)) {
             throw new AccessDeniedException("Brak dostępu");
         }
-        repo.delete(e);
+
+        artistOfferRepository.delete(offer);
     }
 
-    private OfferDTO toDto(TattooArtistOffer e) {
-        OfferDTO d = new OfferDTO();
-        d.setId(e.getId());
-        d.setStartDate(e.getStartDate());
-        d.setEndDate(e.getEndDate());
-        d.setDescription(e.getDescription());
-        return d;
+    private OfferDTO toDto(TattooArtistOffer offer) {
+        OfferDTO offerDTO = new OfferDTO();
+        offerDTO.setId(offer.getId());
+        offerDTO.setStartDate(offer.getStartDate());
+        offerDTO.setEndDate(offer.getEndDate());
+        offerDTO.setDescription(offer.getDescription());
+        return offerDTO;
     }
 }
