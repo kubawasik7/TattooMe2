@@ -1,9 +1,12 @@
 package TattooMe.TattooMe.controller;
 
+import TattooMe.TattooMe.dto.OfferDTO;
+import TattooMe.TattooMe.dto.TattooStyleDTO;
 import TattooMe.TattooMe.entity.TattooStyle;
 import TattooMe.TattooMe.service.WorkStyleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -16,21 +19,23 @@ import java.util.UUID;
 public class WorkStyleController {
     @Autowired
     private WorkStyleService service;
-    @GetMapping("/all")
-    public List<TattooStyle> getAll() {
-        List<TattooStyle> styles = service.getAllStyles();
 
-        if (styles.isEmpty()) { // do usuniecia
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Brak dostępnych stylów.");
-        }
-        return service.getAllStyles();
+    @GetMapping("/all")
+    public ResponseEntity<List<TattooStyleDTO>> getAll() {
+        return ResponseEntity.ok(service.getAllStyles());
     }
+
     @GetMapping("/user/{id}")
-    public List<TattooStyle> getForUser(@PathVariable UUID id) {
-        return service.getUserStyles(id);
+    public ResponseEntity<List<TattooStyleDTO>> getForUser(@PathVariable UUID id) {
+        return ResponseEntity.ok(service.getUserStyles(id));
     }
+
     @PostMapping("/user/{id}")
-    public void saveForUser(@PathVariable UUID id, @RequestBody List<UUID> styleIds) {
-        service.saveUserStyles(id, styleIds);
+    public ResponseEntity<List<TattooStyleDTO>> saveForUser(
+            @PathVariable UUID id,
+            @RequestBody List<UUID> styleIds) {
+        List<TattooStyleDTO> tattooStyles = service.saveUserStyles(id, styleIds);
+        return ResponseEntity.status(HttpStatus.CREATED).body(tattooStyles);
     }
+
 }
