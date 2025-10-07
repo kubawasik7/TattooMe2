@@ -1,5 +1,6 @@
 package TattooMe.TattooMe.controller;
 
+import TattooMe.TattooMe.Security.CustomUserDetails;
 import TattooMe.TattooMe.dto.OfferDTO;
 import TattooMe.TattooMe.dto.TattooStyleDTO;
 import TattooMe.TattooMe.entity.TattooStyle;
@@ -7,6 +8,7 @@ import TattooMe.TattooMe.service.WorkStyleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -32,9 +34,9 @@ public class WorkStyleController {
 
     @PostMapping("/user/{id}")
     public ResponseEntity<List<TattooStyleDTO>> saveForUser(
-            @PathVariable UUID id,
+            @AuthenticationPrincipal CustomUserDetails user,
             @RequestBody List<UUID> styleIds) {
-        List<TattooStyleDTO> tattooStyles = service.saveUserStyles(id, styleIds);
+        List<TattooStyleDTO> tattooStyles = service.saveUserStyles(user.getId(), styleIds);
         return ResponseEntity.status(HttpStatus.CREATED).body(tattooStyles);
     }
 
