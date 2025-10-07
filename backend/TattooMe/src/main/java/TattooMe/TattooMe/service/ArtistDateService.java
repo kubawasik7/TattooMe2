@@ -26,6 +26,7 @@ public class ArtistDateService {
                 .map(this::toDto)
                 .toList();
     }
+
     public List<ScheduleDTO> getAvailableByArtist(UUID artistId) {
         return dateRepository.findByTattooArtist_IdAndIsAvailableTrueOrderByDateAsc(artistId)
                 .stream()
@@ -35,10 +36,12 @@ public class ArtistDateService {
 
     @Transactional
     public ScheduleDTO createSlot(UUID artistId, CreateScheduleDTO dto) {
-        User u = userRepository.findById(artistId).orElseThrow();
+        User user = userRepository.findById(artistId).orElseThrow();
         ArtistDate slot = new ArtistDate();
-        slot.setTattooArtist(u);
+
+        slot.setTattooArtist(user);
         slot.setDate(dto.getDateTime());
+
         ArtistDate saved = dateRepository.save(slot);
         return toDto(saved);
     }
@@ -46,27 +49,31 @@ public class ArtistDateService {
     @Transactional
     public void deleteSlot(UUID artistId, UUID slotId) throws AccessDeniedException {
         ArtistDate slot = dateRepository.findById(slotId).orElseThrow();
+
         if (!slot.getTattooArtist().getId().equals(artistId)) {
             throw new AccessDeniedException("Nie jesteś właścicielem");
         }
+
         dateRepository.delete(slot);
     }
 
     @Transactional
     public ScheduleDTO toggleAvailability(UUID artistId, UUID slotId) throws AccessDeniedException {
         ArtistDate slot = dateRepository.findById(slotId).orElseThrow();
+
         if (!slot.getTattooArtist().getId().equals(artistId)) {
             throw new AccessDeniedException("Nie jesteś właścicielem");
         }
+
         slot.setAvailable(!slot.isAvailable());
         return toDto(slot);
     }
 
-    private ScheduleDTO toDto(ArtistDate s) {
-        ScheduleDTO d = new ScheduleDTO();
-        d.setId(s.getId());
-        d.setDateTime(s.getDate());
-        d.setAvailable(s.isAvailable());
-        return d;
+    private ScheduleDTO toDto(ArtistDate artistDate) {
+        ScheduleDTO scheduleDTO = new ScheduleDTO();
+        scheduleDTO.setId(artistDate.getId());
+        scheduleDTO.setDateTime(artistDate.getDate());
+        scheduleDTO.setAvailable(artistDate.isAvailable());
+        return scheduleDTO;
     }
 }
