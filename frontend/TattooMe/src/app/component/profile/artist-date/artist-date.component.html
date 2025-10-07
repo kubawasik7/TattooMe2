@@ -1,10 +1,20 @@
 <div class="date-list">
   <h4 class="section-title">Wolne terminy</h4>
 
-  <div class="slots-grid">
+  <div *ngIf="isOwner" class="new-slot-section">
+    <button class="add-slot-btn" (click)="openNew()">Dodaj nowy slot</button>
+
+    <div *ngIf="isNewOpen" class="new-slot-form">
+      <input type="datetime-local" [formControl]="slotForm.controls.dateTime">
+      <button (click)="saveNew()">Zapisz</button>
+      <button (click)="closeNew()">Anuluj</button>
+    </div>
+  </div>
+
+  <div class="slots-grid" *ngIf="slots?.length">
     <div *ngFor="let slot of (showAll ? slots : slots | slice:0:5)" class="slot-card"
       [class.unavailable]="!slot.available">
-
+      
       <div class="slot-time">
         {{ slot.dateTime | date: 'medium' }}
       </div>
@@ -28,6 +38,7 @@
     </button>
   </div>
 </div>
+
 <app-visit
   *ngIf="showVisitModal"
   [artistId]="userId"
