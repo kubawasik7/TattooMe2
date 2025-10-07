@@ -2,8 +2,10 @@ package TattooMe.TattooMe.controller;
 
 import TattooMe.TattooMe.Security.CustomUserDetails;
 import TattooMe.TattooMe.dto.FlashDTO;
-import TattooMe.TattooMe.entity.Flash;
 import TattooMe.TattooMe.service.FlashService;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -17,22 +19,33 @@ import java.util.UUID;
 @RequestMapping("/api/flashes")
 @CrossOrigin(origins = "http://localhost:4200")
 public class FlashController {
-    private final FlashService flashService;
-    public FlashController(FlashService flashService) {
-        this.flashService = flashService;
+    @Autowired
+    private FlashService flashService;
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<List<FlashDTO>> getUserFlashes(@PathVariable UUID userId) {
+        return ResponseEntity.ok(flashService.getUserFlashes(userId));
     }
 
     @PostMapping("/upload")
-    public ResponseEntity<Void> uploadFlash(
-            @AuthenticationPrincipal CustomUserDetails principal,
+    public ResponseEntity<FlashDTO> uploadFlash(
+            @AuthenticationPrincipal CustomUserDetails user,
             @RequestPart("file") MultipartFile file,
-            @RequestPart("data") FlashDTO data
+            @RequestPart("data") @Valid FlashDTO flash
     ) throws IOException {
-        flashService.save(principal.getId(), file, data);
-        return ResponseEntity.ok().build();
+        FlashDTO flashDTO = flashService.addFlash(user.getId(), file, flash);
+        return ResponseEntity.status(HttpStatus.CREATED).body(flashDTO);
     }
-    @GetMapping("/{userId}")
-    public List<Flash> getUserFlashes(@PathVariable UUID userId) {
-        return flashService.getUserFlashes(userId);
+
+    @PutMapping("/{id}")
+    public ResponseEntity<FlashDTO> updateFlash(@PathVariable UUID id, @RequestBody @Valid FlashDTO dto) {
+        FlashDTO updated = flashService.updateFlash(id, dto);
+        return ResponseEntity.ok(updated);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteFlash(@PathVariable UUID id) {
+        flashService.deleteFlash(id);
+        return ResponseEntity.noContent().build();
     }
 }
