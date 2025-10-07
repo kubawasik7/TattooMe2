@@ -4,8 +4,10 @@ import TattooMe.TattooMe.Security.CustomUserDetails;
 import TattooMe.TattooMe.dto.CreateOfferDTO;
 import TattooMe.TattooMe.dto.OfferDTO;
 import TattooMe.TattooMe.service.TattooArtistOfferService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,31 +20,32 @@ import java.util.UUID;
 @CrossOrigin(origins = "http://localhost:4200")
 public class TattooArtistOfferController {
     @Autowired
-    private TattooArtistOfferService service;
+    private TattooArtistOfferService artistOfferService;
 
     @GetMapping("/{id}")
-    public List<OfferDTO> list(@PathVariable UUID id) {
-        return service.getOffers(id);
+    public ResponseEntity<List<OfferDTO>> list(@PathVariable UUID id) {
+        return ResponseEntity.ok(artistOfferService.getOffers(id));
     }
 
     @PostMapping
-    public OfferDTO create(@AuthenticationPrincipal CustomUserDetails user,
-                           @RequestBody CreateOfferDTO dto) {
-        return service.createOffer(user.getId(), dto);
+    public ResponseEntity<OfferDTO> create(@AuthenticationPrincipal CustomUserDetails user,
+                                           @RequestBody @Valid CreateOfferDTO dto) {
+        OfferDTO offer = artistOfferService.createOffer(user.getId(), dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(offer);
     }
 
     @PutMapping("/{id}")
-    public OfferDTO update(@AuthenticationPrincipal CustomUserDetails user,
-                           @PathVariable UUID id,
-                           @RequestBody CreateOfferDTO dto) throws AccessDeniedException {
-        return service.updateOffer(user.getId(), id, dto);
+    public ResponseEntity<OfferDTO> update(@AuthenticationPrincipal CustomUserDetails user,
+                                           @PathVariable UUID id,
+                                           @RequestBody @Valid CreateOfferDTO dto) throws AccessDeniedException {
+        return ResponseEntity.ok(artistOfferService.updateOffer(user.getId(), id, dto));
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@AuthenticationPrincipal CustomUserDetails user,
-                       @PathVariable UUID id) throws AccessDeniedException {
-        service.deleteOffer(user.getId(), id);
+    public ResponseEntity<Void> delete(@AuthenticationPrincipal CustomUserDetails user,
+                                       @PathVariable UUID id) throws AccessDeniedException {
+        artistOfferService.deleteOffer(user.getId(), id);
+        return ResponseEntity.noContent().build();
     }
-
 }
