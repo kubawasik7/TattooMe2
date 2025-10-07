@@ -22,13 +22,15 @@ public class ArtistDateController {
     private ArtistDateService artistDateService;
 
     @GetMapping
-    public List<ScheduleDTO> getArtistDates(@AuthenticationPrincipal CustomUserDetails user){
-        return artistDateService.listSlots(user.getId());
+    public ResponseEntity<List<ScheduleDTO>> getArtistDates(@AuthenticationPrincipal CustomUserDetails user) {
+        return ResponseEntity.ok(artistDateService.listSlots(user.getId()));
     }
+
     @GetMapping("/available")
-    public List<ScheduleDTO> getAvailableSlots(@RequestParam UUID artistId) {
-        return artistDateService.getAvailableByArtist(artistId);
+    public ResponseEntity<List<ScheduleDTO>> getAvailableSlots(@RequestParam UUID artistId) {
+        return ResponseEntity.ok(artistDateService.getAvailableByArtist(artistId));
     }
+
     @PostMapping
     public ResponseEntity<ScheduleDTO> create(
             @AuthenticationPrincipal CustomUserDetails user,
@@ -39,16 +41,17 @@ public class ArtistDateController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(
+    public ResponseEntity<Void> delete(
             @AuthenticationPrincipal CustomUserDetails user,
             @PathVariable UUID id) throws AccessDeniedException {
         artistDateService.deleteSlot(user.getId(), id);
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}/toggle")
-    public ScheduleDTO toggle(
+    public ResponseEntity<ScheduleDTO> toggle(
             @AuthenticationPrincipal CustomUserDetails user,
             @PathVariable UUID id) throws AccessDeniedException {
-        return artistDateService.toggleAvailability(user.getId(), id);
+        return ResponseEntity.ok(artistDateService.toggleAvailability(user.getId(), id));
     }
 }
