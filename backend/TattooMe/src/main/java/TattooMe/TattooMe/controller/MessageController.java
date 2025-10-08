@@ -5,25 +5,33 @@ import TattooMe.TattooMe.dto.MessageDTO;
 import TattooMe.TattooMe.dto.NewMessageDTO;
 import TattooMe.TattooMe.service.MessageService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.nio.file.AccessDeniedException;
 import java.util.List;
 import java.util.UUID;
+
 @RestController
 @RequestMapping("/api/messages")
 @RequiredArgsConstructor
 public class MessageController {
-    private final MessageService messageService;
+    @Autowired
+    private MessageService messageService;
+
     @GetMapping("/{chatId}")
-    public List<MessageDTO> getMessages(@PathVariable UUID chatId,
-                                        @AuthenticationPrincipal CustomUserDetails userDetails) {
-        return messageService.getMessages(chatId, userDetails.getId());
+    public ResponseEntity<List<MessageDTO>> getMessages(@PathVariable UUID chatId,
+                                        @AuthenticationPrincipal CustomUserDetails user) throws AccessDeniedException {
+        return ResponseEntity.ok(messageService.getMessages(chatId, user.getId()));
     }
+
     @PostMapping
-    public ResponseEntity<Void> sendMessage(@RequestBody NewMessageDTO newMessageDTO,
-                                            @AuthenticationPrincipal CustomUserDetails userDetails) {
-        messageService.sendMessage(newMessageDTO, userDetails.getId());
-        return ResponseEntity.ok().build();
+    public ResponseEntity<MessageDTO> sendMessage(@RequestBody NewMessageDTO newMessageDTO,
+                                                  @AuthenticationPrincipal CustomUserDetails user) throws AccessDeniedException {
+        MessageDTO message = messageService.sendMessage(newMessageDTO, user.getId());
+        return ResponseEntity.status(HttpStatus.CREATED).body(message);
     }
 }
