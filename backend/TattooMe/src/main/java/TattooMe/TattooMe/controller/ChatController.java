@@ -4,6 +4,9 @@ import TattooMe.TattooMe.Security.CustomUserDetails;
 import TattooMe.TattooMe.dto.ChatDTO;
 import TattooMe.TattooMe.service.ChatService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,14 +18,18 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:4200")
 public class ChatController {
-    private final ChatService chatService;
+    @Autowired
+    private ChatService chatService;
+
     @GetMapping
-    public List<ChatDTO> getUserChats(@AuthenticationPrincipal CustomUserDetails user) {
-        return chatService.getUserChats(user.getId());
+    public ResponseEntity<List<ChatDTO>> getUserChats(@AuthenticationPrincipal CustomUserDetails user) {
+        return ResponseEntity.ok(chatService.getUserChats(user.getId()));
     }
+
     @PostMapping("/start")
-    public ChatDTO startChat(@AuthenticationPrincipal CustomUserDetails user,
-                             @RequestParam UUID receiverId) {
-        return chatService.startChat(user.getId(), receiverId);
+    public ResponseEntity<ChatDTO> startChat(@AuthenticationPrincipal CustomUserDetails user,
+                                             @RequestParam UUID receiverId) {
+        ChatDTO chat = chatService.startChat(user.getId(), receiverId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(chat);
     }
 }
