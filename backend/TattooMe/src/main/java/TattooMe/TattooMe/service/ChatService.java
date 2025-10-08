@@ -6,6 +6,7 @@ import TattooMe.TattooMe.entity.User;
 import TattooMe.TattooMe.repository.ChatRepository;
 import TattooMe.TattooMe.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -16,8 +17,11 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class ChatService {
-    private final ChatRepository chatRepository;
-    private final UserRepository userRepository;
+    @Autowired
+    private ChatRepository chatRepository;
+    @Autowired
+    private UserRepository userRepository;
+
     public List<ChatDTO> getUserChats(UUID userId) {
         List<Chat> chats = chatRepository.findByInitiator_IdOrReceiver_Id(userId, userId);
         List<ChatDTO> result = new ArrayList<>();
@@ -38,9 +42,9 @@ public class ChatService {
     }
 
     public ChatDTO startChat(UUID initiatorId, UUID receiverId) {
-        Optional<Chat> existing = chatRepository.findByInitiator_IdAndReceiver_Id(initiatorId, receiverId);
-        if (existing.isPresent()) {
-            return toDto(existing.get(), initiatorId);
+        Optional<Chat> exist = chatRepository.findByInitiator_IdAndReceiver_Id(initiatorId, receiverId);
+        if (exist.isPresent()) {
+            return toDto(exist.get(), initiatorId);
         }
 
         Chat chat = new Chat();
