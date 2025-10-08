@@ -1,24 +1,27 @@
-
 * {
   box-sizing: border-box;
 }
+
 body {
   margin: 0;
   font-family: Arial, sans-serif;
   background-color: #2c2c2c;
   color: white;
 }
+
 .top-banner {
   background-color: #111;
   text-align: center;
   padding: 15px 0;
 }
+
 .top-banner h1 {
   font-family: 'Brush Script MT', cursive;
   font-size: 36px;
   color: white;
   margin: 0;
 }
+
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -27,6 +30,7 @@ body {
   padding: 10px 20px;
   height: 50px;
 }
+
 .nav-list {
   display: flex;
   list-style: none;
@@ -34,24 +38,29 @@ body {
   margin: 0;
   gap: 15px;
 }
+
 .nav-list a {
   text-decoration: none;
   color: white;
   font-weight: bold;
 }
+
 .navbar-right {
   display: flex;
   align-items: center;
   gap: 20px;
 }
+
 .navbar-right a {
   color: white;
   text-decoration: none;
 }
+
 .dropdown {
   position: relative;
   cursor: pointer;
 }
+
 .dropdown-content {
   display: none;
   position: absolute;
@@ -60,19 +69,21 @@ body {
   z-index: 1;
   right: 0;
 }
+
 .dropdown-content a {
   color: white;
   padding: 10px 16px;
   display: block;
   text-decoration: none;
 }
+
 .dropdown:hover .dropdown-content {
   display: block;
 }
 
 .container {
   display: flex;
-  height: calc(100vh - 110px); 
+  height: calc(100vh - 110px);
 }
 
 .sidebar-left,
@@ -91,8 +102,9 @@ body {
   text-decoration: none;
   font-size: 14px;
 }
+
 .main-content {
-  width: calc(100% - 360px); 
+  width: calc(100% - 360px);
   background-color: #3c3c3c;
   padding: 20px;
   overflow-y: auto;
@@ -101,6 +113,7 @@ body {
 .tattoo-me {
   width: 100%;
 }
+
 .tm-list {
   display: flex;
   flex-direction: column;
@@ -113,39 +126,61 @@ body {
   background-color: #2b2b2b;
   border-radius: 12px;
   padding: 20px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
   display: flex;
   gap: 20px;
   align-items: flex-start;
   transition: transform 0.2s;
 }
+
 .tm-card:hover {
   transform: translateY(-2px);
 }
+
 .avatar {
   width: 100px;
   height: 100px;
-  background-color: #555;
-  color: #ddd;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: #444;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 12px;
-  border-radius: 8px;
+  color: #aaa;
+  flex-shrink: 0;
+  border: 2px solid #666;
 }
+
+.avatar img.avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.avatar-placeholder {
+  font-size: 12px;
+  color: #aaa;
+  text-align: center;
+}
+
 .info {
   flex-grow: 1;
 }
+
 .nickname {
   margin: 0 0 5px 0;
   color: #f0f0f0;
   font-size: 20px;
 }
+
 .meta {
   font-size: 14px;
   color: #bbb;
   margin-bottom: 10px;
 }
+
 .rating {
   margin-right: 10px;
   color: gold;
@@ -159,6 +194,9 @@ body {
 .promo {
   margin: 5px 0;
   font-size: 14px;
+  max-width: 800px;
+  word-wrap: break-word;
+  white-space: normal;
   color: #ccc;
 }
 
@@ -166,6 +204,7 @@ body {
   text-decoration: none;
   color: inherit;
 }
+
 pagination-controls {
   display: flex;
   justify-content: center;
