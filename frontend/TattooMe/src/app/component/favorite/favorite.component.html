@@ -2,13 +2,12 @@
 
 <div *ngFor="let artist of favorites" class="favorite-card">
   <div class="avatar">*zdjęcie*</div>
-  <div class="info" (click)="goToArtistProfile(artist.id)" style="cursor: pointer;">
-    <strong>{{ artist.nickname }}</strong>
-    <div>{{ artist.name }} {{ artist.surname }}</div>
+  <div class="info" (click)="goToArtistProfile(artist.artistId)" style="cursor: pointer;">
+    <strong>{{ artist.username }}</strong>
     <div class="styles">dotwork realism minimalizm</div>
     <p>{{artist.description}}</p>
   </div>
-  <button (click)="removeFavorite(artist.id)" class="delete-btn">
+  <button (click)="removeFavorite(artist.artistId)" class="delete-btn">
     🗑️
   </button>
 </div>
