@@ -2,15 +2,21 @@ package TattooMe.TattooMe.service;
 
 import TattooMe.TattooMe.dto.MessageDTO;
 import TattooMe.TattooMe.dto.NewMessageDTO;
+import TattooMe.TattooMe.dto.OfferDTO;
 import TattooMe.TattooMe.entity.Chat;
 import TattooMe.TattooMe.entity.Message;
+import TattooMe.TattooMe.entity.TattooArtistOffer;
 import TattooMe.TattooMe.repository.ChatRepository;
 import TattooMe.TattooMe.repository.MessageRepository;
 import TattooMe.TattooMe.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.nio.file.AccessDeniedException;
 import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.List;
@@ -19,38 +25,34 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class MessageService {
-    private final MessageRepository messageRepository;
-    private final ChatRepository chatRepository;
-    private final UserRepository userRepository;
-    public List<MessageDTO> getMessages(UUID chatId, UUID userId) {
+    @Autowired
+    private MessageRepository messageRepository;
+    @Autowired
+    private ChatRepository chatRepository;
+    @Autowired
+    private UserRepository userRepository;
+
+    public List<MessageDTO> getMessages(UUID chatId, UUID userId) throws AccessDeniedException {
         Chat chat = chatRepository.findById(chatId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new EntityNotFoundException("Nie znaleziono chatu"));
 
         if (!chat.getInitiator().getId().equals(userId) &&
                 (chat.getReceiver() == null || !chat.getReceiver().getId().equals(userId))) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+            throw new AccessDeniedException("Nie jestes uczestnikiem tego chatu");
         }
 
-        List<Message> messages = messageRepository.findByChat_IdOrderByDateAsc(chatId);
-
-        return messages.stream().map(msg -> {
-            MessageDTO messageDTO = new MessageDTO();
-            messageDTO.setId(msg.getId());
-            messageDTO.setContent(msg.getContent());
-            messageDTO.setDate(msg.getDate());
-            messageDTO.setSenderId(msg.getSender().getId());
-            messageDTO.setBase64Attachment(Base64.getEncoder().encodeToString(msg.getAttachment()));
-            return messageDTO;
-        }).toList();
+        return messageRepository.findByChat_IdOrderByDateAsc(chatId).stream()
+                .map(this::toDto)
+                .toList();
     }
 
-    public void sendMessage(NewMessageDTO newMessageDTO, UUID senderId) {
+    public MessageDTO sendMessage(NewMessageDTO newMessageDTO, UUID senderId) throws AccessDeniedException {
         Chat chat = chatRepository.findById(newMessageDTO.getChatId())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new EntityNotFoundException("Nie znaleziono chatu"));
 
         if (!chat.getInitiator().getId().equals(senderId) &&
                 (chat.getReceiver() == null || !chat.getReceiver().getId().equals(senderId))) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+            throw new AccessDeniedException("Nie jestes uczestnikiem tego chatu");
         }
 
         Message message = new Message();
@@ -60,6 +62,16 @@ public class MessageService {
         message.setDate(LocalDateTime.now());
         message.setAttachment(Base64.getDecoder().decode(newMessageDTO.getBase64Attachment()));
 
-        messageRepository.save(message);
+        return toDto(messageRepository.save(message));
+    }
+
+    private MessageDTO toDto(Message message) {
+        MessageDTO messageDTO = new MessageDTO();
+        messageDTO.setId(message.getId());
+        messageDTO.setContent(message.getContent());
+        messageDTO.setDate(message.getDate());
+        messageDTO.setSenderId(message.getSender().getId());
+        messageDTO.setBase64Attachment(Base64.getEncoder().encodeToString(message.getAttachment()));
+        return messageDTO;
     }
 }
