@@ -5,7 +5,13 @@
       currentPage: p,
       totalItems: users.length
     }">
-      <div class="avatar">zdjęcie<br/>profilowe</div>
+      <div class="avatar">
+        <img *ngIf="user.profilePicture" [src]="'data:image/png;base64,' + user.profilePicture" alt="avatar"
+          class="avatar-img" />
+        <div *ngIf="!user.profilePicture" class="avatar-placeholder">
+          brak zdjęcia
+        </div>
+      </div>
       <div class="info">
         <a class="profile-link" [routerLink]="['/profile', user.id]">
           <h2 class="nickname">{{ user.nickname }}</h2>
@@ -14,16 +20,14 @@
           <span class="rating">★ 5/5 </span>
           <span class="location">📍 Miasto</span>
         </div>
-        <p class="description">Opis tatuatora</p>
+        <p class="description" *ngIf="user.description">
+          {{ user.description | slice:0:250 }}{{ user.description.length > 250 ? '...' : '' }}
+        </p>
         <p class="promo">Specjalna promocja</p>
       </div>
     </article>
   </section>
 
-  <pagination-controls
-    (pageChange)="p = $event"
-    [autoHide]="true"
-    previousLabel="‹ Prev"
-    nextLabel="Next ›"
-  ></pagination-controls>
+  <pagination-controls (pageChange)="p = $event" [autoHide]="true" previousLabel="‹ Prev"
+    nextLabel="Next ›"></pagination-controls>
 </div>
