@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FavoriteService } from '../../service/favorite.service';
 import { User } from '../../service/user.service';
 import { Router } from '@angular/router';
+import { FavoriteArtist } from '../../model/favorite-artist';
 
 
 @Component({
@@ -11,7 +12,7 @@ import { Router } from '@angular/router';
   styleUrl: './favorite.component.css'
 })
 export class FavoriteComponent implements OnInit{
-favorites: User[] = [];
+favorites: FavoriteArtist[] = [];
 
   constructor(private favoriteService: FavoriteService, private router: Router) {}
 
