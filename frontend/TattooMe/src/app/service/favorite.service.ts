@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from './user.service';
 import { Observable } from 'rxjs';
+import { FavoriteArtist } from '../model/favorite-artist';
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +13,8 @@ export class FavoriteService {
 
   constructor(private http: HttpClient) {}
 
-  getFavorites(): Observable<User[]> {
-    return this.http.get<User[]>(this.baseUrl);
+  getFavorites(): Observable<FavoriteArtist[]> {
+    return this.http.get<FavoriteArtist[]>(this.baseUrl);
   }
 
   addFavorite(artistId: string): Observable<void> {
