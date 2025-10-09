@@ -23,13 +23,13 @@ public class TattooStudio {
     @Column(name = "tattoo_studio_id", columnDefinition = "BINARY(16)")
     private UUID id;
 
-    @Column(nullable = false, length = 50)
+    @Column(name = "name", nullable = false, length = 50)
     private String name;
 
-    @Column(nullable = false, length = 40)
+    @Column(name = "city", nullable = false, length = 40)
     private String city;
 
-    @Column(nullable = false, length = 35)
+    @Column(name = "street", nullable = false, length = 35)
     private String street;
 
     @Column(name = "street_number", nullable = false, length = 10)

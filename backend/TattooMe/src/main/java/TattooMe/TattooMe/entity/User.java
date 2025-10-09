@@ -39,13 +39,13 @@ public class User {
     @Column(name = "nickname", nullable = false, length = 35)
     private String nickname;
 
-    @Column(name = "email", nullable = false, length = 35)
+    @Column(name = "email", nullable = false, length = 254)
     private String email;
 
     @Column(name = "name", length = 35)
     private String name;
 
-    @Column(name = "surname", length = 45)
+    @Column(name = "surname", length = 60)
     private String surname;
 
     @Column(name = "description", columnDefinition = "TEXT")

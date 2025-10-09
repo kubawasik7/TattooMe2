@@ -27,14 +27,14 @@ public class ReviewAnswer {
     @Column(name = "review_answer_id", columnDefinition = "BINARY(16)")
     private UUID id;
 
-    @Column(name = "content", length = 255, nullable = false)
+    @Column(name = "content", nullable = false)
     private String content;
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     @JsonIgnore
     private User user;
 

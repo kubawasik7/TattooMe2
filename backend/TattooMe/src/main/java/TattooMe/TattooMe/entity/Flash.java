@@ -34,22 +34,22 @@ public class Flash {
     @Column(name = "picture", nullable = false, columnDefinition = "LONGBLOB")
     private byte[] picture;
 
-    @Column(name = "size_min")
+    @Column(name = "size_min", nullable = false)
     private int sizeMin;
 
-    @Column(name = "size_max")
+    @Column(name = "size_max", nullable = false)
     private int sizeMax;
 
-    @Column(name = "price_min")
+    @Column(name = "price_min", nullable = false)
     private int priceMin;
 
-    @Column(name = "price_max")
+    @Column(name = "price_max", nullable = false)
     private int priceMax;
 
-    @Column(name = "recommended_place")
+    @Column(name = "recommended_place", length = 60)
     private String reccomendedPlace;
 
-    @Column(name = "description")
+    @Column(name = "description", length = 100)
     private String description;
 
     @ManyToOne

@@ -29,10 +29,10 @@ public class Review {
     @Column(name = "review_id", columnDefinition = "BINARY(16)")
     private UUID id;
 
-    @Column(name = "rate")
+    @Column(name = "rate", nullable = false)
     private int rate;
 
-    @Column(name = "content", length = 255)
+    @Column(name = "content")
     private String content;
 
     @Column(name = "created_at", nullable = false)

@@ -30,6 +30,6 @@ public class TattooStyle {
     )
     private UUID id;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false, length = 30)
     private String name;
 }

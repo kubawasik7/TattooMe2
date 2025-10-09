@@ -29,6 +29,7 @@ public class WorkStyle {
             updatable = false
     )
     private UUID id;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -36,5 +37,4 @@ public class WorkStyle {
     @ManyToOne
     @JoinColumn(name = "tattoo_style_id")
     private TattooStyle tattooStyle;
-
 }
