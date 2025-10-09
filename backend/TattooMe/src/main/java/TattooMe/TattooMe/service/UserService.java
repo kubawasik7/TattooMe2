@@ -124,7 +124,7 @@ public class UserService {
         userDTO.setEmail(user.getEmail());
         userDTO.setDescription(user.getDescription());
         if (user.getProfilePicture() != null) {
-            userDTO.setBase64Image(Base64.getEncoder().encodeToString(user.getProfilePicture()));
+            userDTO.setProfilePicture(Base64.getEncoder().encodeToString(user.getProfilePicture()));
         }
         return userDTO;
     }

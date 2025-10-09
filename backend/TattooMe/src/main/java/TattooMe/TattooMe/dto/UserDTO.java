@@ -13,5 +13,5 @@ public class UserDTO {
     private String surname;
     private String email;
     private String description;
-    private String base64Image;
+    private String profilePicture;
 }
