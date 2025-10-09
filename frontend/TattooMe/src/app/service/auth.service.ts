@@ -4,11 +4,11 @@ import { Observable, tap } from 'rxjs';
 import { RegisterRequest } from '../model/register-request';
 import { LoginRequest } from '../model/login-request';
 import { LoginResponse } from '../model/login-response';
-import {jwtDecode} from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 interface JwtPayload {
-  sub: string;           
+  sub: string;
   email?: string;
-  username?: string;  
+  username?: string;
   role?: string;
   exp?: number;
 }
@@ -16,25 +16,15 @@ interface JwtPayload {
   providedIn: 'root'
 })
 export class AuthService {
-
   private baseUrl = 'http://localhost:8080/api/auth';
 
   constructor(private http: HttpClient) { }
+
   getToken(): string | null {
     return (typeof window !== 'undefined') ? localStorage.getItem('token') : null;
   }
-  isTattooArtist(): boolean | null {
-    const token = this.getToken();
-    if(!token) return null;
-    const decodedToken: any = jwtDecode(token);
 
-    if(decodedToken.role === 'tattoo_artist'){
-      return true;
-    }
-    return false;
-  }
-
-    getNickname(): string | null {
+  getNickname(): string | null {
     const token = this.getToken();
     if (!token) return null;
 
@@ -48,33 +38,48 @@ export class AuthService {
 
   getUserRole(): string | null {
     const token = this.getToken();
-    if(!token) return null;
+    if (!token) return null;
 
     const decodedToken: any = jwtDecode(token);
     return decodedToken.role;
   }
+
   getUserId(): string | null {
-  const token = this.getToken();
-  if (!token) return null;
+    const token = this.getToken();
+    if (!token) return null;
 
-  const { sub } = jwtDecode<JwtPayload & { sub?: string }>(token);
-  return sub ?? null;
-}
+    const { sub } = jwtDecode<JwtPayload & { sub?: string }>(token);
+    return sub ?? null;
+  }
 
-  register(registerRequest: RegisterRequest): Observable<any>{
+  isTattooArtist(): boolean | null {
+    const token = this.getToken();
+    if (!token) return null;
+    const decodedToken: any = jwtDecode(token);
+
+    if (decodedToken.role === 'tattoo_artist') {
+      return true;
+    }
+    return false;
+  }
+
+  register(registerRequest: RegisterRequest): Observable<any> {
     return this.http.post(`${this.baseUrl}/register`, registerRequest);
   }
- login(loginRequest: LoginRequest): Observable<LoginResponse> {
+
+  login(loginRequest: LoginRequest): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.baseUrl}/login`, loginRequest)
-    .pipe(tap(res => {
-               console.log('[AuthService] otrzymany response:', res);
-          console.log('[AuthService] otrzymany token:', res.token);
-      localStorage.setItem('token', res.token)
-    }));
+      .pipe(tap(res => {
+        console.log('[AuthService] otrzymany response:', res);
+        console.log('[AuthService] otrzymany token:', res.token);
+        localStorage.setItem('token', res.token)
+      }));
   }
+
   isLoggedIn(): boolean {
     return !!this.getToken();
   }
+
   logout(): void {
     localStorage.removeItem('token');
   }

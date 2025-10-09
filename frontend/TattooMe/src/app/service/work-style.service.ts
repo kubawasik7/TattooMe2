@@ -14,9 +14,11 @@ export class WorkStyleService {
   getAllStyles(): Observable<TattooStyle[]> {
     return this.http.get<TattooStyle[]>(`${this.apiUrl}/all`);
   }
+
   getUserStyles(userId: string): Observable<TattooStyle[]> {
     return this.http.get<TattooStyle[]>(`${this.apiUrl}/user/${userId}`);
   }
+  
   saveUserStyles(userId: string, styleIds: string[]): Observable<void> {
     return this.http.post<void>(`${this.apiUrl}/user/${userId}`, styleIds);
   }

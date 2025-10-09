@@ -17,13 +17,15 @@ export class VisitService {
   private apiUrl = 'http://localhost:8080/api/visits';
 
   constructor(private http: HttpClient) { }
-  
-  createVisit(dto: NewVisit): Observable<void> {
-    return this.http.post<void>(this.apiUrl, dto);
+
+  getById(id: string): Observable<Visit> {
+    return this.http.get<Visit>(`${this.apiUrl}/${id}`);
   }
-   getMyVisits(): Observable<Visit[]> {
+
+  getMyVisits(): Observable<Visit[]> {
     return this.http.get<Visit[]>(`${this.apiUrl}/my`);
   }
+
   getActive(): Observable<Visit[]> {
     return this.http.get<Visit[]>(`${this.apiUrl}/active`);
   }
@@ -35,6 +37,7 @@ export class VisitService {
   getCancelled(): Observable<Visit[]> {
     return this.http.get<Visit[]>(`${this.apiUrl}/cancelled`);
   }
+
   getActiveAsArtist(): Observable<Visit[]> {
     return this.http.get<Visit[]>(`${this.apiUrl}/artist/active`);
   }
@@ -47,6 +50,10 @@ export class VisitService {
     return this.http.get<Visit[]>(`${this.apiUrl}/artist/cancelled`);
   }
 
+  createVisit(dto: NewVisit): Observable<void> {
+    return this.http.post<void>(this.apiUrl, dto);
+  }
+
   confirmVisit(id: string): Observable<void> {
     return this.http.patch<void>(`${this.apiUrl}/${id}/confirm`, {});
   }
@@ -54,10 +61,4 @@ export class VisitService {
   cancelVisit(id: string): Observable<void> {
     return this.http.patch<void>(`${this.apiUrl}/${id}/cancel`, {});
   }
-  getById(id: string): Observable<Visit> {
-    return this.http.get<Visit>(`${this.apiUrl}/${id}`);
-  }
-
-
-
 }
