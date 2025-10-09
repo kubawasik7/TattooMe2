@@ -1,16 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { UUID } from 'node:crypto';
 import { Observable } from 'rxjs';
-export interface User{
-  id: UUID;
-  nickname: string;
-  email: string;
-  name: string;
-  surname: string;
-  description: string;
-  profilePicture: string | null;
-}
+import { User } from '../model/user';
 
 @Injectable({
   providedIn: 'root'

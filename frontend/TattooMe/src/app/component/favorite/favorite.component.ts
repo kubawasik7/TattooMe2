@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FavoriteService } from '../../service/favorite.service';
-import { User } from '../../service/user.service';
 import { Router } from '@angular/router';
 import { FavoriteArtist } from '../../model/favorite-artist';
 

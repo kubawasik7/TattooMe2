@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { User, UserService } from '../../service/user.service';
+import { UserService } from '../../service/user.service';
 import { ActivatedRoute } from '@angular/router';
+import { User } from '../../model/user';
 
 @Component({
   selector: 'app-artist-list',

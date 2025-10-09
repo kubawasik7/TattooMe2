@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { User, UserService } from '../../service/user.service';
+import { UserService } from '../../service/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CreateOffer, Offer, ProfileService } from '../../service/profile.service';
 import { TattooStyle } from '../../model/tattoo-style';
@@ -12,6 +12,7 @@ import { Flash } from '../../model/flash';
 import { FlashService } from '../../service/flash.service';
 import { AuthService } from '../../service/auth.service';
 import { ChatService } from '../../service/chat.service';
+import { User } from '../../model/user';
 
 @Component({
   selector: 'app-profile',
