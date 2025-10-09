@@ -22,41 +22,38 @@ import java.util.UUID;
 public class UserController {
     @Autowired
     private UserService userService;
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
+
     @GetMapping
-    public List<User> getAllArtists(@RequestParam(value = "role", required = false) String role) {
-        return userService.getUsersByRole(role);
+    public ResponseEntity<List<UserDTO>> getAllArtists(@RequestParam(value = "role", required = false) String role) {
+        return ResponseEntity.ok(userService.getUsersByRole(role));
     }
+
     @GetMapping("/{id}")
-    public ResponseEntity<?> getUserById(@PathVariable UUID id) {
-        return ResponseEntity.ok(userService.getUserById(String.valueOf(id)));
+    public ResponseEntity<UserDTO> getUserById(@PathVariable UUID id) {
+        return ResponseEntity.ok(userService.getUserById(id));
     }
+
     @PostMapping(
             value = "/avatar",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE
     )
-    public ResponseEntity<?> uploadAvatar(
-            @RequestPart("avatar") MultipartFile avatar,
-            @AuthenticationPrincipal CustomUserDetails principal
-    ) throws IOException {
+    public ResponseEntity<?> uploadAvatar(@RequestPart("avatar") MultipartFile avatar,
+                                          @AuthenticationPrincipal CustomUserDetails principal) throws IOException {
         userService.updateProfilePicture(principal.getId(), avatar);
         return ResponseEntity.ok().build();
     }
+
     @PutMapping("/description")
-    public ResponseEntity<User> updateDescription(
-            @RequestBody DescriptionProfileDTO dto,
-            @AuthenticationPrincipal CustomUserDetails principal) {
+    public ResponseEntity<User> updateDescription(@RequestBody DescriptionProfileDTO dto,
+                                                  @AuthenticationPrincipal CustomUserDetails principal) {
         User updated = userService.updateDescription(principal.getId(), dto.getDescription());
         return ResponseEntity.ok(updated);
     }
+
     @PutMapping("/userProfile")
     public ResponseEntity<User> updateUserProfile(@RequestBody UserDTO dto,
-                                                  @AuthenticationPrincipal CustomUserDetails principal){
+                                                  @AuthenticationPrincipal CustomUserDetails principal) {
         User updated = userService.updateUserProfile(principal.getId(), dto);
         return ResponseEntity.ok(updated);
-
     }
-
 }
