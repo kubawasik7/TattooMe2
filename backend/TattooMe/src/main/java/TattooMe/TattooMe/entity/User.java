@@ -32,23 +32,32 @@ public class User {
             updatable = false
     )
     private UUID id;
+
     @Column(name = "password", nullable = false, length = 60)
     private String password;
+
     @Column(name = "nickname", nullable = false, length = 35)
     private String nickname;
+
     @Column(name = "email", nullable = false, length = 35)
     private String email;
+
     @Column(name = "name", length = 35)
     private String name;
+
     @Column(name = "surname", length = 45)
     private String surname;
+
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
+
     @Lob
     @Column(name = "profile_picture", columnDefinition = "LONGBLOB")
     private byte[] profilePicture;
+
     @Column(name = "phone_number", length = 9)
     private String phoneNumber;
+
     @Column(name = "role", length = 20)
     private String role;
 

@@ -12,7 +12,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @IdClass(TattooStudioArtistId.class)
 public class TattooStudioArtist {
-
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tattoo_studio_id")

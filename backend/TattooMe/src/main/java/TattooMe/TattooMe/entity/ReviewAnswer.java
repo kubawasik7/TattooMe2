@@ -37,10 +37,10 @@ public class ReviewAnswer {
     @JoinColumn(name = "user_id")
     @JsonIgnore
     private User user;
+
     @ManyToOne
     @JoinColumn(name = "artist_id")
     private User artist;
-
 
     @ManyToOne
     @JoinColumn(name = "tattoo_studio_id")

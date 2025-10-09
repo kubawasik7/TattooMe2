@@ -29,14 +29,19 @@ public class PersonInfo {
             updatable = false
     )
     private UUID id;
+
     @Column(name = "allergies")
     private String allergies;
+
     @Column(name = "chronic_diseases")
     private String chronicDiseases;
+
     @Column(name = "previous_experience")
     private String experiences;
+
     @Column(name = "medicines")
     private String medicines;
+
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;

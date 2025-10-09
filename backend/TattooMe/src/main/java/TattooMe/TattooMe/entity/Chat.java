@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name="chat")
+@Table(name = "chat")
 @Getter
 @Setter
 public class Chat {

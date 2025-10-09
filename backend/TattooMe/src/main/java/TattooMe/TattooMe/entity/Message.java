@@ -26,6 +26,7 @@ public class Message {
             updatable = false
     )
     private UUID id;
+
     @Column(name = "content", nullable = false)
     private String content;
 

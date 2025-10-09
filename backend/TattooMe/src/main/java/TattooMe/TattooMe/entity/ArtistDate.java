@@ -32,7 +32,6 @@ public class ArtistDate {
     )
     private UUID id;
 
-
     @Column(name = "date")
     private LocalDateTime date;
 

@@ -59,5 +59,4 @@ public class Review {
     @ManyToOne
     @JoinColumn(name = "visit_id", nullable = false)
     private Visit visit;
-
 }

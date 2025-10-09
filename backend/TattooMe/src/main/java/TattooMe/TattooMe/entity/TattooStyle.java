@@ -29,6 +29,7 @@ public class TattooStyle {
             updatable = false
     )
     private UUID id;
+
     @Column(name = "name")
     private String name;
 }

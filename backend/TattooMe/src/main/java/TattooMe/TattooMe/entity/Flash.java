@@ -29,24 +29,31 @@ public class Flash {
             updatable = false
     )
     private UUID id;
+
     @Lob
     @Column(name = "picture", nullable = false, columnDefinition = "LONGBLOB")
     private byte[] picture;
+
     @Column(name = "size_min")
     private int sizeMin;
+
     @Column(name = "size_max")
     private int sizeMax;
+
     @Column(name = "price_min")
     private int priceMin;
+
     @Column(name = "price_max")
     private int priceMax;
+
     @Column(name = "recommended_place")
     private String reccomendedPlace;
+
     @Column(name = "description")
     private String description;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-
 }
 

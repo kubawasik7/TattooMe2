@@ -19,7 +19,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Portfolio {
-
     @Id
     @GeneratedValue
     @UuidGenerator
