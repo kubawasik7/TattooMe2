@@ -8,8 +8,10 @@ import java.util.UUID;
 @Setter
 public class UserDTO {
     private UUID id;
-    private String username;
+    private String nickname;
     private String name;
     private String surname;
     private String email;
+    private String description;
+    private String base64Image;
 }
