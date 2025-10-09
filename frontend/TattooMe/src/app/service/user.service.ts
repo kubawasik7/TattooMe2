@@ -8,15 +8,19 @@ import { User } from '../model/user';
 })
 export class UserService {
   private apiUrl = 'http://localhost:8080/api/users';
+
   constructor(private http: HttpClient) { }
-  getUsersByRole(role: 'tattoo_artist' | 'trainee'): Observable<User[]>{
+
+  getUsersByRole(role: 'tattoo_artist' | 'trainee'): Observable<User[]> {
     const params = new HttpParams().set('role', role);
-    return this.http.get<User[]>(this.apiUrl, {params});
+    return this.http.get<User[]>(this.apiUrl, { params });
   }
+
   getUserById(id: string): Observable<User> {
     return this.http.get<User>(`${this.apiUrl}/${id}`);
   }
-   updateUser(user: User): Observable<any> {
+  
+  updateUser(user: User): Observable<any> {
     return this.http.put(`${this.apiUrl}/userProfile`, user);
   }
 }
