@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Flash } from '../../../model/flash';
-import { ScheduleSlot, ArtistDateService } from '../../../service/artist-date.service';
 import { FlashService } from '../../../service/flash.service';
 import { UserInfoService } from '../../../service/user-info.service';
 import { VisitService } from '../../../service/visit.service';
+import { ScheduleSlot } from '../../../model/schedule-slot';
 
 @Component({
   selector: 'app-visit',
