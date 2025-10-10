@@ -1,34 +1,28 @@
- <div class="style-section">
+<div class="style-section">
   <strong>Style:</strong>
 
   <div class="style-tags">
-    <ng-container *ngIf="!editStyleMode">
-      <span
-        *ngFor="let style of styles"
-        class="tag readonly selected">
+    <ng-container *ngIf="!editing">
+      <span *ngFor="let style of styles" class="tag readonly selected">
         {{ style.name }}
       </span>
     </ng-container>
 
-    <ng-container *ngIf="editStyleMode">
-      <span
-        *ngFor="let style of allStyles"
-        class="tag"
-        [class.selected]="selectedStyleIds.includes(style.id)"
+    <ng-container *ngIf="editing">
+      <span *ngFor="let style of allStyles" class="tag" [class.selected]="selectedStyleIds.includes(style.id)"
         (click)="toggleStyle(style.id)">
         {{ style.name }}
       </span>
     </ng-container>
-      <button  *ngIf="!editStyleMode && isOwner" class="btn-sm edit-btn" (click)="startEditing()">
-        <i class="fas fa-pen"></i>
-      </button>
+    <button *ngIf="!editing && isOwner" class="btn-sm edit-btn" (click)="startEditing()">
+      <i class="fas fa-pen"></i>
+    </button>
   </div>
 
   <div class="edit-actions">
-    <div *ngIf="editStyleMode">
+    <div *ngIf="editing">
       <button *ngIf="isOwner" class="btn save-btn" (click)="saveStyles()">Zapisz</button>
       <button class="btn cancel-btn" (click)="cancelEditing()">Anuluj</button>
     </div>
   </div>
 </div>
-
