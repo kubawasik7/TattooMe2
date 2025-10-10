@@ -112,3 +112,72 @@
   color: #ddd;
   border: 1px solid #666;
 }
+.new-slot-section {
+  margin-bottom: 1rem;
+}
+
+.add-slot-btn {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: none;
+  background-color: #2e5c2e;
+  color: #fff;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.add-slot-btn:hover {
+  background-color: #3b7a3b;
+}
+
+.new-slot-form {
+  margin-top: 0.5rem;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.new-slot-form input[type="datetime-local"] {
+  padding: 0.3rem 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #444;
+  background-color: #2b2b2b;
+  color: #f5f5f5;
+  font-size: 0.9rem;
+  width: 200px;
+}
+
+.btn {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+.add-slot {
+  background-color: #6c6c6c; 
+  color: #f5f5f5; 
+}
+
+.add-slot:hover {
+  background-color: #7f7f7f;
+}
+
+
+.save-btn{
+  background-color: #2e5c2e;
+}
+
+.save-btn:hover {
+  background-color: #3b7a3b;
+}
+
+.cancel-btn {
+  background-color: #5c2b2b;
+}
+
+.cancel-btn:hover {
+  background-color: #7a3636;
+}
+
