@@ -6,33 +6,60 @@
         <span>Wybierz zdjęcie</span>
       </div>
     </label>
-    <input type="file" id="avatarInput" hidden />
+    <input type="file" id="avatarInput" hidden (change)="onFileSelected($event)" />
   </div>
 
-  <form class="user-form">
+  <form *ngIf="userForm" [formGroup]="userForm" class="user-form">
     <div class="form-group">
       <label>Nazwa użytkownika</label>
-      <input type="text" [readonly]="!editMode" [(ngModel)]="user.nickname" name="username" />
+      <input type="text" formControlName="nickname" [readonly]="!editMode" />
+      <div class="error" *ngIf="nickname?.invalid && nickname?.touched">
+        <small *ngIf="nickname?.errors?.['required']">To pole jest wymagane</small>
+        <small *ngIf="nickname?.errors?.['maxlength']">Maksymalnie 25 znaków</small>
+        <small *ngIf="nickname?.errors?.['minlength']">Minimalnie 3 znaki</small>
+      </div>
     </div>
+
     <div class="form-group">
       <label>Imię</label>
-      <input type="text" [readonly]="!editMode" [(ngModel)]="user.name" name="name" />
+      <input type="text" formControlName="name" [readonly]="!editMode" />
+      <div class="error" *ngIf="name?.invalid && name?.touched">
+        <small *ngIf="name?.errors?.['required']">To pole jest wymagane</small>
+        <small *ngIf="name?.errors?.['maxlength']">Maksymalnie 35 znaków</small>
+        <small *ngIf="name?.errors?.['minlength']">Minimalnie 3 znaki</small>
+      </div>
     </div>
+
     <div class="form-group">
       <label>Nazwisko</label>
-      <input type="text" [readonly]="!editMode" [(ngModel)]="user.surname" name="surname" />
+      <input type="text" formControlName="surname" [readonly]="!editMode" />
+      <div class="error" *ngIf="surname?.invalid && surname?.touched">
+        <small *ngIf="surname?.errors?.['required']">To pole jest wymagane</small>
+        <small *ngIf="surname?.errors?.['maxlength']">Maksymalnie 60 znaków</small>
+        <small *ngIf="surname.errors?.['minlength']">Minimalnie 3 znaki</small>
+      </div>
     </div>
+
     <div class="form-group">
       <label>E-mail</label>
-      <input type="email" [readonly]="!editMode" [(ngModel)]="user.email" name="email" />
+      <input type="email" formControlName="email" [readonly]="!editMode" />
+      <div class="error" *ngIf="email?.invalid && email?.touched">
+        <small *ngIf="email?.errors?.['required']">To pole jest wymagane</small>
+        <small *ngIf="email?.errors?.['email']">Niepoprawny adres e-mail</small>
+        <small *ngIf="email?.errors?.['maxlength']">Maksymalnie 254 znaki</small>
+      </div>
     </div>
-  
+
     <div class="form-actions">
-      <button *ngIf="!editMode" type="button" class="edit-btn" (click)="editMode = true">✏️ Edytuj profil</button>
+      <button *ngIf="!editMode" type="button" class="edit-btn" (click)="editMode = true">
+        Edytuj profil
+      </button>
 
       <ng-container *ngIf="editMode">
-        <button type="button" class="save-btn" (click)="saveChanges()">✅ Zapisz zmiany</button>
-        <button type="button" class="cancel-btn" (click)="cancelChanges()">❌ Anuluj</button>
+        <button type="button" class="save-btn" (click)="saveChanges()" [disabled]="userForm.invalid">
+          Zapisz zmiany
+        </button>
+        <button type="button" class="cancel-btn" (click)="cancelChanges()">Anuluj</button>
       </ng-container>
     </div>
   </form>
