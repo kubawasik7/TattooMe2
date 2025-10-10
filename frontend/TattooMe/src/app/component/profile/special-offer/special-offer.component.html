@@ -1,48 +1,45 @@
 <div class="offer-section">
   <h3>Aktualne promocje</h3>
-  <button *ngIf="isOwner" class="btn-add" (click)="startNew()">
-    + Dodaj nową
-  </button>
 
-  <table class="table mt-2">
-    <thead>
-      <tr>
-        <th>Start</th>
-        <th>Koniec</th>
-        <th>Opis</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let o of offers">
-        <td>{{ o.startDate | date:'short' }}</td>
-        <td>{{ o.endDate | date:'short' }}</td>
-        <td>{{ o.description }}</td>
-        <td class="action-buttons">
-          <button *ngIf="isOwner" class="edit-btn" (click)="startEditOffer(o)">
-            <i class="fas fa-pen"></i>
-          </button>
-          <button *ngIf="isOwner" class="delete-btn" (click)="delete(o.id)">
-            <i class="fas fa-trash"></i>
-          </button>
-        </td>
-      </tr>
+  <button *ngIf="isOwner" class="btn-add" (click)="startNew()">+ Dodaj nową</button>
 
-      <tr *ngIf="editingId">
-        <td>
-          <input type="datetime-local" class="form-control" [(ngModel)]="draft.startDate" [min]="todayDate">
-        </td>
-        <td>
-          <input type="datetime-local" class="form-control" [(ngModel)]="draft.endDate">
-        </td>
-        <td>
-          <input type="text" class="form-control" [(ngModel)]="draft.description">
-        </td>
-        <td class="action-buttons">
-          <button *ngIf="isOwner" class="btn-save" (click)="save()">✔</button>
-          <button class="btn-cancel" (click)="cancel()">✖</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="offers-container">
+    <div class="offer-card" *ngFor="let o of offers">
+      <div class="offer-dates">
+        <span>Start: {{ o.startDate | date:'short' }}</span>
+        <span>Koniec: {{ o.endDate | date:'short' }}</span>
+      </div>
+      <div class="offer-description">{{ o.description }}</div>
+      <div class="action-buttons" *ngIf="isOwner">
+        <button class="edit-btn" (click)="startEditOffer(o)">
+          <i class="fas fa-pen"></i>
+        </button>
+        <button class="delete-btn" (click)="delete(o.id)">
+          <i class="fas fa-trash"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="offer-card editing-card" *ngIf="editingForm" [formGroup]="editingForm">
+      <div class="offer-dates">
+        <input type="datetime-local" class="form-control" formControlName="startDate" [min]="todayDate">
+        <input type="datetime-local" class="form-control" formControlName="endDate" [min]="todayDate">
+      </div>
+      <div>
+        <input type="text" class="form-control" formControlName="description" placeholder="Opis promocji">
+        <div class="error"
+          *ngIf="editingForm.get('description')?.touched && editingForm.get('description')?.hasError('required')">
+          Opis nie może być pusty
+        </div>
+        <div class="error"
+          *ngIf="editingForm.get('description')?.touched && editingForm.get('description')?.hasError('maxlength')">
+          Maksymalnie 255 znaków
+        </div>
+      </div>
+      <div class="action-buttons">
+        <button class="btn-save" (click)="save()">✔</button>
+        <button class="btn-cancel" (click)="cancel()">✖</button>
+      </div>
+    </div>
+  </div>
 </div>

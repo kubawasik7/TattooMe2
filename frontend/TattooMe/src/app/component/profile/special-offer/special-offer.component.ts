@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CreateOffer, Offer, ProfileService } from '../../../service/profile.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-special-offer',
@@ -10,47 +11,58 @@ import { CreateOffer, Offer, ProfileService } from '../../../service/profile.ser
 export class SpecialOfferComponent {
   @Input() userId!: string;
   @Input() isOwner = false;
+
   offers: Offer[] = [];
+  editingForm: FormGroup | null = null;
   editingId: string | null = null;
-  draft: CreateOffer = { startDate: '', endDate: '', description: '' };
   todayDate!: string;
 
-  constructor(private profileService: ProfileService){}
+  constructor(private profileService: ProfileService, private fb: FormBuilder) { }
 
-  ngOnInit(): void{
+  ngOnInit(): void {
     this.todayDate = new Date().toISOString().slice(0, 16);
     this.load();
-    
   }
 
   load() {
     this.profileService.getOffers(this.userId).subscribe(list => this.offers = list);
   }
+
   startNew() {
     this.editingId = 'new';
-    this.draft = { startDate: '', endDate: '', description: '' };
+    this.editingForm = this.fb.group({
+      startDate: ['', Validators.required],
+      endDate: ['', Validators.required],
+      description: ['', [Validators.required, Validators.maxLength(500)]]
+    });
   }
 
-  startEditOffer(o: Offer) {
-    this.editingId = o.id;
-    this.draft = {
-      startDate: o.startDate,
-      endDate: o.endDate,
-      description: o.description
-    };
-  }
-
-  save() {
-    if (this.editingId === 'new') {
-      this.profileService.createOffer(this.draft).subscribe(() => this.load());
-    } else {
-      this.profileService.updateOffer(this.editingId!, this.draft).subscribe(() => this.load());
-    }
-    this.editingId = null;
+  startEditOffer(offer: Offer) {
+    this.editingId = offer.id;
+    this.editingForm = this.fb.group({
+      startDate: [offer.startDate, Validators.required],
+      endDate: [offer.endDate, Validators.required],
+      description: [offer.description, [Validators.required, Validators.maxLength(500)]]
+    });
   }
 
   cancel() {
     this.editingId = null;
+    this.editingForm = null;
+  }
+
+  save() {
+    if (!this.editingForm || this.editingForm.invalid) return;
+
+    const offerData: CreateOffer = this.editingForm.value;
+
+    if (this.editingId === 'new') {
+      this.profileService.createOffer(offerData).subscribe(() => this.load());
+    } else {
+      this.profileService.updateOffer(this.editingId!, offerData).subscribe(() => this.load());
+    }
+
+    this.cancel();
   }
 
   delete(id: string) {
@@ -58,5 +70,4 @@ export class SpecialOfferComponent {
       this.profileService.deleteOffer(id).subscribe(() => this.load());
     }
   }
-
 }
