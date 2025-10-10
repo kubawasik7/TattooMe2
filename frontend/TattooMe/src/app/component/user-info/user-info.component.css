@@ -50,20 +50,39 @@ textarea[readonly] {
   justify-content: center;
 }
 
-button {
+.btn {
   padding: 0.6rem 1.5rem;
   border: none;
   border-radius: 6px;
   cursor: pointer;
   background-color: #666;
   color: white;
+  transition: background-color 0.2s;
 }
 
-button:hover {
-  background-color: #888;
+.edit-btn:hover {
+  background-color: #535353;
 }
+
+.cancel-btn {
+  background-color: #5c2b2b;
+}
+
+.save-btn {
+  background-color: #2e5c2e;
+}
+
+.save-btn:hover {
+  background-color: #3b7a3b;
+}
+
+.cancel-btn:hover {
+  background-color: #7a3636;
+}
+
 .error {
-  margin-top: 0.3rem;
-  color: #ff6b6b;
-  font-size: 0.9rem;
+  color: #ff4d4f;
+  font-size: 1rem;
+  margin-top: 4px;
+  animation: fade 0.3s ease-in;
 }
