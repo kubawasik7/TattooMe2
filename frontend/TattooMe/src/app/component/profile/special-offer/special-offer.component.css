@@ -95,6 +95,23 @@
   color: #f5f5f5;
   margin-bottom: 0.5rem;
 }
+textarea.form-control {
+  width: 100%;          
+  min-width: 100%;   
+  max-width: 100%;      
+  box-sizing: border-box; 
+  
+  background: #2b2b2b;
+  color: #f5f5f5;
+  border: 1px solid #444;
+  border-radius: 6px;
+  padding: 0.35rem 0.45rem;
+
+  resize: none;      
+  overflow: hidden;      
+  transition: height 0.2s ease;
+}
+
 
 .error {
   color: #ff4d4f;

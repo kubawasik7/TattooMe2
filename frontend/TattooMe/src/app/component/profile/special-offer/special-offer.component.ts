@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { CreateOffer, Offer, ProfileService } from '../../../service/profile.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -16,6 +16,7 @@ export class SpecialOfferComponent {
   editingForm: FormGroup | null = null;
   editingId: string | null = null;
   todayDate!: string;
+  @ViewChild('autoResize') autoResizeTextarea!: ElementRef<HTMLTextAreaElement>;
 
   constructor(private profileService: ProfileService, private fb: FormBuilder) { }
 
@@ -44,6 +45,12 @@ export class SpecialOfferComponent {
       endDate: [offer.endDate, Validators.required],
       description: [offer.description, [Validators.required, Validators.maxLength(500)]]
     });
+
+    setTimeout(() => {
+      if (this.autoResizeTextarea) {
+        this.adjustHeight(this.autoResizeTextarea.nativeElement);
+      }
+    });
   }
 
   cancel() {
@@ -69,5 +76,10 @@ export class SpecialOfferComponent {
     if (confirm('Usunąć tę ofertę?')) {
       this.profileService.deleteOffer(id).subscribe(() => this.load());
     }
+  }
+
+  adjustHeight(element: HTMLTextAreaElement) {
+    element.style.height = 'auto';
+    element.style.height = element.scrollHeight + 'px';
   }
 }
