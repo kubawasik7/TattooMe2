@@ -46,7 +46,7 @@ export class ProfileComponent implements OnInit {
     this.isOwner = this.authUserId === this.userId;
 
     this.descriptionForm = this.fb.group({
-      description: ['', [Validators.maxLength(255)]],
+      description: ['', [Validators.maxLength(1000)]],
     });
 
     this.userService.getUserById(this.userId).subscribe(user => {
