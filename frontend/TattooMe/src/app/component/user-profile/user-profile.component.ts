@@ -29,8 +29,8 @@ export class UserProfileComponent {
   initializeForm(): void {
     this.userForm = this.fb.group({
       nickname: [this.user.nickname, [Validators.required, Validators.minLength(3), Validators.maxLength(25)]],
-      name: [this.user.name, [Validators.required, Validators.minLength(3), Validators.maxLength(35)]],
-      surname: [this.user.surname, [Validators.required, Validators.minLength(3), Validators.maxLength(60)]],
+      name: [this.user.name, [Validators.minLength(3), Validators.maxLength(35)]],
+      surname: [this.user.surname, [Validators.minLength(3), Validators.maxLength(60)]],
       email: [this.user.email, [Validators.required, Validators.email, Validators.maxLength(254)]]
     });
   }

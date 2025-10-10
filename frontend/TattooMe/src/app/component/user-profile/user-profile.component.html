@@ -24,7 +24,6 @@
       <label>Imię</label>
       <input type="text" formControlName="name" [readonly]="!editMode" />
       <div class="error" *ngIf="name?.invalid && name?.touched">
-        <small *ngIf="name?.errors?.['required']">To pole jest wymagane</small>
         <small *ngIf="name?.errors?.['maxlength']">Maksymalnie 35 znaków</small>
         <small *ngIf="name?.errors?.['minlength']">Minimalnie 3 znaki</small>
       </div>
@@ -34,7 +33,6 @@
       <label>Nazwisko</label>
       <input type="text" formControlName="surname" [readonly]="!editMode" />
       <div class="error" *ngIf="surname?.invalid && surname?.touched">
-        <small *ngIf="surname?.errors?.['required']">To pole jest wymagane</small>
         <small *ngIf="surname?.errors?.['maxlength']">Maksymalnie 60 znaków</small>
         <small *ngIf="surname.errors?.['minlength']">Minimalnie 3 znaki</small>
       </div>
