@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-import { ScheduleSlot, ArtistDateService, CreateSlot } from '../../../service/artist-date.service';
+import { CreateSlot } from '../../../model/create-slot';
+import { ScheduleSlot } from '../../../model/schedule-slot';
+import { ArtistDateService } from '../../../service/artist-date.service';
 
 @Component({
   selector: 'app-artist-date',
@@ -11,24 +13,30 @@ import { ScheduleSlot, ArtistDateService, CreateSlot } from '../../../service/ar
 export class ArtistDateComponent implements OnInit {
   @Input() userId!: string;
   @Input() isOwner = false;
+
   slots: ScheduleSlot[] = [];
   isNewOpen = false;
   isBookingOpen = false;
-  currentSlot?: ScheduleSlot;
   showVisitModal = false;
+  showAll = false;
+
+  currentSlot?: ScheduleSlot;
   selectedSlotId = '';
+
   slotForm!: FormGroup<{ dateTime: FormControl<string> }>;
   bookingForm!: FormGroup<{ clientName: FormControl<string>; contact: FormControl<string> }>;
-  showAll = false;
 
   constructor(
     private artistDateService: ArtistDateService,
     private fb: FormBuilder
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-    this.load();
+    this.initForms();
+    this.loadSlots();
+  }
 
+  private initForms(): void {
     this.slotForm = this.fb.nonNullable.group({
       dateTime: ['', Validators.required],
     });
@@ -39,11 +47,17 @@ export class ArtistDateComponent implements OnInit {
     });
   }
 
-  private load(): void {
+  private loadSlots(): void {
     if (this.isOwner) {
-      this.artistDateService.getSlots().subscribe(s => (this.slots = s));
+      this.artistDateService.getSlots().subscribe({
+        next: (s) => (this.slots = s),
+        error: (err) => console.error('Błąd ładowania slotów', err)
+      });
     } else {
-      this.artistDateService.getAvailableDates(this.userId).subscribe(s => (this.slots = s));
+      this.artistDateService.getAvailableDates(this.userId).subscribe({
+        next: (s) => (this.slots = s),
+        error: (err) => console.error('Błąd ładowania slotów', err)
+      });
     }
   }
 
@@ -55,34 +69,44 @@ export class ArtistDateComponent implements OnInit {
   closeNew(): void {
     this.isNewOpen = false;
   }
-  
+
   saveNew(): void {
     if (this.slotForm.invalid) {
       this.slotForm.markAllAsTouched();
       return;
     }
-    const dto = this.slotForm.getRawValue() as CreateSlot;
-    this.artistDateService.createSlot(dto).subscribe(() => {
-      this.closeNew();
-      this.load();
+
+    const dto: CreateSlot = this.slotForm.getRawValue();
+    this.artistDateService.createSlot(dto).subscribe({
+      next: () => {
+        this.closeNew();
+        this.loadSlots();
+      },
+      error: (err) => console.error('Nie udało się utworzyć slotu', err)
     });
   }
 
   delete(id: string): void {
-    if (confirm('Usunąć ten termin?')) {
-      this.artistDateService.deleteSlot(id).subscribe(() => this.load());
-    }
+    if (!confirm('Usunąć ten termin?')) return;
+
+    this.artistDateService.deleteSlot(id).subscribe({
+      next: () => this.loadSlots(),
+      error: (err) => console.error('Nie udało się usunąć slotu', err)
+    });
   }
 
   toggle(id: string): void {
-    this.artistDateService.toggleSlot(id).subscribe(() => this.load());
+    this.artistDateService.toggleSlot(id).subscribe({
+      next: () => this.loadSlots(),
+      error: (err) => console.error('Nie udało się zmienić dostępności slotu', err)
+    });
   }
 
   book(slot: ScheduleSlot): void {
-    this.selectedSlotId = slot.id;
-    this.showVisitModal = true;
     this.currentSlot = slot;
-    this.bookingForm.reset({ clientName: '', contact: '' });
+    this.selectedSlotId = slot.id;
     this.isBookingOpen = true;
+    this.showVisitModal = true;
+    this.bookingForm.reset();
   }
 }
