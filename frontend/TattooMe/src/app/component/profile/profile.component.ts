@@ -1,18 +1,12 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { UserService } from '../../service/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CreateOffer, Offer, ProfileService } from '../../service/profile.service';
-import { TattooStyle } from '../../model/tattoo-style';
-import { WorkStyleService } from '../../service/work-style.service';
+import {ProfileService } from '../../service/profile.service';
 import { FavoriteService } from '../../service/favorite.service';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { PortfolioService } from '../../service/portfolio.service';
-import { Portfolio } from '../../model/portfolio';
-import { Flash } from '../../model/flash';
-import { FlashService } from '../../service/flash.service';
 import { AuthService } from '../../service/auth.service';
 import { ChatService } from '../../service/chat.service';
 import { User } from '../../model/user';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-profile',
@@ -20,39 +14,40 @@ import { User } from '../../model/user';
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
-export class ProfileComponent implements OnInit{
+export class ProfileComponent implements OnInit {
   user!: User;
   userId!: string;
   authUserId: string | null = null;
   editing = false;
-  description: string = '';
-  draftDescription: string = '';
-  editingId: string | null = null;
-  editStyleMode = false;
   isOwner = false;
+  descriptionForm!: FormGroup;
 
-   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
   selectedFile: File | null = null;
   previewUrl: string | null = null;
   defaultAvatar = '/pobrane.png';
 
-
-  constructor(private route: ActivatedRoute,
-    private userService: UserService, private profileService: ProfileService,
-    private favoriteService: FavoriteService, private authService: AuthService,
-    private chatService: ChatService, private router: Router
-  ){}
+  constructor(
+    private route: ActivatedRoute,
+    private userService: UserService,
+    private profileService: ProfileService,
+    private favoriteService: FavoriteService,
+    private authService: AuthService,
+    private chatService: ChatService,
+    private router: Router,
+    private fb: FormBuilder
+  ) { }
 
 
   ngOnInit(): void {
     this.userId = this.route.snapshot.paramMap.get('id')!;
 
     this.authUserId = this.authService.getUserId();
-    if (this.authUserId && this.authUserId === this.userId) {
-      this.isOwner = true;
-    } else {
-      this.isOwner = false;
-    }
+    this.isOwner = this.authUserId === this.userId;
+
+    this.descriptionForm = this.fb.group({
+      description: ['', [Validators.maxLength(255)]],
+    });
 
     this.userService.getUserById(this.userId).subscribe(user => {
       this.user = user;
@@ -62,20 +57,23 @@ export class ProfileComponent implements OnInit{
       } else {
         this.previewUrl = null;
       }
+
+      this.descriptionForm.patchValue({ description: this.user.description || '' });
     });
   }
+
   startChat(): void {
     this.chatService.startChat(this.userId).subscribe({
       next: chat => this.router.navigate(['/chat', chat.id]),
       error: err => console.error('Błąd podczas rozpoczynania czatu', err)
     });
   }
-  
+
   goToChats(userId: string) {
     window.location.href = `/chats?receiver=${userId}`;
   }
 
-   onFileSelected(event: Event): void {
+  onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (!input.files?.length) return;
     this.selectedFile = input.files[0];
@@ -96,40 +94,47 @@ export class ProfileComponent implements OnInit{
         error: err => console.error('Błąd uploadu', err)
       });
   }
+
+  //SEKCJA DESCRIPTION
   startEdit(): void {
-    this.draftDescription = this.user.description;
     this.editing = true;
     setTimeout(() => {
       const textarea = document.querySelector<HTMLTextAreaElement>('textarea');
-      if (textarea) {
-        this.adjustHeight(textarea);
-      }
-    }, 0);
+      if (textarea) this.adjustHeight(textarea);
+    });
   }
 
   cancelEdit(): void {
     this.editing = false;
-    this.draftDescription = '';
+    this.descriptionForm.patchValue({ description: this.user.description });
   }
-   adjustHeight(element: HTMLTextAreaElement) {
-    element.style.height = 'auto'; // reset wysokości
-    element.style.height = element.scrollHeight + 'px'; // dopasowanie do treści
+  get descriptionControl() {
+    return this.descriptionForm.get('description');
   }
+
+  saveDescription(): void {
+    if (this.descriptionForm.invalid) return;
+
+    const newDescription = this.descriptionForm.value.description;
+
+    this.profileService.updateDescription(newDescription).subscribe({
+      next: updated => {
+        this.user.description = updated.description;
+        this.editing = false;
+      },
+      error: err => console.error('Błąd zapisu opisu', err)
+    });
+  }
+
+  adjustHeight(element: HTMLTextAreaElement): void {
+    element.style.height = 'auto';
+    element.style.height = element.scrollHeight + 'px';
+  }
+
   //SEKCJA FAVORITE
   addToFavorites(artistId: string) {
-  this.favoriteService.addFavorite(artistId).subscribe(() => {
-    alert('Dodano do ulubionych');
-  });
-}
-  
-  saveDescription(): void {
-    this.profileService.updateDescription(this.draftDescription)
-      .subscribe({
-        next: updated => {
-          this.description = updated.description;
-          this.editing = false;
-        },
-        error: err => console.error('Błąd zapisu opisu', err)
-      });
+    this.favoriteService.addFavorite(artistId).subscribe(() => {
+      alert('Dodano do ulubionych');
+    });
   }
 }

@@ -11,8 +11,9 @@
     </button>
 
     <div class="profile-info">
-      <h2 class="nickname">{{user.nickname}} <h2 class="rating">★ 4.5/5 (1230)</h2>
-      </h2>
+      <h2 class="nickname">{{ user.nickname }}</h2>
+      <h2 class="rating">★ 4.5/5 (1230)</h2>
+
       <p class="location">Miasto, ulica 123/1</p>
       <app-style [userId]="userId" [isOwner]="isOwner"></app-style>
     </div>
@@ -28,25 +29,37 @@
   </section>
 
 
-  <div class="description">
-    <p *ngIf="!editing; else editTpl">
-      {{ user.description || 'Brak opisu...' }}
-      <button class="btn btn-sm edit-btn" (click)="startEdit()">
-        <i class="fas fa-pen"></i>
-      </button>
-    </p>
+  <div class="description" *ngIf="descriptionForm" [formGroup]="descriptionForm">
+    <ng-container *ngIf="!editing; else editTpl">
+      <p>
+        {{ descriptionForm.get('description')?.value || 'Brak opisu...' }}
+        <button type="button" class="btn btn-sm edit-btn" (click)="startEdit()">
+          <i class="fas fa-pen"></i>
+        </button>
+      </p>
+    </ng-container>
 
     <ng-template #editTpl>
-      <textarea [(ngModel)]="draftDescription" rows="3" #autoResize (input)="adjustHeight(autoResize)"></textarea>
-      <button class="btn2 save-btn" (click)="saveDescription()">Zapisz</button>
-      <button class="btn2 cancel-btn" (click)="cancelEdit()">Anuluj</button>
+      <textarea formControlName="description" rows="3" #autoResize (input)="adjustHeight(autoResize)"
+        placeholder="Wpisz swój opis..."></textarea>
+
+      <div class="error" *ngIf="
+        descriptionForm.get('description')?.touched &&
+        descriptionForm.get('description')?.hasError('maxlength')
+      ">
+        Opis nie może mieć więcej niż 255 znaków.
+      </div>
+
+      <button type="button" class="btn2 save-btn" (click)="saveDescription()">Zapisz</button>
+      <button type="button" class="btn2 cancel-btn" (click)="cancelEdit()">Anuluj</button>
     </ng-template>
   </div>
+
 
   <app-artist-date [userId]="userId" [isOwner]="isOwner"></app-artist-date>
   <app-special-offer [userId]="userId" [isOwner]="isOwner"></app-special-offer>
   <app-portfolio [userId]="userId" [isOwner]="isOwner"></app-portfolio>
   <app-offer [userId]="userId" [isOwner]="isOwner"></app-offer>
   <app-review [artistId]="userId"></app-review>
- 
+
 </main>
