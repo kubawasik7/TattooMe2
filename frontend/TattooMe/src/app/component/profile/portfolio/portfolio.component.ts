@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Portfolio } from '../../../model/portfolio';
 import { PortfolioService } from '../../../service/portfolio.service';
 
@@ -8,31 +8,47 @@ import { PortfolioService } from '../../../service/portfolio.service';
   templateUrl: './portfolio.component.html',
   styleUrl: './portfolio.component.css'
 })
-export class PortfolioComponent {
+export class PortfolioComponent implements OnInit {
   @Input() userId!: string;
   @Input() isOwner = false;
+
   portfolioItems: Portfolio[] = [];
   selectedFile: File | null = null;
   showAllPortfolio = false;
 
-  constructor(private portfolioService: PortfolioService){}
+  constructor(private portfolioService: PortfolioService) {}
 
-  ngOnInit(): void{
-      this.portfolioService.getByUser(this.userId).subscribe(items => {
-      this.portfolioItems = items;
+  ngOnInit(): void {
+    this.loadPortfolio();
+  }
+
+  private loadPortfolio(): void {
+    this.portfolioService.getByUser(this.userId).subscribe({
+      next: items => (this.portfolioItems = items),
+      error: err => console.error('Błąd pobierania portfolio:', err)
     });
   }
 
-  deleteImagePortfolio(id: string) {
-  this.portfolioService.delete(id).subscribe(() => {
-    this.portfolioItems = this.portfolioItems.filter(p => p.id !== id);
-  });
-}
+  deleteImagePortfolio(id: string): void {
+    this.portfolioService.delete(id).subscribe({
+      next: () => {
+        this.portfolioItems = this.portfolioItems.filter(p => p.id !== id);
+      },
+      error: err => console.error('Błąd usuwania zdjęcia:', err)
+    });
+  }
 
   onFileSelectedPortfolio(event: any): void {
-    if (event.target.files.length > 0) {
-      this.selectedFile = event.target.files[0];
+    const file = event.target.files?.[0];
+    if (file) {
+      this.selectedFile = file;
     }
+  }
+
+  clearSelectedFile(): void {
+    this.selectedFile = null;
+    const fileInput = document.getElementById('fileInput') as HTMLInputElement;
+    if (fileInput) fileInput.value = '';
   }
 
   uploadPortfolio(): void {
@@ -41,8 +57,9 @@ export class PortfolioComponent {
     this.portfolioService.uploadImage(this.selectedFile).subscribe({
       next: () => {
         this.selectedFile = null;
+        this.loadPortfolio();
       },
-      error: err => console.error('Błąd uploadu portfolio', err)
+      error: err => console.error('Błąd uploadu portfolio:', err)
     });
   }
 }
