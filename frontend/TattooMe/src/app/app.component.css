@@ -97,7 +97,7 @@ body {
 }
 
 .sidebar-left, .sidebar-right {
-  width: 800px;
+  width: 200px;
   background-color: #262626;
   padding: 20px;
   display: flex;
