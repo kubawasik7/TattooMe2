@@ -1,7 +1,9 @@
 <section class="offer">
   <div class="offer-header">
     <h3>Oferta</h3>
-    <button *ngIf="isOwner" class="btn btn-sm btn-outline-primary" (click)="openFlashModal()">+ Dodaj zdjęcie</button>
+    <button *ngIf="isOwner" class="btn add-flash-btn" (click)="openFlashModal()">
+      + Dodaj zdjęcie
+    </button>
   </div>
 
   <div class="offer-grid">
@@ -27,37 +29,59 @@
   <div class="modal">
     <h4>Nowa oferta</h4>
 
-    <label class="form-label">Zdjęcie</label>
-    <input type="file" (change)="onFlashFileSelected($event)" />
+    <form [formGroup]="flashForm">
+      <label class="form-label">Zdjęcie</label>
+      <label for="flashFileInput" class="modal-btn file-btn">
+        <i class="fas fa-upload"></i> Wybierz plik
+      </label>
+      <input type="file" id="flashFileInput" (change)="onFlashFileSelected($event)" hidden />
 
-    <label class="form-label">Opis</label>
-    <textarea [(ngModel)]="newFlash.description" rows="2"></textarea>
 
-    <div class="grid-2">
-      <div>
-        <label>Rozmiar min (cm)</label>
-        <input type="number" [(ngModel)]="newFlash.sizeMin" />
+      <div *ngIf="flashFile" class="selected-file">
+        <i class="fas fa-image"></i>
+        <span>{{ flashFile.name }}</span>
+        <button class="btn remove-btn" type="button" (click)="clearSelectedFile()">
+          <i class="fas fa-times"></i>
+        </button>
       </div>
-      <div>
-        <label>Rozmiar max (cm)</label>
-        <input type="number" [(ngModel)]="newFlash.sizeMax" />
-      </div>
-      <div>
-        <label>Cena min (zł)</label>
-        <input type="number" [(ngModel)]="newFlash.priceMin" />
-      </div>
-      <div>
-        <label>Cena max (zł)</label>
-        <input type="number" [(ngModel)]="newFlash.priceMax" />
-      </div>
-    </div>
 
-    <label class="form-label">Sugerowane miejsce</label>
-    <input type="text" [(ngModel)]="newFlash.reccomendedPlace" />
+      <label class="form-label">Opis</label>
+      <textarea formControlName="description" rows="2"></textarea>
+      <div *ngIf="flashForm.get('description')?.hasError('maxlength')" class="error">
+        Maks. 300 znaków
+      </div>
 
-    <div class="actions">
-      <button *ngIf="isOwner" class="btn btn-success" (click)="submitFlash()" [disabled]="!flashFile">Zapisz</button>
-      <button *ngIf="isOwner" class="btn btn-secondary" (click)="closeFlashModal()">Anuluj</button>
-    </div>
+      <div class="grid-2">
+        <div>
+          <label>Rozmiar min (cm)</label>
+          <input type="number" formControlName="sizeMin" />
+        </div>
+        <div>
+          <label>Rozmiar max (cm)</label>
+          <input type="number" formControlName="sizeMax" />
+        </div>
+        <div>
+          <label>Cena min (zł)</label>
+          <input type="number" formControlName="priceMin" />
+        </div>
+        <div>
+          <label>Cena max (zł)</label>
+          <input type="number" formControlName="priceMax" />
+        </div>
+      </div>
+
+      <label class="form-label">Sugerowane miejsce</label>
+      <input type="text" formControlName="reccomendedPlace" />
+
+      <div class="actions">
+        <button *ngIf="isOwner" class="modal-btn btn-success" type="button" (click)="submitFlash()"
+          [disabled]="!flashForm.valid || !flashFile">
+          Zapisz
+        </button>
+        <button *ngIf="isOwner" class="modal-btn btn-cancel" type="button" (click)="closeFlashModal()">
+          Anuluj
+        </button>
+      </div>
+    </form>
   </div>
 </div>

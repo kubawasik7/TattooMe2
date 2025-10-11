@@ -1,22 +1,62 @@
+.offer {
+  background: #1e1e1e;
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-top: 2rem;
+  color: #f0f0f0;
+}
+
 .offer-header {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  margin: 16px 0;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.offer-header h3 {
+  font-size: 1.5rem;
+}
+
+.add-flash-btn {
+  background-color: #333;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.1s;
+}
+
+.add-flash-btn i {
+  font-size: 1.2rem;
+}
+
+.add-flash-btn:hover {
+  background-color: #444;
 }
 
 .offer-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-  gap: 14px;
+  gap: 16px;
 }
 
 .offer-card {
   background: #2b2b2b;
   border: 1px solid #3b3b3b;
-  border-radius: 8px;
+  border-radius: 10px;
   overflow: hidden;
-  color: #fff;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.offer-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.08);
 }
 
 .offer-card img {
@@ -40,27 +80,40 @@
 .offer-info .desc {
   margin-top: 6px;
   font-size: 0.9rem;
-  color: #ddd;
+  color: #ccc;
 }
 
-/* Modal */
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,.7);
+  background: rgba(0, 0, 0, 0.75);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 50;
+  z-index: 100;
 }
 
 .modal {
   width: 420px;
   background: #1f1f1f;
   border: 1px solid #3b3b3b;
-  border-radius: 10px;
-  padding: 18px;
+  border-radius: 12px;
+  padding: 20px;
   color: #fff;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .form-label {
@@ -79,6 +132,7 @@
   color: #fff;
   border: 1px solid #3a3a3a;
   border-radius: 6px;
+  font-size: 0.95rem;
 }
 
 .grid-2 {
@@ -91,8 +145,72 @@
 .actions {
   margin-top: 14px;
   display: flex;
-  gap: 8px;
+  gap: 10px;
   justify-content: flex-end;
 }
 
-.btn { cursor: pointer; }
+.selected-file {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: #2c2c2c;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  color: #ddd;
+  margin-top: 0.5rem;
+}
+
+.selected-file i {
+  color: #aaa;
+  font-size: 1.1rem;
+}
+
+.remove-btn {
+  background: transparent;
+  border: none;
+  color: #f66;
+  cursor: pointer;
+  font-size: 1.1rem;
+}
+
+.remove-btn:hover {
+  color: #ff4444;
+}
+
+.modal-btn {
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 0.95rem;
+  cursor: pointer;
+  color: #000000;
+  border: none;
+  transition: background-color 0.3s, transform 0.1s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.modal .btn-success {
+  background-color: #2e5c2e;
+}
+
+.modal .btn-success:hover {
+  background-color: #3b7a3b;
+}
+
+.modal .btn-cancel {
+  background-color: #5c2b2b;
+}
+
+.modal .btn-cancel:hover {
+  background-color: #7a3636;
+}
+
+.modal .file-btn {
+  background-color: #2e5c2e;
+}
+
+.modal .file-btn:hover {
+  background-color: #3b7a3b;
+}

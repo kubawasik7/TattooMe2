@@ -1,6 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FlashService } from '../../../service/flash.service';
 import { Flash } from '../../../model/flash';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-offer',
@@ -8,25 +9,34 @@ import { Flash } from '../../../model/flash';
   templateUrl: './offer.component.html',
   styleUrl: './offer.component.css'
 })
-export class OfferComponent {
+export class OfferComponent implements OnInit {
   @Input() userId!: string;
   @Input() isOwner = false;
+
   flashes: Flash[] = [];
   showFlashModal = false;
   flashFile: File | null = null;
-  newFlash: Flash = {
-    description: '',
-    reccomendedPlace: '',
-    sizeMin: 0,
-    sizeMax: 0,
-    priceMin: 0,
-    priceMax: 0
-  };
+  flashForm!: FormGroup;
 
-  constructor(private flashService: FlashService) { }
+  constructor(
+    private fb: FormBuilder,
+    private flashService: FlashService
+  ) { }
 
   ngOnInit(): void {
     this.loadFlashes();
+    this.initForm();
+  }
+
+  private initForm(): void {
+    this.flashForm = this.fb.group({
+      description: ['', [Validators.maxLength(300)]],
+      reccomendedPlace: [''],
+      sizeMin: [0, [Validators.min(0)]],
+      sizeMax: [0, [Validators.min(0)]],
+      priceMin: [0, [Validators.min(0)]],
+      priceMax: [0, [Validators.min(0)]],
+    });
   }
 
   openFlashModal(): void {
@@ -36,11 +46,12 @@ export class OfferComponent {
   closeFlashModal(): void {
     this.showFlashModal = false;
     this.flashFile = null;
-    this.newFlash = {
-      description: '',
-      reccomendedPlace: '',
-      sizeMin: 0, sizeMax: 0, priceMin: 0, priceMax: 0
-    };
+    this.flashForm.reset({
+      sizeMin: 0,
+      sizeMax: 0,
+      priceMin: 0,
+      priceMax: 0
+    });
   }
 
   onFlashFileSelected(evt: Event): void {
@@ -52,24 +63,31 @@ export class OfferComponent {
 
   loadFlashes(): void {
     this.flashService.getByUser(this.userId).subscribe({
-      next: (data) => this.flashes = data,
+      next: (data) => (this.flashes = data),
       error: (e) => console.error('Błąd pobierania flashy', e)
     });
   }
 
   submitFlash(): void {
-    if (!this.flashFile) return;
+    if (!this.flashForm.valid || !this.flashFile) return;
 
     const form = new FormData();
     form.append('file', this.flashFile);
     form.append(
       'data',
-      new Blob([JSON.stringify(this.newFlash)], { type: 'application/json' })
+      new Blob([JSON.stringify(this.flashForm.value)], { type: 'application/json' })
     );
 
     this.flashService.upload(form).subscribe({
-      next: () => { this.closeFlashModal(); this.loadFlashes(); },
+      next: () => {
+        this.closeFlashModal();
+        this.loadFlashes();
+      },
       error: (e) => console.error('Błąd uploadu flasha', e)
     });
+  }
+
+  clearSelectedFile(): void {
+    this.flashFile = null;
   }
 }
