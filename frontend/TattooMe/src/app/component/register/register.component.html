@@ -1,26 +1,17 @@
 <div class="register-container">
   <div class="register-card">
     <div class="register-header">
-      <div class="logo">Logo</div>
       <h2>Rejestracja</h2>
       <p>Wybierz rodzaj konta</p>
+
       <div class="roles">
-        <button 
-          type="button" 
-          (click)="selectRole('user')" 
-          [class.active]="selectedRole === 'user'">
+        <button type="button" (click)="selectRole('user')" [class.active]="selectedRole === 'user'">
           Klient
         </button>
-        <button 
-          type="button" 
-          (click)="selectRole('trainee')" 
-          [class.active]="selectedRole === 'trainee'">
+        <button type="button" (click)="selectRole('trainee')" [class.active]="selectedRole === 'trainee'">
           Praktykant
         </button>
-        <button 
-          type="button" 
-          (click)="selectRole('tattoo_artist')" 
-          [class.active]="selectedRole === 'tattoo_artist'">
+        <button type="button" (click)="selectRole('tattoo_artist')" [class.active]="selectedRole === 'tattoo_artist'">
           Tatuator
         </button>
       </div>
@@ -29,34 +20,44 @@
     <form [formGroup]="form" class="register-form">
       <label>
         Nazwa użytkownika:
-        <input formControlName="username" placeholder="Enter your username" />
+        <input formControlName="username" placeholder="Wpisz nazwę użytkownika" />
       </label>
-      <div *ngIf="form.get('username')?.touched && form.get('username')?.invalid" class="error">
-        Nazwa jest wymagana.
+      <div *ngIf="form.get('username')?.touched && form.get('username')?.errors" class="error">
+        <div *ngIf="form.get('username')?.errors?.['required']">Nazwa użytkownika jest wymagana</div>
+        <div *ngIf="form.get('username')?.errors?.['minlength']">Minimum 3 znaki</div>
+        <div *ngIf="form.get('username')?.errors?.['maxlength']">Maksymalnie 25 znaków</div>
       </div>
 
       <label>
-        Adres E‑mail:
-        <input formControlName="email" placeholder="Enter your E‑mail" />
+        Adres E-mail:
+        <input formControlName="email" placeholder="Wpisz adres e-mail" />
       </label>
-      <div *ngIf="form.get('email')?.touched && form.get('email')?.invalid" class="error">
-        Podaj poprawny e‑mail.
+      <div *ngIf="form.get('email')?.touched && form.get('email')?.errors" class="error">
+        <div *ngIf="form.get('email')?.errors?.['required']">Email jest wymagany</div>
+        <div *ngIf="form.get('email')?.errors?.['email']">Niepoprawny adres email</div>
       </div>
 
       <label>
         Hasło:
-        <input type="password" formControlName="password" placeholder="Enter your password" />
+        <input type="password" formControlName="password" placeholder="Wpisz hasło" />
       </label>
+      <div *ngIf="form.get('password')?.touched && form.get('password')?.errors" class="error">
+        <div *ngIf="form.get('password')?.errors?.['required']">Hasło jest wymagane</div>
+        <div *ngIf="form.get('password')?.errors?.['minlength']">Minimum 8 znaków</div>
+        <div *ngIf="form.get('password')?.errors?.['weakPassword']">
+          Hasło musi zawierać dużą i małą literę, cyfrę i znak specjalny
+        </div>
+      </div>
 
       <label>
         Powtórz hasło:
-        <input type="password" formControlName="confirmPassword" placeholder="Enter your password" />
+        <input type="password" formControlName="confirmPassword" placeholder="Powtórz hasło" />
       </label>
       <div *ngIf="form.errors?.['notMatching'] && form.get('confirmPassword')?.touched" class="error">
-        Hasła muszą być takie same.
+        Hasła muszą być takie same
       </div>
 
-      <button type="submit" class="submit-btn" (click)="onSubmit()" >
+      <button type="submit" class="submit-btn" (click)="onSubmit()">
         Zarejestruj się
       </button>
     </form>
