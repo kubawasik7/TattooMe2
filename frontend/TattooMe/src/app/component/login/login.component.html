@@ -1,23 +1,27 @@
 <div class="login-container">
   <div class="login-card">
     <div class="login-header">
-      <div class="logo">Logo</div>
       <h2>Logowanie</h2>
     </div>
 
-    <form [formGroup]="form"  class="login-form">
+    <form [formGroup]="form" class="login-form">
       <label>
         Nazwa użytkownika:
-        <input formControlName="username" placeholder="Enter your username" />
+        <input formControlName="username" placeholder="Wpisz nazwę użytkownika" />
       </label>
       <div *ngIf="form.get('username')?.touched && form.get('username')?.invalid" class="error">
-        Nazwa jest wymagana.
+        Nazwa użytkownika jest wymagana.
       </div>
+
       <label>
         Hasło:
-        <input type="password" formControlName="password" placeholder="Enter your password" />
+        <input type="password" formControlName="password" placeholder="Wpisz hasło" />
       </label>
-      <button type="submit" class="submit-btn" (click)="onLogin()" >
+      <div *ngIf="form.get('password')?.touched && form.get('password')?.invalid" class="error">
+        Hasło jest wymagane.
+      </div>
+
+      <button type="submit" class="submit-btn" (click)="onLogin()">
         Zaloguj się
       </button>
     </form>
