@@ -1,7 +1,14 @@
+.date-list {
+  background-color: #1c1c1c;
+  padding: 1rem;
+  border-radius: 10px;
+}
+
 .slots-with-add {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 15px;
+  flex-wrap: wrap;
 }
 
 .slots-grid {
@@ -11,7 +18,7 @@
 }
 
 .slot-card {
-  background: #1e1e1e;
+  background: #262626;
   border: 1px solid #333;
   border-radius: 10px;
   padding: 1rem;
@@ -85,8 +92,9 @@
   border: none;
   cursor: pointer;
 }
+
 .more-btn:hover {
-  background: #ffffff;
+  background: #444;
 }
 
 .delete-btn {
@@ -100,10 +108,12 @@
   transition: all 0.2s ease-in-out;
   cursor: pointer;
 }
+
 .delete-btn:hover {
   background: #dc3545;
 }
-.reservation-btn{
+
+.reservation-btn {
   padding: 6px 14px;
   border-radius: 20px;
   font-size: 0.85rem;
@@ -113,28 +123,10 @@
   border: none;
   cursor: pointer;
 }
-.reservation-btn:hover{
-  background: #444;
-  color: #ddd;
-  border: 1px solid #666;
-}
-.new-slot-section {
-  margin-bottom: 1rem;
-}
 
-
-.add-slot-btn {
-  padding: 6px 12px;
-  border-radius: 6px;
-  border: none;
-  background-color: #2e5c2e;
+.reservation-btn:hover {
+  background: #555;
   color: #fff;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-.add-slot-btn:hover {
-  background-color: #3b7a3b;
 }
 
 .new-slot-form {
@@ -162,15 +154,13 @@
   cursor: pointer;
   font-size: 0.9rem;
 }
+
 .add-slot {
   background-color: #434343; 
   color: #fff;              
   font-size: 24px;          
   width: 50px;              
-  height: 50px;            
-  border: none;
-  border-radius: 50%;        
-  cursor: pointer;
+  height: 50px;                  
   display: flex;
   align-items: center;
   justify-content: center;
@@ -181,7 +171,7 @@
   background-color: #5a5a5a;
 }
 
-.save-btn{
+.save-btn {
   background-color: #2e5c2e;
 }
 
@@ -196,4 +186,3 @@
 .cancel-btn:hover {
   background-color: #7a3636;
 }
-

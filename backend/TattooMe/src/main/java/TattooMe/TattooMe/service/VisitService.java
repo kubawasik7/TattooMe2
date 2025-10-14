@@ -98,6 +98,11 @@ public class VisitService {
                 .orElseThrow(() -> new EntityNotFoundException("Brak terminu"));
         visit.setArtistDate(artistDate);
         visit.setArtist(artistDate.getTattooArtist());
+        boolean exists = visitRepository.existsByArtistDateIdAndClientId(newVisitDTO.getArtistDateId(), clientId);
+        if (exists) {
+            throw new IllegalStateException("Ten termin jest już zarezerwowany!");
+        }
+
 
         if (newVisitDTO.getFlashId() != null) {
             Flash flash = flashRepository.findById(newVisitDTO.getFlashId())

@@ -1,6 +1,8 @@
 package TattooMe.TattooMe.dto;
 
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +17,8 @@ import java.util.UUID;
 @NoArgsConstructor
 public class ReviewDTO {
     private UUID id;
+    @Min(value = 1, message = "Ocena musi być co najmniej 1")
+    @Max(value = 5, message = "Ocena nie może być większa niż 5")
     private int rate;
     private String content;
     private LocalDateTime createdAt;
