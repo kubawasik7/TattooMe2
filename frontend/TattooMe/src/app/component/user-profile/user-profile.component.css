@@ -1,12 +1,12 @@
 .user-profile-container {
   width: 100%;
-  max-width: 400px;
-  margin: 0 auto;
-  color: white;
-  background-color: #333;
+  max-width: 450px;
+  margin: 2rem auto;
+  color: #fff;
+  background-color: #434343;
   padding: 2rem;
-  border-radius: 10px;
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
 .avatar-upload {
@@ -16,24 +16,25 @@
 }
 
 .avatar-circle {
-  width: 100px;
-  height: 100px;
+  width: 110px;
+  height: 110px;
   background-color: #555;
   border-radius: 50%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: #fff;
   font-size: 14px;
   cursor: pointer;
   text-align: center;
   padding: 0.5rem;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, transform 0.2s;
 }
 
 .avatar-circle:hover {
   background-color: #666;
+  transform: scale(1.05);
 }
 
 .user-form .form-group {
@@ -43,22 +44,24 @@
 }
 
 .user-form label {
-  font-size: 0.9rem;
-  margin-bottom: 0.3rem;
+  font-size: 0.95rem;
+  margin-bottom: 0.4rem;
+  color: #ddd;
 }
 
 .user-form input {
-  padding: 0.6rem;
-  border-radius: 5px;
+  padding: 0.7rem;
+  border-radius: 6px;
   border: none;
-  background-color: #444;
-  color: white;
+  background-color: #555;
+  color: #fff;
   font-size: 1rem;
+  transition: background-color 0.2s;
 }
 
 .user-form input:focus {
   outline: none;
-  background-color: #555;
+  background-color: #666;
 }
 
 .form-actions {
@@ -71,13 +74,13 @@
 .edit-btn,
 .change-password-btn {
   flex: 1;
-  padding: 0.6rem;
+  padding: 0.7rem;
   font-size: 0.95rem;
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
   cursor: pointer;
   background-color: #666;
-  color: white;
+  color: #fff;
   transition: background-color 0.3s;
 }
 
@@ -87,7 +90,7 @@
 }
 
 input[readonly] {
-  background-color: #444;
+  background-color: #555;
   color: #ccc;
   cursor: not-allowed;
 }
@@ -95,7 +98,7 @@ input[readonly] {
 .save-btn,
 .cancel-btn {
   flex: 1;
-  padding: 0.6rem;
+  padding: 0.7rem;
   font-size: 0.95rem;
   border: none;
   border-radius: 10px;
@@ -104,7 +107,7 @@ input[readonly] {
 }
 
 .cancel-btn {
-  background-color: #5c2b2b;
+  background-color: #7a3636;
 }
 
 .save-btn {
@@ -116,12 +119,12 @@ input[readonly] {
 }
 
 .cancel-btn:hover {
-  background-color: #7a3636;
+  background-color: #a63c3c;
 }
 
 .error {
   color: #ff4d4f;
-  font-size: 1rem;
+  font-size: 0.95rem;
   margin-top: 4px;
   animation: fade 0.3s ease-in;
 }
