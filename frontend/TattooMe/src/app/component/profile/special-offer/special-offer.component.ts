@@ -34,7 +34,7 @@ export class SpecialOfferComponent {
     this.editingForm = this.fb.group({
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
-      description: ['', [Validators.required, Validators.maxLength(500)]]
+      description: ['', [Validators.required, Validators.minLength(5) ,Validators.maxLength(500)]]
     });
   }
 
@@ -43,7 +43,7 @@ export class SpecialOfferComponent {
     this.editingForm = this.fb.group({
       startDate: [offer.startDate, Validators.required],
       endDate: [offer.endDate, Validators.required],
-      description: [offer.description, [Validators.required, Validators.maxLength(500)]]
+      description: [offer.description, [Validators.required, Validators.minLength(5), Validators.maxLength(500)]]
     });
 
     setTimeout(() => {

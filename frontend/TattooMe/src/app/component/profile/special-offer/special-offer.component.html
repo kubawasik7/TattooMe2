@@ -40,6 +40,10 @@
           Opis nie może być pusty
         </div>
         <div class="error"
+          *ngIf="editingForm.get('description')?.touched && editingForm.get('description')?.hasError('minlength')">
+          Minimalnie 5 znaków
+        </div>
+        <div class="error"
           *ngIf="editingForm.get('description')?.touched && editingForm.get('description')?.hasError('maxlength')">
           Maksymalnie 500 znaków
         </div>
