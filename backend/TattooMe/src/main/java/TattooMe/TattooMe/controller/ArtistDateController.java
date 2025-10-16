@@ -4,6 +4,7 @@ import TattooMe.TattooMe.Security.CustomUserDetails;
 import TattooMe.TattooMe.dto.CreateScheduleDTO;
 import TattooMe.TattooMe.dto.ScheduleDTO;
 import TattooMe.TattooMe.service.ArtistDateService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +35,7 @@ public class ArtistDateController {
     @PostMapping
     public ResponseEntity<ScheduleDTO> create(
             @AuthenticationPrincipal CustomUserDetails user,
-            @RequestBody CreateScheduleDTO dto) {
+            @Valid @RequestBody CreateScheduleDTO dto) {
         ScheduleDTO created = artistDateService.createSlot(user.getId(), dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
