@@ -6,6 +6,7 @@ import TattooMe.TattooMe.dto.RegisterRequest;
 import TattooMe.TattooMe.dto.RegisterResponse;
 import TattooMe.TattooMe.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +27,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> loginUser(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<LoginResponse> loginUser(@Valid @RequestBody LoginRequest loginRequest) {
         try {
             LoginResponse response = userService.loginUser(loginRequest);
             return ResponseEntity.ok(response);
