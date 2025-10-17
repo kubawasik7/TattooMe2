@@ -4,6 +4,7 @@ import TattooMe.TattooMe.dto.schedule.CreateScheduleDTO;
 import TattooMe.TattooMe.dto.schedule.ScheduleDTO;
 import TattooMe.TattooMe.entity.ArtistDate;
 import TattooMe.TattooMe.entity.User;
+import TattooMe.TattooMe.mapper.ArtistDateMapper;
 import TattooMe.TattooMe.repository.ArtistDateRepository;
 import TattooMe.TattooMe.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -20,18 +21,17 @@ public class ArtistDateService {
     private ArtistDateRepository dateRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    ArtistDateMapper dateMapper;
 
     public List<ScheduleDTO> listSlots(UUID artistId) {
-        return dateRepository.findAllByTattooArtistId(artistId).stream()
-                .map(this::toDto)
-                .toList();
+        List<ArtistDate> artistDates = dateRepository.findAllByTattooArtistId(artistId);
+        return dateMapper.toDTOList(artistDates);
     }
 
     public List<ScheduleDTO> getAvailableByArtist(UUID artistId) {
-        return dateRepository.findByTattooArtist_IdAndIsAvailableTrueOrderByDateAsc(artistId)
-                .stream()
-                .map(this::toDto)
-                .toList();
+        List<ArtistDate> artistDates = dateRepository.findByTattooArtist_IdAndIsAvailableTrueOrderByDateAsc(artistId);
+        return dateMapper.toDTOList(artistDates);
     }
 
     @Transactional
@@ -43,7 +43,7 @@ public class ArtistDateService {
         slot.setDate(dto.getDateTime());
 
         ArtistDate saved = dateRepository.save(slot);
-        return toDto(saved);
+        return dateMapper.toDTO(saved);
     }
 
     @Transactional
@@ -66,14 +66,6 @@ public class ArtistDateService {
         }
 
         slot.setAvailable(!slot.isAvailable());
-        return toDto(slot);
-    }
-
-    private ScheduleDTO toDto(ArtistDate artistDate) {
-        ScheduleDTO scheduleDTO = new ScheduleDTO();
-        scheduleDTO.setId(artistDate.getId());
-        scheduleDTO.setDateTime(artistDate.getDate());
-        scheduleDTO.setAvailable(artistDate.isAvailable());
-        return scheduleDTO;
+        return dateMapper.toDTO(slot);
     }
 }
