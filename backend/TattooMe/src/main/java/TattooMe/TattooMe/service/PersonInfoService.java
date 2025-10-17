@@ -1,7 +1,9 @@
 package TattooMe.TattooMe.service;
 
+import TattooMe.TattooMe.dto.personInfo.CreatePersonInfoDTO;
 import TattooMe.TattooMe.dto.personInfo.PersonInfoDTO;
 import TattooMe.TattooMe.entity.PersonInfo;
+import TattooMe.TattooMe.mapper.PersonInfoMapper;
 import TattooMe.TattooMe.repository.PersonInfoRepository;
 import TattooMe.TattooMe.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -17,13 +19,15 @@ public class PersonInfoService {
     private PersonInfoRepository personInfoRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private PersonInfoMapper personInfoMapper;
 
     public Optional<PersonInfoDTO> getUserInfo(UUID userId) {
         return personInfoRepository.findByUser_Id(userId)
-                .map(this::toDto);
+                .map(personInfoMapper::toDTO);
     }
 
-    public PersonInfoDTO updateUserInfo(UUID userId, PersonInfoDTO dto) {
+    public PersonInfoDTO updateUserInfo(UUID userId, CreatePersonInfoDTO dto) {
         PersonInfo info = personInfoRepository.findByUser_Id(userId)
                 .orElseGet(() -> {
                     PersonInfo newInfo = new PersonInfo();
@@ -32,21 +36,8 @@ public class PersonInfoService {
                     return newInfo;
                 });
 
-        info.setAllergies(dto.getAllergies());
-        info.setChronicDiseases(dto.getChronicDiseases());
-        info.setMedicines(dto.getMedicines());
-        info.setExperiences(dto.getExperiences());
+        personInfoMapper.updateFromDTO(dto, info);
 
-        PersonInfo saved = personInfoRepository.save(info);
-        return toDto(saved);
-    }
-
-    private PersonInfoDTO toDto(PersonInfo entity) {
-        PersonInfoDTO dto = new PersonInfoDTO();
-        dto.setAllergies(entity.getAllergies());
-        dto.setChronicDiseases(entity.getChronicDiseases());
-        dto.setMedicines(entity.getMedicines());
-        dto.setExperiences(entity.getExperiences());
-        return dto;
+        return personInfoMapper.toDTO(personInfoRepository.save(info));
     }
 }

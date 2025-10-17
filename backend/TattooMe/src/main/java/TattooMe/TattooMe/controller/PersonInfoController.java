@@ -1,6 +1,7 @@
 package TattooMe.TattooMe.controller;
 
 import TattooMe.TattooMe.Security.CustomUserDetails;
+import TattooMe.TattooMe.dto.personInfo.CreatePersonInfoDTO;
 import TattooMe.TattooMe.dto.personInfo.PersonInfoDTO;
 import TattooMe.TattooMe.service.PersonInfoService;
 import jakarta.validation.Valid;
@@ -25,7 +26,7 @@ public class PersonInfoController {
 
     @PutMapping
     public ResponseEntity<PersonInfoDTO> updateInfo(@AuthenticationPrincipal CustomUserDetails user,
-                                                    @RequestBody @Valid PersonInfoDTO dto) {
+                                                    @RequestBody @Valid CreatePersonInfoDTO dto) {
         return ResponseEntity.ok(personInfoService.updateUserInfo(user.getId(), dto));
     }
 }
