@@ -1,10 +1,7 @@
 package TattooMe.TattooMe.controller;
 
 import TattooMe.TattooMe.Security.CustomUserDetails;
-import TattooMe.TattooMe.dto.PortfolioDTO;
-import TattooMe.TattooMe.entity.Portfolio;
-import TattooMe.TattooMe.repository.PortfolioRepository;
-import TattooMe.TattooMe.repository.UserRepository;
+import TattooMe.TattooMe.dto.portfolio.PortfolioDTO;
 import TattooMe.TattooMe.service.PortfolioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

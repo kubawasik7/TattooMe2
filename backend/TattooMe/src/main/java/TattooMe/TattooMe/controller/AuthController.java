@@ -1,9 +1,9 @@
 package TattooMe.TattooMe.controller;
 
-import TattooMe.TattooMe.dto.LoginRequest;
-import TattooMe.TattooMe.dto.LoginResponse;
-import TattooMe.TattooMe.dto.RegisterRequest;
-import TattooMe.TattooMe.dto.RegisterResponse;
+import TattooMe.TattooMe.dto.login.LoginRequest;
+import TattooMe.TattooMe.dto.login.LoginResponse;
+import TattooMe.TattooMe.dto.register.RegisterRequest;
+import TattooMe.TattooMe.dto.register.RegisterResponse;
 import TattooMe.TattooMe.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;

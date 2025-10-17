@@ -2,7 +2,11 @@ package TattooMe.TattooMe.service;
 
 import TattooMe.TattooMe.Security.CustomUserDetails;
 import TattooMe.TattooMe.Security.JwtUtil;
-import TattooMe.TattooMe.dto.*;
+import TattooMe.TattooMe.dto.login.LoginRequest;
+import TattooMe.TattooMe.dto.login.LoginResponse;
+import TattooMe.TattooMe.dto.register.RegisterRequest;
+import TattooMe.TattooMe.dto.register.RegisterResponse;
+import TattooMe.TattooMe.dto.user.UserDTO;
 import TattooMe.TattooMe.entity.User;
 import TattooMe.TattooMe.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;

@@ -1,8 +1,8 @@
 package TattooMe.TattooMe.controller;
 
 import TattooMe.TattooMe.Security.CustomUserDetails;
-import TattooMe.TattooMe.dto.NewVisitDTO;
-import TattooMe.TattooMe.dto.VisitDTO;
+import TattooMe.TattooMe.dto.visit.NewVisitDTO;
+import TattooMe.TattooMe.dto.visit.VisitDTO;
 import TattooMe.TattooMe.service.VisitService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

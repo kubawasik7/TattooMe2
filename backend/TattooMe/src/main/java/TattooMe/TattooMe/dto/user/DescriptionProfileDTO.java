@@ -1,4 +1,4 @@
-package TattooMe.TattooMe.dto;
+package TattooMe.TattooMe.dto.user;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

@@ -1,4 +1,4 @@
-package TattooMe.TattooMe.dto;
+package TattooMe.TattooMe.dto.register;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

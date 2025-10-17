@@ -1,8 +1,8 @@
 package TattooMe.TattooMe.controller;
 
 import TattooMe.TattooMe.Security.CustomUserDetails;
-import TattooMe.TattooMe.dto.CreateStudioDTO;
-import TattooMe.TattooMe.dto.TattooStudioDTO;
+import TattooMe.TattooMe.dto.tattooStudio.CreateStudioDTO;
+import TattooMe.TattooMe.dto.tattooStudio.TattooStudioDTO;
 import TattooMe.TattooMe.service.TattooStudioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

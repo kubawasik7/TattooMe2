@@ -1,4 +1,4 @@
-package TattooMe.TattooMe.dto;
+package TattooMe.TattooMe.dto.favoriteArtist;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

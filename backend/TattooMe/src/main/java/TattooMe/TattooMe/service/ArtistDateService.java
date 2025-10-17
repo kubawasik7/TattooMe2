@@ -1,7 +1,7 @@
 package TattooMe.TattooMe.service;
 
-import TattooMe.TattooMe.dto.CreateScheduleDTO;
-import TattooMe.TattooMe.dto.ScheduleDTO;
+import TattooMe.TattooMe.dto.schedule.CreateScheduleDTO;
+import TattooMe.TattooMe.dto.schedule.ScheduleDTO;
 import TattooMe.TattooMe.entity.ArtistDate;
 import TattooMe.TattooMe.entity.User;
 import TattooMe.TattooMe.repository.ArtistDateRepository;

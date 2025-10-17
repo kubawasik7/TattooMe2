@@ -1,4 +1,4 @@
-package TattooMe.TattooMe.dto;
+package TattooMe.TattooMe.dto.offer;
 
 import jakarta.validation.constraints.*;
 import lombok.Getter;

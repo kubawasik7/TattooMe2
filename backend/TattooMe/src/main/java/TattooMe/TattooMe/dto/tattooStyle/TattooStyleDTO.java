@@ -1,20 +1,17 @@
-package TattooMe.TattooMe.dto;
-
+package TattooMe.TattooMe.dto.tattooStyle;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ReviewAnswerDTO {
+public class TattooStyleDTO {
     private UUID id;
-    private String content;
-    private LocalDateTime createdAt;
-    private String userNickname;
+    private String name;
 }

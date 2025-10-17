@@ -1,10 +1,7 @@
 package TattooMe.TattooMe.service;
 
-import TattooMe.TattooMe.dto.FavoriteArtistDTO;
-import TattooMe.TattooMe.dto.OfferDTO;
-import TattooMe.TattooMe.dto.UserDTO;
+import TattooMe.TattooMe.dto.favoriteArtist.FavoriteArtistDTO;
 import TattooMe.TattooMe.entity.FavoriteArtist;
-import TattooMe.TattooMe.entity.TattooArtistOffer;
 import TattooMe.TattooMe.entity.User;
 import TattooMe.TattooMe.repository.FavoriteArtistRepository;
 import TattooMe.TattooMe.repository.UserRepository;

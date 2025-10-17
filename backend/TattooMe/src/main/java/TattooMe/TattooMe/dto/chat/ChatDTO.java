@@ -1,4 +1,4 @@
-package TattooMe.TattooMe.dto;
+package TattooMe.TattooMe.dto.chat;
 
 import lombok.Getter;
 import lombok.Setter;

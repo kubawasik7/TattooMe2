@@ -1,6 +1,6 @@
 package TattooMe.TattooMe.service;
 
-import TattooMe.TattooMe.dto.PortfolioDTO;
+import TattooMe.TattooMe.dto.portfolio.PortfolioDTO;
 import TattooMe.TattooMe.entity.Portfolio;
 import TattooMe.TattooMe.entity.User;
 import TattooMe.TattooMe.repository.PortfolioRepository;

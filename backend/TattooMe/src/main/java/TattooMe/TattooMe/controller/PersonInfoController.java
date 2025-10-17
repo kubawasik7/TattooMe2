@@ -1,7 +1,7 @@
 package TattooMe.TattooMe.controller;
 
 import TattooMe.TattooMe.Security.CustomUserDetails;
-import TattooMe.TattooMe.dto.PersonInfoDTO;
+import TattooMe.TattooMe.dto.personInfo.PersonInfoDTO;
 import TattooMe.TattooMe.service.PersonInfoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

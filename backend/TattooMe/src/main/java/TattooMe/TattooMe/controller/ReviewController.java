@@ -1,8 +1,8 @@
 package TattooMe.TattooMe.controller;
 
 import TattooMe.TattooMe.Security.CustomUserDetails;
-import TattooMe.TattooMe.dto.ReviewAnswerDTO;
-import TattooMe.TattooMe.dto.ReviewDTO;
+import TattooMe.TattooMe.dto.review.ReviewAnswerDTO;
+import TattooMe.TattooMe.dto.review.ReviewDTO;
 import TattooMe.TattooMe.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

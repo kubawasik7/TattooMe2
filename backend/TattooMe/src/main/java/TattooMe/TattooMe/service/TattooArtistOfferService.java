@@ -1,7 +1,7 @@
 package TattooMe.TattooMe.service;
 
-import TattooMe.TattooMe.dto.CreateOfferDTO;
-import TattooMe.TattooMe.dto.OfferDTO;
+import TattooMe.TattooMe.dto.offer.CreateOfferDTO;
+import TattooMe.TattooMe.dto.offer.OfferDTO;
 import TattooMe.TattooMe.entity.TattooArtistOffer;
 import TattooMe.TattooMe.entity.User;
 import TattooMe.TattooMe.repository.TattooArtistOfferRepository;

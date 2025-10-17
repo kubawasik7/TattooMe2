@@ -1,8 +1,8 @@
 package TattooMe.TattooMe.controller;
 
 import TattooMe.TattooMe.Security.CustomUserDetails;
-import TattooMe.TattooMe.dto.CreateOfferDTO;
-import TattooMe.TattooMe.dto.OfferDTO;
+import TattooMe.TattooMe.dto.offer.CreateOfferDTO;
+import TattooMe.TattooMe.dto.offer.OfferDTO;
 import TattooMe.TattooMe.service.TattooArtistOfferService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

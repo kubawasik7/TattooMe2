@@ -1,7 +1,7 @@
 package TattooMe.TattooMe.controller;
 
 import TattooMe.TattooMe.Security.CustomUserDetails;
-import TattooMe.TattooMe.dto.ChatDTO;
+import TattooMe.TattooMe.dto.chat.ChatDTO;
 import TattooMe.TattooMe.service.ChatService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,20 +1,16 @@
 package TattooMe.TattooMe.service;
 
-import TattooMe.TattooMe.dto.MessageDTO;
-import TattooMe.TattooMe.dto.NewMessageDTO;
-import TattooMe.TattooMe.dto.OfferDTO;
+import TattooMe.TattooMe.dto.message.MessageDTO;
+import TattooMe.TattooMe.dto.message.NewMessageDTO;
 import TattooMe.TattooMe.entity.Chat;
 import TattooMe.TattooMe.entity.Message;
-import TattooMe.TattooMe.entity.TattooArtistOffer;
 import TattooMe.TattooMe.repository.ChatRepository;
 import TattooMe.TattooMe.repository.MessageRepository;
 import TattooMe.TattooMe.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.nio.file.AccessDeniedException;
 import java.time.LocalDateTime;

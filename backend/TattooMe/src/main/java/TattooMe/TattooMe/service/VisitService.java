@@ -1,7 +1,7 @@
 package TattooMe.TattooMe.service;
 
-import TattooMe.TattooMe.dto.NewVisitDTO;
-import TattooMe.TattooMe.dto.VisitDTO;
+import TattooMe.TattooMe.dto.visit.NewVisitDTO;
+import TattooMe.TattooMe.dto.visit.VisitDTO;
 import TattooMe.TattooMe.entity.*;
 import TattooMe.TattooMe.repository.*;
 import jakarta.persistence.EntityNotFoundException;

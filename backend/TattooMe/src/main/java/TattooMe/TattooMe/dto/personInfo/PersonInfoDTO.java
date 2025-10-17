@@ -1,4 +1,4 @@
-package TattooMe.TattooMe.dto;
+package TattooMe.TattooMe.dto.personInfo;
 
 import jakarta.validation.constraints.Size;
 import lombok.Getter;

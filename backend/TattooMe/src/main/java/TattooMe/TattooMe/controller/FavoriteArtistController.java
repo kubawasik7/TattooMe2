@@ -2,8 +2,7 @@ package TattooMe.TattooMe.controller;
 
 
 import TattooMe.TattooMe.Security.CustomUserDetails;
-import TattooMe.TattooMe.dto.FavoriteArtistDTO;
-import TattooMe.TattooMe.dto.UserDTO;
+import TattooMe.TattooMe.dto.favoriteArtist.FavoriteArtistDTO;
 import TattooMe.TattooMe.service.FavoriteArtistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

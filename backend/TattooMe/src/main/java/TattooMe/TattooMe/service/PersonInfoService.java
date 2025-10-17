@@ -1,6 +1,6 @@
 package TattooMe.TattooMe.service;
 
-import TattooMe.TattooMe.dto.PersonInfoDTO;
+import TattooMe.TattooMe.dto.personInfo.PersonInfoDTO;
 import TattooMe.TattooMe.entity.PersonInfo;
 import TattooMe.TattooMe.repository.PersonInfoRepository;
 import TattooMe.TattooMe.repository.UserRepository;

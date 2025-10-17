@@ -1,7 +1,7 @@
 package TattooMe.TattooMe.controller;
 
 import TattooMe.TattooMe.Security.CustomUserDetails;
-import TattooMe.TattooMe.dto.FlashDTO;
+import TattooMe.TattooMe.dto.flash.FlashDTO;
 import TattooMe.TattooMe.service.FlashService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

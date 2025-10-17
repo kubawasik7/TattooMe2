@@ -1,8 +1,8 @@
 package TattooMe.TattooMe.controller;
 
 import TattooMe.TattooMe.Security.CustomUserDetails;
-import TattooMe.TattooMe.dto.CreateScheduleDTO;
-import TattooMe.TattooMe.dto.ScheduleDTO;
+import TattooMe.TattooMe.dto.schedule.CreateScheduleDTO;
+import TattooMe.TattooMe.dto.schedule.ScheduleDTO;
 import TattooMe.TattooMe.service.ArtistDateService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

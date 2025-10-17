@@ -1,7 +1,7 @@
 package TattooMe.TattooMe.service;
 
-import TattooMe.TattooMe.dto.CreateStudioDTO;
-import TattooMe.TattooMe.dto.TattooStudioDTO;
+import TattooMe.TattooMe.dto.tattooStudio.CreateStudioDTO;
+import TattooMe.TattooMe.dto.tattooStudio.TattooStudioDTO;
 import TattooMe.TattooMe.entity.TattooStudio;
 import TattooMe.TattooMe.entity.TattooStudioArtist;
 import TattooMe.TattooMe.repository.TattooStudioArtistRepository;

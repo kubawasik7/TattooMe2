@@ -1,8 +1,8 @@
 package TattooMe.TattooMe.controller;
 
 import TattooMe.TattooMe.Security.CustomUserDetails;
-import TattooMe.TattooMe.dto.DescriptionProfileDTO;
-import TattooMe.TattooMe.dto.UserDTO;
+import TattooMe.TattooMe.dto.user.DescriptionProfileDTO;
+import TattooMe.TattooMe.dto.user.UserDTO;
 import TattooMe.TattooMe.entity.User;
 import TattooMe.TattooMe.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

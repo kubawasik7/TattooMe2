@@ -1,6 +1,6 @@
 package TattooMe.TattooMe.service;
 
-import TattooMe.TattooMe.dto.TattooStyleDTO;
+import TattooMe.TattooMe.dto.tattooStyle.TattooStyleDTO;
 import TattooMe.TattooMe.entity.TattooStyle;
 import TattooMe.TattooMe.entity.User;
 import TattooMe.TattooMe.entity.WorkStyle;

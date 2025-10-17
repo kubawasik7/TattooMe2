@@ -1,4 +1,4 @@
-package TattooMe.TattooMe.dto;
+package TattooMe.TattooMe.dto.review;
 
 
 import jakarta.validation.constraints.Max;

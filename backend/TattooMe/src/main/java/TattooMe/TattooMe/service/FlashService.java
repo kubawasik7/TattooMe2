@@ -1,7 +1,6 @@
 package TattooMe.TattooMe.service;
 
-import TattooMe.TattooMe.dto.FlashDTO;
-import TattooMe.TattooMe.dto.OfferDTO;
+import TattooMe.TattooMe.dto.flash.FlashDTO;
 import TattooMe.TattooMe.entity.Flash;
 import TattooMe.TattooMe.entity.User;
 import TattooMe.TattooMe.repository.FlashRepository;

@@ -1,4 +1,4 @@
-package TattooMe.TattooMe.dto;
+package TattooMe.TattooMe.dto.schedule;
 
 import lombok.Getter;
 import lombok.Setter;

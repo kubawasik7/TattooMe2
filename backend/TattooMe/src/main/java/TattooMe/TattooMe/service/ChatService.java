@@ -1,6 +1,6 @@
 package TattooMe.TattooMe.service;
 
-import TattooMe.TattooMe.dto.ChatDTO;
+import TattooMe.TattooMe.dto.chat.ChatDTO;
 import TattooMe.TattooMe.entity.Chat;
 import TattooMe.TattooMe.entity.User;
 import TattooMe.TattooMe.repository.ChatRepository;
