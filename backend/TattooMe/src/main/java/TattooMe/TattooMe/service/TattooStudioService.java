@@ -4,12 +4,17 @@ import TattooMe.TattooMe.dto.tattooStudio.CreateStudioDTO;
 import TattooMe.TattooMe.dto.tattooStudio.TattooStudioDTO;
 import TattooMe.TattooMe.entity.TattooStudio;
 import TattooMe.TattooMe.entity.TattooStudioArtist;
+import TattooMe.TattooMe.entity.User;
+import TattooMe.TattooMe.mapper.TattooStudioMapper;
 import TattooMe.TattooMe.repository.TattooStudioArtistRepository;
 import TattooMe.TattooMe.repository.TattooStudioRepository;
 import TattooMe.TattooMe.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -22,33 +27,29 @@ public class TattooStudioService {
     private TattooStudioRepository tattooStudioRepository;
     @Autowired
     private TattooStudioArtistRepository tattooStudioArtistRepository;
-    public List<TattooStudioDTO> getAllStudios(){
-        return tattooStudioRepository.findAll().stream().map(studio -> {
-            TattooStudioDTO dto = new TattooStudioDTO();
-            dto.setId(studio.getId());
-            dto.setName(studio.getName());
-            dto.setCity(studio.getCity());
-            dto.setOwnerNickname(studio.getOwner().getNickname());
-            return dto;
-        }).toList();
+    @Autowired
+    private TattooStudioMapper tattooStudioMapper;
+
+    public List<TattooStudioDTO> getAllStudios() {
+        List<TattooStudio> studios = tattooStudioRepository.findAll();
+        return tattooStudioMapper.toDTOList(studios);
     }
 
-    public UUID createStudio(CreateStudioDTO dto, UUID ownerId) {
-        TattooStudio studio = new TattooStudio();
+    @Transactional
+    public TattooStudioDTO createStudio(CreateStudioDTO dto, UUID ownerId) {
+        User owner = userRepository.findById(ownerId)
+                .orElseThrow(() -> new EntityNotFoundException("Uzytkownik nie znaleziony"));
 
-        studio.setName(dto.getName());
-        studio.setCity(dto.getCity());
-        studio.setStreet(dto.getStreet());
-        studio.setStreetNumber(dto.getStreetNumber());
-        studio.setPostalCode(dto.getPostalCode());
-        studio.setOwner(userRepository.getReferenceById(ownerId));
+        TattooStudio studio = tattooStudioMapper.toEntity(dto);
+        studio.setOwner(owner);
+
         tattooStudioRepository.save(studio);
 
         TattooStudioArtist tattooStudioArtist = new TattooStudioArtist();
         tattooStudioArtist.setTattooStudio(studio);
-        tattooStudioArtist.setUser(userRepository.getReferenceById(ownerId));
+        tattooStudioArtist.setUser(owner);
         tattooStudioArtistRepository.save(tattooStudioArtist);
 
-        return studio.getId();
+        return tattooStudioMapper.toDTO(studio);
     }
 }

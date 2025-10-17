@@ -4,12 +4,15 @@ import TattooMe.TattooMe.Security.CustomUserDetails;
 import TattooMe.TattooMe.dto.tattooStudio.CreateStudioDTO;
 import TattooMe.TattooMe.dto.tattooStudio.TattooStudioDTO;
 import TattooMe.TattooMe.service.TattooStudioService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
-import java.util.UUID;
+
 
 @RestController
 @RequestMapping("/api/studios")
@@ -17,15 +20,16 @@ import java.util.UUID;
 public class TattooStudioController {
 
     private final TattooStudioService studioService;
+
     @GetMapping
-    public List<TattooStudioDTO> getStudios(){
+    public List<TattooStudioDTO> getStudios() {
         return studioService.getAllStudios();
     }
 
     @PostMapping
-    public ResponseEntity<UUID> createStudio(@RequestBody CreateStudioDTO dto,
-                                             @AuthenticationPrincipal CustomUserDetails user) {
-        UUID studioId = studioService.createStudio(dto, user.getId());
-        return ResponseEntity.ok(studioId);
+    public ResponseEntity<TattooStudioDTO> createStudio(@Valid @RequestBody CreateStudioDTO dto,
+                                                        @AuthenticationPrincipal CustomUserDetails user) {
+        TattooStudioDTO studio = studioService.createStudio(dto, user.getId());
+        return ResponseEntity.status(HttpStatus.CREATED).body(studio);
     }
 }
