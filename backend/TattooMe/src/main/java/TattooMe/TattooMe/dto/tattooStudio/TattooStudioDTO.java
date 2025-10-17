@@ -11,5 +11,8 @@ public class TattooStudioDTO {
     private UUID id;
     private String name;
     private String city;
+    private String street;
+    private String streetNumber;
+    private String postalCode;
     private String ownerNickname;
 }
