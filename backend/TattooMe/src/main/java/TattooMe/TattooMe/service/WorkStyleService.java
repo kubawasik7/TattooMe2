@@ -4,6 +4,8 @@ import TattooMe.TattooMe.dto.tattooStyle.TattooStyleDTO;
 import TattooMe.TattooMe.entity.TattooStyle;
 import TattooMe.TattooMe.entity.User;
 import TattooMe.TattooMe.entity.WorkStyle;
+import TattooMe.TattooMe.mapper.TattooStyleMapper;
+import TattooMe.TattooMe.mapper.WorkStyleMapper;
 import TattooMe.TattooMe.repository.TattooStyleRepository;
 import TattooMe.TattooMe.repository.UserRepository;
 import TattooMe.TattooMe.repository.WorkStyleRepository;
@@ -23,18 +25,19 @@ public class WorkStyleService {
     private TattooStyleRepository tattooStyleRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private WorkStyleMapper workStyleMapper;
+    @Autowired
+    private TattooStyleMapper tattooStyleMapper;
 
     public List<TattooStyleDTO> getUserStyles(UUID userId) {
-        return workStyleRepository.findByUser_Id(userId).stream()
-                .map(ws -> new TattooStyleDTO(ws.getTattooStyle().getId(), ws.getTattooStyle().getName()))
-                .collect(Collectors.toList());
+        List<WorkStyle> workStyles = workStyleRepository.findByUser_Id(userId);
+        return workStyleMapper.toDTOList(workStyles);
     }
 
     public List<TattooStyleDTO> getAllStyles() {
-        return tattooStyleRepository.findAll()
-                .stream()
-                .map(this::toDto)
-                .toList();
+        List<TattooStyle> tattooStyles = tattooStyleRepository.findAll();
+        return tattooStyleMapper.toDTOList(tattooStyles);
     }
 
     public List<TattooStyleDTO> saveUserStyles(UUID userId, List<UUID> styleIds) {
@@ -55,15 +58,6 @@ public class WorkStyleService {
 
         workStyleRepository.saveAll(newStyles);
 
-        return newStyles.stream()
-                .map(ws -> new TattooStyleDTO(ws.getTattooStyle().getId(), ws.getTattooStyle().getName()))
-                .collect(Collectors.toList());
-    }
-
-    private TattooStyleDTO toDto(TattooStyle style) {
-        TattooStyleDTO dto = new TattooStyleDTO();
-        dto.setId(style.getId());
-        dto.setName(style.getName());
-        return dto;
+        return workStyleMapper.toDTOList(newStyles);
     }
 }
