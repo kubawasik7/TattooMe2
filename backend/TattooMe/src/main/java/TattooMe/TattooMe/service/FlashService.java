@@ -1,8 +1,10 @@
 package TattooMe.TattooMe.service;
 
+import TattooMe.TattooMe.dto.flash.CreateFlashDTO;
 import TattooMe.TattooMe.dto.flash.FlashDTO;
 import TattooMe.TattooMe.entity.Flash;
 import TattooMe.TattooMe.entity.User;
+import TattooMe.TattooMe.mapper.FlashMapper;
 import TattooMe.TattooMe.repository.FlashRepository;
 import TattooMe.TattooMe.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -22,62 +24,53 @@ public class FlashService {
     private FlashRepository flashRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private FlashMapper flashMapper;
 
     public List<FlashDTO> getUserFlashes(UUID userId) {
-        return flashRepository.findAllByUser_Id(userId).stream()
-                .map(this::toDto)
-                .toList();
+        return flashMapper.toDTOList(flashRepository.findAllByUser_Id(userId));
     }
 
     @Transactional
-    public FlashDTO addFlash(UUID userId, MultipartFile file, FlashDTO flashDTO) throws IOException {
-        User user = userRepository.findById(userId).orElseThrow();
-        Flash flash = new Flash();
+    public FlashDTO addFlash(UUID userId, MultipartFile file, CreateFlashDTO dto) throws IOException {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("Nie znaleziono użytkownika"));
 
+        Flash flash = new Flash();
         flash.setUser(user);
         flash.setPicture(file.getBytes());
-        flash.setSizeMin(flashDTO.getSizeMin());
-        flash.setSizeMax(flashDTO.getSizeMax());
-        flash.setPriceMin(flashDTO.getPriceMin());
-        flash.setPriceMax(flashDTO.getPriceMax());
-        flash.setReccomendedPlace(flashDTO.getReccomendedPlace());
-        flash.setDescription(flashDTO.getDescription());
+        flash.setSizeMin(dto.getSizeMin());
+        flash.setSizeMax(dto.getSizeMax());
+        flash.setPriceMin(dto.getPriceMin());
+        flash.setPriceMax(dto.getPriceMax());
+        flash.setReccomendedPlace(dto.getReccomendedPlace());
+        flash.setDescription(dto.getDescription());
 
-        return toDto(flashRepository.save(flash));
+        Flash saved = flashRepository.save(flash);
+        return flashMapper.toDTO(saved);
     }
 
-    public FlashDTO updateFlash(UUID id, FlashDTO flashDTO) {
+    @Transactional
+    public FlashDTO updateFlash(UUID id, CreateFlashDTO dto) {
         Flash flash = flashRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Nie znaleziono wzoru"));
 
-        flash.setSizeMin(flashDTO.getSizeMin());
-        flash.setSizeMax(flashDTO.getSizeMax());
-        flash.setPriceMin(flashDTO.getPriceMin());
-        flash.setPriceMax(flashDTO.getPriceMax());
-        flash.setReccomendedPlace(flashDTO.getReccomendedPlace());
-        flash.setDescription(flashDTO.getDescription());
+        flash.setSizeMin(dto.getSizeMin());
+        flash.setSizeMax(dto.getSizeMax());
+        flash.setPriceMin(dto.getPriceMin());
+        flash.setPriceMax(dto.getPriceMax());
+        flash.setReccomendedPlace(dto.getReccomendedPlace());
+        flash.setDescription(dto.getDescription());
 
         Flash updated = flashRepository.save(flash);
-        return toDto(updated);
+        return flashMapper.toDTO(updated);
     }
 
+    @Transactional
     public void deleteFlash(UUID id) {
         if (!flashRepository.existsById(id)) {
             throw new EntityNotFoundException("Nie znaleziono wzoru");
         }
         flashRepository.deleteById(id);
     }
-
-    public FlashDTO toDto(Flash flash) {
-        FlashDTO dto = new FlashDTO();
-        dto.setSizeMin(flash.getSizeMin());
-        dto.setSizeMax(flash.getSizeMax());
-        dto.setPriceMin(flash.getPriceMin());
-        dto.setPriceMax(flash.getPriceMax());
-        dto.setReccomendedPlace(flash.getReccomendedPlace());
-        dto.setDescription(flash.getDescription());
-        dto.setPicture(Base64.getEncoder().encodeToString(flash.getPicture()));
-        return dto;
-    }
-
 }

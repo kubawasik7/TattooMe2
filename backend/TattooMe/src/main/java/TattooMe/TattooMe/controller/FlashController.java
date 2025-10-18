@@ -1,6 +1,7 @@
 package TattooMe.TattooMe.controller;
 
 import TattooMe.TattooMe.Security.CustomUserDetails;
+import TattooMe.TattooMe.dto.flash.CreateFlashDTO;
 import TattooMe.TattooMe.dto.flash.FlashDTO;
 import TattooMe.TattooMe.service.FlashService;
 import jakarta.validation.Valid;
@@ -31,14 +32,15 @@ public class FlashController {
     public ResponseEntity<FlashDTO> uploadFlash(
             @AuthenticationPrincipal CustomUserDetails user,
             @RequestPart("file") MultipartFile file,
-            @RequestPart("data") @Valid FlashDTO flash
+            @RequestPart("data") @Valid CreateFlashDTO flash
     ) throws IOException {
         FlashDTO flashDTO = flashService.addFlash(user.getId(), file, flash);
         return ResponseEntity.status(HttpStatus.CREATED).body(flashDTO);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<FlashDTO> updateFlash(@PathVariable UUID id, @RequestBody @Valid FlashDTO dto) {
+    public ResponseEntity<FlashDTO> updateFlash(@PathVariable UUID id,
+                                                @RequestBody @Valid CreateFlashDTO dto) {
         FlashDTO updated = flashService.updateFlash(id, dto);
         return ResponseEntity.ok(updated);
     }
