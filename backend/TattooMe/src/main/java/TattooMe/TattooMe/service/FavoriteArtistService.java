@@ -3,6 +3,7 @@ package TattooMe.TattooMe.service;
 import TattooMe.TattooMe.dto.favoriteArtist.FavoriteArtistDTO;
 import TattooMe.TattooMe.entity.FavoriteArtist;
 import TattooMe.TattooMe.entity.User;
+import TattooMe.TattooMe.mapper.FavoriteArtistMapper;
 import TattooMe.TattooMe.repository.FavoriteArtistRepository;
 import TattooMe.TattooMe.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -20,23 +21,28 @@ public class FavoriteArtistService {
     private FavoriteArtistRepository favoriteArtistRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private FavoriteArtistMapper  favoriteArtistMapper;
 
     public List<FavoriteArtistDTO> getFavorites(UUID userId) {
         userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("Uzytkownik nie znaleziony"));
+                .orElseThrow(() -> new EntityNotFoundException("Użytkownik nie znaleziony"));
 
         return favoriteArtistRepository.findAllByUser_Id(userId)
                 .stream()
-                .map(this::toDto)
+                .map(favoriteArtistMapper::toDTO)
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public FavoriteArtistDTO addFavorite(UUID artistId, UUID userId) {
         boolean exists = favoriteArtistRepository.existsByUser_IdAndArtist_Id(userId, artistId);
-        if (exists) throw new IllegalStateException("Artysta juz jest dodany do ulubionych");
+        if (exists) {
+            throw new IllegalStateException("Artysta już jest dodany do ulubionych");
+        }
 
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("Uzytkownik nie znaleziony"));
+                .orElseThrow(() -> new EntityNotFoundException("Użytkownik nie znaleziony"));
 
         User artist = userRepository.findById(artistId)
                 .orElseThrow(() -> new EntityNotFoundException("Artysta nie znaleziony"));
@@ -44,23 +50,16 @@ public class FavoriteArtistService {
         FavoriteArtist favorite = new FavoriteArtist();
         favorite.setUser(user);
         favorite.setArtist(artist);
-
         favoriteArtistRepository.save(favorite);
 
-        return toDto(favorite);
+        return favoriteArtistMapper.toDTO(favorite);
     }
 
     @Transactional
     public void removeFavorite(UUID userId, UUID artistId) {
+        if (!favoriteArtistRepository.existsByUser_IdAndArtist_Id(userId, artistId)) {
+            throw new EntityNotFoundException("Ulubiony artysta nie istnieje");
+        }
         favoriteArtistRepository.deleteByUser_IdAndArtist_Id(userId, artistId);
-    }
-
-    private FavoriteArtistDTO toDto(FavoriteArtist favorite) {
-        User artist = favorite.getArtist();
-        return new FavoriteArtistDTO(
-                artist.getId(),
-                artist.getNickname(),
-                artist.getDescription()
-        );
     }
 }
