@@ -4,6 +4,7 @@ import TattooMe.TattooMe.dto.message.MessageDTO;
 import TattooMe.TattooMe.dto.message.NewMessageDTO;
 import TattooMe.TattooMe.entity.Chat;
 import TattooMe.TattooMe.entity.Message;
+import TattooMe.TattooMe.mapper.MessageMapper;
 import TattooMe.TattooMe.repository.ChatRepository;
 import TattooMe.TattooMe.repository.MessageRepository;
 import TattooMe.TattooMe.repository.UserRepository;
@@ -11,6 +12,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.file.AccessDeniedException;
 import java.time.LocalDateTime;
@@ -27,28 +29,28 @@ public class MessageService {
     private ChatRepository chatRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private MessageMapper messageMapper;
 
     public List<MessageDTO> getMessages(UUID chatId, UUID userId) throws AccessDeniedException {
         Chat chat = chatRepository.findById(chatId)
                 .orElseThrow(() -> new EntityNotFoundException("Nie znaleziono chatu"));
 
-        if (!chat.getInitiator().getId().equals(userId) &&
-                (chat.getReceiver() == null || !chat.getReceiver().getId().equals(userId))) {
-            throw new AccessDeniedException("Nie jestes uczestnikiem tego chatu");
+        if (!isParticipant(chat, userId)) {
+            throw new AccessDeniedException("Nie jesteś uczestnikiem tego chatu");
         }
 
-        return messageRepository.findByChat_IdOrderByDateAsc(chatId).stream()
-                .map(this::toDto)
-                .toList();
+        List<Message> messages = messageRepository.findByChat_IdOrderByDateAsc(chatId);
+        return messageMapper.toDTOList(messages);
     }
 
+    @Transactional
     public MessageDTO sendMessage(NewMessageDTO newMessageDTO, UUID senderId) throws AccessDeniedException {
         Chat chat = chatRepository.findById(newMessageDTO.getChatId())
                 .orElseThrow(() -> new EntityNotFoundException("Nie znaleziono chatu"));
 
-        if (!chat.getInitiator().getId().equals(senderId) &&
-                (chat.getReceiver() == null || !chat.getReceiver().getId().equals(senderId))) {
-            throw new AccessDeniedException("Nie jestes uczestnikiem tego chatu");
+        if (!isParticipant(chat, senderId)) {
+            throw new AccessDeniedException("Nie jesteś uczestnikiem tego chatu");
         }
 
         Message message = new Message();
@@ -58,16 +60,11 @@ public class MessageService {
         message.setDate(LocalDateTime.now());
         message.setAttachment(Base64.getDecoder().decode(newMessageDTO.getBase64Attachment()));
 
-        return toDto(messageRepository.save(message));
+        Message saved = messageRepository.save(message);
+        return messageMapper.toDTO(saved);
     }
 
-    private MessageDTO toDto(Message message) {
-        MessageDTO messageDTO = new MessageDTO();
-        messageDTO.setId(message.getId());
-        messageDTO.setContent(message.getContent());
-        messageDTO.setDate(message.getDate());
-        messageDTO.setSenderId(message.getSender().getId());
-        messageDTO.setBase64Attachment(Base64.getEncoder().encodeToString(message.getAttachment()));
-        return messageDTO;
+    private boolean isParticipant(Chat chat, UUID userId) {
+        return chat.getInitiator().getId().equals(userId) || (chat.getReceiver() != null && chat.getReceiver().getId().equals(userId));
     }
 }
