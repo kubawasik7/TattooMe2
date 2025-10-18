@@ -3,8 +3,9 @@ package TattooMe.TattooMe.controller;
 import TattooMe.TattooMe.Security.CustomUserDetails;
 import TattooMe.TattooMe.dto.user.DescriptionProfileDTO;
 import TattooMe.TattooMe.dto.user.UserDTO;
-import TattooMe.TattooMe.entity.User;
+import TattooMe.TattooMe.dto.user.UserProfileUpdateDTO;
 import TattooMe.TattooMe.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -44,16 +45,16 @@ public class UserController {
     }
 
     @PutMapping("/description")
-    public ResponseEntity<User> updateDescription(@RequestBody DescriptionProfileDTO dto,
-                                                  @AuthenticationPrincipal CustomUserDetails principal) {
-        User updated = userService.updateDescription(principal.getId(), dto.getDescription());
+    public ResponseEntity<UserDTO> updateDescription(@RequestBody DescriptionProfileDTO dto,
+                                                     @AuthenticationPrincipal CustomUserDetails user) {
+        UserDTO updated = userService.updateDescription(user.getId(), dto);
         return ResponseEntity.ok(updated);
     }
 
     @PutMapping("/userProfile")
-    public ResponseEntity<User> updateUserProfile(@RequestBody UserDTO dto,
-                                                  @AuthenticationPrincipal CustomUserDetails principal) {
-        User updated = userService.updateUserProfile(principal.getId(), dto);
+    public ResponseEntity<UserDTO> updateUserProfile(@RequestBody @Valid UserProfileUpdateDTO dto,
+                                                     @AuthenticationPrincipal CustomUserDetails user) {
+        UserDTO updated = userService.updateUserProfile(user.getId(), dto);
         return ResponseEntity.ok(updated);
     }
 }

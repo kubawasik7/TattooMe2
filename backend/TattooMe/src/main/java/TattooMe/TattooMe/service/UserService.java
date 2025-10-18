@@ -6,8 +6,12 @@ import TattooMe.TattooMe.dto.login.LoginRequest;
 import TattooMe.TattooMe.dto.login.LoginResponse;
 import TattooMe.TattooMe.dto.register.RegisterRequest;
 import TattooMe.TattooMe.dto.register.RegisterResponse;
+import TattooMe.TattooMe.dto.user.DescriptionProfileDTO;
 import TattooMe.TattooMe.dto.user.UserDTO;
+import TattooMe.TattooMe.dto.user.UserProfileUpdateDTO;
 import TattooMe.TattooMe.entity.User;
+import TattooMe.TattooMe.mapper.AuthMapper;
+import TattooMe.TattooMe.mapper.UserMapper;
 import TattooMe.TattooMe.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +26,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -36,37 +38,33 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private JwtUtil jwtUtil;
+    @Autowired
+    private UserMapper userMapper;
+    @Autowired
+    private AuthMapper authMapper;
 
     public List<UserDTO> getUsersByRole(String role) {
-        return userRepository.findAllByRole(role).stream()
-                .map(this::toDto)
-                .collect(Collectors.toList());
+        return userMapper.toDTOList(userRepository.findAllByRole(role));
     }
 
     public UserDTO getUserById(UUID id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Nie znaleziono użytkownika"));
-
-        return toDto(user);
+        return userMapper.toDTO(user);
     }
+
 
     public RegisterResponse registerUser(RegisterRequest registerRequest) {
         if (userRepository.findByNickname(registerRequest.getNickname()).isPresent()) {
-            throw new RuntimeException("Nazwa uzytkownika jest juz zajeta");
+            throw new RuntimeException("Nazwa użytkownika jest już zajęta");
         }
 
-        User user = new User();
-        user.setRole(registerRequest.getRole());
-        user.setNickname(registerRequest.getNickname());
-        user.setEmail(registerRequest.getEmail());
+        User user = authMapper.toEntity(registerRequest);
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
+
         User saved = userRepository.save(user);
 
-        return new RegisterResponse(
-                saved.getNickname(),
-                saved.getEmail(),
-                saved.getRole()
-        );
+        return authMapper.toResponse(saved);
     }
 
     public LoginResponse loginUser(LoginRequest loginRequest) {
@@ -83,53 +81,48 @@ public class UserService {
         SecurityContextHolder.getContext().setAuthentication(authToken);
 
         String token = jwtUtil.generateToken(userDetails);
+
         return new LoginResponse(token);
     }
 
 
-    public void updateProfilePicture(UUID userId, MultipartFile multipartFile) throws IOException {
+    public UserDTO updateProfilePicture(UUID userId, MultipartFile multipartFile) throws IOException {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("Użytkownik nie znaleziony"));
 
         if (multipartFile.isEmpty()) {
             throw new IllegalArgumentException("Plik awatara nie może być pusty");
         }
+
         String contentType = multipartFile.getContentType();
-        if (contentType == null ||
-                !List.of("image/jpeg", "image/png", "image/gif").contains(contentType)) {
+        if (contentType == null || !List.of("image/jpeg", "image/png", "image/gif").contains(contentType)) {
             throw new IllegalArgumentException("Niedozwolony typ pliku: " + contentType);
         }
-        byte[] bytes = multipartFile.getBytes();
-        user.setProfilePicture(bytes);
+
+        user.setProfilePicture(multipartFile.getBytes());
+        User saved = userRepository.save(user);
+
+        return userMapper.toDTO(saved);
     }
 
-    public User updateDescription(UUID userId, String newDesc) {
+    public UserDTO updateDescription(UUID userId, DescriptionProfileDTO dto) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("Użytkownik nie istnieje"));
-        user.setDescription(newDesc);
-        return userRepository.save(user);
+                .orElseThrow(() -> new EntityNotFoundException("Użytkownik nie istnieje"));
+
+        userMapper.updateDescriptionFromDto(dto, user);
+        User saved = userRepository.save(user);
+
+        return userMapper.toDTO(saved);
     }
 
-    public User updateUserProfile(UUID userId, UserDTO dto) {
+    public UserDTO updateUserProfile(UUID userId, UserProfileUpdateDTO dto) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("Uzytkownik nie istnieje"));
-        user.setName(dto.getName());
-        user.setSurname(dto.getSurname());
-        user.setEmail(dto.getEmail());
-        return userRepository.save(user);
+                .orElseThrow(() -> new EntityNotFoundException("Użytkownik nie istnieje"));
+
+        userMapper.updateUserFromDto(dto, user);
+        User updated = userRepository.save(user);
+
+        return userMapper.toDTO(updated);
     }
 
-    private UserDTO toDto(User user) {
-        UserDTO userDTO = new UserDTO();
-        userDTO.setId(user.getId());
-        userDTO.setNickname(user.getNickname());
-        userDTO.setName(user.getName());
-        userDTO.setSurname(user.getSurname());
-        userDTO.setEmail(user.getEmail());
-        userDTO.setDescription(user.getDescription());
-        if (user.getProfilePicture() != null) {
-            userDTO.setProfilePicture(Base64.getEncoder().encodeToString(user.getProfilePicture()));
-        }
-        return userDTO;
-    }
 }
