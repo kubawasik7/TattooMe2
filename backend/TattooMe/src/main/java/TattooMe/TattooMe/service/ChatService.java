@@ -3,6 +3,7 @@ package TattooMe.TattooMe.service;
 import TattooMe.TattooMe.dto.chat.ChatDTO;
 import TattooMe.TattooMe.entity.Chat;
 import TattooMe.TattooMe.entity.User;
+import TattooMe.TattooMe.mapper.ChatMapper;
 import TattooMe.TattooMe.repository.ChatRepository;
 import TattooMe.TattooMe.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,50 +22,26 @@ public class ChatService {
     private ChatRepository chatRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private ChatMapper chatMapper;
 
     public List<ChatDTO> getUserChats(UUID userId) {
         List<Chat> chats = chatRepository.findByInitiator_IdOrReceiver_Id(userId, userId);
-        List<ChatDTO> result = new ArrayList<>();
-
-        for (Chat chat : chats) {
-            User other = chat.getInitiator().getId().equals(userId) ? chat.getReceiver() : chat.getInitiator();
-
-            ChatDTO chatDTO = new ChatDTO();
-            chatDTO.setId(chat.getId());
-
-            if (other != null) {
-                chatDTO.setReceiverId(other.getId());
-                chatDTO.setReceiverName(other.getNickname());
-            }
-            result.add(chatDTO);
-        }
-        return result;
+        return chatMapper.toDTOList(chats, userId);
     }
 
     public ChatDTO startChat(UUID initiatorId, UUID receiverId) {
         Optional<Chat> exist = chatRepository.findByInitiator_IdAndReceiver_Id(initiatorId, receiverId);
         if (exist.isPresent()) {
-            return toDto(exist.get(), initiatorId);
+            return chatMapper.toDTO(exist.get(), initiatorId);
         }
 
         Chat chat = new Chat();
         chat.setInitiator(userRepository.getReferenceById(initiatorId));
         chat.setReceiver(userRepository.getReferenceById(receiverId));
-        chat = chatRepository.save(chat);
 
-        return toDto(chat, initiatorId);
-    }
+        Chat saved = chatRepository.save(chat);
 
-    private ChatDTO toDto(Chat chat, UUID currentUserId) {
-        ChatDTO dto = new ChatDTO();
-        dto.setId(chat.getId());
-
-        User other = chat.getInitiator().getId().equals(currentUserId) ? chat.getReceiver() : chat.getInitiator();
-
-        if (other != null) {
-            dto.setReceiverId(other.getId());
-            dto.setReceiverName(other.getNickname());
-        }
-        return dto;
+        return chatMapper.toDTO(saved, initiatorId);
     }
 }
