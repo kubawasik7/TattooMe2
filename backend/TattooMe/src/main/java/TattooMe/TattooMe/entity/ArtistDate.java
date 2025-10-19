@@ -11,6 +11,8 @@ import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -42,4 +44,7 @@ public class ArtistDate {
     @JoinColumn(name = "user_id", nullable = false)
     @JsonIgnore
     private User tattooArtist;
+    @OneToOne(mappedBy = "artistDate", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private Visit visit;
 }
