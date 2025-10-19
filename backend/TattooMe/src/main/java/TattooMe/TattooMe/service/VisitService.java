@@ -3,10 +3,12 @@ package TattooMe.TattooMe.service;
 import TattooMe.TattooMe.dto.visit.NewVisitDTO;
 import TattooMe.TattooMe.dto.visit.VisitDTO;
 import TattooMe.TattooMe.entity.*;
+import TattooMe.TattooMe.mapper.VisitMapper;
 import TattooMe.TattooMe.repository.*;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Base64;
@@ -18,60 +20,56 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class VisitService {
-    private final VisitRepository visitRepository;
-    private final StatusRepository statusRepository;
-    private final ArtistDateRepository artistDateRepository;
-    private final FlashRepository flashRepository;
-    private final PersonInfoRepository personInfoRepository;
-    private final UserRepository userRepository;
+    @Autowired
+    private VisitRepository visitRepository;
+    @Autowired
+    private StatusRepository statusRepository;
+    @Autowired
+    private ArtistDateRepository artistDateRepository;
+    @Autowired
+    private FlashRepository flashRepository;
+    @Autowired
+    private PersonInfoRepository personInfoRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private VisitMapper visitMapper;
 
     public VisitDTO getVisitDetails(UUID visitId) {
         Visit visit = visitRepository.findById(visitId)
-                .orElseThrow(() -> new RuntimeException("Visit not found"));
-        return toDTO(visit);
+                .orElseThrow(() -> new RuntimeException("Wizyta nie znaleziona"));
+
+        return visitMapper.toDTO(visit);
     }
+
     public List<VisitDTO> getActiveVisits(UUID clientId) {
         List<String> statuses = List.of("OCZEKUJĄCA", "ZATWIERDZONA");
-        return visitRepository.findByClientAndStatuses(clientId, statuses)
-                .stream()
-                .map(this::toDTO)
-                .collect(Collectors.toList());
+
+        return visitMapper.toDTOList(visitRepository.findByClientAndStatuses(clientId, statuses));
     }
 
     public List<VisitDTO> getPastVisits(UUID clientId) {
-        return visitRepository.findPastByClient(clientId)
-                .stream()
-                .map(this::toDTO)
-                .collect(Collectors.toList());
+        return visitMapper.toDTOList(visitRepository.findPastByClient(clientId));
     }
 
     public List<VisitDTO> getCancelledVisits(UUID clientId) {
-        return visitRepository.findCancelledByClient(clientId)
-                .stream()
-                .map(this::toDTO)
-                .collect(Collectors.toList());
+        return visitMapper.toDTOList(visitRepository.findCancelledByClient(clientId));
     }
+
     public List<VisitDTO> getActiveVisitsAsArtist(UUID artistId) {
         List<String> statuses = List.of("OCZEKUJĄCA", "ZATWIERDZONA");
-        return visitRepository.findByArtistAndStatuses(artistId, statuses)
-                .stream()
-                .map(this::toDTO)
-                .collect(Collectors.toList());
+
+        return visitMapper.toDTOList(visitRepository.findByArtistAndStatuses(artistId, statuses));
     }
 
     public List<VisitDTO> getPastVisitsAsArtist(UUID artistId) {
-        return visitRepository.findPastByArtist(artistId)
-                .stream()
-                .map(this::toDTO)
-                .collect(Collectors.toList());
+        return visitMapper.toDTOList(visitRepository.findPastByArtist(artistId));
     }
 
     public List<VisitDTO> getCancelledVisitsAsArtist(UUID artistId) {
-        return visitRepository.findCancelledByArtist(artistId)
-                .stream()
-                .map(this::toDTO)
-                .collect(Collectors.toList());
+        return visitMapper.toDTOList(visitRepository.findCancelledByArtist(artistId));
     }
+
     public boolean cancelVisitAsArtist(UUID visitId, UUID artistId) {
         Optional<Visit> optional = visitRepository.findById(visitId);
         if (optional.isPresent()) {
@@ -133,6 +131,7 @@ public class VisitService {
         }
         visitRepository.save(visit);
     }
+
     public boolean confirmVisit(UUID visitId, UUID artistId) {
         Optional<Visit> optional = visitRepository.findById(visitId);
         if (optional.isPresent()) {
