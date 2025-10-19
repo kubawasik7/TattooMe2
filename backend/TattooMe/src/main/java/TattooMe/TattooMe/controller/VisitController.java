@@ -20,11 +20,13 @@ import java.util.UUID;
 @CrossOrigin(origins = "http://localhost:4200")
 public class VisitController {
     private final VisitService visitService;
+
     @PostMapping
     public ResponseEntity<Void> createVisit(@AuthenticationPrincipal CustomUserDetails user, @RequestBody NewVisitDTO newVisitDTO) {
         visitService.createVisit(user.getId(), newVisitDTO);
         return ResponseEntity.ok().build();
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<VisitDTO> getVisitDetails(@PathVariable UUID id) {
         return ResponseEntity.ok(visitService.getVisitDetails(id));
@@ -35,16 +37,19 @@ public class VisitController {
         List<VisitDTO> visits = visitService.getActiveVisits(user.getId());
         return ResponseEntity.ok(visits);
     }
+
     @GetMapping("/past")
     public ResponseEntity<List<VisitDTO>> getPastVisits(@AuthenticationPrincipal CustomUserDetails user) {
         List<VisitDTO> visits = visitService.getPastVisits(user.getId());
         return ResponseEntity.ok(visits);
     }
+
     @GetMapping("/cancelled")
     public ResponseEntity<List<VisitDTO>> getCancelledVisits(@AuthenticationPrincipal CustomUserDetails user) {
         List<VisitDTO> visits = visitService.getCancelledVisits(user.getId());
         return ResponseEntity.ok(visits);
     }
+
     @GetMapping("/artist/active")
     @PreAuthorize("hasRole('tattoo_artist')")
     public ResponseEntity<List<VisitDTO>> getActiveVisitsAsArtist(@AuthenticationPrincipal CustomUserDetails user) {
@@ -62,6 +67,7 @@ public class VisitController {
     public ResponseEntity<List<VisitDTO>> getCancelledVisitsAsArtist(@AuthenticationPrincipal CustomUserDetails user) {
         return ResponseEntity.ok(visitService.getCancelledVisitsAsArtist(user.getId()));
     }
+
     @PatchMapping("/{id}/confirm")
     @PreAuthorize("hasRole('tattoo_artist')")
     public ResponseEntity<Void> confrimVisit(@PathVariable UUID id, @AuthenticationPrincipal CustomUserDetails user) {

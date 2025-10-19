@@ -11,4 +11,6 @@ public interface PersonInfoMapper {
     PersonInfoDTO toDTO(PersonInfo entity);
 
     void updateFromDTO(CreatePersonInfoDTO dto, @MappingTarget PersonInfo entity);
+
+    PersonInfo fromCreateDTO(CreatePersonInfoDTO dto);
 }

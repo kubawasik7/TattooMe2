@@ -15,4 +15,8 @@ public class NewVisitDTO {
     private String chronicDiseases;
     private String medicines;
     private String experiences;
+
+    public boolean hasPersonInfoData() {
+        return allergies != null || chronicDiseases != null || medicines != null || experiences != null;
+    }
 }

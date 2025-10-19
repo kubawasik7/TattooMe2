@@ -45,8 +45,8 @@ public class Visit {
     @JoinColumn(name = "person_info_id")
     private PersonInfo personInfo;
 
-    @ManyToOne
-    @JoinColumn(name = "artist_date_id", nullable = false)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "artist_date_id", nullable = false, unique = true)
     private ArtistDate artistDate;
 
     @ManyToOne

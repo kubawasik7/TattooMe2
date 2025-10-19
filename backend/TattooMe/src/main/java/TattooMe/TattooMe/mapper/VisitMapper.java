@@ -29,6 +29,7 @@ public interface VisitMapper {
 
     List<VisitDTO> toDTOList(List<Visit> visits);
 
+    // uproszczone mapowanie z DTO — tylko pola, które nie wymagają repozytoriów
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "comment", source = "comment")
     Visit fromNewVisitDTO(NewVisitDTO dto);

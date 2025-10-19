@@ -1,8 +1,10 @@
 package TattooMe.TattooMe.service;
 
+import TattooMe.TattooMe.dto.personInfo.CreatePersonInfoDTO;
 import TattooMe.TattooMe.dto.visit.NewVisitDTO;
 import TattooMe.TattooMe.dto.visit.VisitDTO;
 import TattooMe.TattooMe.entity.*;
+import TattooMe.TattooMe.mapper.PersonInfoMapper;
 import TattooMe.TattooMe.mapper.VisitMapper;
 import TattooMe.TattooMe.repository.*;
 import jakarta.persistence.EntityNotFoundException;
@@ -11,11 +13,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
+
 
 @Service
 @RequiredArgsConstructor
@@ -34,6 +35,8 @@ public class VisitService {
     private UserRepository userRepository;
     @Autowired
     private VisitMapper visitMapper;
+    @Autowired
+    private PersonInfoMapper personInfoMapper;
 
     public VisitDTO getVisitDetails(UUID visitId) {
         Visit visit = visitRepository.findById(visitId)
@@ -96,17 +99,20 @@ public class VisitService {
                 .orElseThrow(() -> new EntityNotFoundException("Brak terminu"));
         visit.setArtistDate(artistDate);
         visit.setArtist(artistDate.getTattooArtist());
+
         boolean exists = visitRepository.existsByArtistDateIdAndClientId(newVisitDTO.getArtistDateId(), clientId);
         if (exists) {
             throw new IllegalStateException("Ten termin jest już zarezerwowany!");
         }
-
 
         if (newVisitDTO.getFlashId() != null) {
             Flash flash = flashRepository.findById(newVisitDTO.getFlashId())
                     .orElseThrow(() -> new EntityNotFoundException("Brak flasha"));
             visit.setFlash(flash);
         }
+
+        artistDate.setAvailable(false);
+        artistDateRepository.save(artistDate);
 
         visit.setComment(newVisitDTO.getComment());
 
@@ -116,19 +122,20 @@ public class VisitService {
         Optional<PersonInfo> existing = personInfoRepository.findByUser_Id(clientId);
         if (existing.isPresent()) {
             visit.setPersonInfo(existing.get());
-        } else if (
-                newVisitDTO.getAllergies() != null || newVisitDTO.getChronicDiseases() != null ||
-                        newVisitDTO.getMedicines() != null || newVisitDTO.getExperiences() != null
-        ) {
-            PersonInfo personInfo = new PersonInfo();
+        } else if (newVisitDTO.hasPersonInfoData()) {
+            PersonInfo personInfo = personInfoMapper.fromCreateDTO(
+                    new CreatePersonInfoDTO(
+                            newVisitDTO.getAllergies(),
+                            newVisitDTO.getChronicDiseases(),
+                            newVisitDTO.getMedicines(),
+                            newVisitDTO.getExperiences()
+                    )
+            );
             personInfo.setUser(userRepository.getReferenceById(clientId));
-            personInfo.setAllergies(newVisitDTO.getAllergies());
-            personInfo.setChronicDiseases(newVisitDTO.getChronicDiseases());
-            personInfo.setMedicines(newVisitDTO.getMedicines());
-            personInfo.setExperiences(newVisitDTO.getExperiences());
             personInfoRepository.save(personInfo);
             visit.setPersonInfo(personInfo);
         }
+
         visitRepository.save(visit);
     }
 
@@ -145,39 +152,4 @@ public class VisitService {
         }
         return false;
     }
-
-
-    private VisitDTO toDTO(Visit visit) {
-        VisitDTO dto = new VisitDTO();
-        dto.setId(visit.getId());
-        dto.setStatus(visit.getStatus().getName());
-        dto.setDate(visit.getArtistDate().getDate());
-        dto.setArtistName(visit.getArtist().getNickname());
-        dto.setClientName(visit.getClient().getNickname());
-        dto.setComment(visit.getComment());
-
-        if (visit.getFlash() != null) {
-            dto.setFlashDescription(visit.getFlash().getDescription());
-
-            if (visit.getFlash().getPicture() != null) {
-                String base64 = Base64.getEncoder().encodeToString(visit.getFlash().getPicture());
-                dto.setFlashImage(base64);
-            }
-        }
-
-        if (visit.getTattooStudio() != null) {
-            dto.setTattooStudioName(visit.getTattooStudio().getName());
-        }
-
-        if (visit.getPersonInfo() != null) {
-            dto.setAllergies(visit.getPersonInfo().getAllergies());
-            dto.setChronicDiseases(visit.getPersonInfo().getChronicDiseases());
-            dto.setMedicines(visit.getPersonInfo().getMedicines());
-            dto.setExperiences(visit.getPersonInfo().getExperiences());
-        }
-
-        return dto;
-    }
-
-
 }
