@@ -7,6 +7,8 @@ import TattooMe.TattooMe.entity.User;
 import TattooMe.TattooMe.mapper.ArtistDateMapper;
 import TattooMe.TattooMe.repository.ArtistDateRepository;
 import TattooMe.TattooMe.repository.UserRepository;
+import TattooMe.TattooMe.repository.VisitRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,8 @@ public class ArtistDateService {
     private ArtistDateRepository dateRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private VisitRepository visitRepository;
     @Autowired
     ArtistDateMapper dateMapper;
 
@@ -48,10 +52,15 @@ public class ArtistDateService {
 
     @Transactional
     public void deleteSlot(UUID artistId, UUID slotId) throws AccessDeniedException {
-        ArtistDate slot = dateRepository.findById(slotId).orElseThrow();
+        ArtistDate slot = dateRepository.findById(slotId)
+                .orElseThrow(() -> new EntityNotFoundException("Nie znaleziono slotu"));
 
         if (!slot.getTattooArtist().getId().equals(artistId)) {
             throw new AccessDeniedException("Nie jesteś właścicielem");
+        }
+
+        if (slot.getVisit() != null) {
+            visitRepository.delete(slot.getVisit());
         }
 
         dateRepository.delete(slot);
