@@ -1,6 +1,7 @@
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { CreateOffer, Offer, ProfileService } from '../../../service/profile.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NotificationService } from '../../../service/notification.service';
 
 @Component({
   selector: 'app-special-offer',
@@ -18,15 +19,24 @@ export class SpecialOfferComponent {
   todayDate!: string;
   @ViewChild('autoResize') autoResizeTextarea!: ElementRef<HTMLTextAreaElement>;
 
-  constructor(private profileService: ProfileService, private fb: FormBuilder) { }
+  constructor(
+    private profileService: ProfileService,
+    private fb: FormBuilder,
+    private notification: NotificationService
+  ) { }
 
   ngOnInit(): void {
     this.todayDate = new Date().toISOString().slice(0, 16);
     this.load();
   }
 
-  load() {
-    this.profileService.getOffers(this.userId).subscribe(list => this.offers = list);
+    load() {
+    this.profileService.getOffers(this.userId).subscribe({
+      next: (list) => (this.offers = list),
+      error: (err) => {
+        this.notification.showError("Nie udalo sie zaladowac promocji", err);
+      },
+    });
   }
 
   startNew() {
@@ -34,7 +44,7 @@ export class SpecialOfferComponent {
     this.editingForm = this.fb.group({
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
-      description: ['', [Validators.required, Validators.minLength(5) ,Validators.maxLength(500)]]
+      description: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(500)]]
     });
   }
 
@@ -58,25 +68,50 @@ export class SpecialOfferComponent {
     this.editingForm = null;
   }
 
-  save() {
+   save() {
     if (!this.editingForm || this.editingForm.invalid) return;
 
     const offerData: CreateOffer = this.editingForm.value;
 
     if (this.editingId === 'new') {
-      this.profileService.createOffer(offerData).subscribe(() => this.load());
+      this.profileService.createOffer(offerData).subscribe({
+        next: () => {
+          this.notification.showSuccess("Promocja została dodana");
+          this.load();
+        },
+        error: (err) => {
+          this.notification.showError("Nie udało się dodać promocji", err);
+        },
+      });
     } else {
-      this.profileService.updateOffer(this.editingId!, offerData).subscribe(() => this.load());
+      this.profileService.updateOffer(this.editingId!, offerData).subscribe({
+        next: () => {
+          this.notification.showSuccess("Promocja została zaktualizowana");
+          this.load();
+        },
+        error: (err) => {
+          this.notification.showError("Nie udało się zapisać zmian", err);
+        },
+      });
     }
 
     this.cancel();
   }
 
-  delete(id: string) {
-    if (confirm('Usunąć tę ofertę?')) {
-      this.profileService.deleteOffer(id).subscribe(() => this.load());
+   delete(id: string) {
+    if (confirm('Czy na pewno chcesz usunąć tę ofertę?')) {
+      this.profileService.deleteOffer(id).subscribe({
+        next: () => {
+          this.notification.showSuccess("Promocja została usunięta");
+          this.load();
+        },
+        error: (err) => {
+          this.notification.showError("Nie udalo sie usunac promocji", err)
+        },
+      });
     }
   }
+
 
   adjustHeight(element: HTMLTextAreaElement) {
     element.style.height = 'auto';

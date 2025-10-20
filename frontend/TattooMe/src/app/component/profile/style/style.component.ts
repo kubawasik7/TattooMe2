@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { TattooStyle } from '../../../model/tattoo-style';
 import { WorkStyleService } from '../../../service/work-style.service';
+import { NotificationService } from '../../../service/notification.service';
 
 @Component({
   selector: 'app-style',
@@ -18,7 +19,7 @@ export class StyleComponent implements OnInit {
   originalSelectedStyleIds: string[] = []; //kopia stylów z przed edycji
   editing = false;
 
-  constructor(private workStyleService: WorkStyleService) {}
+  constructor(private workStyleService: WorkStyleService, private notification: NotificationService) {}
 
   ngOnInit(): void {
     this.loadUserStyles();
@@ -30,14 +31,14 @@ export class StyleComponent implements OnInit {
         this.styles = styles;
         this.selectedStyleIds = styles.map(s => s.id);
       },
-      error: err => console.error('Błąd pobierania stylów użytkownika', err)
+      error: err => this.notification.showError("Nie udalo sie zaladowac styli", err)
     });
   }
 
   startEditing(): void {
     this.workStyleService.getAllStyles().subscribe({
       next: styles => this.allStyles = styles,
-      error: err => console.error('Błąd pobierania wszystkich stylów', err)
+      error: err => this.notification.showError("Nie udalo sie zaladowac styli", err)
     });
     this.editing = true;
     this.originalSelectedStyleIds = [...this.selectedStyleIds];
@@ -54,9 +55,10 @@ export class StyleComponent implements OnInit {
     this.workStyleService.saveUserStyles(this.userId, this.selectedStyleIds).subscribe({
       next: () => {
         this.editing = false;
+        this.notification.showSuccess("Style zostały zapisane")
         this.loadUserStyles();
       },
-      error: err => console.error('Błąd zapisu stylów', err)
+      error: err => this.notification.showError("Nie udalo sie zapisac styli")
     });
   }
 

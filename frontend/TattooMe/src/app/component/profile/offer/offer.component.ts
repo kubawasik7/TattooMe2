@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FlashService } from '../../../service/flash.service';
 import { Flash } from '../../../model/flash';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { NotificationService } from '../../../service/notification.service';
 
 @Component({
   selector: 'app-offer',
@@ -20,7 +21,8 @@ export class OfferComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private flashService: FlashService
+    private flashService: FlashService,
+    private notification: NotificationService
   ) { }
 
   ngOnInit(): void {
@@ -64,7 +66,7 @@ export class OfferComponent implements OnInit {
   loadFlashes(): void {
     this.flashService.getByUser(this.userId).subscribe({
       next: (data) => (this.flashes = data),
-      error: (e) => console.error('Błąd pobierania flashy', e)
+      error: (err) => this.notification.showError("Nie udalo się załadować wolnych wzorów", err)
     });
   }
 
@@ -81,9 +83,10 @@ export class OfferComponent implements OnInit {
     this.flashService.upload(form).subscribe({
       next: () => {
         this.closeFlashModal();
+        this.notification.showSuccess("Wzór został dodany");
         this.loadFlashes();
       },
-      error: (e) => console.error('Błąd uploadu flasha', e)
+      error: (err) => this.notification.showError("Wzór nie został dodany", err)
     });
   }
 

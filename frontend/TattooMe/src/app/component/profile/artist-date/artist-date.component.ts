@@ -3,6 +3,7 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
 import { CreateSlot } from '../../../model/create-slot';
 import { ScheduleSlot } from '../../../model/schedule-slot';
 import { ArtistDateService } from '../../../service/artist-date.service';
+import { NotificationService } from '../../../service/notification.service';
 
 @Component({
   selector: 'app-artist-date',
@@ -28,7 +29,8 @@ export class ArtistDateComponent implements OnInit {
 
   constructor(
     private artistDateService: ArtistDateService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private notification: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -51,12 +53,12 @@ export class ArtistDateComponent implements OnInit {
     if (this.isOwner) {
       this.artistDateService.getSlots().subscribe({
         next: (s) => (this.slots = s),
-        error: (err) => console.error('Błąd ładowania slotów', err)
+        error: (err) => this.notification.showError("Nie udało się załadować terminów", err)
       });
     } else {
       this.artistDateService.getAvailableDates(this.userId).subscribe({
         next: (s) => (this.slots = s),
-        error: (err) => console.error('Błąd ładowania slotów', err)
+        error: (err) => this.notification.showError("Nie udało się załadować terminów", err)
       });
     }
   }
@@ -80,9 +82,10 @@ export class ArtistDateComponent implements OnInit {
     this.artistDateService.createSlot(dto).subscribe({
       next: () => {
         this.closeNew();
+        this.notification.showSuccess("Termin został utworzony");
         this.loadSlots();
       },
-      error: (err) => console.error('Nie udało się utworzyć slotu', err)
+      error: (err) => this.notification.showError("Nie udało się dodać terminu", err)
     });
   }
 
@@ -90,15 +93,18 @@ export class ArtistDateComponent implements OnInit {
     if (!confirm('Usunąć ten termin?')) return;
 
     this.artistDateService.deleteSlot(id).subscribe({
-      next: () => this.loadSlots(),
-      error: (err) => console.error('Nie udało się usunąć slotu', err)
+      next: () =>{ 
+        this.notification.showSuccess("Termin został usunięty");
+        this.loadSlots()
+      },
+      error: (err) => this.notification.showError("Nie udało się usunąć terminu", err)
     });
   }
 
   toggle(id: string): void {
     this.artistDateService.toggleSlot(id).subscribe({
       next: () => this.loadSlots(),
-      error: (err) => console.error('Nie udało się zmienić dostępności slotu', err)
+      error: (err) => this.notification.showError("Nie udało się zmienić dostępnosci terminu", err)
     });
   }
 

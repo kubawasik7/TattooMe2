@@ -5,6 +5,7 @@ import { FlashService } from '../../../service/flash.service';
 import { UserInfoService } from '../../../service/user-info.service';
 import { VisitService } from '../../../service/visit.service';
 import { ScheduleSlot } from '../../../model/schedule-slot';
+import { NotificationService } from '../../../service/notification.service';
 
 @Component({
   selector: 'app-visit',
@@ -25,7 +26,8 @@ export class VisitComponent implements OnInit, OnChanges {
     private fb: FormBuilder,
     private visitService: VisitService,
     private flashService: FlashService,
-    private userInfoService: UserInfoService
+    private userInfoService: UserInfoService,
+    private notification: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -55,7 +57,7 @@ export class VisitComponent implements OnInit, OnChanges {
   private loadFlash(): void {
     this.flashService.getByUser(this.artistId).subscribe({
       next: (list) => this.flashList = list,
-      error: (err) => console.error('Błąd ładowania wzorów:', err)
+      error: (err) => this.notification.showError("Nie udalo sie zaladowac wzorów", err)
     });
   }
 
@@ -78,7 +80,7 @@ export class VisitComponent implements OnInit, OnChanges {
         if (err.status === 404 || err.status === 403) {
           this.showHealthForm = true;
         } else {
-          console.error('Błąd ładowania danych zdrowotnych:', err);
+          this.notification.showError("Nie udalo sie zaladowac danych zdrowotnych", err)
         }
       }
     });
@@ -102,13 +104,12 @@ export class VisitComponent implements OnInit, OnChanges {
 
     this.visitService.createVisit(payload).subscribe({
       next: () => {
-        alert('Wizyta została zarezerwowana');
+        this.notification.showSuccess("Wizyta została zarezerowana");
         this.form.reset();
         this.close.emit();
       },
       error: (err) => {
-        console.error('Błąd rezerwacji:', err);
-        alert('Nie udało się zarezerwować wizyty.');
+        this.notification.showError("Nie udało się zarezerwować wizyty", err);
       }
     });
   }
