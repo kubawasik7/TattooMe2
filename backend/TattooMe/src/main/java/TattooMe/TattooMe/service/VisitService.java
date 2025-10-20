@@ -73,23 +73,6 @@ public class VisitService {
         return visitMapper.toDTOList(visitRepository.findCancelledByArtist(artistId));
     }
 
-    public boolean cancelVisitAsArtist(UUID visitId, UUID artistId) {
-        Optional<Visit> optional = visitRepository.findById(visitId);
-        if (optional.isPresent()) {
-            Visit visit = optional.get();
-
-            if (visit.getArtist().getId().equals(artistId) &&
-                    ("OCZEKUJĄCA".equals(visit.getStatus().getName()) || "ZATWIERDZONA".equals(visit.getStatus().getName()))) {
-
-                Status cancelledStatus = statusRepository.findByName("ANULOWANA");
-                visit.setStatus(cancelledStatus);
-                visitRepository.save(visit);
-                return true;
-            }
-        }
-        return false;
-    }
-
     @Transactional
     public void createVisit(UUID clientId, NewVisitDTO newVisitDTO) {
         Visit visit = new Visit();
@@ -146,6 +129,39 @@ public class VisitService {
             if (visit.getArtist().getId().equals(artistId) && visit.getStatus().getName().equals("OCZEKUJĄCA")) {
                 Status approvedStatus = statusRepository.findByName("ZATWIERDZONA");
                 visit.setStatus(approvedStatus);
+                visitRepository.save(visit);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean cancelVisitAsArtist(UUID visitId, UUID artistId) {
+        Optional<Visit> optional = visitRepository.findById(visitId);
+        if (optional.isPresent()) {
+            Visit visit = optional.get();
+            if (visit.getArtist().getId().equals(artistId) &&
+                    ("OCZEKUJĄCA".equals(visit.getStatus().getName()) ||
+                            "ZATWIERDZONA".equals(visit.getStatus().getName()))) {
+
+                Status cancelled = statusRepository.findByName("ANULOWANA");
+                visit.setStatus(cancelled);
+                visitRepository.save(visit);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean cancelVisitAsClient(UUID visitId, UUID clientId) {
+        Optional<Visit> optional = visitRepository.findById(visitId);
+        if (optional.isPresent()) {
+            Visit visit = optional.get();
+            if (visit.getClient().getId().equals(clientId) &&
+                    "OCZEKUJĄCA".equals(visit.getStatus().getName())) {
+
+                Status cancelled = statusRepository.findByName("ANULOWANA");
+                visit.setStatus(cancelled);
                 visitRepository.save(visit);
                 return true;
             }

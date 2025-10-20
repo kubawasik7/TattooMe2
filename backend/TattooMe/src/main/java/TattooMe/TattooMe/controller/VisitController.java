@@ -79,8 +79,18 @@ public class VisitController {
     @PreAuthorize("hasRole('tattoo_artist')")
     public ResponseEntity<Void> cancelVisit(@PathVariable UUID id, @AuthenticationPrincipal CustomUserDetails user) {
         boolean cancelled = visitService.cancelVisitAsArtist(id, user.getId());
-        return cancelled ? ResponseEntity.ok().build() : ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        if (cancelled) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
     }
 
+    @PatchMapping("/{id}/cancel/client")
+    @PreAuthorize("hasRole('client')")
+    public ResponseEntity<Void> cancelVisitAsClient(@PathVariable UUID id, @AuthenticationPrincipal CustomUserDetails user) {
 
+        boolean cancelled = visitService.cancelVisitAsClient(id, user.getId());
+        return cancelled ? ResponseEntity.ok().build() : ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+    }
 }
