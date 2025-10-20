@@ -13,17 +13,12 @@ import java.util.List;
 import java.util.UUID;
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 public class ReviewDTO {
     private UUID id;
-    @Min(value = 1, message = "Ocena musi być co najmniej 1")
-    @Max(value = 5, message = "Ocena nie może być większa niż 5")
-    private int rate;
+    private int rating;
     private String content;
     private LocalDateTime createdAt;
-    private String authorNickname;
-    private UUID targetId;
-    private UUID tattooStudioId;
+    private String clientName;
+    private String artistName;
     private List<ReviewAnswerDTO> answers;
 }

@@ -1,8 +1,12 @@
 package TattooMe.TattooMe.service;
 
+import TattooMe.TattooMe.dto.review.CreateReviewAnswerDTO;
+import TattooMe.TattooMe.dto.review.CreateReviewDTO;
 import TattooMe.TattooMe.dto.review.ReviewAnswerDTO;
 import TattooMe.TattooMe.dto.review.ReviewDTO;
 import TattooMe.TattooMe.entity.*;
+import TattooMe.TattooMe.mapper.ReviewAnswerMapper;
+import TattooMe.TattooMe.mapper.ReviewMapper;
 import TattooMe.TattooMe.repository.*;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +18,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -27,47 +30,49 @@ public class ReviewService {
     private VisitRepository visitRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private ReviewMapper reviewMapper;
+    @Autowired
+    private ReviewAnswerMapper reviewAnswerMapper;
 
     public List<ReviewDTO> getReviewsForArtist(UUID artistId) {
         return reviewRepository.findByTarget_Id(artistId).stream()
-                .map(this::toDto)
-                .collect(Collectors.toList());
+                .map(reviewMapper::toDTO)
+                .toList();
     }
 
     public List<ReviewDTO> getReviewsForStudio(UUID studioId) {
         return reviewRepository.findByTattooStudio_Id(studioId).stream()
-                .map(this::toDto)
-                .collect(Collectors.toList());
+                .map(reviewMapper::toDTO)
+                .toList();
     }
 
     public Optional<ReviewDTO> getReviewForVisit(UUID visitId) {
         return reviewRepository.findByVisit_Id(visitId)
-                .map(this::toDto);
+                .map(reviewMapper::toDTO);
     }
 
-    public ReviewDTO addReview(UUID visitId, int rate, String content, UUID authorId) throws AccessDeniedException {
-        Visit visit = visitRepository.findById(visitId)
+    public ReviewDTO addReview(CreateReviewDTO dto, UUID authorId) throws AccessDeniedException {
+        Visit visit = visitRepository.findById(dto.getVisitId())
                 .orElseThrow(() -> new EntityNotFoundException("Wizyta nie znaleziona"));
 
         if (!visit.getClient().getId().equals(authorId)) {
-            throw new AccessDeniedException("Tylko klient moze wystawic opinie");
+            throw new AccessDeniedException("Tylko klient może wystawić opinię");
         }
 
         if (!"ZATWIERDZONA".equals(visit.getStatus().getName())
                 || visit.getArtistDate().getDate().isAfter(LocalDateTime.now())) {
-            throw new RuntimeException("Opinia moze byc wystawiona tylko po zakonczonej wizycie");
+            throw new RuntimeException("Opinia może być wystawiona tylko po zakończonej wizycie");
         }
 
-        if (reviewRepository.findByVisit_Id(visitId).isPresent()) {
-            throw new RuntimeException("Opinia juz istnieje dla tej wizyty");
+        if (reviewRepository.findByVisit_Id(dto.getVisitId()).isPresent()) {
+            throw new RuntimeException("Opinia już istnieje dla tej wizyty");
         }
 
         User author = userRepository.findById(authorId)
-                .orElseThrow(() -> new EntityNotFoundException("Uzytkownik nie znaleziony"));
+                .orElseThrow(() -> new EntityNotFoundException("Użytkownik nie znaleziony"));
 
-        Review review = new Review();
-        review.setRate(rate);
-        review.setContent(content);
+        Review review = reviewMapper.fromCreateDTO(dto);
         review.setAuthor(author);
         review.setVisit(visit);
         review.setTarget(visit.getArtist());
@@ -75,18 +80,25 @@ public class ReviewService {
         review.setCreatedAt(LocalDateTime.now());
 
         reviewRepository.save(review);
-        return toDto(review);
+        return reviewMapper.toDTO(review);
     }
 
-    public ReviewAnswerDTO addAnswer(UUID reviewId, String content, UUID userId) {
-        Review review = reviewRepository.findById(reviewId)
-                .orElseThrow(() -> new EntityNotFoundException("Wizyta nie znaleziona"));
+    public ReviewAnswerDTO addAnswer(CreateReviewAnswerDTO dto, UUID userId) {
+        Review review = reviewRepository.findById(dto.getReviewId())
+                .orElseThrow(() -> new EntityNotFoundException("Opinia nie znaleziona"));
 
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("Uzytkownik nie znaleziony"));
+                .orElseThrow(() -> new EntityNotFoundException("Użytkownik nie znaleziony"));
 
-        ReviewAnswer answer = new ReviewAnswer();
-        answer.setContent(content);
+        boolean canAnswer = (review.getTarget() != null && review.getTarget().getId().equals(userId)) ||
+                (review.getTattooStudio() != null &&
+                        review.getTattooStudio().getOwner().getId().equals(userId));
+
+        if (!canAnswer) {
+            throw new RuntimeException("Nie masz uprawnień do odpowiedzi na ta opinie");
+        }
+
+        ReviewAnswer answer = reviewAnswerMapper.fromCreateDTO(dto);
         answer.setUser(user);
         answer.setReview(review);
         answer.setCreatedAt(LocalDateTime.now());
@@ -98,25 +110,7 @@ public class ReviewService {
         }
 
         reviewAnswerRepository.save(answer);
-        return new ReviewAnswerDTO(answer.getId(), answer.getContent(), answer.getCreatedAt(), user.getNickname());
-    }
-
-
-    private ReviewDTO toDto(Review review) {
-        List<ReviewAnswerDTO> answers = review.getAnswers().stream()
-                .map(a -> new ReviewAnswerDTO(a.getId(), a.getContent(), a.getCreatedAt(), a.getUser().getNickname()))
-                .collect(Collectors.toList());
-
-        return new ReviewDTO(
-                review.getId(),
-                review.getRate(),
-                review.getContent(),
-                review.getCreatedAt(),
-                review.getAuthor().getNickname(),
-                review.getTarget() != null ? review.getTarget().getId() : null,
-                review.getTattooStudio() != null ? review.getTattooStudio().getId() : null,
-                answers
-        );
+        return reviewAnswerMapper.toDTO(answer);
     }
 }
 

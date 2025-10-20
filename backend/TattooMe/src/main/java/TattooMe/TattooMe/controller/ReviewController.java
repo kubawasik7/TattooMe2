@@ -1,6 +1,8 @@
 package TattooMe.TattooMe.controller;
 
 import TattooMe.TattooMe.Security.CustomUserDetails;
+import TattooMe.TattooMe.dto.review.CreateReviewAnswerDTO;
+import TattooMe.TattooMe.dto.review.CreateReviewDTO;
 import TattooMe.TattooMe.dto.review.ReviewAnswerDTO;
 import TattooMe.TattooMe.dto.review.ReviewDTO;
 import TattooMe.TattooMe.service.ReviewService;
@@ -39,19 +41,16 @@ public class ReviewController {
     }
 
     @PostMapping("/{visitId}")
-    public ResponseEntity<ReviewDTO> addReview(@PathVariable UUID visitId,
-                                               @RequestParam int rate,
-                                               @RequestParam(required = false) String content,
+    public ResponseEntity<ReviewDTO> addReview(@RequestBody CreateReviewDTO dto,
                                                @AuthenticationPrincipal CustomUserDetails user) throws AccessDeniedException {
-        ReviewDTO review = reviewService.addReview(visitId, rate, content, user.getId());
+        ReviewDTO review = reviewService.addReview(dto, user.getId());
         return ResponseEntity.status(HttpStatus.CREATED).body(review);
     }
 
     @PostMapping("/{reviewId}/answers")
-    public ResponseEntity<ReviewAnswerDTO> addAnswer(@PathVariable UUID reviewId,
-                                                     @RequestParam String content,
+    public ResponseEntity<ReviewAnswerDTO> addAnswer(@RequestBody CreateReviewAnswerDTO dto,
                                                      @AuthenticationPrincipal CustomUserDetails userDetails) {
-        ReviewAnswerDTO reviewAnswer = reviewService.addAnswer(reviewId, content, userDetails.getId());
+        ReviewAnswerDTO reviewAnswer = reviewService.addAnswer(dto, userDetails.getId());
         return ResponseEntity.status(HttpStatus.CREATED).body(reviewAnswer);
     }
 }
