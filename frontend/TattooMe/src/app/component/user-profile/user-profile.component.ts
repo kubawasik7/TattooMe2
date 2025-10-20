@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../../service/user.service';
 import { User } from '../../model/user';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NotificationService } from '../../service/notification.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -16,7 +17,11 @@ export class UserProfileComponent {
   editMode = false;
   selectedFile: any;
 
-  constructor(private route: ActivatedRoute, private userService: UserService, private fb: FormBuilder) { }
+  constructor(private route: ActivatedRoute,
+    private userService: UserService,
+    private fb: FormBuilder,
+    private notification: NotificationService
+  ) { }
 
   ngOnInit() {
     const userId = this.route.snapshot.paramMap.get('id')!;
@@ -60,7 +65,9 @@ export class UserProfileComponent {
       next: () => {
         this.user = updatedUser;
         this.editMode = false;
-      }
+        this.notification.showSuccess("Informacje zostały zaktualizowane");
+      },
+      error: (err) => this.notification.showError("Nie udało się zaktualizować", err)
     });
   }
 

@@ -17,21 +17,40 @@ app-root .sidebar-right {
   width: 200px !important;
   flex-shrink: 0;
 }
-
 .mat-mdc-snack-bar-container.snackbar-success {
-  --mdc-snackbar-container-color: #62be65;
-  --mdc-snackbar-supporting-text-color: #ffffff;
-  --mat-snack-bar-button-color: #ffffff;
+  --mdc-snackbar-container-color: #00ff99;
+  --mdc-snackbar-supporting-text-color: #000;
+  --mat-snack-bar-button-color: #000;
+  border-radius: 10px !important;
+  border: none !important;
+  padding: 1px 1px !important;
+    box-shadow:
+    0 0 12px rgba(0, 255, 100, 0.6),
+    0 0 24px rgba(0, 255, 100, 0.3)!important;
 }
-
 .mat-mdc-snack-bar-container.snackbar-error {
   --mdc-snackbar-container-color: #F44336;
   --mdc-snackbar-supporting-text-color: #ffffff;
   --mat-snack-bar-button-color: #ffffff;
-}
 
+  border-radius: 10px !important;
+  border: none !important;
+  padding: 1px 1px !important;
+
+  box-shadow:
+    0 0 12px rgba(244, 67, 54, 0.6),
+    0 0 24px rgba(244, 67, 54, 0.3)!important;
+}
 .mat-mdc-snack-bar-container.snackbar-info {
   --mdc-snackbar-container-color: #2196F3;
   --mdc-snackbar-supporting-text-color: #ffffff;
   --mat-snack-bar-button-color: #ffffff;
+
+  border-radius: 10px !important;
+  border: none !important;
+  padding: 1px 1px !important;
+
+  box-shadow:
+    0 0 12px rgba(33, 150, 243, 0.6),
+    0 0 24px rgba(33, 150, 243, 0.3)!important;
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserInfoService } from '../../service/user-info.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NotificationService } from '../../service/notification.service';
 
 @Component({
   selector: 'app-user-info',
@@ -14,7 +15,11 @@ export class UserInfoComponent implements OnInit {
   editMode = false;
   originalInfo: any;
 
-  constructor(private userInfoService: UserInfoService, private fb: FormBuilder) {}
+  constructor(
+    private userInfoService: UserInfoService,
+    private fb: FormBuilder,
+    private notification: NotificationService
+  ) { }
 
   ngOnInit(): void {
     this.infoForm = this.fb.group({
@@ -33,9 +38,7 @@ export class UserInfoComponent implements OnInit {
         this.originalInfo = { ...data };
         this.infoForm.patchValue(data);
       },
-      error: (err) => {
-        console.error('Błąd podczas pobierania danych', err);
-      }
+      error: (err) => this.notification.showError("Nie udało się załadować informacji o użytkowniku")
     });
   }
 
@@ -64,11 +67,10 @@ export class UserInfoComponent implements OnInit {
         this.infoForm.patchValue(updatedInfo);
         this.infoForm.disable();
         this.editMode = false;
+        this.notification.showSuccess("Dane zostaly zapisane");
 
       },
-      error: (err) => {
-        console.error('Błąd przy zapisie:', err);
-      }
+      error: (err) => this.notification.showError("Nie udało się zapisać informacji o użytkowniku", err)
     });
   }
 }
