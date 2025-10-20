@@ -58,7 +58,11 @@ export class VisitService {
     return this.http.patch<void>(`${this.apiUrl}/${id}/confirm`, {});
   }
 
-  cancelVisit(id: string): Observable<void> {
-    return this.http.patch<void>(`${this.apiUrl}/${id}/cancel`, {});
+  cancelVisitAsArtist(visitId: string): Observable<void> {
+    return this.http.patch<void>(`${this.apiUrl}/${visitId}/cancel`, {});
+  }
+  
+  cancelVisitAsClient(visitId: string): Observable<void> {
+    return this.http.patch<void>(`${this.apiUrl}/${visitId}/cancel/client`, {});
   }
 }
