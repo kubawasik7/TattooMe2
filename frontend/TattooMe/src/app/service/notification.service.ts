@@ -17,7 +17,8 @@ export class NotificationService {
     });
   }
 
-  showError(message: string) {
+  showError(message: string, error?: any) {
+    console.error('Błąd aplikacji:', error);
     this.snackBar.open(message, 'Zamknij', {
       duration: 4000,
       horizontalPosition: 'right',
