@@ -11,14 +11,13 @@ import { AuthService } from '../../service/auth.service';
 })
 
 export class ReservationsComponent implements OnInit {
-  selectedRoleTab: 'client' | 'artist' = 'client'; 
+  selectedRoleTab: 'client' | 'artist' = 'client';
   selectedTab: 'active' | 'past' | 'cancelled' = 'active';
   visits: Visit[] = [];
   currentVisit?: Visit;
   showDetails: boolean = false;
-  
 
-  constructor(private visitService: VisitService,  public authService: AuthService) {}
+  constructor(private visitService: VisitService, public authService: AuthService) { }
 
   ngOnInit(): void {
     this.loadVisits();
@@ -28,24 +27,39 @@ export class ReservationsComponent implements OnInit {
     this.selectedTab = tab;
     this.loadVisits();
   }
-loadVisits() {
-  if (this.selectedRoleTab === 'client') {
-    if (this.selectedTab === 'active') this.visitService.getActive().subscribe(v => this.visits = v);
-    else if (this.selectedTab === 'past') this.visitService.getPast().subscribe(v => this.visits = v);
-    else this.visitService.getCancelled().subscribe(v => this.visits = v);
-  } else {
-    if (this.selectedTab === 'active') this.visitService.getActiveAsArtist().subscribe(v => this.visits = v);
-    else if (this.selectedTab === 'past') this.visitService.getPastAsArtist().subscribe(v => this.visits = v);
-    else this.visitService.getCancelledAsArtist().subscribe(v => this.visits = v);
-  }
-}
-  confirmVisit(id: string) {
-    this.visitService.confirmVisit(id).subscribe(() => this.loadVisits());
+  loadVisits() {
+    if (this.selectedRoleTab === 'client') {
+      if (this.selectedTab === 'active') this.visitService.getActive().subscribe(v => this.visits = v);
+      else if (this.selectedTab === 'past') this.visitService.getPast().subscribe(v => this.visits = v);
+      else this.visitService.getCancelled().subscribe(v => this.visits = v);
+    } else {
+      if (this.selectedTab === 'active') this.visitService.getActiveAsArtist().subscribe(v => this.visits = v);
+      else if (this.selectedTab === 'past') this.visitService.getPastAsArtist().subscribe(v => this.visits = v);
+      else this.visitService.getCancelledAsArtist().subscribe(v => this.visits = v);
+    }
   }
 
-  cancelVisit(id: string) {
-    this.visitService.cancelVisit(id).subscribe(() => this.loadVisits());
+  confirmVisit(id: string) {
+    this.visitService.confirmVisit(id).subscribe(() => {
+      this.loadVisits();
+      this.closeDetails();
+    });
   }
+
+ cancelVisit() {
+    if (!this.currentVisit) return;
+
+    const isArtist = this.selectedRoleTab === 'artist';
+    const cancel$ = isArtist 
+      ? this.visitService.cancelVisitAsArtist(this.currentVisit.id)
+      : this.visitService.cancelVisitAsClient(this.currentVisit.id);
+
+    cancel$.subscribe(() => {
+      this.loadVisits();
+      this.closeDetails();
+    });
+  }
+
   openVisitDetails(visitId: string) {
     this.visitService.getById(visitId).subscribe(details => {
       this.currentVisit = details;
@@ -57,5 +71,4 @@ loadVisits() {
     this.showDetails = false;
     this.currentVisit = undefined;
   }
-
 }

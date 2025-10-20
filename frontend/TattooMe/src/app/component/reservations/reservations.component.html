@@ -104,23 +104,19 @@
         <div class="detail"><span>Leki:</span> <strong>{{ currentVisit?.medicines || '—' }}</strong></div>
         <div class="detail"><span>Doświadczenia:</span> <strong>{{ currentVisit?.experiences || '—' }}</strong></div>
       </div>
-        <h4>Opinia</h4>
   <app-review
     [visitId]="currentVisit?.id"
     [visitStatus]="currentVisit?.status"
     [visitDate]="currentVisit?.date"
   ></app-review>
     </div>
-    
-
+  
     <div
       class="modal-actions"
       *ngIf="authService.isTattooArtist() && selectedRoleTab === 'artist' && currentVisit?.status === 'OCZEKUJĄCA'"
     >
       <button class="btn btn-approve" (click)="confirmVisit(currentVisit!.id)">Zatwierdź</button>
-      <button class="btn btn-cancel" (click)="cancelVisit(currentVisit!.id)">Anuluj</button>
+      <button class="btn btn-cancel" (click)="cancelVisit()">Anuluj</button>
     </div>
   </div>
 </div>
-
-

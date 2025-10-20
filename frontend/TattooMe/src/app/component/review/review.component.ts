@@ -34,16 +34,32 @@ ngOnInit(): void {
   if (this.visitId) {
     this.reviewService.getReviewForVisit(this.visitId).subscribe({
       next: r => this.existingReview = r,
-      error: () => this.existingReview = null 
+      error: err => {
+  
+        console.warn('Brak opinii dla wizyty lub brak dostępu:', err);
+        this.existingReview = null;
+      }
     });
   }
 
   if (this.artistId) {
-    this.reviewService.getReviewsForArtist(this.artistId).subscribe(r => this.reviews = r);
+    this.reviewService.getReviewsForArtist(this.artistId).subscribe({
+      next: r => this.reviews = r,
+      error: err => {
+        console.warn('Brak opinii dla artysty lub brak dostępu:', err);
+        this.reviews = []; 
+      }
+    });
   }
 
   if (this.studioId) {
-    this.reviewService.getReviewsForStudio(this.studioId).subscribe(r => this.reviews = r);
+    this.reviewService.getReviewsForStudio(this.studioId).subscribe({
+      next: r => this.reviews = r,
+      error: err => {
+        console.warn('Brak opinii dla studia lub brak dostępu:', err);
+        this.reviews = [];
+      }
+    });
   }
 }
 

@@ -7,6 +7,8 @@ import { AuthService } from '../../service/auth.service';
 import { ChatService } from '../../service/chat.service';
 import { User } from '../../model/user';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 
 @Component({
   selector: 'app-profile',
@@ -35,7 +37,8 @@ export class ProfileComponent implements OnInit {
     private authService: AuthService,
     private chatService: ChatService,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private snackBar: MatSnackBar
   ) { }
 
 
@@ -112,19 +115,32 @@ export class ProfileComponent implements OnInit {
     return this.descriptionForm.get('description');
   }
 
-  saveDescription(): void {
-    if (this.descriptionForm.invalid) return;
+saveDescription(): void {
+  if (this.descriptionForm.invalid) return;
 
-    const newDescription = this.descriptionForm.value.description;
+  const newDescription = this.descriptionForm.value.description;
 
-    this.profileService.updateDescription(newDescription).subscribe({
-      next: updated => {
-        this.user.description = updated.description;
-        this.editing = false;
-      },
-      error: err => console.error('Błąd zapisu opisu', err)
-    });
-  }
+  this.profileService.updateDescription(newDescription).subscribe({
+    next: updated => {
+      this.user.description = updated.description;
+      this.editing = false;
+      this.snackBar.open('Opis został zapisany', 'Zamknij', {
+        duration: 3000,
+        horizontalPosition: 'right',
+        verticalPosition: 'top'
+      });
+    },
+    error: err => {
+      console.error('Błąd zapisu opisu', err);
+      this.snackBar.open('Nie udało się zapisać opisu', 'Zamknij', {
+        duration: 3000,
+        horizontalPosition: 'right',
+        verticalPosition: 'top'
+      });
+    }
+  });
+}
+
 
   adjustHeight(element: HTMLTextAreaElement): void {
     element.style.height = 'auto';
