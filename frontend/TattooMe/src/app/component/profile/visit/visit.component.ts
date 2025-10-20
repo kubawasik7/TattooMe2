@@ -18,8 +18,6 @@ export class VisitComponent implements OnInit, OnChanges {
   @Output() close = new EventEmitter<void>();
 
   flashList: Flash[] = [];
-  availableDates: ScheduleSlot[] = [];
-
   form!: FormGroup;
   showHealthForm = false;
 
@@ -31,22 +29,8 @@ export class VisitComponent implements OnInit, OnChanges {
   ) {}
 
   ngOnInit(): void {
-    this.form = this.fb.group({
-      artistDateId: ['', Validators.required],
-      flashId: [''],
-      comment: [''],
-      allergies: [''],
-      chronicDiseases: [''],
-      medicines: [''],
-      experiences: ['']
-    });
-
-    this.form.patchValue({ artistDateId: this.artistDateId });
-
-    this.flashService.getByUser(this.artistId).subscribe(list => {
-      this.flashList = list;
-    });
-
+    this.initForm();
+    this.loadFlash();
     this.loadPersonInfo();
   }
 
@@ -56,7 +40,26 @@ export class VisitComponent implements OnInit, OnChanges {
     }
   }
 
-  loadPersonInfo(): void {
+  private initForm(): void {
+    this.form = this.fb.group({
+      artistDateId: [this.artistDateId, Validators.required],
+      flashId: [''],
+      comment: [''],
+      allergies: [''],
+      chronicDiseases: [''],
+      medicines: [''],
+      experiences: ['']
+    });
+  }
+
+  private loadFlash(): void {
+    this.flashService.getByUser(this.artistId).subscribe({
+      next: (list) => this.flashList = list,
+      error: (err) => console.error('Błąd ładowania wzorów:', err)
+    });
+  }
+
+  private loadPersonInfo(): void {
     this.userInfoService.getInfo().subscribe({
       next: (info) => {
         if (info) {
@@ -83,27 +86,29 @@ export class VisitComponent implements OnInit, OnChanges {
 
   submit(): void {
     if (this.form.invalid) {
-      console.log("Formularz niepoprawny", this.form.value);
       this.form.markAllAsTouched();
       return;
     }
 
     const payload = {
-      ...this.form.value,
-      artistDateId: this.artistDateId // upewniamy się, że jest dołączone
+      artistDateId: this.artistDateId,
+      flashId: this.form.value.flashId || null,
+      comment: this.form.value.comment || '',
+      allergies: this.form.value.allergies || null,
+      chronicDiseases: this.form.value.chronicDiseases || null,
+      medicines: this.form.value.medicines || null,
+      experiences: this.form.value.experiences || null
     };
-
-    console.log("Wysyłanie payloadu:", payload);
 
     this.visitService.createVisit(payload).subscribe({
       next: () => {
-        alert("Wizyta została zarezerwowana");
+        alert('Wizyta została zarezerwowana');
         this.form.reset();
         this.close.emit();
       },
       error: (err) => {
-        console.error("Błąd rezerwacji:", err);
-        alert("Nie udało się zarezerwować wizyty.");
+        console.error('Błąd rezerwacji:', err);
+        alert('Nie udało się zarezerwować wizyty.');
       }
     });
   }

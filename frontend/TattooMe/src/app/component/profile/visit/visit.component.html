@@ -7,7 +7,7 @@
         <label for="flash">Wzór tatuażu</label>
         <select id="flash" formControlName="flashId" class="form-control">
           <option value="">Brak wzoru</option>
-          <option *ngFor="let flash of flashList" [value]="flash.id">Wzór {{ flash.id }}</option>
+          <option *ngFor="let flash of flashList" [value]="flash.id">{{ flash.id || ('Wzór ' + flash.id) }}</option>
         </select>
       </div>
 
@@ -18,22 +18,18 @@
 
       <div *ngIf="showHealthForm" class="health-section">
         <h3>Dane zdrowotne</h3>
-
         <div class="form-group">
           <label for="allergies">Alergie</label>
           <input id="allergies" formControlName="allergies" placeholder="Alergie" />
         </div>
-
         <div class="form-group">
           <label for="chronicDiseases">Choroby przewlekłe</label>
           <input id="chronicDiseases" formControlName="chronicDiseases" placeholder="Choroby przewlekłe" />
         </div>
-
         <div class="form-group">
           <label for="medicines">Leki</label>
           <input id="medicines" formControlName="medicines" placeholder="Leki" />
         </div>
-
         <div class="form-group">
           <label for="experiences">Doświadczenia</label>
           <input id="experiences" formControlName="experiences" placeholder="Doświadczenia" />
