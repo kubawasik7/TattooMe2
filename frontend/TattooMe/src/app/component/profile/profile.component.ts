@@ -1,13 +1,14 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { UserService } from '../../service/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import {ProfileService } from '../../service/profile.service';
+import { ProfileService } from '../../service/profile.service';
 import { FavoriteService } from '../../service/favorite.service';
 import { AuthService } from '../../service/auth.service';
 import { ChatService } from '../../service/chat.service';
 import { User } from '../../model/user';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { NotificationService } from '../../service/notification.service';
+
 
 
 @Component({
@@ -38,7 +39,7 @@ export class ProfileComponent implements OnInit {
     private chatService: ChatService,
     private router: Router,
     private fb: FormBuilder,
-    private snackBar: MatSnackBar
+    private notification: NotificationService
   ) { }
 
 
@@ -68,7 +69,7 @@ export class ProfileComponent implements OnInit {
   startChat(): void {
     this.chatService.startChat(this.userId).subscribe({
       next: chat => this.router.navigate(['/chat', chat.id]),
-      error: err => console.error('Błąd podczas rozpoczynania czatu', err)
+      error: err => this.notification.showError("Nie udalo się otworzyc chatu", err)
     });
   }
 
@@ -91,10 +92,10 @@ export class ProfileComponent implements OnInit {
     this.profileService.uploadAvatar(this.selectedFile)
       .subscribe({
         next: () => {
-          alert('Zdjęcie zostało zapisane.');
+          this.notification.showSuccess("Zdjęcie zostało dodane");
           this.selectedFile = null;
         },
-        error: err => console.error('Błąd uploadu', err)
+        error: err => this.notification.showError("Nie udało się dodać zdjęcia", err)
       });
   }
 
@@ -111,36 +112,27 @@ export class ProfileComponent implements OnInit {
     this.editing = false;
     this.descriptionForm.patchValue({ description: this.user.description });
   }
+
   get descriptionControl() {
     return this.descriptionForm.get('description');
   }
 
-saveDescription(): void {
-  if (this.descriptionForm.invalid) return;
+  saveDescription(): void {
+    if (this.descriptionForm.invalid) return;
 
-  const newDescription = this.descriptionForm.value.description;
+    const newDescription = this.descriptionForm.value.description;
 
-  this.profileService.updateDescription(newDescription).subscribe({
-    next: updated => {
-      this.user.description = updated.description;
-      this.editing = false;
-      this.snackBar.open('Opis został zapisany', 'Zamknij', {
-        duration: 3000,
-        horizontalPosition: 'right',
-        verticalPosition: 'top'
-      });
-    },
-    error: err => {
-      console.error('Błąd zapisu opisu', err);
-      this.snackBar.open('Nie udało się zapisać opisu', 'Zamknij', {
-        duration: 3000,
-        horizontalPosition: 'right',
-        verticalPosition: 'top'
-      });
-    }
-  });
-}
-
+    this.profileService.updateDescription(newDescription).subscribe({
+      next: updated => {
+        this.user.description = updated.description;
+        this.editing = false;
+        this.notification.showSuccess("Opis został dodany");
+      },
+      error: err => {
+        this.notification.showError("Opis nie został dodany", err)
+      }
+    });
+  }
 
   adjustHeight(element: HTMLTextAreaElement): void {
     element.style.height = 'auto';
@@ -149,8 +141,13 @@ saveDescription(): void {
 
   //SEKCJA FAVORITE
   addToFavorites(artistId: string) {
-    this.favoriteService.addFavorite(artistId).subscribe(() => {
-      alert('Dodano do ulubionych');
-    });
+    this.favoriteService.addFavorite(artistId).subscribe(( {
+      next: () => {
+        this.notification.showSuccess("Dodano do ulubionych");
+      },
+      error: (err) => {
+        this.notification.showError("Nie udało się dodać do ulubionych", err);
+      }
+    }));
   }
 }
