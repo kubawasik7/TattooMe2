@@ -15,7 +15,7 @@ import java.util.UUID;
 @Setter
 public class ReviewDTO {
     private UUID id;
-    private int rating;
+    private int rate;
     private String content;
     private LocalDateTime createdAt;
     private String clientName;

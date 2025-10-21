@@ -47,7 +47,7 @@ public class ReviewController {
         return ResponseEntity.status(HttpStatus.CREATED).body(review);
     }
 
-    @PostMapping("/{reviewId}/answers")
+    @PostMapping("/answers")
     public ResponseEntity<ReviewAnswerDTO> addAnswer(@RequestBody CreateReviewAnswerDTO dto,
                                                      @AuthenticationPrincipal CustomUserDetails userDetails) {
         ReviewAnswerDTO reviewAnswer = reviewService.addAnswer(dto, userDetails.getId());

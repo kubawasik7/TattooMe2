@@ -12,6 +12,7 @@ public interface ReviewMapper {
     @Mapping(target = "answers", source = "answers")
     @Mapping(target = "clientName", source = "author.nickname")
     @Mapping(target = "artistName", source = "target.nickname")
+    @Mapping(target = "rate", source = "rate")
     ReviewDTO toDTO(Review entity);
 
     @Mapping(target = "id", ignore = true)
