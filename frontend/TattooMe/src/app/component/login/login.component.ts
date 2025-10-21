@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { LoginRequest } from '../../model/login-request';
 import { AuthService } from '../../service/auth.service';
 import { Router } from '@angular/router';
-import { FormGroup,FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { NotificationService } from '../../service/notification.service';
 
 @Component({
   selector: 'app-login',
@@ -17,12 +18,16 @@ export class LoginComponent {
   };
   form: FormGroup;
 
-  constructor(private authService: AuthService, private router: Router, private formBuilder: FormBuilder) {
+  constructor(private authService: AuthService,
+    private router: Router,
+    private formBuilder: FormBuilder,
+    private notification: NotificationService
+  ) {
     this.form = this.formBuilder.group({
       username: ['', [Validators.required]],
       password: ['', [Validators.required]]
     })
-   }
+  }
 
   onLogin(): void {
     this.loginRequest = {
@@ -31,14 +36,12 @@ export class LoginComponent {
     }
     this.authService.login(this.loginRequest).subscribe(
       response => {
-        console.log('Logowanie powiodło się:', response);
-        // Zapisz token np. w localStorage, aby później używać przy kolejnych zapytaniach
+        this.notification.showInfo("Logowanie się powiodło");
         localStorage.setItem('token', response.token);
-        // Przekierowanie po zalogowaniu
         this.router.navigate(['/dashboard']);
       },
       error => {
-        console.error('Błąd logowania:', error);
+        this.notification.showError("Błąd logowania", error);
       }
     );
   }

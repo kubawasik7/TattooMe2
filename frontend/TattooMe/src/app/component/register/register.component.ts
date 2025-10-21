@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AuthService } from '../../service/auth.service';
 import { RegisterRequest } from '../../model/register-request';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { NotificationService } from '../../service/notification.service';
 
 type Role = 'user' | 'trainee' | 'tattoo_artist';
 
@@ -21,8 +22,12 @@ export class RegisterComponent {
   loading = false;
   form: FormGroup;
   selectedRole: Role = 'user';
-  
-  constructor(private authService: AuthService, private formBuilder: FormBuilder) {
+
+  constructor(
+    private authService: AuthService,
+    private formBuilder: FormBuilder,
+    private notification: NotificationService
+  ) {
 
     this.form = this.formBuilder.group({
       username: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(25)]],
@@ -82,12 +87,12 @@ export class RegisterComponent {
 
     this.authService.register(this.registerRequest).subscribe({
       next: response => {
-        console.log("Rejestracja udana", response);
+        this.notification.showInfo("Rejestracja udana");
         this.form.reset();
         this.loading = false;
       },
       error: err => {
-        console.error("Błąd rejestracji:", err);
+        this.notification.showError("Błąd rejestracji", err);
         this.form.get('password')?.reset();
         this.form.get('confirmPassword')?.reset();
 
