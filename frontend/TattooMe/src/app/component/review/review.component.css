@@ -25,23 +25,22 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 0.6rem;
-
-  .review-author {
-    font-weight: 600;
-    font-size: 1rem;
-    color: #ddd;
-  }
-
-  .review-rate {
-    font-size: 1.2rem;
-    color: #555;
-
-    .filled {
-      color: #f5c542; 
-    }
-  }
 }
 
+.review-author {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #ddd;
+}
+
+.review-rate span {
+  color: #555;
+  font-size: 1.2rem;
+}
+
+.review-rate span.filled {
+  color: #f5c542;
+}
 .review-content {
   font-size: 0.95rem;
   margin-bottom: 0.5rem;
