@@ -2,11 +2,10 @@ import { ReviewAnswer } from "./review-answer";
 
 export interface Review {
   id: string;
-  rate: number;
+  rate: number;                  // odpowiada rating z backendu
   content: string;
   createdAt: string;
-  authorNickname: string;
-  targetId?: string;
-  tattooStudioId?: string;
+  clientName: string;            // zamiast authorNickname
+  artistName: string;
   answers: ReviewAnswer[];
 }
