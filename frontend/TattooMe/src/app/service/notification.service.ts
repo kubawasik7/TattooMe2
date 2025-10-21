@@ -11,8 +11,8 @@ export class NotificationService {
   showSuccess(message: string) {
     this.snackBar.open(message, 'Zamknij', {
       duration: 4000,
-      horizontalPosition: 'right',
-      verticalPosition: 'top',
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom',
       panelClass: ['snackbar-success']
     });
   }
@@ -21,8 +21,8 @@ export class NotificationService {
     console.error('Błąd aplikacji:', error);
     this.snackBar.open(message, 'Zamknij', {
       duration: 4000,
-      horizontalPosition: 'right',
-      verticalPosition: 'top',
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom',
       panelClass: ['snackbar-error']
     });
   }
@@ -30,8 +30,8 @@ export class NotificationService {
   showInfo(message: string) {
     this.snackBar.open(message, 'Zamknij', {
       duration: 4000,
-      horizontalPosition: 'right',
-      verticalPosition: 'top',
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom',
       panelClass: ['snackbar-info']
     });
   }
