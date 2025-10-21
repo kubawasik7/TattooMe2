@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Visit } from '../../model/visit';
 import { VISIT_STATUS, VisitService } from '../../service/visit.service';
 import { AuthService } from '../../service/auth.service';
+import { NotificationService } from '../../service/notification.service';
 
 @Component({
   selector: 'app-reservations',
@@ -17,47 +18,71 @@ export class ReservationsComponent implements OnInit {
   currentVisit?: Visit;
   showDetails: boolean = false;
 
-  constructor(private visitService: VisitService, public authService: AuthService) { }
+  constructor(
+    private visitService: VisitService,
+    public authService: AuthService,
+    private notification: NotificationService
+  ) { }
 
   ngOnInit(): void {
     this.loadVisits();
   }
 
-  selectTab(tab: 'active' | 'past' | 'cancelled') {
-    this.selectedTab = tab;
-    this.loadVisits();
-  }
-  loadVisits() {
-    if (this.selectedRoleTab === 'client') {
-      if (this.selectedTab === 'active') this.visitService.getActive().subscribe(v => this.visits = v);
-      else if (this.selectedTab === 'past') this.visitService.getPast().subscribe(v => this.visits = v);
-      else this.visitService.getCancelled().subscribe(v => this.visits = v);
-    } else {
-      if (this.selectedTab === 'active') this.visitService.getActiveAsArtist().subscribe(v => this.visits = v);
-      else if (this.selectedTab === 'past') this.visitService.getPastAsArtist().subscribe(v => this.visits = v);
-      else this.visitService.getCancelledAsArtist().subscribe(v => this.visits = v);
-    }
+  loadVisits(): void {
+    const methods = {
+      client: {
+        active: this.visitService.getActive.bind(this.visitService),
+        past: this.visitService.getPast.bind(this.visitService),
+        cancelled: this.visitService.getCancelled.bind(this.visitService),
+      },
+      artist: {
+        active: this.visitService.getActiveAsArtist.bind(this.visitService),
+        past: this.visitService.getPastAsArtist.bind(this.visitService),
+        cancelled: this.visitService.getCancelledAsArtist.bind(this.visitService),
+      },
+    };
+    const method = methods[this.selectedRoleTab][this.selectedTab];
+
+    method().subscribe({
+      next: (visits) => (this.visits = visits),
+      error: (err) => {
+        this.notification.showError("Nie udało się załadować wizyt", err);
+      },
+    });
+
   }
 
   confirmVisit(id: string) {
     this.visitService.confirmVisit(id).subscribe(() => {
       this.loadVisits();
       this.closeDetails();
+      this.notification.showSuccess("Wizyta została potwierdzona");
     });
   }
 
- cancelVisit() {
+  cancelVisit() {
     if (!this.currentVisit) return;
 
     const isArtist = this.selectedRoleTab === 'artist';
-    const cancel$ = isArtist 
+    const cancel$ = isArtist
       ? this.visitService.cancelVisitAsArtist(this.currentVisit.id)
       : this.visitService.cancelVisitAsClient(this.currentVisit.id);
 
-    cancel$.subscribe(() => {
-      this.loadVisits();
-      this.closeDetails();
+    cancel$.subscribe({
+      next: () => {
+        this.loadVisits();
+        this.closeDetails();
+        this.notification.showSuccess("Wizyta została anulowana");
+      },
+      error: (err) => {
+        this.notification.showError("Nie udało się anulować wizyty", err);
+      },
     });
+  }
+
+  selectTab(tab: 'active' | 'past' | 'cancelled') {
+    this.selectedTab = tab;
+    this.loadVisits();
   }
 
   openVisitDetails(visitId: string) {
