@@ -12,9 +12,12 @@ import { AuthService } from '../../service/auth.service';
 export class ReviewsComponent implements OnInit {
   @Input() artistId?: string;
   @Input() studioId?: string;
-  @Input() visitId?: string;     
+  @Input() visitId?: string;
   @Input() visitStatus?: string;
   @Input() visitDate?: string;
+  @Input() isOwner: boolean = false;
+
+
 
   reviews: Review[] = [];
 
@@ -25,52 +28,52 @@ export class ReviewsComponent implements OnInit {
 
   answerContent: { [key: string]: string } = {};
 
-  constructor(private reviewService: ReviewService, public authService: AuthService) {}
+  constructor(private reviewService: ReviewService, public authService: AuthService) { }
 
-existingReview: Review | null = null;
+  existingReview: Review | null = null;
 
 
-ngOnInit(): void {
-  if (this.visitId) {
-    this.reviewService.getReviewForVisit(this.visitId).subscribe({
-      next: r => this.existingReview = r,
-      error: err => {
-  
-        console.warn('Brak opinii dla wizyty lub brak dostępu:', err);
-        this.existingReview = null;
-      }
-    });
+  ngOnInit(): void {
+    if (this.visitId) {
+      this.reviewService.getReviewForVisit(this.visitId).subscribe({
+        next: r => this.existingReview = r,
+        error: err => {
+
+          console.warn('Brak opinii dla wizyty lub brak dostępu:', err);
+          this.existingReview = null;
+        }
+      });
+    }
+
+    if (this.artistId) {
+      this.reviewService.getReviewsForArtist(this.artistId).subscribe({
+        next: r => this.reviews = r,
+        error: err => {
+          console.warn('Brak opinii dla artysty lub brak dostępu:', err);
+          this.reviews = [];
+        }
+      });
+    }
+
+    if (this.studioId) {
+      this.reviewService.getReviewsForStudio(this.studioId).subscribe({
+        next: r => this.reviews = r,
+        error: err => {
+          console.warn('Brak opinii dla studia lub brak dostępu:', err);
+          this.reviews = [];
+        }
+      });
+    }
   }
 
-  if (this.artistId) {
-    this.reviewService.getReviewsForArtist(this.artistId).subscribe({
-      next: r => this.reviews = r,
-      error: err => {
-        console.warn('Brak opinii dla artysty lub brak dostępu:', err);
-        this.reviews = []; 
-      }
-    });
+
+  canAddReview(): boolean {
+    return (
+      !!this.visitId &&
+      (this.visitStatus === 'ZATWIERDZONA' || this.visitStatus === 'ANULOWANA')
+    );
   }
 
-  if (this.studioId) {
-    this.reviewService.getReviewsForStudio(this.studioId).subscribe({
-      next: r => this.reviews = r,
-      error: err => {
-        console.warn('Brak opinii dla studia lub brak dostępu:', err);
-        this.reviews = [];
-      }
-    });
-  }
-}
-
-
-canAddReview(): boolean {
-  return (
-    !!this.visitId &&
-    this.visitStatus === 'ZATWIERDZONA' &&
-    new Date(this.visitDate!).getTime() < Date.now()
-  );
-}
 
 
   setRate(star: number) {

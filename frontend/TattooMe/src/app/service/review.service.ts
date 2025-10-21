@@ -13,14 +13,19 @@ export class ReviewService {
   constructor(private http: HttpClient) { }
 
   addReview(visitId: string, rate: number, content?: string): Observable<Review> {
-    const params: any = { rate };
-    if (content) params.content = content;
-    return this.http.post<Review>(`${this.apiUrl}/${visitId}`, null, { params });
+    const body = {
+      rate: rate,
+      content: content,
+      visitId: visitId
+    };
+
+    return this.http.post<Review>(`${this.apiUrl}/${visitId}`, body);
   }
 
   addAnswer(reviewId: string, content: string): Observable<ReviewAnswer> {
-    return this.http.post<ReviewAnswer>(`${this.apiUrl}/${reviewId}/answers`, null, {
-      params: { content }
+    return this.http.post<ReviewAnswer>(`${this.apiUrl}/answers`, {
+      reviewId,
+      content
     });
   }
 

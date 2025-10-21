@@ -60,6 +60,5 @@
   <app-special-offer [userId]="userId" [isOwner]="isOwner"></app-special-offer>
   <app-portfolio [userId]="userId" [isOwner]="isOwner"></app-portfolio>
   <app-offer [userId]="userId" [isOwner]="isOwner"></app-offer>
-  <app-review [artistId]="userId"></app-review>
-
+  <app-review *ngIf="isOwner !== undefined" [isOwner]="isOwner" [artistId]="userId"></app-review>
 </main>
