@@ -12,7 +12,7 @@
 
     <div class="profile-info">
       <h2 class="nickname">{{ user.nickname }}</h2>
-      <h2 class="rating">★ 4.5/5 (1230)</h2>
+      <h2 class="rating">★ {{ averageRate | number:'1.2-2' }}</h2>
 
       <p class="location">Miasto, ulica 123/1</p>
       <app-style [userId]="userId" [isOwner]="isOwner"></app-style>

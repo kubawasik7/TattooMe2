@@ -8,6 +8,8 @@ import { ChatService } from '../../service/chat.service';
 import { User } from '../../model/user';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NotificationService } from '../../service/notification.service';
+import { ReviewService } from '../../service/review.service';
+import { Review } from '../../model/review';
 
 
 
@@ -24,6 +26,8 @@ export class ProfileComponent implements OnInit {
   editing = false;
   isOwner = false;
   descriptionForm!: FormGroup;
+  averageRate: number = 0;
+  reviews: Review[] = [];
 
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
   selectedFile: File | null = null;
@@ -36,6 +40,7 @@ export class ProfileComponent implements OnInit {
     private profileService: ProfileService,
     private favoriteService: FavoriteService,
     private authService: AuthService,
+    private reviewService: ReviewService,
     private chatService: ChatService,
     private router: Router,
     private fb: FormBuilder,
@@ -64,6 +69,7 @@ export class ProfileComponent implements OnInit {
 
       this.descriptionForm.patchValue({ description: this.user.description || '' });
     });
+    this.loadReviews();
   }
 
   startChat(): void {
@@ -141,7 +147,7 @@ export class ProfileComponent implements OnInit {
 
   //SEKCJA FAVORITE
   addToFavorites(artistId: string) {
-    this.favoriteService.addFavorite(artistId).subscribe(( {
+    this.favoriteService.addFavorite(artistId).subscribe(({
       next: () => {
         this.notification.showSuccess("Dodano do ulubionych");
       },
@@ -149,5 +155,28 @@ export class ProfileComponent implements OnInit {
         this.notification.showError("Nie udało się dodać do ulubionych", err);
       }
     }));
+  }
+  loadReviews() {
+    this.reviewService.getReviewsForArtist(this.userId).subscribe({
+      next: (reviews) => {
+        this.reviews = reviews;
+        this.calculateAverageRate();
+      },
+      error: (err) => {
+        console.warn('Brak opinii lub brak dostępu:', err);
+        this.reviews = [];
+        this.averageRate = 0;
+      }
+    });
+  }
+
+  calculateAverageRate() {
+    if (!this.reviews || this.reviews.length === 0) {
+      this.averageRate = 0;
+      return;
+    }
+
+    const total = this.reviews.reduce((sum, r) => sum + r.rate, 0);
+    this.averageRate = total / this.reviews.length;
   }
 }
