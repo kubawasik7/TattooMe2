@@ -16,6 +16,8 @@ import TattooMe.TattooMe.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
@@ -24,6 +26,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
 
 import java.io.IOException;
 import java.util.List;
@@ -47,12 +50,20 @@ public class UserService {
         return userMapper.toDTOList(userRepository.findAllByRole(role));
     }
 
+    public List<UserDTO> getAllUsersWithRatings(String role) {
+        return userRepository.findAllUsersWithAvgRating(role);
+    }
+
+    public List<UserDTO> getTop5Artists() {
+        Pageable top4 = PageRequest.of(0, 4);
+        return userRepository.findTopUsersWithAvgRating(top4);
+    }
+
     public UserDTO getUserById(UUID id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Nie znaleziono użytkownika"));
         return userMapper.toDTO(user);
     }
-
 
     public RegisterResponse registerUser(RegisterRequest registerRequest) {
         if (userRepository.findByNickname(registerRequest.getNickname()).isPresent()) {

@@ -24,9 +24,20 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    //@GetMapping
+    // public ResponseEntity<List<UserDTO>> getAllArtists(@RequestParam(value = "role", required = false) String role) {
+    //   return ResponseEntity.ok(userService.getUsersByRole(role));
+    // }
+
     @GetMapping
-    public ResponseEntity<List<UserDTO>> getAllArtists(@RequestParam(value = "role", required = false) String role) {
-        return ResponseEntity.ok(userService.getUsersByRole(role));
+    public ResponseEntity<List<UserDTO>> getAllArtistsWithRating(@RequestParam(value = "role", required = false) String role) {
+        return ResponseEntity.ok(userService.getAllUsersWithRatings(role));
+    }
+
+    @GetMapping("/top")
+    public ResponseEntity<List<UserDTO>> getTop5Artists() {
+        List<UserDTO> topUsers = userService.getTop5Artists();
+        return ResponseEntity.ok(topUsers);
     }
 
     @GetMapping("/{id}")
