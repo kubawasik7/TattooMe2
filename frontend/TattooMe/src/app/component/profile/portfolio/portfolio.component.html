@@ -1,5 +1,24 @@
 <section class="portfolio">
-  <h3 class="section-title">Portfolio</h3>
+   <div class="section-header">
+    <h3 class="section-title">Portfolio</h3>
+    <div *ngIf="isOwner" class="upload-actions">
+      <input type="file" id="fileInput" (change)="onFileSelectedPortfolio($event)" hidden />
+      <label for="fileInput" class="btn upload-btn">
+        <i class="fas fa-upload"></i> Wybierz plik
+      </label>
+      <button class="btn add-btn" (click)="uploadPortfolio()">
+        <i class="fas fa-plus"></i> Dodaj zdjęcie
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="selectedFile" class="selected-file">
+    <i class="fas fa-image"></i>
+    <span>{{ selectedFile.name }}</span>
+    <button class="btn remove-btn" (click)="clearSelectedFile()">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
 
   <div class="grid">
     <div class="item" *ngFor="let item of (showAllPortfolio ? portfolioItems : portfolioItems.slice(0, 6))">
@@ -13,24 +32,6 @@
   <div *ngIf="portfolioItems.length > 6" class="more-container">
     <button class="btn more-btn" (click)="showAllPortfolio = !showAllPortfolio">
       {{ showAllPortfolio ? 'Zwiń' : 'Pokaż więcej' }}
-    </button>
-  </div>
-
-  <div *ngIf="isOwner" class="upload-section">
-    <input type="file" id="fileInput" (change)="onFileSelectedPortfolio($event)" hidden />
-    <label for="fileInput" class="btn upload-btn">
-      <i class="fas fa-upload"></i> Wybierz plik
-    </label>
-    <button class="btn add-btn" (click)="uploadPortfolio()">
-      <i class="fas fa-plus"></i> Dodaj zdjęcie
-    </button>
-  </div>
-
-  <div *ngIf="selectedFile" class="selected-file">
-    <i class="fas fa-image"></i>
-    <span>{{ selectedFile.name }}</span>
-    <button class="btn remove-btn" (click)="clearSelectedFile()">
-      <i class="fas fa-times"></i>
     </button>
   </div>
 </section>

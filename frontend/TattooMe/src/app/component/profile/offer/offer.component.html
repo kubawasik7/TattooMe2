@@ -1,9 +1,7 @@
 <section class="offer">
-  <div class="offer-header">
-    <h3>Oferta</h3>
-    <button *ngIf="isOwner" class="btn add-flash-btn" (click)="openFlashModal()">
-      + Dodaj zdjęcie
-    </button>
+  <div class="section-header">
+    <h3 class="section-title">Oferta</h3>
+     <button *ngIf="isOwner" class="btn-add" (click)="openFlashModal()"><i class="fas fa-plus"></i> Dodaj zdjęcie</button>
   </div>
 
   <div class="offer-grid">
@@ -27,7 +25,7 @@
 
 <div class="modal-backdrop" *ngIf="showFlashModal">
   <div class="modal">
-    <h4>Nowa oferta</h4>
+    <h4 class = "new-offer">Nowa oferta</h4>
 
     <form [formGroup]="flashForm">
       <label class="form-label">Zdjęcie</label>

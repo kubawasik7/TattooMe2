@@ -1,7 +1,8 @@
 <div class="offer-section">
-  <h3>Aktualne promocje</h3>
-
-  <button *ngIf="isOwner" class="btn-add" (click)="startNew()">+ Dodaj nową</button>
+  <div class="section-header">
+    <h3 class="section-title">Aktualne promocje</h3>
+    <button *ngIf="isOwner" class="btn-add" (click)="startNew()"><i class="fas fa-plus"></i>  Dodaj nową</button>
+  </div>
 
   <div class="offers-container">
     <div class="offer-card" *ngFor="let o of offers">
