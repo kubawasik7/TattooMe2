@@ -15,11 +15,16 @@ export class UserService {
     const params = new HttpParams().set('role', role);
     return this.http.get<User[]>(this.apiUrl, { params });
   }
+  getUsersByRoleAVG(): Observable<User[]> {
+    
+    return this.http.get<User[]>(`${this.apiUrl}/top`);
+
+  }
 
   getUserById(id: string): Observable<User> {
     return this.http.get<User>(`${this.apiUrl}/${id}`);
   }
-  
+
   updateUser(user: User): Observable<any> {
     return this.http.put(`${this.apiUrl}/userProfile`, user);
   }

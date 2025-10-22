@@ -8,4 +8,6 @@ export interface User {
       surname: string;
       description: string;
       profilePicture: string | null;
+      averageRate: number;
+      reviewsCount: number;
 }
