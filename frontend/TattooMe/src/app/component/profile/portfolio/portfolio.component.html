@@ -1,5 +1,5 @@
 <section class="portfolio">
-   <div class="section-header">
+  <div class="section-header">
     <h3 class="section-title">Portfolio</h3>
     <div *ngIf="isOwner" class="upload-actions">
       <input type="file" id="fileInput" (change)="onFileSelectedPortfolio($event)" hidden />
@@ -21,12 +21,18 @@
   </div>
 
   <div class="grid">
-    <div class="item" *ngFor="let item of (showAllPortfolio ? portfolioItems : portfolioItems.slice(0, 6))">
-      <img [src]="'data:image/png;base64,' + item.base64Image" alt="Tattoo" />
-      <button *ngIf="isOwner" class="delete-btn" (click)="deleteImagePortfolio(item.id)">
-        <i class="fas fa-times"></i>
-      </button>
-    </div>
+    <ng-container *ngIf="portfolioItems.length; else noPortfolio">
+      <div class="item" *ngFor="let item of (showAllPortfolio ? portfolioItems : portfolioItems.slice(0, 6))">
+        <img [src]="'data:image/png;base64,' + item.base64Image" alt="Tattoo" />
+        <button *ngIf="isOwner" class="delete-btn" (click)="deleteImagePortfolio(item.id)">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    </ng-container>
+    <ng-template #noPortfolio>
+      <p class="no-portfolio-message">Brak zdjęć w portfolio</p>
+    </ng-template>
+
   </div>
 
   <div *ngIf="portfolioItems.length > 6" class="more-container">

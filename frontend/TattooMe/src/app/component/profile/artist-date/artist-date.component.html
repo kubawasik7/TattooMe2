@@ -4,26 +4,31 @@
     <button *ngIf="isOwner" class="btn-add" (click)="openNew()"><i class="fas fa-plus"></i> Dodaj termin</button>
   </div>
   <div class="slots-with-add">
-    <div class="slots-grid" *ngIf="slots?.length">
-      <div *ngFor="let slot of (showAll ? slots : slots | slice:0:5)" class="slot-card"
-        [class.unavailable]="!slot.available">
+    <ng-container *ngIf="slots?.length; else noSlots">
+      <div class="slots-grid" *ngIf="slots?.length; else noSlots">
+        <div *ngFor="let slot of (showAll ? slots : slots | slice:0:5)" class="slot-card"
+          [class.unavailable]="!slot.available">
 
-        <div class="slot-time">
-          {{ slot.dateTime | date: 'medium' }}
-        </div>
+          <div class="slot-time">
+            {{ slot.dateTime | date: 'medium' }}
+          </div>
 
-        <button *ngIf="!isOwner && slot.available" class="reservation-btn" (click)="book(slot)">
-          Zarezerwuj
-        </button>
-
-        <div *ngIf="isOwner" class="owner-buttons">
-          <button class="delete-btn" (click)="delete(slot.id)">Usuń</button>
-          <button class="btn-toggle" [ngClass]="slot.available ? 'deactivate' : 'activate'" (click)="toggle(slot.id)">
-            {{ slot.available ? 'Dezaktywuj' : 'Aktywuj' }}
+          <button *ngIf="!isOwner && slot.available" class="reservation-btn" (click)="book(slot)">
+            Zarezerwuj
           </button>
+
+          <div *ngIf="isOwner" class="owner-buttons">
+            <button class="delete-btn" (click)="delete(slot.id)">Usuń</button>
+            <button class="btn-toggle" [ngClass]="slot.available ? 'deactivate' : 'activate'" (click)="toggle(slot.id)">
+              {{ slot.available ? 'Dezaktywuj' : 'Aktywuj' }}
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    </ng-container>
+    <ng-template #noSlots>
+      <p class="no-slots-message">Brak wolnych terminów</p>
+    </ng-template>
   </div>
 
   <div *ngIf="isNewOpen" class="new-slot-form">
