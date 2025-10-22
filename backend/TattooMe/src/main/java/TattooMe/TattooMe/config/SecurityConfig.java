@@ -88,9 +88,11 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/api/flashes/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/schedule/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/styles/user/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/offers").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/offers/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/reviews/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/users/**").permitAll()
                 .requestMatchers(HttpMethod.PATCH, "/api/visits/**").permitAll()
+
                 .anyRequest().authenticated()
         );
 
