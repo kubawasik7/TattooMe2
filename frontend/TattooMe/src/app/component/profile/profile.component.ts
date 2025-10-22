@@ -25,6 +25,7 @@ export class ProfileComponent implements OnInit {
   authUserId: string | null = null;
   editing = false;
   isOwner = false;
+  isLoggedIn = false;
   descriptionForm!: FormGroup;
   averageRate: number = 0;
   reviews: Review[] = [];
@@ -52,6 +53,7 @@ export class ProfileComponent implements OnInit {
     this.userId = this.route.snapshot.paramMap.get('id')!;
 
     this.authUserId = this.authService.getUserId();
+    this.isLoggedIn = !!this.authUserId;
     this.isOwner = this.authUserId === this.userId;
 
     this.descriptionForm = this.fb.group({

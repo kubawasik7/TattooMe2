@@ -10,24 +10,34 @@
       Zapisz zdjęcie
     </button>
 
-   <div class="profile-info">
-  <div class="nickname-rating">
-    <h2 class="nickname">{{ user.nickname }}</h2>
-    <h2 class="rating">★ {{ averageRate | number:'1.2-2' }}</h2>
-  </div>
+    <div class="profile-info">
+      <div class="nickname-rating">
+        <h2 class="nickname">{{ user.nickname }}</h2>
+        <h2 class="rating">★ {{ averageRate | number:'1.2-2' }}</h2>
+      </div>
 
-  <p class="location">Miasto, ulica 123/1</p>
-  <app-style [userId]="userId" [isOwner]="isOwner"></app-style>
-</div>
+      <p class="location">Miasto, ulica 123/1</p>
+      <app-style [userId]="userId" [isOwner]="isOwner"></app-style>
+    </div>
 
 
     <div class="profile-buttons">
 
-      <button *ngIf="!isOwner" class="button-chat" (click)="goToChats(user.id)">
-        Wyślij wiadomość
+      <button *ngIf="!isLoggedIn" class="button-chat" [routerLink]="['/login']">
+        <i class="fa-solid fa-message"></i> Wyślij wiadomość
       </button>
 
-      <button *ngIf="!isOwner" (click)="addToFavorites(user.id)" class="button-fav">❤️ Dodaj do ulubionych</button>
+      <button *ngIf="isLoggedIn && !isOwner" class="button-chat" (click)="goToChats(user.id)">
+        <i class="fa-solid fa-message"></i> Wyślij wiadomość
+      </button>
+
+      <button *ngIf="!isLoggedIn" class="button-fav" [routerLink]="['/login']">
+        <i class="fa-solid fa-heart"></i> Ulubione
+      </button>
+
+      <button *ngIf="isLoggedIn && !isOwner" (click)="addToFavorites(user.id)" class="button-fav">
+        <i class="fa-solid fa-heart"></i> Ulubione
+      </button>
     </div>
   </section>
 
@@ -36,7 +46,7 @@
     <ng-container *ngIf="!editing; else editTpl">
       <p>
         {{ descriptionForm.get('description')?.value || 'Brak opisu...' }}
-        <button type="button" class="btn btn-sm edit-btn" (click)="startEdit()">
+        <button *ngIf="isOwner" type="button" class="btn btn-sm edit-btn" (click)="startEdit()">
           <i class="fas fa-pen"></i>
         </button>
       </p>
