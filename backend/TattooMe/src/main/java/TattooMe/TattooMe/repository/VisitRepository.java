@@ -1,7 +1,5 @@
 package TattooMe.TattooMe.repository;
 
-import TattooMe.TattooMe.entity.ArtistDate;
-import TattooMe.TattooMe.entity.User;
 import TattooMe.TattooMe.entity.Visit;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -22,6 +20,7 @@ public interface VisitRepository extends JpaRepository<Visit, UUID> {
 
     @Query("SELECT v FROM visit v WHERE v.client.id = :clientId AND v.status.name = 'ANULOWANA'")
     List<Visit> findCancelledByClient(@Param("clientId") UUID clientId);
+
     @Query("SELECT v FROM visit v WHERE v.artist.id = :artistId AND v.status.name IN :statuses")
     List<Visit> findByArtistAndStatuses(@Param("artistId") UUID artistId, @Param("statuses") List<String> statuses);
 
@@ -30,8 +29,7 @@ public interface VisitRepository extends JpaRepository<Visit, UUID> {
 
     @Query("SELECT v FROM visit v WHERE v.artist.id = :artistId AND v.status.name = 'ANULOWANA'")
     List<Visit> findCancelledByArtist(@Param("artistId") UUID artistId);
+
     boolean existsByArtistDateIdAndClientId(UUID artistDateId, UUID clientId);
-    void deleteAllByArtistDate(ArtistDate artistDate);
-    UUID client(User client);
 }
 
