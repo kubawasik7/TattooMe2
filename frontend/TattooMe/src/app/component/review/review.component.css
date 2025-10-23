@@ -11,7 +11,6 @@
   padding: 0;
   margin: 1rem 0;
 }
-
 .opinion {
   font-size: 1.5rem;
   font-weight: bold;
@@ -120,7 +119,6 @@
 .answer-form button:hover {
   background: #555;
 }
-
 .show-more-btn {
   margin: 15px auto;
   display: block;
@@ -133,6 +131,98 @@
   color: #ddd;
   transition: 0.2s;
 }
+
+.review-form-wrapper {
+  margin: 1rem 0;
+  padding: 1rem;
+  background: #1f1f1f;
+  border: 1px solid #333;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+}
+
+.btn-review {
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  background-color: #444;
+  color: #f5f5f5;
+  transition: background-color 0.25s ease, transform 0.1s ease;
+}
+
+.btn-review:hover {
+  background-color: #666;
+  transform: translateY(-1px);
+}
+
+.review-form {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.stars {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.stars span {
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: color 0.2s ease, transform 0.15s ease;
+  color: #666;
+}
+
+.stars span.filled {
+  color: #ffb400;
+}
+
+.stars span:hover,
+.stars span:hover ~ span {
+  transform: scale(1.2);
+}
+
+
+.review-form textarea {
+  width: 96%;
+  min-height: 80px;
+  padding: 0.6rem;
+  border-radius: 8px;
+  border: 1px solid #333;
+  background: #242424;
+  color: #f5f5f5;
+  font-size: 0.9rem;
+  font-family: inherit;
+  resize: vertical;
+  transition: border-color 0.25s ease;
+}
+
+.review-form textarea:focus {
+  border-color: #666;
+  outline: none;
+}
+
+.btn-submit {
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  background-color: #2e5c2e;
+  color: #f5f5f5;
+  transition: background-color 0.25s ease, transform 0.1s ease;
+}
+
+.btn-submit:hover {
+  background-color: #3b7a3b;
+  transform: translateY(-1px);
+}
+
 
 .show-more-btn:hover {
   border-color: #aaa;

@@ -2,6 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Review } from '../../model/review';
 import { ReviewService } from '../../service/review.service';
 import { AuthService } from '../../service/auth.service';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-review',
@@ -26,15 +28,23 @@ export class ReviewsComponent implements OnInit {
   showForm = false;
   submitted = false;
   visibleReviews: number = 3;
+  isProfilePage: boolean = false;
 
   answerContent: { [key: string]: string } = {};
 
-  constructor(private reviewService: ReviewService, public authService: AuthService) { }
+  constructor(
+    private reviewService: ReviewService,
+    public authService: AuthService,
+    private router: Router
+  ) { }
 
   existingReview: Review | null = null;
 
 
   ngOnInit(): void {
+    const currentUrl = this.router.url;
+    this.isProfilePage = currentUrl.includes('/profile');
+
     if (this.visitId) {
       this.reviewService.getReviewForVisit(this.visitId).subscribe({
         next: r => this.existingReview = r,
@@ -91,6 +101,7 @@ export class ReviewsComponent implements OnInit {
       this.rate = 0;
       this.content = '';
     });
+
   }
 
   addAnswer(reviewId: string) {
