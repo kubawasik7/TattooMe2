@@ -13,7 +13,7 @@
     <div class="profile-info">
       <div class="nickname-rating">
         <h2 class="nickname">{{ user.nickname }}</h2>
-        <h2 class="rating">★ {{ averageRate | number:'1.2-2' }}</h2>
+        <h2 class="rating">★ {{ user.averageRate | number:'1.2-2' }} ({{user.reviewsCount}})</h2>
       </div>
 
       <p class="location">Miasto, ulica 123/1</p>

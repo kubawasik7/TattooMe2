@@ -27,7 +27,6 @@ export class ProfileComponent implements OnInit {
   isOwner = false;
   isLoggedIn = false;
   descriptionForm!: FormGroup;
-  averageRate: number = 0;
   reviews: Review[] = [];
 
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
@@ -162,23 +161,11 @@ export class ProfileComponent implements OnInit {
     this.reviewService.getReviewsForArtist(this.userId).subscribe({
       next: (reviews) => {
         this.reviews = reviews;
-        this.calculateAverageRate();
       },
       error: (err) => {
         console.warn('Brak opinii lub brak dostępu:', err);
         this.reviews = [];
-        this.averageRate = 0;
       }
     });
-  }
-
-  calculateAverageRate() {
-    if (!this.reviews || this.reviews.length === 0) {
-      this.averageRate = 0;
-      return;
-    }
-
-    const total = this.reviews.reduce((sum, r) => sum + r.rate, 0);
-    this.averageRate = total / this.reviews.length;
   }
 }
