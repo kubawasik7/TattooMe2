@@ -1,6 +1,6 @@
-<section class="portfolio">
+<div class="portfolio">
   <div class="section-header">
-    <h3 class="section-title">Portfolio</h3>
+    <h2 class="section-title">Portfolio</h2>
     <div *ngIf="isOwner" class="upload-actions">
       <input type="file" id="fileInput" (change)="onFileSelectedPortfolio($event)" hidden />
       <label for="fileInput" class="btn upload-btn">
@@ -23,24 +23,29 @@
   <div class="grid">
     <ng-container *ngIf="portfolioItems.length; else noPortfolio">
       <div class="item" *ngFor="let item of (showAllPortfolio ? portfolioItems : portfolioItems.slice(0, 6))">
+        
+        <div class="item-header">
+          <button *ngIf="isOwner" class="btn toggle-featured-btn" (click)="toggleFeatured(item)">
+            <i [ngClass]="item.featured ? 'fa-solid fa-star' : 'fa-regular fa-star'"></i>
+          </button>
+
+          <button *ngIf="isOwner" class="btn delete-btn" (click)="deleteImagePortfolio(item.id)">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </div>
+
         <img [src]="'data:image/png;base64,' + item.base64Image" alt="Tattoo" />
-        <button class="btn toggle-featured-btn" (click)="toggleFeatured(item)">
-          {{ item.featured ? 'Wyroznione' : 'Zwykłe' }}
-        </button>
-        <button *ngIf="isOwner" class="delete-btn" (click)="deleteImagePortfolio(item.id)">
-          <i class="fas fa-times"></i>
-        </button>
       </div>
     </ng-container>
+
     <ng-template #noPortfolio>
       <p class="no-portfolio-message">Brak zdjęć w portfolio</p>
     </ng-template>
-
   </div>
+</div>
 
   <div *ngIf="portfolioItems.length > 6" class="more-container">
     <button class="btn more-btn" (click)="showAllPortfolio = !showAllPortfolio">
       {{ showAllPortfolio ? 'Zwiń' : 'Pokaż więcej' }}
     </button>
   </div>
-</section>
