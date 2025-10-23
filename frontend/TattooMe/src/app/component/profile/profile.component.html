@@ -44,13 +44,15 @@
 
   <div class="description" *ngIf="descriptionForm" [formGroup]="descriptionForm">
     <h3 class="section-title">Opis</h3>
-    <ng-container *ngIf="!editing; else editTpl">
-      <p>
-        {{ descriptionForm.get('description')?.value || 'Brak opisu...' }}
-        <button *ngIf="isOwner" type="button" class="btn btn-sm edit-btn" (click)="startEdit()">
-          <i class="fas fa-pen"></i>
-        </button>
-      </p>
+    <ng-container *ngIf="descriptionForm.get('description')?.value; else noDescription">
+      <ng-container *ngIf="!editing; else editTpl">
+        <p>
+          {{ descriptionForm.get('description')?.value}}
+          <button *ngIf="isOwner" type="button" class="btn btn-sm edit-btn" (click)="startEdit()">
+            <i class="fas fa-pen"></i>
+          </button>
+        </p>
+      </ng-container>
     </ng-container>
 
     <ng-template #editTpl>
@@ -66,6 +68,15 @@
 
       <button type="button" class="btn2 save-btn" (click)="saveDescription()">Zapisz</button>
       <button type="button" class="btn2 cancel-btn" (click)="cancelEdit()">Anuluj</button>
+    </ng-template>
+
+    <ng-template #noDescription>
+      <p class="no-description-message">
+        Brak opisu
+        <button *ngIf="isOwner" type="button" class="btn btn-sm edit-btn" (click)="startEdit()">
+          <i class="fas fa-plus"></i> Dodaj opis
+        </button>
+      </p>
     </ng-template>
   </div>
 

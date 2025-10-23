@@ -195,6 +195,14 @@
   margin: 0;
 }
 
+.no-description-message {
+  text-align: center;
+  color: #aaa;
+  font-style: italic;
+  width: 100%;
+}
+
+
 .description .section-title::after {
   content: "";
   position: absolute;
