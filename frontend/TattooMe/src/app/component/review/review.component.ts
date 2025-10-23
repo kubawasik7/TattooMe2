@@ -25,6 +25,7 @@ export class ReviewsComponent implements OnInit {
   content = '';
   showForm = false;
   submitted = false;
+  visibleReviews: number = 3;
 
   answerContent: { [key: string]: string } = {};
 
@@ -101,5 +102,9 @@ export class ReviewsComponent implements OnInit {
       }
       this.answerContent[reviewId] = '';
     });
+  }
+
+  showMore() {
+    this.visibleReviews += 3;
   }
 }

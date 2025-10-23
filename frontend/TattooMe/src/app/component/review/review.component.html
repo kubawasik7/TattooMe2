@@ -1,5 +1,3 @@
-<h3>Opinie</h3>
-
 <div *ngIf="canAddReview() && !existingReview" class="review-form-wrapper">
   <button class="btn-review" (click)="showForm = !showForm">
     {{ showForm ? 'Anuluj' : 'Wystaw opinię' }}
@@ -33,31 +31,45 @@
   </div>
 </div>
 
-<div *ngIf="reviews.length === 0" class="empty-message">
-  Brak opinii.
+<div class="reviews-wrapper">
+  <div class="opinion">Opinie</div>
+
+
+  <div *ngIf="reviews.length === 0" class="empty-message">
+    Brak opinii.
+  </div>
+
+  <ul *ngIf="reviews.length > 0" class="review-list">
+    <li *ngFor="let review of reviews | slice:0:visibleReviews" class="review-item">
+
+      <div class="review-header">
+        <div class="review-author">{{ review.clientName }}</div>
+
+        <div class="review-rate">
+          <span *ngFor="let star of [1,2,3,4,5]" [class.filled]="star <= review.rate">★</span>
+        </div>
+      </div>
+
+      <p class="review-content">{{ review.content }}</p>
+      <div class="review-date">{{ review.createdAt | date:'short' }}</div>
+
+      <div class="answers" *ngIf="review.answers.length > 0">
+        <div *ngFor="let ans of review.answers" class="answer">
+          <strong>{{ ans.artistName }}:</strong> {{ ans.content }}
+          <span class="answer-date">{{ ans.createdAt | date:'short' }}</span>
+        </div>
+      </div>
+
+      <div class="answer-form" *ngIf="isOwner">
+        <input type="text" [(ngModel)]="answerContent[review.id]" placeholder="Napisz odpowiedź..." />
+        <button (click)="addAnswer(review.id)">Odpowiedz</button>
+      </div>
+
+
+    </li>
+  </ul>
+  <button *ngIf="visibleReviews < reviews.length" class="show-more-btn" (click)="showMore()">
+    Pokaż więcej
+  </button>
+
 </div>
-
-<ul *ngIf="reviews.length > 0" class="review-list">
-  <li *ngFor="let review of reviews" class="review-item">
-    <div class="review-header">
-      <div class="review-author">{{ review.clientName }}</div>
-      <div class="review-rate">
-        <span *ngFor="let star of [1,2,3,4,5]" [class.filled]="star <= review.rate">★</span>
-      </div>
-    </div>
-    <div class="review-content">{{ review.content }}</div>
-    <div class="review-date">{{ review.createdAt | date:'short' }}</div>
-
-    <div class="answers" *ngIf="review.answers.length > 0">
-      <div *ngFor="let ans of review.answers" class="answer">
-        <strong>{{ ans.artistName }}:</strong> {{ ans.content }}
-        <span class="answer-date">{{ ans.createdAt | date:'short' }}</span>
-      </div>
-    </div>
-
-    <div class="answer-form" *ngIf="isOwner">
-      <input type="text" [(ngModel)]="answerContent[review.id]" placeholder="Napisz odpowiedź..." />
-      <button (click)="addAnswer(review.id)">Odpowiedz</button>
-    </div>
-  </li>
-</ul>

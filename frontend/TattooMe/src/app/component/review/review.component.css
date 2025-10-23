@@ -1,3 +1,10 @@
+.reviews-wrapper {
+  background: #1e1e1e;
+  padding: 1rem;
+  border-radius: 12px;
+  border: 1px solid #222;
+  margin-top: 2rem;
+}
 
 .review-list {
   list-style: none;
@@ -5,32 +12,41 @@
   margin: 1rem 0;
 }
 
+.opinion {
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #333;
+  margin-bottom: 15px;
+}
+
+
 .review-item {
-  background: #1e1e1e;
-  border: 1px solid #333;
+  background: #2b2b2b;
+  border: 1px solid #2d2d2d;
   border-radius: 10px;
   padding: 1rem;
   margin-bottom: 1rem;
-  color: #f2f2f2;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
-  transition: transform 0.2s ease;
+  color: #e8e8e8;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+  transition: transform 0.18s ease, background .18s ease;
+}
 
-  &:hover {
-    transform: translateY(-2px);
-  }
+.review-item:hover {
+  transform: translateY(-2px);
+  background: #202020;
 }
 
 .review-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.6rem;
+  margin-bottom: 0.5rem;
 }
 
 .review-author {
   font-weight: 600;
-  font-size: 1rem;
-  color: #ddd;
+  font-size: 1.05rem;
 }
 
 .review-rate span {
@@ -39,166 +55,97 @@
 }
 
 .review-rate span.filled {
-  color: #f5c542;
+  color: #ffcd3c;
 }
+
 .review-content {
   font-size: 0.95rem;
-  margin-bottom: 0.5rem;
   color: #e0e0e0;
+  margin-bottom: 0.4rem;
 }
 
 .review-date {
   font-size: 0.8rem;
-  color: #888;
+  color: #999;
 }
 
 .answers {
   margin-top: 0.8rem;
-  padding-left: 1rem;
-  border-left: 2px solid #444;
+  padding-left: 0.7rem;
+  border-left: 2px solid #333;
+}
 
-  .answer {
-    background: #2a2a2a;
-    border-radius: 6px;
-    padding: 0.4rem 0.6rem;
-    margin-bottom: 0.4rem;
-    font-size: 0.9rem;
+.answer {
+  background: #242424;
+  padding: 0.45rem 0.55rem;
+  border-radius: 6px;
+  margin-bottom: 0.4rem;
+}
 
-    strong {
-      color: #b0d4ff;
-    }
+.answer strong {
+  color: #74b3ff;
+}
 
-    .answer-date {
-      font-size: 0.75rem;
-      color: #777;
-      margin-left: 0.5rem;
-    }
-  }
+.answer-date {
+  font-size: 0.75rem;
+  color: #777;
+  margin-left: 0.5rem;
 }
 
 .answer-form {
   display: flex;
   gap: 0.5rem;
   margin-top: 0.6rem;
-
-  input {
-    flex: 1;
-    padding: 0.5rem;
-    border-radius: 6px;
-    border: 1px solid #444;
-    background: #1a1a1a;
-    color: #f5f5f5;
-    font-size: 0.9rem;
-
-    &:focus {
-      outline: none;
-      border-color: #666;
-    }
-  }
-
-  button {
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 6px;
-    background: #444;
-    color: #fff;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s ease;
-
-    &:hover {
-      background: #555;
-    }
-  }
 }
 
-.review-form-wrapper {
-  margin: 1rem 0;
-
-  .btn-review {
-    background: #333;
-    color: #f2f2f2;
-    padding: 0.6rem 1.2rem;
-    border: none;
-    border-radius: 6px;
-    font-weight: 600;
-    cursor: pointer;
-
-    &:hover {
-      background: #444;
-    }
-  }
+.answer-form input {
+  flex: 1;
+  background: #121212;
+  border: 1px solid #333;
+  border-radius: 6px;
+  padding: 0.45rem;
+  color: #ddd;
 }
 
-.review-form {
-  margin-top: 0.8rem;
-  background: #2a2a2a;
-  border: 1px solid #444;
-  border-radius: 8px;
-  padding: 1rem;
-
-  label {
-    font-weight: 600;
-    color: #ddd;
-    display: block;
-    margin-bottom: 0.4rem;
-  }
-
-  .stars {
-    font-size: 1.5rem;
-    margin-bottom: 0.6rem;
-
-    span {
-      cursor: pointer;
-      color: #444;
-
-      &.filled {
-        color: #f5c542;
-      }
-
-      &:hover {
-        color: #f8d675;
-      }
-    }
-  }
-
-  textarea {
-    width: 100%;
-    min-height: 80px;
-    padding: 0.5rem;
-    margin-bottom: 0.6rem;
-    border-radius: 6px;
-    border: 1px solid #444;
-    background: #1a1a1a;
-    color: #f5f5f5;
-    font-size: 0.9rem;
-    resize: vertical;
-
-    &:focus {
-      outline: none;
-      border-color: #666;
-    }
-  }
-
-  .btn-submit {
-    background: #555;
-    color: #fff;
-    padding: 0.6rem 1.2rem;
-    border: none;
-    border-radius: 6px;
-    font-weight: 600;
-    cursor: pointer;
-
-    &:hover {
-      background: #666;
-    }
-  }
+.answer-form button {
+  background: #444;
+  border: none;
+  border-radius: 6px;
+  padding: 0.45rem 1rem;
+  cursor: pointer;
+  font-weight: 600;
+  color: #fff;
 }
 
-.empty-message,
-.review-info {
+.answer-form button:hover {
+  background: #555;
+}
+
+.show-more-btn {
+  margin: 15px auto;
+  display: block;
+  padding: 8px 18px;
+  background: transparent;
+  border: 1px solid #555;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #ddd;
+  transition: 0.2s;
+}
+
+.show-more-btn:hover {
+  border-color: #aaa;
+  color: #fff;
+}
+
+
+.empty-message {
+  background: #1a1a1a;
+  padding: 1.2rem;
+  border-radius: 10px;
+  border: 1px solid #222;
   text-align: center;
-  padding: 1rem;
-  color: #aaa;
   font-style: italic;
+  color: #999;
 }
