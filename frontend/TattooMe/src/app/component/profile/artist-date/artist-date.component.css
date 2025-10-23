@@ -41,6 +41,13 @@
   gap: 15px;
   flex-wrap: wrap;
 }
+.no-slots-message {
+  text-align: center;
+  color: #aaa;
+  font-style: italic;
+  width: 100%;
+}
+
 
 .slots-grid {
   display: flex;

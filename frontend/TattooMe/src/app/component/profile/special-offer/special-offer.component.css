@@ -133,3 +133,9 @@ textarea.form-control {
   color: #ff4d4f;
   font-size: 0.8rem;
 }
+.no-offer-message {
+  text-align: center;
+  color: #aaa;
+  font-style: italic;
+  width: 100%;
+}

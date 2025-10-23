@@ -44,6 +44,14 @@
   gap: 16px;
 }
 
+.no-offer-message {
+  text-align: right;
+  color: #aaa;
+  font-style: italic;
+  width: 100%;
+}
+
+
 .offer-card {
   background: #2b2b2b;
   border: 1px solid #3b3b3b;
