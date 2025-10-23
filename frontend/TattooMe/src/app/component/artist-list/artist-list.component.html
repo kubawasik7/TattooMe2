@@ -5,12 +5,10 @@
       currentPage: p,
       totalItems: users.length
     }">
-      
+
       <div class="avatar">
-        <img *ngIf="user?.profilePicture" 
-             [src]="'data:image/png;base64,' + user.profilePicture" 
-             alt="avatar"
-             class="avatar-img" />
+        <img *ngIf="user?.profilePicture" [src]="'data:image/png;base64,' + user.profilePicture" alt="avatar"
+          class="avatar-img" />
         <div *ngIf="!user?.profilePicture" class="avatar-placeholder">
           brak zdjęcia
         </div>
@@ -28,21 +26,15 @@
           {{ user.description | slice:0:250 }}{{ user.description.length > 250 ? '...' : '' }}
         </p>
 
-        <div class="featured-images" *ngIf="user?.featuredPictures?.length > 0">
+        <div class="featured-images" *ngIf="user.featuredPictures.length > 0">
           <div class="featured-item" *ngFor="let pic of user.featuredPictures">
-            <img [src]="'data:image/png;base64,' + pic.image" 
-                 alt="featured tattoo" 
-                 class="featured-img" />
+            <img [src]="'data:image/png;base64,' + pic.image" alt="featured tattoo" class="featured-img" />
           </div>
         </div>
-
       </div>
     </article>
   </section>
 
-  <pagination-controls (pageChange)="p = $event" 
-                       [autoHide]="true" 
-                       previousLabel="‹ Prev" 
-                       nextLabel="Next ›">
+  <pagination-controls (pageChange)="p = $event" [autoHide]="true" previousLabel="‹ Prev" nextLabel="Next ›">
   </pagination-controls>
 </div>
