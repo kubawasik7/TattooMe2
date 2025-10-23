@@ -44,15 +44,14 @@
 
   <div class="description" *ngIf="descriptionForm" [formGroup]="descriptionForm">
     <h3 class="section-title">Opis</h3>
-    <ng-container *ngIf="descriptionForm.get('description')?.value; else noDescription">
-      <ng-container *ngIf="!editing; else editTpl">
-        <p>
-          {{ descriptionForm.get('description')?.value}}
-          <button *ngIf="isOwner" type="button" class="btn btn-sm edit-btn" (click)="startEdit()">
-            <i class="fas fa-pen"></i>
-          </button>
-        </p>
-      </ng-container>
+
+    <ng-container *ngIf="!editing; else editTpl">
+      <p class="description-text" [class.no-description]="!descriptionForm.get('description')?.value">
+        {{ descriptionForm.get('description')?.value || 'Brak opisu...' }}
+        <button *ngIf="isOwner" type="button" class="edit-btn" (click)="startEdit()">
+          <i class="fas fa-pen"></i>
+        </button>
+      </p>
     </ng-container>
 
     <ng-template #editTpl>
@@ -60,26 +59,16 @@
         placeholder="Wpisz swój opis..."></textarea>
 
       <div class="error" *ngIf="
-        descriptionForm.get('description')?.touched &&
-        descriptionForm.get('description')?.hasError('maxlength')
-      ">
+      descriptionForm.get('description')?.touched &&
+      descriptionForm.get('description')?.hasError('maxlength')
+    ">
         Opis nie może mieć więcej niż 1000 znaków.
       </div>
 
       <button type="button" class="btn2 save-btn" (click)="saveDescription()">Zapisz</button>
       <button type="button" class="btn2 cancel-btn" (click)="cancelEdit()">Anuluj</button>
     </ng-template>
-
-    <ng-template #noDescription>
-      <p class="no-description-message">
-        Brak opisu
-        <button *ngIf="isOwner" type="button" class="btn btn-sm edit-btn" (click)="startEdit()">
-          <i class="fas fa-plus"></i> Dodaj opis
-        </button>
-      </p>
-    </ng-template>
   </div>
-
 
   <app-artist-date [userId]="userId" [isOwner]="isOwner"></app-artist-date>
   <app-special-offer [userId]="userId" [isOwner]="isOwner"></app-special-offer>
