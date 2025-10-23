@@ -1,7 +1,9 @@
 package TattooMe.TattooMe.controller;
 
 import TattooMe.TattooMe.Security.CustomUserDetails;
+import TattooMe.TattooMe.dto.Featured.FeaturedRequestDTO;
 import TattooMe.TattooMe.dto.portfolio.PortfolioDTO;
+import TattooMe.TattooMe.entity.Featured;
 import TattooMe.TattooMe.service.PortfolioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -37,5 +39,14 @@ public class PortfolioController {
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
         portfolioService.deletePortfolioImage(id);
         return ResponseEntity.noContent().build();
+    }
+    @PatchMapping("/user/{userId}/item/{itemId}/featured")
+    public ResponseEntity<Void> updateFeatured(
+            @PathVariable UUID userId,
+            @PathVariable UUID itemId,
+            @RequestBody FeaturedRequestDTO request
+    ) {
+        portfolioService.setFeatured(userId, itemId, request.isFeatured());
+        return ResponseEntity.ok().build();
     }
 }

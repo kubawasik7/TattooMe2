@@ -2,6 +2,7 @@ package TattooMe.TattooMe.service;
 
 import TattooMe.TattooMe.Security.CustomUserDetails;
 import TattooMe.TattooMe.Security.JwtUtil;
+import TattooMe.TattooMe.dto.Featured.FeaturedDTO;
 import TattooMe.TattooMe.dto.login.LoginRequest;
 import TattooMe.TattooMe.dto.login.LoginResponse;
 import TattooMe.TattooMe.dto.register.RegisterRequest;
@@ -9,9 +10,11 @@ import TattooMe.TattooMe.dto.register.RegisterResponse;
 import TattooMe.TattooMe.dto.user.DescriptionProfileDTO;
 import TattooMe.TattooMe.dto.user.UserDTO;
 import TattooMe.TattooMe.dto.user.UserProfileUpdateDTO;
+import TattooMe.TattooMe.entity.Featured;
 import TattooMe.TattooMe.entity.User;
 import TattooMe.TattooMe.mapper.AuthMapper;
 import TattooMe.TattooMe.mapper.UserMapper;
+import TattooMe.TattooMe.repository.FeaturedRepository;
 import TattooMe.TattooMe.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +42,8 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
+    private FeaturedRepository featuredRepository;
+    @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
     private JwtUtil jwtUtil;
@@ -51,9 +56,27 @@ public class UserService {
         return userRepository.findUserByIdWithRating(id);
     }
 
-    public List<UserDTO> getAllUsersWithAvgRating(String role) {
-        return userRepository.findAllUsersWithAvgRating(role);
+    public List<UserDTO> getAllUsersWithAvgRatingAndFeatured(String role) {
+        List<UserDTO> users = userRepository.findAllUsersWithAvgRating(role);
+
+        for (UserDTO user : users) {
+            List<Featured> featured = featuredRepository.findAllByArtistId(user.getId());
+
+            List<FeaturedDTO> featuredDTOs = featured.stream()
+                    .map(f -> {
+                        byte[] image = f.getFlash() != null ? f.getFlash().getPicture() : f.getPortfolio().getPicture();
+                        boolean isFlash = f.getFlash() != null;
+                        return new FeaturedDTO(f.getId(), image, isFlash);
+                    })
+                    .limit(5)
+                    .toList();
+
+            user.setFeaturedPictures(featuredDTOs);
+        }
+
+        return users;
     }
+
 
     public List<UserDTO> getTop5Artists() {
         Pageable top4 = PageRequest.of(0, 4);

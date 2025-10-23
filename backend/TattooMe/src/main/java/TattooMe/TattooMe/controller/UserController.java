@@ -32,7 +32,7 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<List<UserDTO>> getAllArtistsWithRating(@RequestParam(value = "role", required = false) String role) {
-        return ResponseEntity.ok(userService.getAllUsersWithAvgRating(role));
+        return ResponseEntity.ok(userService.getAllUsersWithAvgRatingAndFeatured(role));
     }
 
     @GetMapping("/top")
