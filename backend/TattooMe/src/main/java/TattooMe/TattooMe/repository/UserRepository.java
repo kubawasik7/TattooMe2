@@ -17,7 +17,17 @@ import java.util.UUID;
 public interface UserRepository extends JpaRepository<User, UUID> {
     Optional<User> findByNickname(String nickname);
 
-    List<User> findAllByRole(String role);
+    @Query("""
+            SELECT new TattooMe.TattooMe.dto.user.UserDTO(
+                   u.id, u.nickname, u.name, u.surname, u.email, u.description, u.profilePicture,
+                   COALESCE(AVG(r.rate), 0), COUNT(r))
+            FROM User u
+            LEFT JOIN Review r ON r.target.id = u.id
+            WHERE u.id = :id
+            GROUP BY u.id
+            """)
+    Optional<UserDTO> findUserByIdWithRating(@Param("id") UUID id);
+
 
     @Query("""
                 SELECT new TattooMe.TattooMe.dto.user.UserDTO(

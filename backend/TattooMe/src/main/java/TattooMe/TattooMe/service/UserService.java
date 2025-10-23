@@ -30,6 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -46,23 +47,17 @@ public class UserService {
     @Autowired
     private AuthMapper authMapper;
 
-    public List<UserDTO> getUsersByRole(String role) {
-        return userMapper.toDTOList(userRepository.findAllByRole(role));
+    public Optional<UserDTO> getUserByIdWithAvgRating(UUID id) {
+        return userRepository.findUserByIdWithRating(id);
     }
 
-    public List<UserDTO> getAllUsersWithRatings(String role) {
+    public List<UserDTO> getAllUsersWithAvgRating(String role) {
         return userRepository.findAllUsersWithAvgRating(role);
     }
 
     public List<UserDTO> getTop5Artists() {
         Pageable top4 = PageRequest.of(0, 4);
         return userRepository.findTopUsersWithAvgRating(top4);
-    }
-
-    public UserDTO getUserById(UUID id) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Nie znaleziono użytkownika"));
-        return userMapper.toDTO(user);
     }
 
     public RegisterResponse registerUser(RegisterRequest registerRequest) {

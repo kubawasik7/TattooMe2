@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -24,25 +25,20 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    //@GetMapping
-    // public ResponseEntity<List<UserDTO>> getAllArtists(@RequestParam(value = "role", required = false) String role) {
-    //   return ResponseEntity.ok(userService.getUsersByRole(role));
-    // }
+    @GetMapping("/{id}")
+    public ResponseEntity<Optional<UserDTO>> getUserById(@PathVariable UUID id) {
+        return ResponseEntity.ok(userService.getUserByIdWithAvgRating(id));
+    }
 
     @GetMapping
     public ResponseEntity<List<UserDTO>> getAllArtistsWithRating(@RequestParam(value = "role", required = false) String role) {
-        return ResponseEntity.ok(userService.getAllUsersWithRatings(role));
+        return ResponseEntity.ok(userService.getAllUsersWithAvgRating(role));
     }
 
     @GetMapping("/top")
     public ResponseEntity<List<UserDTO>> getTop5Artists() {
         List<UserDTO> topUsers = userService.getTop5Artists();
         return ResponseEntity.ok(topUsers);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<UserDTO> getUserById(@PathVariable UUID id) {
-        return ResponseEntity.ok(userService.getUserById(id));
     }
 
     @PostMapping(
