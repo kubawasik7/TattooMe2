@@ -1,12 +1,12 @@
 <main class="container profile-page">
   <section class="profile-header">
-    <div class="profile-picture-wrapper" (click)="fileInput.click()">
+    <div class="profile-picture-wrapper" (click)="isOwner && fileInput.click()">
       <img [src]="previewUrl || defaultAvatar" class="profile-picture" alt="Avatar">
     </div>
 
     <input #fileInput type="file" accept="image/*" style="display: none" (change)="onFileSelected($event)" />
 
-    <button *ngIf="selectedFile" (click)="upload()" class="btn btn-primary">
+    <button *ngIf="selectedFile && isLoggedIn && isOwner" (click)="upload()" class="btn2 save-btn">
       Zapisz zdjęcie
     </button>
 
