@@ -1,22 +1,28 @@
-<h2>Studio</h2>
-<p>Aby utworzyć profil Twojego studia, prosimy o uzupełnienie poniższych danych.<br />
-Profil będzie można modyfikować w dowolnym momencie po jego utworzeniu.</p>
+<div class="studio-page">
+  <div class="header-info">
+    <h2>Studio</h2>
+    <p>
+      Aby utworzyć profil Twojego studia, prosimy o uzupełnienie poniższych danych.<br />
+      Profil będzie można modyfikować w dowolnym momencie po jego utworzeniu.
+    </p>
+  </div>
 
-<form [formGroup]="form" (ngSubmit)="submit()" class="studio-form">
-  <label>Nazwa</label>
-  <input formControlName="name" placeholder="type something..." />
+  <form [formGroup]="form" (ngSubmit)="submit()" class="studio-form">
+    <label>Nazwa</label>
+    <input formControlName="name" placeholder="type something..." />
 
-  <label>Miasto</label>
-  <input formControlName="city" placeholder="type something..." />
+    <label>Miasto</label>
+    <input formControlName="city" placeholder="type something..." />
 
-  <label>Ulica</label>
-  <input formControlName="street" placeholder="type something..." />
+    <label>Ulica</label>
+    <input formControlName="street" placeholder="type something..." />
 
-  <label>Nr. budynku</label>
-  <input formControlName="streetNumber" placeholder="type something..." />
+    <label>Nr. budynku</label>
+    <input formControlName="streetNumber" placeholder="type something..." />
 
-  <label>Kod pocztowy</label>
-  <input formControlName="postalCode" placeholder="type something..." />
+    <label>Kod pocztowy</label>
+    <input formControlName="postalCode" placeholder="type something..." />
 
-  <button type="submit">Stwórz profil</button>
-</form>
+    <button type="submit">Stwórz profil</button>
+  </form>
+</div>
