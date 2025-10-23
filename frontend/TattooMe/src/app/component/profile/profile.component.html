@@ -43,6 +43,7 @@
 
 
   <div class="description" *ngIf="descriptionForm" [formGroup]="descriptionForm">
+    <h3 class="section-title">Opis</h3>
     <ng-container *ngIf="!editing; else editTpl">
       <p>
         {{ descriptionForm.get('description')?.value || 'Brak opisu...' }}
