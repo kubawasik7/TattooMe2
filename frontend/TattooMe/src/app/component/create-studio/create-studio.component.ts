@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { StudioService } from '../../service/studio.service';
 import { Router } from '@angular/router';
 import { NotificationService } from '../../service/notification.service';
@@ -22,11 +22,11 @@ export class CreateStudioComponent {
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      name: [''],
-      city: [''],
-      street: [''],
-      streetNumber: [''],
-      postalCode: ['']
+      name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+      city: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(40)]],
+      street: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(35)]],
+      streetNumber: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(10)]],
+      postalCode: ['', [Validators.required, Validators.pattern(/^\d{2}-\d{3}$/)]]
     });
   }
 

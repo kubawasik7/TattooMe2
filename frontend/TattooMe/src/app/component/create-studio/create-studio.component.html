@@ -9,19 +9,53 @@
 
   <form [formGroup]="form" (ngSubmit)="submit()" class="studio-form">
     <label>Nazwa</label>
-    <input formControlName="name" placeholder="type something..." />
+    <input formControlName="name" />
+    <div *ngIf="form.get('name')?.touched">
+      <small class="error">
+        {{ form.get('name')?.hasError('required') ? 'Nazwa jest wymagana' :
+        form.get('name')?.hasError('minlength') ? 'Nazwa musi miec minimum 3 znaki' :
+        form.get('name')?.hasError('maxlength') ? 'Nazwa może miec maksimum 50 znakow' : '' }}
+      </small>
+    </div>
 
     <label>Miasto</label>
-    <input formControlName="city" placeholder="type something..." />
+    <input formControlName="city" />
+    <div *ngIf="form.get('city')?.touched">
+      <small class="error">
+        {{ form.get('city')?.hasError('required') ? 'Nazwa jest wymagana' :
+        form.get('city')?.hasError('minlength') ? 'Nazwa musi miec minimum 3 znaki' :
+        form.get('city')?.hasError('maxlength') ? 'Nazwa może miec maksimum 40 znakow' : '' }}
+      </small>
+    </div>
 
     <label>Ulica</label>
-    <input formControlName="street" placeholder="type something..." />
+    <input formControlName="street" />
+    <div *ngIf="form.get('street')?.touched">
+      <small class="error">
+        {{ form.get('street')?.hasError('required') ? 'Nazwa jest wymagana' :
+        form.get('street')?.hasError('minlength') ? 'Nazwa musi miec minimum 3 znaki' :
+        form.get('street')?.hasError('maxlength') ? 'Nazwa może miec maksimum 35 znakow' : '' }}
+      </small>
+    </div>
+
 
     <label>Nr. budynku</label>
-    <input formControlName="streetNumber" placeholder="type something..." />
+    <input formControlName="streetNumber" />
+    <div *ngIf="form.get('streetNumber')?.touched">
+      <small class="error">
+        {{ form.get('streetNumber')?.hasError('required') ? 'Numer jest wymagany' :
+        form.get('streetNumber')?.hasError('maxlength') ? 'Numer może miec maksimum 10 znakow' : '' }}
+      </small>
+    </div>
 
     <label>Kod pocztowy</label>
-    <input formControlName="postalCode" placeholder="type something..." />
+    <input formControlName="postalCode" placeholder="np. 12-345">
+    <div *ngIf="form.get('street')?.touched">
+      <small class="error">
+        {{ form.get('postalCode')?.hasError('required') ? 'Kod pocztowy jest wymagany' :
+        form.get('street')?.hasError('pattern') ? 'Kod pocztowy musi być w formacie XX-XXX' : '' }}
+      </small>
+    </div>
 
     <button type="submit">Stwórz profil</button>
   </form>
