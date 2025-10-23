@@ -1,4 +1,5 @@
 import { UUID } from "crypto";
+import { Featured } from "./featured";
 
 export interface User {
       id: UUID;
@@ -10,4 +11,5 @@ export interface User {
       profilePicture: string | null;
       averageRate: number;
       reviewsCount: number;
+      featuredPictures: Featured[];
 }
