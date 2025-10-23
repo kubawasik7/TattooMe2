@@ -72,4 +72,10 @@ public class User {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private PersonInfo personInfo;
+
+    @OneToMany(mappedBy = "artist", fetch = FetchType.LAZY)
+    private List<Featured> featuredList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "target")
+    private List<Review> reviews = new ArrayList<>();
 }

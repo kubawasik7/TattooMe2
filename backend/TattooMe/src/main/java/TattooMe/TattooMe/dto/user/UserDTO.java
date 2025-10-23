@@ -1,9 +1,11 @@
 package TattooMe.TattooMe.dto.user;
 
+import TattooMe.TattooMe.dto.Featured.FeaturedDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.UUID;
 @Getter
 @Setter
@@ -18,4 +20,5 @@ public class UserDTO {
     private byte[] profilePicture;
     private Double averageRate;
     private Long reviewsCount;
+    private List<FeaturedDTO> featuredPictures;
 }
