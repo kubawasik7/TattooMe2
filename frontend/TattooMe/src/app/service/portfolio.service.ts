@@ -24,4 +24,8 @@ export class PortfolioService {
   delete(id: string): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
+  
+  updateFeatured(userId: string, itemId: string, featured: boolean): Observable<any> {
+    return this.http.patch(`${this.baseUrl}/user/${userId}/item/${itemId}/featured`, { featured });
+  }
 }

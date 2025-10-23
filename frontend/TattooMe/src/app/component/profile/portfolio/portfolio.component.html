@@ -24,6 +24,9 @@
     <ng-container *ngIf="portfolioItems.length; else noPortfolio">
       <div class="item" *ngFor="let item of (showAllPortfolio ? portfolioItems : portfolioItems.slice(0, 6))">
         <img [src]="'data:image/png;base64,' + item.base64Image" alt="Tattoo" />
+        <button class="btn toggle-featured-btn" (click)="toggleFeatured(item)">
+          {{ item.featured ? 'Wyroznione' : 'Zwykłe' }}
+        </button>
         <button *ngIf="isOwner" class="delete-btn" (click)="deleteImagePortfolio(item.id)">
           <i class="fas fa-times"></i>
         </button>

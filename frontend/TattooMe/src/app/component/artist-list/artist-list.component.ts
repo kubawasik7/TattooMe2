@@ -21,8 +21,11 @@ export class ArtistListComponent {
   }
 
   loadUsers(): void {
-    this.userService.getUsersByRole(this.role).subscribe({
-      next: data => { this.users = data; }
-    })
+    this.userService.getUsersByRole(this.role).subscribe((data) => {
+      this.users = data.map(user => ({
+        ...user,
+        featuredPictures: user.featuredPictures ?? []
+      }));
+    });
   }
 }

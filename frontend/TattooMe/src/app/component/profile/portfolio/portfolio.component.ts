@@ -65,4 +65,20 @@ export class PortfolioComponent implements OnInit {
       error: err => this.notification.showError("Nie udalo sie dodac zdjęcia")
     });
   }
+
+  toggleFeatured(item: Portfolio): void {
+  if (!item) return;
+
+  const newState = !item.featured;
+
+  this.portfolioService.updateFeatured(this.userId, item.id, newState)
+    .subscribe({
+      next: () => {
+        item.featured = newState;
+      },
+      error: (err) => {
+        console.error('Nie udało się zmienić stanu featured:', err);
+      }
+    });
+}
 }
