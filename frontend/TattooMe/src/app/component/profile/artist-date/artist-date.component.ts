@@ -14,6 +14,7 @@ import { NotificationService } from '../../../service/notification.service';
 export class ArtistDateComponent implements OnInit {
   @Input() userId!: string;
   @Input() isOwner = false;
+  @Input() isLoggedIn = false;
 
   slots: ScheduleSlot[] = [];
   isNewOpen = false;

@@ -13,10 +13,14 @@
             {{ slot.dateTime | date: 'medium' }}
           </div>
 
-          <button *ngIf="!isOwner && slot.available" class="reservation-btn" (click)="book(slot)">
+          <button *ngIf="!isLoggedIn" class="reservation-btn" [routerLink]="['/login']">
             Zarezerwuj
           </button>
 
+          <button *ngIf="isLoggedIn && !isOwner && slot.available" class="reservation-btn" (click)="book(slot)">
+            Zarezerwuj
+          </button>
+ 
           <div *ngIf="isOwner" class="owner-buttons">
             <button class="delete-btn" (click)="delete(slot.id)">Usuń</button>
             <button class="btn-toggle" [ngClass]="slot.available ? 'deactivate' : 'activate'" (click)="toggle(slot.id)">
