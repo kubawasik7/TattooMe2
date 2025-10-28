@@ -1,0 +1,34 @@
+<main class="container profile-page">
+  <section class="profile-header">
+  
+
+    <div class="profile-info">
+      <div class="nickname-rating">
+        <h2 class="nickname">{{ tattooStudio.name }}</h2>
+        <h2 class="nickname">{{ tattooStudio.city }}</h2>
+        <h2 class="nickname">{{ tattooStudio.street }}</h2>
+        <h2 class="nickname">{{ tattooStudio.streetNumber }}</h2>
+        <h2 class="nickname">{{ tattooStudio.postalCode }}</h2>
+        <h2 class="nickname">{{ tattooStudio.ownerNickname }}</h2>
+      </div>
+
+      <p class="location">Miasto, ulica 123/1</p>
+    </div>
+
+
+    <div class="profile-buttons">
+
+      <button  class="button-chat" [routerLink]="['/login']">
+        <i class="fa-solid fa-message"></i> Wyślij wiadomość
+      </button>
+
+
+      <button  class="button-fav" [routerLink]="['/login']">
+        <i class="fa-solid fa-heart"></i> Ulubione
+      </button>
+
+    </div>
+  </section>
+  <app-studio-member></app-studio-member>
+
+</main>

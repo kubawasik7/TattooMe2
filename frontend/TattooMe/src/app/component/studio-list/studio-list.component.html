@@ -6,7 +6,7 @@
       totalItems: studios.length
     }">
       <div class="avatar">zdjęcie<br/>profilowe</div>
-      <div class="info">
+      <div class="info" [routerLink]="['/studio', studio.id]">
       
           <h2 class="nickname">{{ studio.name }}</h2>
   

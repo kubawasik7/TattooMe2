@@ -1,0 +1,91 @@
+.studio-users {
+  padding: 2rem;
+  color: #e0e0e0;
+  background-color: #242424;
+  border-radius: 12px;
+}
+
+.user-wrapper {
+  padding: 0.5rem;
+  margin-bottom: 1.5rem;
+  background-color: #2b2b2b;
+  border-radius: 12px;
+}
+
+.user-card {
+  background-color: #2b2b2b; 
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.45);
+}
+
+.user-info p {
+  margin: 0.2rem 0;
+}
+
+.btn-remove {
+  background-color: #ff4d4d;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  transition: background 0.2s ease-in-out;
+}
+
+.btn-remove:hover {
+  background-color: #e60000;
+}
+
+.featured-images {
+  margin-top: 0.8rem;
+}
+
+.featured-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 6px;
+}
+
+.featured-item img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 2px solid #3a3a3a;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+  transition: transform 0.2s ease-in-out;
+}
+
+.featured-item img:hover {
+  transform: scale(1.05);
+}
+
+.add-user {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.add-user input {
+  flex: 1;
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid #3a3a3a;
+  background-color: #1a1a1a;
+  color: #e0e0e0;
+}
+
+.add-user button {
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: none;
+  background-color: #4caf50;
+  color: #fff;
+  cursor: pointer;
+}
+
+.add-user button:hover {
+  background-color: #45a049;
+}
