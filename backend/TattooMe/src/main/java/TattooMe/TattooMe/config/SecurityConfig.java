@@ -91,6 +91,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/api/offers/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/reviews/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/users/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/studios/**").permitAll()
                 .requestMatchers(HttpMethod.PATCH, "/api/visits/**").permitAll()
 
                 .anyRequest().authenticated()

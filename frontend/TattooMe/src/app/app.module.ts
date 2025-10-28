@@ -37,6 +37,7 @@ import { ReviewsComponent } from './component/review/review.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { TattooStudioComponent } from './component/tattoo-studio/tattoo-studio.component';
 import { StudioMemberComponent } from './component/tattoo-studio/studio-member/studio-member.component';
+import { FaqComponent } from './component/tattoo-studio/faq/faq.component';
 const appRoutes: Routes = [
   { path: '', component: MainPageComponent },
   { path: 'login', component: LoginComponent },
@@ -80,7 +81,8 @@ const appRoutes: Routes = [
     ReservationsComponent,
     ReviewsComponent,
     TattooStudioComponent,
-    StudioMemberComponent
+    StudioMemberComponent,
+    FaqComponent
   ],
   imports: [
     BrowserModule,

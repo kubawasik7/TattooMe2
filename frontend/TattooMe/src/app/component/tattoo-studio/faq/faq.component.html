@@ -1,0 +1,27 @@
+<section class="faq-section">
+  <h2>FAQ</h2>
+
+  <div *ngIf="faqs.length > 0; else noFaq">
+    <div *ngFor="let faq of faqs" class="faq-item">
+      <button class="faq-question" (click)="toggleFaq(faq.id)">
+        {{ faq.question }}
+        <span class="arrow">{{ isOpen(faq.id) ? '▲' : '▼' }}</span>
+      </button>
+
+      <div class="faq-answer" *ngIf="isOpen(faq.id)">
+        <p>{{ faq.answer }}</p>
+        <button class="btn-delete" (click)="deleteFaq(faq.id)">Usuń</button>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noFaq>
+    <p class="no-faq">Brak pytań FAQ w tym studiu.</p>
+  </ng-template>
+
+  <div class="add-faq">
+    <input [(ngModel)]="newQuestion" placeholder="Nowe pytanie" />
+    <textarea [(ngModel)]="newAnswer" placeholder="Odpowiedź"></textarea>
+    <button (click)="addFaq()">Dodaj FAQ</button>
+  </div>
+</section>

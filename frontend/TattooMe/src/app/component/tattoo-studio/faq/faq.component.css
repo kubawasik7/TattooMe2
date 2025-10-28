@@ -1,0 +1,131 @@
+.faq-section {
+  background-color: #131313;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6);
+  color: #e0e0e0;
+  margin-top: 2rem;
+}
+
+.faq-section h2 {
+  font-size: 1.6rem;
+  color: #ffffff;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid #2e2e2e;
+  padding-bottom: 0.5rem;
+}
+
+.faq-item {
+  background-color: #1d1d1d;
+  border: 1px solid #2e2e2e;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  overflow: hidden;
+  transition: background 0.25s ease-in-out, transform 0.15s ease-in-out;
+}
+
+.faq-item:hover {
+  background-color: #242424;
+  transform: scale(1.01);
+}
+
+.faq-question {
+  width: 100%;
+  background: none;
+  color: #ffffff;
+  border: none;
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.faq-question:hover {
+  color: #ffda6b;
+}
+
+.arrow {
+  font-size: 1.1rem;
+  color: #aaa;
+  transition: transform 0.25s ease;
+}
+
+.faq-answer {
+  background-color: #1a1a1a;
+  padding: 1rem;
+  color: #dcdcdc;
+  font-size: 0.95rem;
+  border-top: 1px solid #2e2e2e;
+}
+
+.faq-answer p {
+  margin: 0 0 0.8rem;
+  line-height: 1.4;
+}
+
+.btn-delete {
+  background-color: #d9534f;
+  color: #fff;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn-delete:hover {
+  background-color: #c9302c;
+}
+
+.no-faq {
+  text-align: center;
+  color: #a0a0a0;
+  margin-top: 1rem;
+}
+
+.add-faq {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  background-color: #1a1a1a;
+  padding: 1rem;
+  border-radius: 12px;
+  border: 1px solid #2e2e2e;
+}
+
+.add-faq input,
+.add-faq textarea {
+  padding: 0.7rem;
+  border-radius: 8px;
+  border: 1px solid #3a3a3a;
+  background-color: #111;
+  color: #e0e0e0;
+  font-size: 0.95rem;
+}
+
+.add-faq textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.add-faq button {
+  align-self: flex-start;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  border: none;
+  background-color: #4caf50;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.add-faq button:hover {
+  background-color: #43a047;
+}
