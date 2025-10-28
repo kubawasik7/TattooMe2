@@ -35,21 +35,24 @@ import { MatIconModule } from '@angular/material/icon';
 import { ReservationsComponent } from './component/reservations/reservations.component';
 import { ReviewsComponent } from './component/review/review.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { TattooStudioComponent } from './component/tattoo-studio/tattoo-studio.component';
+import { StudioMemberComponent } from './component/tattoo-studio/studio-member/studio-member.component';
 const appRoutes: Routes = [
   { path: '', component: MainPageComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  {path: 'trainee', component: ArtistListComponent, data: {role: 'trainee'}},
-  {path: 'tattooArtist', component: ArtistListComponent, data: {role: 'tattoo_artist'}},
-  {path: 'profile/:id', component: ProfileComponent},
-  {path: 'userProfile/:id', component: UserProfileComponent},
-  {path: 'me/:id', component: UserInfoComponent},
-  {path: 'favorites/:id', component: FavoriteComponent},
-  {path: 'contact', component: ContactComponent},
-  { path: 'chats', component: ChatListComponent},
-  {path: 'createStudio', component: CreateStudioComponent},
-  {path: 'studios', component: StudioListComponent},
-  {path: 'reservations', component: ReservationsComponent},
+  { path: 'trainee', component: ArtistListComponent, data: { role: 'trainee' } },
+  { path: 'tattooArtist', component: ArtistListComponent, data: { role: 'tattoo_artist' } },
+  { path: 'profile/:id', component: ProfileComponent },
+  { path: 'userProfile/:id', component: UserProfileComponent },
+  { path: 'me/:id', component: UserInfoComponent },
+  { path: 'favorites/:id', component: FavoriteComponent },
+  { path: 'contact', component: ContactComponent },
+  { path: 'chats', component: ChatListComponent },
+  { path: 'createStudio', component: CreateStudioComponent },
+  { path: 'studios', component: StudioListComponent },
+  { path: 'studio/:id', component: TattooStudioComponent },
+  { path: 'reservations', component: ReservationsComponent },
   { path: '**', redirectTo: '' }
 ];
 
@@ -75,7 +78,9 @@ const appRoutes: Routes = [
     CreateStudioComponent,
     StudioListComponent,
     ReservationsComponent,
-    ReviewsComponent
+    ReviewsComponent,
+    TattooStudioComponent,
+    StudioMemberComponent
   ],
   imports: [
     BrowserModule,
@@ -85,7 +90,7 @@ const appRoutes: Routes = [
     ReactiveFormsModule,
     HttpClientModule,
     RouterModule.forRoot(appRoutes),
-       MatFormFieldModule,
+    MatFormFieldModule,
     MatInputModule,
     MatDatepickerModule,
     MatNativeDateModule,
