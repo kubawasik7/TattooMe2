@@ -104,7 +104,7 @@ const appRoutes: Routes = [
     MatNativeDateModule,
     MatSnackBarModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
   ],
   providers: [
     provideClientHydration(withEventReplay()),
