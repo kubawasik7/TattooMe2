@@ -41,10 +41,15 @@ public class TattooStudioController {
         return ResponseEntity.ok(studioService.getUsersByStudioIdWithAvgRatingAndFeatured(studioId));
     }
 
+    @PostMapping
+    public ResponseEntity<TattooStudioDTO> createStudio(@Valid @RequestBody CreateStudioDTO dto,
+                                                        @AuthenticationPrincipal CustomUserDetails user) {
+        TattooStudioDTO studio = studioService.createStudio(dto, user.getId());
+        return ResponseEntity.status(HttpStatus.CREATED).body(studio);
+    }
+
     @PostMapping("/{studioId}/users/by-nickname")
-    public ResponseEntity<Void> addUserToStudioByNickname(
-            @PathVariable UUID studioId,
-            @RequestParam String nickname) {
+    public ResponseEntity<Void> addUserToStudioByNickname(@PathVariable UUID studioId, @RequestParam String nickname) {
         studioService.addUserToStudio(studioId, nickname);
         return ResponseEntity.ok().build();
     }
@@ -55,12 +60,6 @@ public class TattooStudioController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping
-    public ResponseEntity<TattooStudioDTO> createStudio(@Valid @RequestBody CreateStudioDTO dto,
-                                                        @AuthenticationPrincipal CustomUserDetails user) {
-        TattooStudioDTO studio = studioService.createStudio(dto, user.getId());
-        return ResponseEntity.status(HttpStatus.CREATED).body(studio);
-    }
     @PutMapping("/{studioId}/members/{userId}/role")
     public ResponseEntity<?> updateRole(
             @PathVariable UUID studioId,
@@ -70,7 +69,6 @@ public class TattooStudioController {
 
         String newRole = body.get("role");
         studioService.updateMemberRole(studioId, userId, newRole, user.getUsername());
-        return ResponseEntity.ok(Map.of("role", newRole)); // <- zwracamy JSON
+        return ResponseEntity.ok(Map.of("role", newRole));
     }
-
 }
