@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { CreateTattoStudio } from '../model/create-tattoo-studio';
 import { TattooStudio } from '../model/tattoo-studio';
 import { User } from '../model/user';
+import { StudioArtist } from '../model/studio-artist';
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +18,8 @@ export class StudioService {
     return this.http.get<TattooStudio>(`${this.baseUrl}/${id}`);
   }
 
-  getUsersByStudioId(studioId: string): Observable<User[]> {
-    return this.http.get<User[]>(`${this.baseUrl}/${studioId}/users`);
+  getUsersByStudioId(studioId: string): Observable<StudioArtist[]> {
+    return this.http.get<StudioArtist[]>(`${this.baseUrl}/${studioId}/users`);
   }
 
   addUserToStudio(studioId: string, nickname: string): Observable<void> {
@@ -36,4 +37,9 @@ export class StudioService {
   createStudio(dto: CreateTattoStudio): Observable<string> {
     return this.http.post<string>(this.baseUrl, dto);
   }
+  
+  updateMemberRole(studioId: string, userId: string, role: string): Observable<any> {
+  const body = { role };
+  return this.http.put(`${this.baseUrl}/${studioId}/members/${userId}/role`, body);
+}
 }

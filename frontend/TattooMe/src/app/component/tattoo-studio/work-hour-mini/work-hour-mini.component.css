@@ -1,0 +1,28 @@
+.work-hour-mini {
+  background-color: #5e5d5d;
+  color: #fff;
+  padding: 0.4rem 0.6rem;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  min-width: 120px;
+}
+
+.wh-item {
+  display: flex;
+  justify-content: space-between;
+}
+
+.day {
+  font-weight: 600;
+  flex-shrink: 0;
+  width: 35px;
+  text-align: left;
+}
+
+.time {
+  text-align: right;
+  flex-grow: 1;
+}

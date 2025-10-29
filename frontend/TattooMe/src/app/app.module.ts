@@ -38,6 +38,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { TattooStudioComponent } from './component/tattoo-studio/tattoo-studio.component';
 import { StudioMemberComponent } from './component/tattoo-studio/studio-member/studio-member.component';
 import { FaqComponent } from './component/tattoo-studio/faq/faq.component';
+import { WorkHourComponent } from './component/tattoo-studio/work-hour/work-hour.component';
+import { WorkHourMiniComponent } from './component/tattoo-studio/work-hour-mini/work-hour-mini.component';
+
 const appRoutes: Routes = [
   { path: '', component: MainPageComponent },
   { path: 'login', component: LoginComponent },
@@ -82,7 +85,10 @@ const appRoutes: Routes = [
     ReviewsComponent,
     TattooStudioComponent,
     StudioMemberComponent,
-    FaqComponent
+    FaqComponent,
+    WorkHourComponent,
+    WorkHourMiniComponent
+
   ],
   imports: [
     BrowserModule,

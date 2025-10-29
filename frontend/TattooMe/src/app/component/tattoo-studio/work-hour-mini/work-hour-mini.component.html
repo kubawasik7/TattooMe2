@@ -1,0 +1,6 @@
+<div class="work-hour-mini" (click)="toggleEditor()" title="Kliknij, aby edytować">
+  <div *ngFor="let wh of workHours" class="wh-item">
+    <span class="day">{{ wh.dayOfWeek | slice:0:3 }}</span>
+    <span class="time">{{ wh.startTime }} - {{ wh.endTime }}</span>
+  </div>
+</div>

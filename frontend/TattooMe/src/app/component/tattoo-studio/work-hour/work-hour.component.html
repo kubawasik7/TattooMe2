@@ -1,0 +1,44 @@
+<div class="work-hour-container">
+  <h3>Godziny otwarcia</h3>
+
+  <form [formGroup]="addForm" class="add-form" (ngSubmit)="add()">
+    <div class="form-row">
+      <select formControlName="dayOfWeek">
+        <option *ngFor="let d of days" [value]="d">{{ d }}</option>
+      </select>
+
+      <input type="time" formControlName="startTime" />
+      <input type="time" formControlName="endTime" />
+
+      <button type="submit" [disabled]="addForm.invalid">Dodaj</button>
+    </div>
+  </form>
+
+  <div class="work-hour-list">
+    <div *ngFor="let wh of workHours" class="work-hour-item">
+      <div *ngIf="editId === wh.id; else viewMode" [formGroup]="editForm" class="edit-form">
+        <select formControlName="dayOfWeek">
+          <option *ngFor="let d of days" [value]="d">{{ d }}</option>
+        </select>
+
+        <input type="time" formControlName="startTime" />
+        <input type="time" formControlName="endTime" />
+
+        <button type="button" (click)="saveEdit()" [disabled]="editForm.invalid">Zapisz</button>
+        <button type="button" (click)="cancelEdit()">Anuluj</button>
+      </div>
+
+      <ng-template #viewMode>
+        <div class="view-row">
+          <span class="day">{{ wh.dayOfWeek }}</span>
+          <span class="time">{{ wh.startTime }} - {{ wh.endTime }}</span>
+
+          <div class="actions">
+            <button (click)="startEdit(wh)">Edytuj</button>
+            <button (click)="remove(wh)">Usuń</button>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>

@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { User } from '../../../model/user';
 import { StudioService } from '../../../service/studio.service';
 import { ActivatedRoute } from '@angular/router';
+import { AuthService } from '../../../service/auth.service';
+import { StudioArtist } from '../../../model/studio-artist';
 
 @Component({
   selector: 'app-studio-member',
@@ -10,18 +12,24 @@ import { ActivatedRoute } from '@angular/router';
   styleUrl: './studio-member.component.css'
 })
 export class StudioMemberComponent {
-   users: User[] = [];
-  newUserId: string = '';
-  studioId: string = '';
+  users: StudioArtist[] = [];
   newUserNickname: string = '';
+  studioId: string = '';
+  loading = false;
+  currentUserId: string | null = null;
+  currentUserRole: string | null = null;
 
-  constructor(private studioService: StudioService, private route: ActivatedRoute) {}
+  constructor(
+    private studioService: StudioService,
+    private route: ActivatedRoute,
+    private authService: AuthService
+  ) { }
 
   ngOnInit(): void {
     this.studioId = this.route.snapshot.paramMap.get('id')!;
+    this.currentUserId = this.authService.getUserId();
     this.loadUsers();
   }
-
 
   loadUsers(): void {
     this.studioService.getUsersByStudioId(this.studioId).subscribe({
@@ -30,7 +38,10 @@ export class StudioMemberComponent {
           ...user,
           featuredPictures: user.featuredPictures ?? []
         }));
-          console.log(this.users);
+        const current = this.users.find(u => u.id === this.currentUserId);
+        this.currentUserRole = current?.studioRole || null;
+
+        console.log('Twoja rola w studiu:', this.currentUserRole);
       },
       error: err => console.error('Błąd ładowania użytkowników:', err)
     });
@@ -39,13 +50,13 @@ export class StudioMemberComponent {
   addUser(): void {
     if (!this.newUserNickname.trim()) return;
 
-  this.studioService.addUserToStudio(this.studioId, this.newUserNickname).subscribe({
-    next: () => {
-      this.loadUsers();
-      this.newUserNickname = '';
-    },
-    error: err => alert('Błąd dodawania użytkownika: ' + err.error.message)
-  });
+    this.studioService.addUserToStudio(this.studioId, this.newUserNickname).subscribe({
+      next: () => {
+        this.loadUsers();
+        this.newUserNickname = '';
+      },
+      error: err => alert('Błąd dodawania użytkownika: ' + err.error.message)
+    });
   }
 
   removeUser(userId: string): void {
@@ -56,4 +67,21 @@ export class StudioMemberComponent {
       });
     }
   }
+
+  togglePermissions(user: StudioArtist): void {
+    const newRole = user.studioRole === 'MEMBER' ? 'EDITOR' : 'MEMBER';
+
+    this.loading = true;
+    this.studioService.updateMemberRole(this.studioId, user.id, newRole).subscribe({
+      next: (res) => {
+        user.studioRole = res.role;
+        this.loading = false;
+      },
+      error: (err) => {
+        alert('Błąd przy zmianie uprawnień: ' + err.error.message);
+        this.loading = false;
+      }
+    });
+  }
 }
+

@@ -1,35 +1,48 @@
 <main class="container profile-page">
   <section class="profile-header">
-  
+    <div class="profile-avatar">
+      <img
+        [src]="defaultAvatar"
+        alt="Profilowe studia"
+        class="avatar-img"
+      />
+    </div>
 
     <div class="profile-info">
-      <div class="nickname-rating">
-        <h2 class="nickname">{{ tattooStudio.name }}</h2>
-        <h2 class="nickname">{{ tattooStudio.city }}</h2>
-        <h2 class="nickname">{{ tattooStudio.street }}</h2>
-        <h2 class="nickname">{{ tattooStudio.streetNumber }}</h2>
-        <h2 class="nickname">{{ tattooStudio.postalCode }}</h2>
-        <h2 class="nickname">{{ tattooStudio.ownerNickname }}</h2>
-      </div>
+      <h2 class="nickname">{{ tattooStudio.name }}</h2>
+      <h3 class="owner">Właściciel: {{ tattooStudio.ownerNickname }}</h3>
 
-      <p class="location">Miasto, ulica 123/1</p>
+      <div class="studio-address">
+        <p>{{ tattooStudio.city }}</p>
+        <p>{{ tattooStudio.street }} {{ tattooStudio.streetNumber }}</p>
+        <p>{{ tattooStudio.postalCode }}</p>
+      </div>
     </div>
 
+    <div class="profile-actions">
+      <app-work-hour-mini
+        [studioId]="studioId"
+        (openEditor)="showWorkHourEditor = true">
+      </app-work-hour-mini>
 
-    <div class="profile-buttons">
+      <div class="profile-buttons">
+        <button class="button-chat" [routerLink]="['/login']">
+          <i class="fa-solid fa-message"></i>
+        </button>
 
-      <button  class="button-chat" [routerLink]="['/login']">
-        <i class="fa-solid fa-message"></i> Wyślij wiadomość
-      </button>
-
-
-      <button  class="button-fav" [routerLink]="['/login']">
-        <i class="fa-solid fa-heart"></i> Ulubione
-      </button>
-
+        <button class="button-fav" [routerLink]="['/login']">
+          <i class="fa-solid fa-heart"></i>
+        </button>
+      </div>
     </div>
   </section>
-  <app-studio-member></app-studio-member>
-  <app-faq [studioId]="studioId"></app-faq>
 
+  <div *ngIf="showWorkHourEditor" class="work-hour-editor-overlay">
+    <app-work-hour [studioId]="studioId"></app-work-hour>
+    <button class="btn-close" (click)="showWorkHourEditor=false">✖ Zamknij</button>
+  </div>
+
+  <app-studio-member></app-studio-member>
+
+  <app-faq [studioId]="studioId"></app-faq>
 </main>

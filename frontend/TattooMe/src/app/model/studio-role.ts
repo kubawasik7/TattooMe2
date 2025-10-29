@@ -1,0 +1,1 @@
+export type StudioRole = 'OWNER' | 'EDITOR' | 'MEMBER';

@@ -1,34 +1,48 @@
 <section class="studio-users">
-  <h2>Członkowie studia</h2>
+  <div class="studio-users-header">
+    <h2>Członkowie studia</h2>
+    <div *ngIf="currentUserRole === 'OWNER'" class="add-user-inline">
+      <input [(ngModel)]="newUserNickname" placeholder="Podaj nick użytkownika" />
+      <button (click)="addUser()">Dodaj członka</button>
+    </div>
+  </div>
+
+  <hr class="divider" />
 
   <div *ngIf="users.length > 0; else noUsers">
     <div *ngFor="let user of users" class="user-wrapper">
       <div class="user-card">
-        <div class="user-info">
-          <p><strong>{{ user.nickname }}</strong></p>
-          <p>{{ user.description || 'Brak opisu...' }}</p>
-          <h2 class="rating">★ {{ user.averageRate | number:'1.2-2' }} ({{user.reviewsCount}})</h2>
+        <div class="user-header">
+          <p class="nickname">{{ user.nickname }}</p>
+
+          <div class="role-actions" *ngIf="currentUserRole === 'OWNER' && user.id !== currentUserId">
+            <span class="role">{{ user.studioRole }}</span>
+            <button (click)="togglePermissions(user)" class="btn-permission">
+              {{ user.studioRole === 'MEMBER' ? 'Nadaj' : 'Odbierz' }}
+            </button>
+
+            <button *ngIf="currentUserRole === 'OWNER' && user.id !== currentUserId" class="btn-remove"
+              (click)="removeUser(user.id)">
+              Usuń
+            </button>
+          </div>
         </div>
 
-        <button class="btn-remove" (click)="removeUser(user.id)">Usuń</button>
+        <p>{{ user.description || 'Brak opisu...' }}</p>
 
-        <div class="featured-images" *ngIf="user.featuredPictures.length > 0">
+        <div *ngIf="user.featuredPictures?.length" class="featured-images">
           <div class="featured-grid">
             <div class="featured-item" *ngFor="let pic of user.featuredPictures">
-              <img [src]="'data:image/png;base64,' + pic.image" alt="featured tattoo" />
+              <img [src]="'data:image/png;base64,' + pic.image" [alt]="pic.isFlash ? 'Flash' : 'Portfolio'" />
             </div>
           </div>
         </div>
       </div>
     </div>
+
   </div>
 
   <ng-template #noUsers>
     <p>Brak członków w tym studiu.</p>
   </ng-template>
-
-  <div class="add-user">
-    <input [(ngModel)]="newUserNickname" placeholder="Podaj nick użytkownika" />
-    <button (click)="addUser()">Dodaj użytkownika</button>
-  </div>
 </section>
