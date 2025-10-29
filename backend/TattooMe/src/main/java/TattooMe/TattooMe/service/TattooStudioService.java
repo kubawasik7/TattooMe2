@@ -90,34 +90,6 @@ public class TattooStudioService {
                 .toList();
     }
 
-
-    public void addUserToStudio(UUID studioId, String nickname) {
-        TattooStudio studio = tattooStudioRepository.findById(studioId)
-                .orElseThrow(() -> new EntityNotFoundException("Studio nie znalezione"));
-
-        User user = userRepository.findByNickname(nickname)
-                .orElseThrow(() -> new EntityNotFoundException("Użytkownik nie znaleziony"));
-
-        boolean alreadyExists = tattooStudioArtistRepository.existsByTattooStudioAndUser(studio, user);
-        if (alreadyExists) {
-            throw new IllegalStateException("Użytkownik już jest członkiem tego studia");
-        }
-
-        TattooStudioArtist tsa = new TattooStudioArtist();
-        tsa.setTattooStudio(studio);
-        tsa.setUser(user);
-
-        tattooStudioArtistRepository.save(tsa);
-    }
-
-    public void removeUserFromStudio(UUID studioId, UUID userId) {
-        TattooStudioArtist relation = tattooStudioArtistRepository
-                .findByTattooStudioIdAndUserId(studioId, userId)
-                .orElseThrow(() -> new EntityNotFoundException("Relacja studio–użytkownik nie znaleziona"));
-
-        tattooStudioArtistRepository.delete(relation);
-    }
-
     @Transactional
     public TattooStudioDTO createStudio(CreateStudioDTO dto, UUID ownerId) {
         User owner = userRepository.findById(ownerId)
@@ -137,12 +109,39 @@ public class TattooStudioService {
         return tattooStudioMapper.toDTO(studio);
     }
 
+    public void addUserToStudio(UUID studioId, String nickname) {
+        TattooStudio studio = tattooStudioRepository.findById(studioId)
+                .orElseThrow(() -> new EntityNotFoundException("Studio nie znalezione"));
+
+        User user = userRepository.findByNickname(nickname)
+                .orElseThrow(() -> new EntityNotFoundException("Użytkownik nie znaleziony"));
+
+        boolean alreadyExists = tattooStudioArtistRepository.existsByTattooStudioAndUser(studio, user);
+        if (alreadyExists) {
+            throw new IllegalStateException("Użytkownik już jest członkiem tego studia");
+        }
+
+        TattooStudioArtist tattooStudioArtist = new TattooStudioArtist();
+        tattooStudioArtist.setTattooStudio(studio);
+        tattooStudioArtist.setUser(user);
+
+        tattooStudioArtistRepository.save(tattooStudioArtist);
+    }
+
+    public void removeUserFromStudio(UUID studioId, UUID userId) {
+        TattooStudioArtist studioMember = tattooStudioArtistRepository
+                .findByTattooStudioIdAndUserId(studioId, userId)
+                .orElseThrow(() -> new EntityNotFoundException("Relacja studio–użytkownik nie znaleziona"));
+
+        tattooStudioArtistRepository.delete(studioMember);
+    }
+
     @Transactional
     public void updateMemberRole(UUID studioId, UUID userId, String newRole, String currentUsername) {
-        TattooStudioArtist requester = tattooStudioArtistRepository.findByTattooStudio_IdAndUser_Nickname(studioId, currentUsername)
+        TattooStudioArtist studioArtist = tattooStudioArtistRepository.findByTattooStudio_IdAndUser_Nickname(studioId, currentUsername)
                 .orElseThrow(() -> new RuntimeException("Brak dostępu"));
 
-        if (requester.getRole() != StudioRole.OWNER)
+        if (studioArtist.getRole() != StudioRole.OWNER)
             throw new RuntimeException("Tylko właściciel może nadawać role");
 
         TattooStudioArtist member = tattooStudioArtistRepository.findByTattooStudio_IdAndUser_Id(studioId, userId)
