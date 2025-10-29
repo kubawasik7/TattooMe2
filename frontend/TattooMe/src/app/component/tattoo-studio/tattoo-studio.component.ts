@@ -3,6 +3,7 @@ import { TattooStudio } from '../../model/tattoo-studio';
 import { ActivatedRoute } from '@angular/router';
 import { StudioService } from '../../service/studio.service';
 import { AuthService } from '../../service/auth.service';
+import { NotificationService } from '../../service/notification.service';
 
 @Component({
   selector: 'app-tattoo-studio',
@@ -15,28 +16,24 @@ export class TattooStudioComponent implements OnInit {
   studioId!: string;
   showWorkHourEditor = false;
   defaultAvatar = '/pobrane.png';
-  authUserId: string | null = null;
+
   constructor(
     private route: ActivatedRoute,
     private studioService: StudioService,
-    private authService: AuthService
+    private authService: AuthService,
+    private notification: NotificationService
   ) { }
-
 
   ngOnInit(): void {
     this.studioId = this.route.snapshot.paramMap.get('id')!;
-    this.authUserId = this.authService.getUserId();
-    console.log('Studio ID z URL:', this.studioId);
 
     this.studioService.getStudioById(this.studioId).subscribe({
       next: studio => {
-        console.log('Odpowiedź z backendu:', studio);
         this.tattooStudio = studio;
       },
       error: err => {
-        console.error('Błąd pobierania studia:', err);
+        this.notification.showError("Nie udało się załadować studio", err);
       }
     });
   }
-
 }
