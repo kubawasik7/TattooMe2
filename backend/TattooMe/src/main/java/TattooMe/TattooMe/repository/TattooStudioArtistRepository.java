@@ -15,4 +15,9 @@ public interface TattooStudioArtistRepository extends JpaRepository<TattooStudio
     boolean existsByTattooStudioAndUser(TattooStudio tattooStudio, User user);
 
     Optional<TattooStudioArtist> findByTattooStudioIdAndUserId(UUID tattooStudioId, UUID userId);
+
+    Optional<TattooStudioArtist> findByTattooStudio_IdAndUser_Nickname(UUID studioId, String username);
+
+    Optional<TattooStudioArtist> findByTattooStudio_IdAndUser_Id(UUID studioId, UUID userId);
+
 }

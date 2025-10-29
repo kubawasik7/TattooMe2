@@ -3,6 +3,7 @@ package TattooMe.TattooMe.controller;
 import TattooMe.TattooMe.Security.CustomUserDetails;
 import TattooMe.TattooMe.dto.tattooStudio.CreateStudioDTO;
 import TattooMe.TattooMe.dto.tattooStudio.TattooStudioDTO;
+import TattooMe.TattooMe.dto.user.StudioArtistDTO;
 import TattooMe.TattooMe.dto.user.UserDTO;
 import TattooMe.TattooMe.service.TattooStudioService;
 import jakarta.validation.Valid;
@@ -10,9 +11,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 
@@ -34,7 +37,7 @@ public class TattooStudioController {
     }
 
     @GetMapping("/{studioId}/users")
-    public ResponseEntity<List<UserDTO>> getUsersByStudio(@PathVariable UUID studioId) {
+    public ResponseEntity<List<StudioArtistDTO>> getUsersByStudio(@PathVariable UUID studioId) {
         return ResponseEntity.ok(studioService.getUsersByStudioIdWithAvgRatingAndFeatured(studioId));
     }
 
@@ -58,4 +61,16 @@ public class TattooStudioController {
         TattooStudioDTO studio = studioService.createStudio(dto, user.getId());
         return ResponseEntity.status(HttpStatus.CREATED).body(studio);
     }
+    @PutMapping("/{studioId}/members/{userId}/role")
+    public ResponseEntity<?> updateRole(
+            @PathVariable UUID studioId,
+            @PathVariable UUID userId,
+            @RequestBody Map<String, String> body,
+            @AuthenticationPrincipal CustomUserDetails user) {
+
+        String newRole = body.get("role");
+        studioService.updateMemberRole(studioId, userId, newRole, user.getUsername());
+        return ResponseEntity.ok(Map.of("role", newRole)); // <- zwracamy JSON
+    }
+
 }

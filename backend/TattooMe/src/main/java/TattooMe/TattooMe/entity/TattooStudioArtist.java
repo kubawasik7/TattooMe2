@@ -1,5 +1,6 @@
 package TattooMe.TattooMe.entity;
 
+import TattooMe.TattooMe.enums.StudioRole;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,4 +22,7 @@ public class TattooStudioArtist {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    @Enumerated(EnumType.STRING)
+    private StudioRole role = StudioRole.MEMBER;
 }
