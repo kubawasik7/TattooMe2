@@ -10,7 +10,7 @@
 
       <div class="faq-answer" *ngIf="isOpen(faq.id)">
         <p>{{ faq.answer }}</p>
-        <button class="btn-delete" (click)="deleteFaq(faq.id)">Usuń</button>
+        <button *ngIf="canEdit" class="btn-delete" (click)="deleteFaq(faq.id)">Usuń</button>
       </div>
     </div>
   </div>
@@ -19,7 +19,7 @@
     <p class="no-faq">Brak pytań FAQ w tym studiu.</p>
   </ng-template>
 
-  <div class="add-faq">
+  <div *ngIf="canEdit" class="add-faq">
     <input [(ngModel)]="newQuestion" placeholder="Nowe pytanie" />
     <textarea [(ngModel)]="newAnswer" placeholder="Odpowiedź"></textarea>
     <button (click)="addFaq()">Dodaj FAQ</button>

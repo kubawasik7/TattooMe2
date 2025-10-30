@@ -1,7 +1,7 @@
 <section class="studio-users">
   <div class="studio-users-header">
     <h2>Członkowie studia</h2>
-    <div *ngIf="currentUserRole === 'OWNER'" class="add-user-inline">
+    <div *ngIf="currentUserRoleInStudio === 'OWNER'" class="add-user-inline">
       <input [(ngModel)]="newUserNickname" placeholder="Podaj nick użytkownika" />
       <button (click)="addUser()">Dodaj członka</button>
     </div>
@@ -15,13 +15,13 @@
         <div class="user-header">
           <p class="nickname">{{ user.nickname }}</p>
 
-          <div class="role-actions" *ngIf="currentUserRole === 'OWNER' && user.id !== currentUserId">
+          <div class="role-actions" *ngIf="currentUserRoleInStudio === 'OWNER' && user.id !== currentUserId">
             <span class="role">{{ user.studioRole }}</span>
             <button (click)="togglePermissions(user)" class="btn-permission">
               {{ user.studioRole === 'MEMBER' ? 'Nadaj' : 'Odbierz' }}
             </button>
 
-            <button *ngIf="currentUserRole === 'OWNER' && user.id !== currentUserId" class="btn-remove"
+            <button *ngIf="currentUserRoleInStudio === 'OWNER' && user.id !== currentUserId" class="btn-remove"
               (click)="removeUser(user.id)">
               Usuń
             </button>

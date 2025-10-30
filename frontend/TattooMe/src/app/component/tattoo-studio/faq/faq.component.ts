@@ -14,10 +14,11 @@ export class FaqComponent implements OnInit {
   newQuestion = '';
   newAnswer = '';
   @Input() studioId!: string;
+  @Input() currentUserRole: string | null = null;
 
   faqStates: Map<string, boolean> = new Map();
 
-  constructor(private faqService: FaqService) {}
+  constructor(private faqService: FaqService) { }
 
   ngOnInit(): void {
     this.loadFaqs();
@@ -39,13 +40,17 @@ export class FaqComponent implements OnInit {
     return this.faqStates.get(faqId) || false;
   }
 
+  get canEdit(): boolean {
+    return this.currentUserRole === 'OWNER' || this.currentUserRole === 'EDITOR';
+  }
+
   addFaq(): void {
     if (!this.newQuestion || !this.newAnswer) return;
 
     this.faqService.addFaq(this.studioId, { question: this.newQuestion, answer: this.newAnswer })
       .subscribe(faq => {
         this.faqs.push(faq);
-        this.faqStates.set(faq.id, false); 
+        this.faqStates.set(faq.id, false);
         this.newQuestion = '';
         this.newAnswer = '';
       });

@@ -37,12 +37,19 @@
     </div>
   </section>
 
-  <div *ngIf="showWorkHourEditor" class="work-hour-editor-overlay">
+  <div *ngIf="showWorkHourEditor && canEdit" class="work-hour-editor-overlay">
     <app-work-hour [studioId]="studioId"></app-work-hour>
     <button class="btn-close" (click)="showWorkHourEditor=false">✖ Zamknij</button>
   </div>
 
-  <app-studio-member></app-studio-member>
+  <section class="studio-members">
+  <app-studio-member
+    [studioId]="studioId"
+    [users]="studioArtists"
+    (membersUpdated)="loadMembers()">
+  </app-studio-member>
+</section>
 
-  <app-faq [studioId]="studioId"></app-faq>
+
+  <app-faq [currentUserRole]="currentUserRole" [studioId]="studioId"></app-faq>
 </main>
