@@ -11,7 +11,7 @@
 
   <div *ngIf="users.length > 0; else noUsers">
     <div *ngFor="let user of users" class="user-wrapper">
-      <div class="user-card">
+      <div class="user-card" [routerLink]="['/profile', user?.id]">
         <div class="user-header">
           <p class="nickname">{{ user.nickname }}</p>
 
