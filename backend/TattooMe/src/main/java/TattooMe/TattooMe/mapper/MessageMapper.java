@@ -9,14 +9,23 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface MessageMapper {
-    default MessageDTO toDTO(Message message) {
-        if (message == null) return null;
 
+    default MessageDTO toDTO(Message message) {
         MessageDTO dto = new MessageDTO();
         dto.setId(message.getId());
-        dto.setSenderId(message.getSender().getId());
         dto.setContent(message.getContent());
         dto.setDate(message.getDate());
+        dto.setSenderId(message.getSender().getId());
+        dto.setSenderName(message.getSender().getNickname());
+
+        if (message.getSenderStudio() != null) {
+            dto.setStudioName(message.getSenderStudio().getName());
+            dto.setSenderStudioName(message.getSenderStudio().getName());
+        }
+
+        if (message.getStudioMemberSender() != null) {
+            dto.setStudioMemberName(message.getStudioMemberSender().getNickname());
+        }
 
         if (message.getAttachment() != null) {
             dto.setBase64Attachment(Base64.getEncoder().encodeToString(message.getAttachment()));

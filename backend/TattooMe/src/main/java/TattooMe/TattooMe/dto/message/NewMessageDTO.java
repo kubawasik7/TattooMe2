@@ -15,4 +15,6 @@ public class NewMessageDTO {
     @Size(max = 1000, message = "Wiadomosc może mieć maksymalnie 1000 znakow")
     private String content;
     private String base64Attachment;
+    private String studioName;
+    private String studioMemberName;
 }

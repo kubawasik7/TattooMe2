@@ -25,6 +25,11 @@ public interface ChatMapper {
             dto.setReceiverName(other.getNickname());
         }
 
+        if (chat.getTattooStudio() != null) {
+            dto.setStudioId(chat.getTattooStudio().getId());
+            dto.setStudioName(chat.getTattooStudio().getName());
+        }
+
         return dto;
     }
 

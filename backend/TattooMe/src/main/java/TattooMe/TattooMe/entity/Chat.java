@@ -36,6 +36,10 @@ public class Chat {
     @JoinColumn(name = "receiver_id")
     private User receiver;
 
+    @ManyToOne
+    @JoinColumn(name = "tattoo_studio_id")
+    private TattooStudio tattooStudio;
+
     @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL)
     private List<Message> messages = new ArrayList<>();
 

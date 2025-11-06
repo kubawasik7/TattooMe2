@@ -34,7 +34,7 @@ public class Message {
     private LocalDateTime date;
 
     @Lob
-    @Column(name = "attachment", nullable = false)
+    @Column(name = "attachment")
     private byte[] attachment;
 
     @ManyToOne
@@ -44,4 +44,12 @@ public class Message {
     @ManyToOne
     @JoinColumn(name = "chat_id", nullable = false)
     private Chat chat;
+
+    @ManyToOne
+    @JoinColumn(name = "studio_id")
+    private TattooStudio senderStudio;
+
+    @ManyToOne
+    @JoinColumn(name = "studio_member_id")
+    private User studioMemberSender;
 }

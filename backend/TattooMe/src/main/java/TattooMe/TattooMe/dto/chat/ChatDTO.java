@@ -11,4 +11,6 @@ public class ChatDTO {
     private UUID id;
     private UUID receiverId;
     private String receiverName;
+    private UUID studioId;
+    private String studioName;
 }

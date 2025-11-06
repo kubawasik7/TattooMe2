@@ -14,4 +14,8 @@ public class MessageDTO {
     private LocalDateTime date;
     private UUID senderId;
     private String base64Attachment;
+    private String senderName;
+    private String senderStudioName;
+    private String studioName;
+    private String studioMemberName;
 }

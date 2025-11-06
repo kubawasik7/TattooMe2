@@ -4,15 +4,17 @@ import TattooMe.TattooMe.dto.message.MessageDTO;
 import TattooMe.TattooMe.dto.message.NewMessageDTO;
 import TattooMe.TattooMe.entity.Chat;
 import TattooMe.TattooMe.entity.Message;
+import TattooMe.TattooMe.entity.TattooStudio;
+import TattooMe.TattooMe.entity.User;
 import TattooMe.TattooMe.mapper.MessageMapper;
 import TattooMe.TattooMe.repository.ChatRepository;
 import TattooMe.TattooMe.repository.MessageRepository;
+import TattooMe.TattooMe.repository.TattooStudioRepository;
 import TattooMe.TattooMe.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.file.AccessDeniedException;
 import java.time.LocalDateTime;
@@ -31,6 +33,8 @@ public class MessageService {
     private UserRepository userRepository;
     @Autowired
     private MessageMapper messageMapper;
+    @Autowired
+    private TattooStudioRepository tattooStudioRepository;
 
     public List<MessageDTO> getMessages(UUID chatId, UUID userId) throws AccessDeniedException {
         Chat chat = chatRepository.findById(chatId)
@@ -44,10 +48,14 @@ public class MessageService {
         return messageMapper.toDTOList(messages);
     }
 
-    @Transactional
     public MessageDTO sendMessage(NewMessageDTO newMessageDTO, UUID senderId) throws AccessDeniedException {
         Chat chat = chatRepository.findById(newMessageDTO.getChatId())
                 .orElseThrow(() -> new EntityNotFoundException("Nie znaleziono chatu"));
+
+        User sender = userRepository.findById(senderId)
+                .orElseThrow(() -> new EntityNotFoundException("Nie znaleziono użytkownika"));
+
+        TattooStudio studio = tattooStudioRepository.findByArtistUserId(senderId).orElse(null);
 
         if (!isParticipant(chat, senderId)) {
             throw new AccessDeniedException("Nie jesteś uczestnikiem tego chatu");
@@ -55,16 +63,47 @@ public class MessageService {
 
         Message message = new Message();
         message.setChat(chat);
-        message.setSender(userRepository.getReferenceById(senderId));
-        message.setContent(newMessageDTO.getContent());
+        message.setSender(sender);
         message.setDate(LocalDateTime.now());
-        message.setAttachment(Base64.getDecoder().decode(newMessageDTO.getBase64Attachment()));
+        message.setContent(newMessageDTO.getContent());
 
-        Message saved = messageRepository.save(message);
-        return messageMapper.toDTO(saved);
+        if (newMessageDTO.getBase64Attachment() != null && !newMessageDTO.getBase64Attachment().isEmpty()) {
+            message.setAttachment(Base64.getDecoder().decode(newMessageDTO.getBase64Attachment()));
+        }
+
+        //jesli uzytkownik należy do studia
+        if (studio != null) {
+            message.setSenderStudio(studio);
+            message.setStudioMemberSender(sender);
+        }
+
+        messageRepository.save(message);
+
+        return messageMapper.toDTO(message);
     }
 
     private boolean isParticipant(Chat chat, UUID userId) {
-        return chat.getInitiator().getId().equals(userId) || (chat.getReceiver() != null && chat.getReceiver().getId().equals(userId));
+        //jeśli uczestnikiem jest uzytkownik
+        if ((chat.getInitiator() != null && chat.getInitiator().getId().equals(userId))
+                || (chat.getReceiver() != null && chat.getReceiver().getId().equals(userId))) {
+            return true;
+        }
+
+        //jeśli uczestnikiem jest studio jako odbiorca to sprawdzamy właściciela i członków
+        if (chat.getTattooStudio() != null) {
+            TattooStudio studio = chat.getTattooStudio();
+
+            //wlasciciel studia
+            if (studio.getOwner() != null && studio.getOwner().getId().equals(userId)) {
+                return true;
+            }
+
+            //czlonkowie studia
+            if (studio.getArtists() != null && studio.getArtists().stream()
+                    .anyMatch(artist -> artist.getUser() != null && artist.getUser().getId().equals(userId))) {
+                return true;
+            }
+        }
+        return false;
     }
 }
