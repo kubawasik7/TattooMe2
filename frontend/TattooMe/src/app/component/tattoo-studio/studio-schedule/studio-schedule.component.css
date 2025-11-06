@@ -1,0 +1,32 @@
+.studio-slots {
+  padding: 1rem;
+}
+
+.slot-card {
+  padding: 0.8rem;
+  margin-bottom: 0.5rem;
+  border: 1px solid #3a3a3a;
+  border-radius: 8px;
+  background-color: #2b2b2b;
+  color: #e0e0e0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.slot-card.unavailable {
+  opacity: 0.5;
+}
+
+.reservation-btn {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.reservation-btn:hover {
+  background-color: #45a049;
+}

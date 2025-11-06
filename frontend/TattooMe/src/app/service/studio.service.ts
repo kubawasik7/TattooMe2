@@ -5,6 +5,7 @@ import { CreateTattoStudio } from '../model/create-tattoo-studio';
 import { TattooStudio } from '../model/tattoo-studio';
 import { User } from '../model/user';
 import { StudioArtist } from '../model/studio-artist';
+import { StudioSchedule } from '../model/studio-schedule';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,10 @@ export class StudioService {
 
   getUsersByStudioId(studioId: string): Observable<StudioArtist[]> {
     return this.http.get<StudioArtist[]>(`${this.baseUrl}/${studioId}/users`);
+  }
+  
+  getAllArtistSlots(studioId: string): Observable<StudioSchedule[]> {
+    return this.http.get<StudioSchedule[]>(`${this.baseUrl}/${studioId}/slots`);
   }
 
   addUserToStudio(studioId: string, nickname: string): Observable<void> {
@@ -37,9 +42,9 @@ export class StudioService {
   createStudio(dto: CreateTattoStudio): Observable<string> {
     return this.http.post<string>(this.baseUrl, dto);
   }
-  
+
   updateMemberRole(studioId: string, userId: string, role: string): Observable<any> {
-  const body = { role };
-  return this.http.put(`${this.baseUrl}/${studioId}/members/${userId}/role`, body);
-}
+    const body = { role };
+    return this.http.put(`${this.baseUrl}/${studioId}/members/${userId}/role`, body);
+  }
 }

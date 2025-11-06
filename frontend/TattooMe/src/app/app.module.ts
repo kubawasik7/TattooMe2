@@ -40,6 +40,7 @@ import { StudioMemberComponent } from './component/tattoo-studio/studio-member/s
 import { FaqComponent } from './component/tattoo-studio/faq/faq.component';
 import { WorkHourComponent } from './component/tattoo-studio/work-hour/work-hour.component';
 import { WorkHourMiniComponent } from './component/tattoo-studio/work-hour-mini/work-hour-mini.component';
+import { StudioScheduleComponent } from './component/tattoo-studio/studio-schedule/studio-schedule.component';
 
 const appRoutes: Routes = [
   { path: '', component: MainPageComponent },
@@ -87,7 +88,8 @@ const appRoutes: Routes = [
     StudioMemberComponent,
     FaqComponent,
     WorkHourComponent,
-    WorkHourMiniComponent
+    WorkHourMiniComponent,
+    StudioScheduleComponent
 
   ],
   imports: [
