@@ -1,11 +1,7 @@
 <main class="container profile-page">
   <section class="profile-header">
     <div class="profile-avatar">
-      <img
-        [src]="defaultAvatar"
-        alt="Profilowe studia"
-        class="avatar-img"
-      />
+      <img [src]="defaultAvatar" alt="Profilowe studia" class="avatar-img" />
     </div>
 
     <div class="profile-info">
@@ -20,19 +16,18 @@
     </div>
 
     <div class="profile-actions">
-      <app-work-hour-mini
-        [studioId]="studioId"
-        (openEditor)="showWorkHourEditor = true">
+      <app-work-hour-mini [studioId]="studioId" (openEditor)="showWorkHourEditor = true">
       </app-work-hour-mini>
 
       <div class="profile-buttons">
-        <button class="button-chat" [routerLink]="['/login']">
+        <button class="button-chat" *ngIf="!isLoggedIn" [routerLink]="['/login']">
           <i class="fa-solid fa-message"></i>
         </button>
 
-        <button class="button-fav" [routerLink]="['/login']">
-          <i class="fa-solid fa-heart"></i>
+        <button class="button-chat" *ngIf="isLoggedIn && !isMember" (click)="startChatWithStudio()">
+          <i class="fa-solid fa-message"></i>
         </button>
+
       </div>
     </div>
   </section>
@@ -42,13 +37,11 @@
     <button class="btn-close" (click)="showWorkHourEditor=false">✖ Zamknij</button>
   </div>
 
+  <app-studio-schedule></app-studio-schedule>
   <section class="studio-members">
-  <app-studio-member
-    [studioId]="studioId"
-    [users]="studioArtists"
-    (membersUpdated)="loadMembers()">
-  </app-studio-member>
-</section>
+    <app-studio-member [studioId]="studioId" [users]="studioArtists" (membersUpdated)="loadMembers()">
+    </app-studio-member>
+  </section>
 
 
   <app-faq [currentUserRole]="currentUserRole" [studioId]="studioId"></app-faq>

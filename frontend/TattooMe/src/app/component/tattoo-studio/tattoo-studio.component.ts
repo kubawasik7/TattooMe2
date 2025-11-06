@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { TattooStudio } from '../../model/tattoo-studio';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { StudioService } from '../../service/studio.service';
 import { AuthService } from '../../service/auth.service';
 import { NotificationService } from '../../service/notification.service';
 import { StudioArtist } from '../../model/studio-artist';
+import { ChatService } from '../../service/chat.service';
 
 @Component({
   selector: 'app-tattoo-studio',
@@ -20,9 +21,13 @@ export class TattooStudioComponent implements OnInit {
   defaultAvatar = '/pobrane.png';
   currentUserRole: string | null = null;
   currentUserId: string | null = null;
+  isLoggedIn = false;
+  isMember = false;
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
+    private chatService: ChatService,
     private studioService: StudioService,
     private authService: AuthService,
     private notification: NotificationService
@@ -31,6 +36,7 @@ export class TattooStudioComponent implements OnInit {
   ngOnInit(): void {
     this.studioId = this.route.snapshot.paramMap.get('id')!;
     this.currentUserId = this.authService.getUserId();
+    this.isLoggedIn = this.authService.isLoggedIn();
     this.loadStudio();
   }
 
@@ -50,12 +56,27 @@ export class TattooStudioComponent implements OnInit {
     this.studioService.getUsersByStudioId(this.studioId).subscribe({
       next: data => {
         this.studioArtists = data;
-
         const current = this.studioArtists.find(a => a.id === this.currentUserId);
         this.currentUserRole = current?.studioRole || null;
+        this.isMember = !!current;
       },
       error: err => {
         this.notification.showError('Nie udało się pobrać członków', err);
+      }
+    });
+  }
+  startChatWithStudio(): void {
+    if (!this.isLoggedIn) {
+      this.router.navigate(['/login']);
+      return;
+    }
+
+    this.chatService.startChat(this.studioId).subscribe({
+      next: chat => {
+        this.router.navigate(['/chat'], { queryParams: { chatId: chat.id } });
+      },
+      error: err => {
+        this.notification.showError('Nie udało się rozpocząć rozmowy', err);
       }
     });
   }

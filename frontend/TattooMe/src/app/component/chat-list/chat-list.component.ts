@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Chat } from '../../model/chat';
 import { Message } from '../../model/message';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -14,7 +14,7 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './chat-list.component.html',
   styleUrl: './chat-list.component.css'
 })
-export class ChatListComponent implements OnInit {
+export class ChatListComponent implements OnInit, AfterViewChecked  {
   chats: Chat[] = [];
   activeChatId?: string;
   activeChatName = '';
@@ -23,6 +23,8 @@ export class ChatListComponent implements OnInit {
   form!: FormGroup;
   attachmentB64: string = '';
   sending = false;
+
+   @ViewChild('messagesContainer') private messagesContainer!: ElementRef;
 
   constructor(
     private chatService: ChatService,
@@ -40,6 +42,21 @@ export class ChatListComponent implements OnInit {
       const receiverId = params.get('receiver');
       this.loadChats(receiverId ?? undefined);
     });
+  }
+
+    ngAfterViewChecked(): void {
+    this.scrollToBottom();
+  }
+  
+   private scrollToBottom(): void {
+    if (this.messagesContainer) {
+      try {
+        this.messagesContainer.nativeElement.scrollTop =
+          this.messagesContainer.nativeElement.scrollHeight;
+      } catch (err) {
+        console.error('Scroll error:', err);
+      }
+    }
   }
 
   loadChats(receiverId?: string): void {

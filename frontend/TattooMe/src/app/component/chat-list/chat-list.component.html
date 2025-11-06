@@ -6,7 +6,8 @@
       <button class="chat-item" *ngFor="let c of chats" [class.active]="c.id === activeChatId" (click)="openChat(c.id)">
         <div class="avatar">{{ (c.receiverName || '?') | slice:0:1 }}</div>
         <div class="meta">
-          <div class="name">{{ c.receiverName || 'Użytkownik' }}</div>
+          <div class="name">{{ c.receiverName || c.studioName || 'Rozmowa' }}</div>
+
         </div>
       </button>
     </div>
@@ -23,15 +24,23 @@
       <div class="title">{{ activeChatName || 'Rozmowa' }}</div>
     </div>
 
-    <div class="messages">
-      <div class="msg" *ngFor="let m of messages" [class.sent]="m.senderId === currentUserId"
-        [class.received]="m.senderId !== currentUserId">
-        <div class="bubble">
-          <div class="text" *ngIf="m.content">{{ m.content }}</div>
-          <img *ngIf="m.base64Attachment" class="img" [src]="'data:image/*;base64,' + m.base64Attachment"
-            alt="attachment" />
+    <div class="messages-container" #messagesContainer>
+      <div class="messages">
+        <div class="msg" *ngFor="let m of messages" [class.sent]="m.senderId === currentUserId">
+          <div class="bubble">
+            <div class="header">
+              <ng-container *ngIf="m.studioName; else userName">
+                <strong>studio: {{ m.studioName }}</strong>
+                <span *ngIf="m.studioMemberName">- {{ m.studioMemberName }}</span>
+              </ng-container>
+              <ng-template #userName>
+                <strong>{{ m.senderName }}</strong>
+              </ng-template>
+            </div>
+            <div class="text">{{ m.content }}</div>
+            <div class="date">{{ m.date | date:'shortTime' }}</div>
+          </div>
         </div>
-        <div class="time">{{ m.date | date:'dd.MM.yyyy HH:mm' }}</div>
       </div>
     </div>
 
