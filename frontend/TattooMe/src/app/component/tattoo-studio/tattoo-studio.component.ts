@@ -22,6 +22,7 @@ export class TattooStudioComponent implements OnInit {
   currentUserRole: string | null = null;
   currentUserId: string | null = null;
   isLoggedIn = false;
+  isOwner = false;
   isMember = false;
 
   constructor(
