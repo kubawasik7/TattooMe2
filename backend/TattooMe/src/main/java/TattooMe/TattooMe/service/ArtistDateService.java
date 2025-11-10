@@ -40,7 +40,8 @@ public class ArtistDateService {
 
     @Transactional
     public ScheduleDTO createSlot(UUID artistId, CreateScheduleDTO dto) {
-        User user = userRepository.findById(artistId).orElseThrow();
+        User user = userRepository.findById(artistId)
+                .orElseThrow(() -> new EntityNotFoundException("Nie znaleziono uzytkownika"));
         ArtistDate slot = new ArtistDate();
 
         slot.setTattooArtist(user);
