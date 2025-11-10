@@ -41,13 +41,13 @@
     <app-studio-member [studioId]="studioId" [users]="studioArtists" (membersUpdated)="loadMembers()">
     </app-studio-member>
   </section>
+  
   <section class="studio-users studio-schedules">
     <div class="studio-users-header">
       <h2>Terminy tatuatorów</h2>
     </div>
 
-
-    <hr class="divider" />
+    <hr class="divider"/>
 
     <div *ngIf="studioArtists.length > 0; else noArtists">
       <div *ngFor="let artist of studioArtists" class="user-wrapper">
@@ -59,26 +59,22 @@
             </h3>
           </div>
 
-        <div *ngIf="artist.showSlots" class="artist-slots">
-          <app-artist-date
-            [userId]="artist.id"
-            [studioId]="studioId"         
-            [isOwner]="currentUserRole === 'OWNER' || artist.id === currentUserId"
-            [isLoggedIn]="isLoggedIn">
-          </app-artist-date>
-        </div>
+          <div *ngIf="artist.showSlots" class="artist-slots">
+            <app-artist-date [userId]="artist.id" [studioId]="studioId" [isOwner]="artist.id === currentUserId"
+              [isLoggedIn]="isLoggedIn">
+            </app-artist-date>
           </div>
         </div>
       </div>
-  
+    </div>
 
     <ng-template #noArtists>
       <p>Brak artystów przypisanych do studia.</p>
     </ng-template>
   </section>
 
-
-
-
-  <app-faq [currentUserRole]="currentUserRole" [studioId]="studioId"></app-faq>
+  <app-faq
+    [currentUserRole]="currentUserRole"
+    [studioId]="studioId">
+  </app-faq>
 </main>
