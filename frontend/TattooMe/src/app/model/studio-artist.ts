@@ -15,4 +15,5 @@ export interface StudioArtist {
     featuredPictures: Featured[];
     studioRole: StudioRole;
     studioId: UUID;
+    showSlots?: boolean;
 }

@@ -15,6 +15,69 @@
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.4);
   gap: 1.5rem;
 }
+.studio-schedules {
+  margin-top: 30px;
+  padding: 2rem;
+  background-color: #242424;
+  border-radius: 12px;
+  color: #e0e0e0;
+}
+.studio-users-header {
+  padding-top: 1px;
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid #3a3a3a;
+  margin: 1rem 0 1.5rem 0;
+}
+
+.artist-card {
+  margin-bottom: 1.5rem;
+  background-color: #2b2b2b;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.45);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s;
+}
+
+.artist-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.55);
+}
+
+.artist-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.nickname {
+  font-weight: bold;
+  font-size: 1.25rem;
+  margin: 0;
+}
+
+.artist-link {
+  color: #e0e0e0;
+  text-decoration: none;
+  margin-left: 0.5rem;
+}
+
+.artist-link:hover {
+  color: #ffcc66;
+}
+
+.artist-slots {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #2a2a2a;
+  border-radius: 10px;
+  border: 1px solid #3a3a3a;
+  transition: all 0.3s ease;
+}
+
 
 .profile-avatar {
   flex-shrink: 0;

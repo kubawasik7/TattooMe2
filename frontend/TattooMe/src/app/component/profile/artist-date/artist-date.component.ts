@@ -15,6 +15,7 @@ export class ArtistDateComponent implements OnInit {
   @Input() userId!: string;
   @Input() isOwner = false;
   @Input() isLoggedIn = false;
+  @Input() studioId?: string; 
 
   slots: ScheduleSlot[] = [];
   isNewOpen = false;

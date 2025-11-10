@@ -37,11 +37,47 @@
     <button class="btn-close" (click)="showWorkHourEditor=false">✖ Zamknij</button>
   </div>
 
-  <app-studio-schedule></app-studio-schedule>
   <section class="studio-members">
     <app-studio-member [studioId]="studioId" [users]="studioArtists" (membersUpdated)="loadMembers()">
     </app-studio-member>
   </section>
+  <section class="studio-users studio-schedules">
+    <div class="studio-users-header">
+      <h2>Terminy tatuatorów</h2>
+    </div>
+
+
+    <hr class="divider" />
+
+    <div *ngIf="studioArtists.length > 0; else noArtists">
+      <div *ngFor="let artist of studioArtists" class="user-wrapper">
+        <div class="user-card artist-card" [class.expanded]="artist.showSlots">
+          <div class="user-header artist-header" (click)="artist.showSlots = !artist.showSlots">
+            <h3 class="nickname">
+              <i class="fa-solid" [ngClass]="artist.showSlots ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+              <a [routerLink]="['/profile', artist.id]" class="artist-link">{{ artist.nickname }}</a>
+            </h3>
+          </div>
+
+        <div *ngIf="artist.showSlots" class="artist-slots">
+          <app-artist-date
+            [userId]="artist.id"
+            [studioId]="studioId"         
+            [isOwner]="currentUserRole === 'OWNER' || artist.id === currentUserId"
+            [isLoggedIn]="isLoggedIn">
+          </app-artist-date>
+        </div>
+          </div>
+        </div>
+      </div>
+  
+
+    <ng-template #noArtists>
+      <p>Brak artystów przypisanych do studia.</p>
+    </ng-template>
+  </section>
+
+
 
 
   <app-faq [currentUserRole]="currentUserRole" [studioId]="studioId"></app-faq>

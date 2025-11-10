@@ -16,6 +16,7 @@ import { NotificationService } from '../../../service/notification.service';
 export class VisitComponent implements OnInit, OnChanges {
   @Input() artistId!: string;
   @Input() artistDateId!: string;
+  @Input() studioId?: string;  
   @Output() close = new EventEmitter<void>();
 
   flashList: Flash[] = [];
@@ -99,7 +100,8 @@ export class VisitComponent implements OnInit, OnChanges {
       allergies: this.form.value.allergies || null,
       chronicDiseases: this.form.value.chronicDiseases || null,
       medicines: this.form.value.medicines || null,
-      experiences: this.form.value.experiences || null
+      experiences: this.form.value.experiences || null,
+      tattooStudioId: this.studioId
     };
 
     this.visitService.createVisit(payload).subscribe({
