@@ -37,6 +37,8 @@ public class VisitService {
     private VisitMapper visitMapper;
     @Autowired
     private PersonInfoMapper personInfoMapper;
+    @Autowired
+    private TattooStudioRepository tattooStudioRepository;
 
     public VisitDTO getVisitDetails(UUID visitId) {
         Visit visit = visitRepository.findById(visitId)
@@ -117,6 +119,12 @@ public class VisitService {
             personInfo.setUser(userRepository.getReferenceById(clientId));
             personInfoRepository.save(personInfo);
             visit.setPersonInfo(personInfo);
+        }
+
+        if (newVisitDTO.getTattooStudioId() != null) {
+            TattooStudio studio = tattooStudioRepository.findById(newVisitDTO.getTattooStudioId())
+                    .orElseThrow(() -> new EntityNotFoundException("Brak studia tatuażu"));
+            visit.setTattooStudio(studio);
         }
 
         visitRepository.save(visit);

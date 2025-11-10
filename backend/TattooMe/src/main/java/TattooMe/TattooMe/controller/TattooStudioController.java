@@ -1,17 +1,16 @@
 package TattooMe.TattooMe.controller;
 
 import TattooMe.TattooMe.Security.CustomUserDetails;
+import TattooMe.TattooMe.dto.schedule.StudioScheduleDTO;
 import TattooMe.TattooMe.dto.tattooStudio.CreateStudioDTO;
 import TattooMe.TattooMe.dto.tattooStudio.TattooStudioDTO;
 import TattooMe.TattooMe.dto.user.StudioArtistDTO;
-import TattooMe.TattooMe.dto.user.UserDTO;
 import TattooMe.TattooMe.service.TattooStudioService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,6 +38,12 @@ public class TattooStudioController {
     @GetMapping("/{studioId}/users")
     public ResponseEntity<List<StudioArtistDTO>> getUsersByStudio(@PathVariable UUID studioId) {
         return ResponseEntity.ok(studioService.getUsersByStudioIdWithAvgRatingAndFeatured(studioId));
+    }
+
+    @GetMapping("/{studioId}/slots")
+    public ResponseEntity<List<StudioScheduleDTO>> getAllSlots(@PathVariable UUID studioId) {
+        List<StudioScheduleDTO> slots = studioService.getAllArtistSlots(studioId);
+        return ResponseEntity.ok(slots);
     }
 
     @PostMapping

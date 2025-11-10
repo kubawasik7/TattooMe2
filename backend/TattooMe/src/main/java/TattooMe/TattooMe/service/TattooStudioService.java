@@ -1,10 +1,12 @@
 package TattooMe.TattooMe.service;
 
 import TattooMe.TattooMe.dto.Featured.FeaturedDTO;
+import TattooMe.TattooMe.dto.schedule.StudioScheduleDTO;
 import TattooMe.TattooMe.dto.tattooStudio.CreateStudioDTO;
 import TattooMe.TattooMe.dto.tattooStudio.TattooStudioDTO;
 import TattooMe.TattooMe.dto.user.StudioArtistDTO;
 
+import TattooMe.TattooMe.entity.ArtistDate;
 import TattooMe.TattooMe.entity.TattooStudio;
 import TattooMe.TattooMe.entity.TattooStudioArtist;
 import TattooMe.TattooMe.entity.User;
@@ -19,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -38,6 +41,8 @@ public class TattooStudioService {
     private FeaturedRepository featuredRepository;
     @Autowired
     private ReviewRepository reviewRepository;
+    @Autowired
+    private ArtistDateRepository artistDateRepository;
 
     public TattooStudioDTO getTattooStudioById(UUID id) {
         TattooStudio tattooStudio = tattooStudioRepository.findById(id)
@@ -89,6 +94,34 @@ public class TattooStudioService {
                 })
                 .toList();
     }
+    public List<StudioScheduleDTO> getAllArtistSlots(UUID studioId) {
+        List<TattooStudioArtist> artists = tattooStudioArtistRepository.findByTattooStudio_Id(studioId);
+
+        List<StudioScheduleDTO> allSlots = new ArrayList<>();
+
+        for (TattooStudioArtist sa : artists) {
+            List<ArtistDate> slots = artistDateRepository.findByTattooArtist_IdAndIsAvailableTrueOrderByDateAsc(sa.getUser().getId());
+
+            for (ArtistDate slot : slots) {
+                StudioScheduleDTO dto = new StudioScheduleDTO();
+                dto.setSlotId(slot.getId());
+                dto.setDateTime(slot.getDate());
+                dto.setAvailable(slot.isAvailable());
+
+                dto.setArtistId(sa.getUser().getId());
+                dto.setArtistNickname(sa.getUser().getNickname());
+                dto.setArtistName(sa.getUser().getName());
+                dto.setArtistSurname(sa.getUser().getSurname());
+                dto.setStudioRole(sa.getRole().name());
+
+                allSlots.add(dto);
+            }
+        }
+
+        return allSlots;
+    }
+
+
 
     @Transactional
     public TattooStudioDTO createStudio(CreateStudioDTO dto, UUID ownerId) {
