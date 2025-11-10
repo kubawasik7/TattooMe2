@@ -1,10 +1,8 @@
 package TattooMe.TattooMe.mapper;
 
-import TattooMe.TattooMe.dto.visit.NewVisitDTO;
 import TattooMe.TattooMe.dto.visit.VisitDTO;
 import TattooMe.TattooMe.entity.Flash;
 import TattooMe.TattooMe.entity.Visit;
-import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -28,11 +26,6 @@ public interface VisitMapper {
     VisitDTO toDTO(Visit visit);
 
     List<VisitDTO> toDTOList(List<Visit> visits);
-
-    // uproszczone mapowanie z DTO — tylko pola, które nie wymagają repozytoriów
-    @BeanMapping(ignoreByDefault = true)
-    @Mapping(target = "comment", source = "comment")
-    Visit fromNewVisitDTO(NewVisitDTO dto);
 
     default String encodeFlashImage(Flash flash) {
         if (flash != null && flash.getPicture() != null) {
