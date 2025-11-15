@@ -3,6 +3,9 @@ import { AuthService } from '../../service/auth.service';
 import { RegisterRequest } from '../../model/register-request';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { NotificationService } from '../../service/notification.service';
+import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
+
 
 type Role = 'user' | 'trainee' | 'tattoo_artist';
 
@@ -26,7 +29,8 @@ export class RegisterComponent {
   constructor(
     private authService: AuthService,
     private formBuilder: FormBuilder,
-    private notification: NotificationService
+    private notification: NotificationService,
+    private router: Router
   ) {
 
     this.form = this.formBuilder.group({
@@ -87,12 +91,21 @@ export class RegisterComponent {
 
     this.authService.register(this.registerRequest).subscribe({
       next: response => {
-        this.notification.showInfo("Rejestracja udana");
+        Swal.fire({
+          icon: 'success',
+          background: '#1e1e1e',
+          color: '#ffffff',
+          title: 'Rejestracja udana',
+          timer: 1500,
+          showConfirmButton: false
+        }).then(() => {
+          this.router.navigate(['/dashboard']);
+        });
         this.form.reset();
         this.loading = false;
       },
       error: err => {
-        this.notification.showError("Błąd rejestracji", err);
+        this.notification.showError("Błąd rejestracji");
         this.form.get('password')?.reset();
         this.form.get('confirmPassword')?.reset();
 

@@ -76,7 +76,7 @@ export class ProfileComponent implements OnInit {
   startChat(): void {
     this.chatService.startChat(this.userId).subscribe({
       next: chat => this.router.navigate(['/chat', chat.id]),
-      error: err => this.notification.showError("Nie udalo się otworzyc chatu", err)
+      error: err => this.notification.showError("Nie udalo się otworzyc chatu")
     });
   }
 
@@ -102,7 +102,7 @@ export class ProfileComponent implements OnInit {
           this.notification.showSuccess("Zdjęcie zostało dodane");
           this.selectedFile = null;
         },
-        error: err => this.notification.showError("Nie udało się dodać zdjęcia", err)
+        error: err => this.notification.showError("Nie udało się dodać zdjęcia")
       });
   }
 
@@ -136,7 +136,7 @@ export class ProfileComponent implements OnInit {
         this.notification.showSuccess("Opis został dodany");
       },
       error: err => {
-        this.notification.showError("Opis nie został dodany", err)
+        this.notification.showError("Opis nie został dodany")
       }
     });
   }
@@ -153,10 +153,11 @@ export class ProfileComponent implements OnInit {
         this.notification.showSuccess("Dodano do ulubionych");
       },
       error: (err) => {
-        this.notification.showError("Nie udało się dodać do ulubionych", err);
+        this.notification.showError("Nie udało się dodać do ulubionych");
       }
     }));
   }
+
   loadReviews() {
     this.reviewService.getReviewsForArtist(this.userId).subscribe({
       next: (reviews) => {

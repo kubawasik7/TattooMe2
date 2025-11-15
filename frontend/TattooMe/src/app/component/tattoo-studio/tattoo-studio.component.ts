@@ -48,7 +48,7 @@ export class TattooStudioComponent implements OnInit {
         this.loadMembers();
       },
       error: err => {
-        this.notification.showError('Nie udało się załadować studia', err);
+        console.log("Nie udało się załadować studia");
       }
     });
   }
@@ -62,7 +62,7 @@ export class TattooStudioComponent implements OnInit {
         this.isMember = !!current;
       },
       error: err => {
-        this.notification.showError('Nie udało się pobrać członków', err);
+        console.log("Nie udało się załadować członków");
       }
     });
   }
@@ -77,7 +77,7 @@ export class TattooStudioComponent implements OnInit {
         this.router.navigate(['/chat'], { queryParams: { chatId: chat.id } });
       },
       error: err => {
-        this.notification.showError('Nie udało się rozpocząć rozmowy', err);
+        console.log("Nie udało się rozpocząc rozmowy");
       }
     });
   }

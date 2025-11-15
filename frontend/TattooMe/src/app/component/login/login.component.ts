@@ -4,6 +4,7 @@ import { AuthService } from '../../service/auth.service';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NotificationService } from '../../service/notification.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -36,12 +37,20 @@ export class LoginComponent {
     }
     this.authService.login(this.loginRequest).subscribe(
       response => {
-        this.notification.showInfo("Logowanie się powiodło");
+        Swal.fire({
+          icon: 'success',
+          background: '#1e1e1e',
+          color: '#ffffff',
+          title: 'Logowanie udane',
+          timer: 1500,
+          showConfirmButton: false
+        }).then(() => {
+          this.router.navigate(['/dashboard']);
+        });
         localStorage.setItem('token', response.token);
-        this.router.navigate(['/dashboard']);
       },
       error => {
-        this.notification.showError("Błąd logowania", error);
+        this.notification.showError("Błąd logowania");
       }
     );
   }

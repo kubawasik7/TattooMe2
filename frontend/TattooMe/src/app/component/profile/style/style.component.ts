@@ -31,14 +31,14 @@ export class StyleComponent implements OnInit {
         this.styles = styles;
         this.selectedStyleIds = styles.map(s => s.id);
       },
-      error: err => this.notification.showError("Nie udalo sie zaladowac styli", err)
+      error: err => console.log(err)
     });
   }
 
   startEditing(): void {
     this.workStyleService.getAllStyles().subscribe({
       next: styles => this.allStyles = styles,
-      error: err => this.notification.showError("Nie udalo sie zaladowac styli", err)
+      error: err => console.log(err)
     });
     this.editing = true;
     this.originalSelectedStyleIds = [...this.selectedStyleIds];

@@ -3,6 +3,7 @@ import { Visit } from '../../model/visit';
 import { VISIT_STATUS, VisitService } from '../../service/visit.service';
 import { AuthService } from '../../service/auth.service';
 import { NotificationService } from '../../service/notification.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-reservations',
@@ -46,7 +47,7 @@ export class ReservationsComponent implements OnInit {
     method().subscribe({
       next: (visits) => (this.visits = visits),
       error: (err) => {
-        this.notification.showError("Nie udało się załadować wizyt", err);
+        console.log(err);
       },
     });
 
@@ -60,25 +61,42 @@ export class ReservationsComponent implements OnInit {
     });
   }
 
-  cancelVisit() {
-    if (!this.currentVisit) return;
+cancelVisit() {
+  if (!this.currentVisit) return;
 
-    const isArtist = this.selectedRoleTab === 'artist';
-    const cancel$ = isArtist
-      ? this.visitService.cancelVisitAsArtist(this.currentVisit.id)
-      : this.visitService.cancelVisitAsClient(this.currentVisit.id);
+  Swal.fire({
+    title: 'Usunąć tę wizytę?',
+    text: 'Tej akcji nie można cofnąć.',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
+    background: '#1e1e1e',
+    color: '#ffffffff',
+    confirmButtonText: 'Tak, usuń',
+    cancelButtonText: 'Anuluj'
+  }).then((result) => {
+    if (result.isConfirmed) {
 
-    cancel$.subscribe({
-      next: () => {
-        this.loadVisits();
-        this.closeDetails();
-        this.notification.showSuccess("Wizyta została anulowana");
-      },
-      error: (err) => {
-        this.notification.showError("Nie udało się anulować wizyty", err);
-      },
-    });
-  }
+      const isArtist = this.selectedRoleTab === 'artist';
+      const cancel$ = isArtist
+        ? this.visitService.cancelVisitAsArtist(this.currentVisit!.id)
+        : this.visitService.cancelVisitAsClient(this.currentVisit!.id);
+
+      cancel$.subscribe({
+        next: () => {
+          this.loadVisits();
+          this.closeDetails();
+          this.notification.showSuccess("Wizyta została anulowana");
+        },
+        error: (err) => {
+          this.notification.showError("Nie udało się anulować wizyty");
+        }
+      });
+    }
+  });
+}
+
 
   selectTab(tab: 'active' | 'past' | 'cancelled') {
     this.selectedTab = tab;

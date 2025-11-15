@@ -67,7 +67,7 @@ export class UserProfileComponent {
         this.editMode = false;
         this.notification.showSuccess("Informacje zostały zaktualizowane");
       },
-      error: (err) => this.notification.showError("Nie udało się zaktualizować", err)
+      error: (err) => this.notification.showError("Nie udało się zaktualizować")
     });
   }
 

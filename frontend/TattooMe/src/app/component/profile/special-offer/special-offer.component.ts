@@ -2,6 +2,7 @@ import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { CreateOffer, Offer, ProfileService } from '../../../service/profile.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NotificationService } from '../../../service/notification.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-special-offer',
@@ -30,11 +31,11 @@ export class SpecialOfferComponent {
     this.load();
   }
 
-    load() {
+  load() {
     this.profileService.getOffers(this.userId).subscribe({
       next: (list) => (this.offers = list),
       error: (err) => {
-        this.notification.showError("Nie udalo sie zaladowac promocji", err);
+        console.log(err)
       },
     });
   }
@@ -68,7 +69,7 @@ export class SpecialOfferComponent {
     this.editingForm = null;
   }
 
-   save() {
+  save() {
     if (!this.editingForm || this.editingForm.invalid) return;
 
     const offerData: CreateOffer = this.editingForm.value;
@@ -80,7 +81,7 @@ export class SpecialOfferComponent {
           this.load();
         },
         error: (err) => {
-          this.notification.showError("Nie udało się dodać promocji", err);
+          this.notification.showError("Nie udało się dodać promocji");
         },
       });
     } else {
@@ -90,7 +91,7 @@ export class SpecialOfferComponent {
           this.load();
         },
         error: (err) => {
-          this.notification.showError("Nie udało się zapisać zmian", err);
+          this.notification.showError("Nie udało się zapisać zmian");
         },
       });
     }
@@ -98,20 +99,32 @@ export class SpecialOfferComponent {
     this.cancel();
   }
 
-   delete(id: string) {
-    if (confirm('Czy na pewno chcesz usunąć tę ofertę?')) {
-      this.profileService.deleteOffer(id).subscribe({
-        next: () => {
-          this.notification.showSuccess("Promocja została usunięta");
-          this.load();
-        },
-        error: (err) => {
-          this.notification.showError("Nie udalo sie usunac promocji", err)
-        },
-      });
-    }
+  delete(id: string) {
+    Swal.fire({
+      title: 'Usunąć tę promocję?',
+      text: 'Tej akcji nie można cofnąć.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      background: '#1e1e1e',
+      color: '#ffffff',
+      confirmButtonText: 'Tak, usuń',
+      cancelButtonText: 'Anuluj'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.profileService.deleteOffer(id).subscribe({
+          next: () => {
+            this.notification.showSuccess("Promocja została usunięta");
+            this.load();
+          },
+          error: (err) => {
+            this.notification.showError("Nie udało się usunąć promocji");
+          }
+        });
+      }
+    });
   }
-
 
   adjustHeight(element: HTMLTextAreaElement) {
     element.style.height = 'auto';

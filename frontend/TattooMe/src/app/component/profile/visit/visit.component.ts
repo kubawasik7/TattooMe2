@@ -58,7 +58,7 @@ export class VisitComponent implements OnInit, OnChanges {
   private loadFlash(): void {
     this.flashService.getByUser(this.artistId).subscribe({
       next: (list) => this.flashList = list,
-      error: (err) => this.notification.showError("Nie udalo sie zaladowac wzorów", err)
+      error: (err) => console.log(err)
     });
   }
 
@@ -81,7 +81,7 @@ export class VisitComponent implements OnInit, OnChanges {
         if (err.status === 404 || err.status === 403) {
           this.showHealthForm = true;
         } else {
-          this.notification.showError("Nie udalo sie zaladowac danych zdrowotnych", err)
+          console.log(err)
         }
       }
     });
@@ -111,7 +111,7 @@ export class VisitComponent implements OnInit, OnChanges {
         this.close.emit();
       },
       error: (err) => {
-        this.notification.showError("Nie udało się zarezerwować wizyty", err);
+        this.notification.showError("Nie udało się zarezerwować wizyty");
       }
     });
   }

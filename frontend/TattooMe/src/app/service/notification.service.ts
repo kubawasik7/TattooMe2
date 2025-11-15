@@ -1,38 +1,39 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import Swal from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotificationService {
 
-  constructor(private snackBar: MatSnackBar) { }
-
-  showSuccess(message: string) {
-    this.snackBar.open(message, 'Zamknij', {
-      duration: 4000,
-      horizontalPosition: 'center',
-      verticalPosition: 'bottom',
-      panelClass: ['snackbar-success']
+  showWarning(message: string): void {
+    Swal.fire({
+      icon: 'warning',
+      background: '#1e1e1e',
+      color: '#ffffff',
+      text: message,
+      showConfirmButton: true
     });
   }
 
-  showError(message: string, error?: any) {
-    console.error('Błąd aplikacji:', error);
-    this.snackBar.open(message, 'Zamknij', {
-      duration: 4000,
-      horizontalPosition: 'center',
-      verticalPosition: 'bottom',
-      panelClass: ['snackbar-error']
+  showSuccess(message: string): void {
+    Swal.fire({
+      icon: 'success',
+      background: '#1e1e1e',
+      color: '#ffffff',
+      text: message,
+      showConfirmButton: true
     });
   }
 
-  showInfo(message: string) {
-    this.snackBar.open(message, 'Zamknij', {
-      duration: 4000,
-      horizontalPosition: 'center',
-      verticalPosition: 'bottom',
-      panelClass: ['snackbar-info']
+  showError(message: string): void {
+    Swal.fire({
+      icon: 'error',
+      background: '#1e1e1e',
+      color: '#ffffff',
+      text: message,
+      showConfirmButton: true
     });
   }
 }

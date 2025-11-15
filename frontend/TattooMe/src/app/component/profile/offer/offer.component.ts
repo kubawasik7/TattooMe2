@@ -66,7 +66,7 @@ export class OfferComponent implements OnInit {
   loadFlashes(): void {
     this.flashService.getByUser(this.userId).subscribe({
       next: (data) => (this.flashes = data),
-      error: (err) => this.notification.showError("Nie udalo się załadować wolnych wzorów", err)
+      error: (err) => console.log(err)
     });
   }
 
@@ -86,7 +86,7 @@ export class OfferComponent implements OnInit {
         this.notification.showSuccess("Wzór został dodany");
         this.loadFlashes();
       },
-      error: (err) => this.notification.showError("Wzór nie został dodany", err)
+      error: (err) => this.notification.showError("Wzór nie został dodany")
     });
   }
 

@@ -37,7 +37,7 @@ export class CreateStudioComponent {
         this.router.navigate(['/studio', studioId])
         this.notification.showSuccess("Studio zostało utworzone");
       },
-      error: (err) => this.notification.showError("Błąd tworzenia studia", err)
+      error: (err) => this.notification.showError("Błąd tworzenia studia")
     });
   }
 }

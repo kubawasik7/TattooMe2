@@ -55,13 +55,7 @@ export class WorkHourComponent implements OnInit {
     const p = this.addForm.value;
 
     if (p.endTime <= p.startTime) {
-       Swal.fire({
-              icon: 'warning',
-              background: '#1e1e1e',
-              color: '#ffffffff',
-              text: 'Godzina zamknięcia nie może być wcześniejsza od godziny otwarcia',
-              showConfirmButton: true
-            });
+       this.notification.showError("Godzina zamknięcia nie może być wcześniejsza od godziny otwarcia");
       return;
     }
 
@@ -69,7 +63,7 @@ export class WorkHourComponent implements OnInit {
       this.addForm.reset({ dayOfWeek: 'MONDAY' });
       this.load();
     },
-      err => this.notification.showError("Nie udalo sie dodać godzin", err));
+      err => this.notification.showError("Nie udało się dodać godzin"));
   }
 
   startEdit(workHour: WorkHour): void {
@@ -91,13 +85,7 @@ export class WorkHourComponent implements OnInit {
     const p = this.editForm.value;
 
     if (p.endTime <= p.startTime) {
-      Swal.fire({
-              icon: 'warning',
-              background: '#1e1e1e',
-              color: '#ffffffff',
-              text: 'Godzina zamknięcia nie może być wcześniejsza od godziny otwarcia',
-              showConfirmButton: true
-            });
+          this.notification.showError("Godzina zamknięcia nie może być wcześniejsza od godziny otwarcia");
       return;
     }
 
@@ -105,7 +93,7 @@ export class WorkHourComponent implements OnInit {
       this.editId = null;
       this.load();
     },
-      err => this.notification.showError("Nie udalo sie dodać godzin", err));
+      err => this.notification.showError("Nie udalo sie dodać godzin"));
   }
 
   remove(workHour: WorkHour): void {
@@ -136,12 +124,7 @@ export class WorkHourComponent implements OnInit {
             });
           },
           error: (err) => {
-            this.notification.showError('Nie udało się usunąć godziny', err);
-            Swal.fire({
-              icon: 'error',
-              title: 'Błąd',
-              text: 'Nie udało się usunąć godziny.',
-            });
+            this.notification.showError('Nie udało się usunąć godziny');
           }
         });
       }

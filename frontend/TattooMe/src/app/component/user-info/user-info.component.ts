@@ -38,7 +38,7 @@ export class UserInfoComponent implements OnInit {
         this.originalInfo = { ...data };
         this.infoForm.patchValue(data);
       },
-      error: (err) => this.notification.showError("Nie udało się załadować informacji o użytkowniku")
+      error: (err) => console.log(err)
     });
   }
 
@@ -70,7 +70,7 @@ export class UserInfoComponent implements OnInit {
         this.notification.showSuccess("Dane zostaly zapisane");
 
       },
-      error: (err) => this.notification.showError("Nie udało się zapisać informacji o użytkowniku", err)
+      error: (err) => this.notification.showError("Nie udało się zapisać informacji o użytkowniku")
     });
   }
 }

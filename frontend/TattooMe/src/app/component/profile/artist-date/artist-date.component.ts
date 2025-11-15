@@ -4,6 +4,7 @@ import { CreateSlot } from '../../../model/create-slot';
 import { ScheduleSlot } from '../../../model/schedule-slot';
 import { ArtistDateService } from '../../../service/artist-date.service';
 import { NotificationService } from '../../../service/notification.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-artist-date',
@@ -15,7 +16,7 @@ export class ArtistDateComponent implements OnInit {
   @Input() userId!: string;
   @Input() isOwner = false;
   @Input() isLoggedIn = false;
-  @Input() studioId?: string; 
+  @Input() studioId?: string;
 
   slots: ScheduleSlot[] = [];
   isNewOpen = false;
@@ -33,7 +34,7 @@ export class ArtistDateComponent implements OnInit {
     private artistDateService: ArtistDateService,
     private fb: FormBuilder,
     private notification: NotificationService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.initForms();
@@ -55,12 +56,12 @@ export class ArtistDateComponent implements OnInit {
     if (this.isOwner) {
       this.artistDateService.getSlots().subscribe({
         next: (s) => (this.slots = s),
-        error: (err) => this.notification.showError("Nie udało się załadować terminów", err)
+        error: (err) => console.log(err)
       });
     } else {
       this.artistDateService.getAvailableDates(this.userId).subscribe({
         next: (s) => (this.slots = s),
-        error: (err) => this.notification.showError("Nie udało się załadować terminów", err)
+        error: (err) => console.log(err)
       });
     }
   }
@@ -87,26 +88,41 @@ export class ArtistDateComponent implements OnInit {
         this.notification.showSuccess("Termin został utworzony");
         this.loadSlots();
       },
-      error: (err) => this.notification.showError("Nie udało się dodać terminu", err)
+      error: (err) => this.notification.showError("Nie udało się dodać terminu")
     });
   }
 
   delete(id: string): void {
-    if (!confirm('Usunąć ten termin?')) return;
-
-    this.artistDateService.deleteSlot(id).subscribe({
-      next: () =>{ 
-        this.notification.showSuccess("Termin został usunięty");
-        this.loadSlots()
-      },
-      error: (err) => this.notification.showError("Nie udało się usunąć terminu", err)
+    Swal.fire({
+      title: 'Usunąć ten termin?',
+      text: 'Tej akcji nie można cofnąć.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      background: '#1e1e1e',
+      color: '#ffffff',
+      confirmButtonText: 'Tak, usuń',
+      cancelButtonText: 'Anuluj'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.artistDateService.deleteSlot(id).subscribe({
+          next: () => {
+            this.notification.showSuccess("Termin został usunięty");
+            this.loadSlots();
+          },
+          error: (err) => {
+            this.notification.showError("Nie udało się usunąć terminu");
+          }
+        });
+      }
     });
   }
 
   toggle(id: string): void {
     this.artistDateService.toggleSlot(id).subscribe({
       next: () => this.loadSlots(),
-      error: (err) => this.notification.showError("Nie udało się zmienić dostępnosci terminu", err)
+      error: (err) => this.notification.showError("Nie udało się zmienić dostępnosci terminu")
     });
   }
 
