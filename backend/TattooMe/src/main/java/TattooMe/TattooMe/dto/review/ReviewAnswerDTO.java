@@ -16,5 +16,5 @@ public class ReviewAnswerDTO {
     private UUID id;
     private String content;
     private LocalDateTime createdAt;
-    private String artistName;
+    private String responderName;
 }

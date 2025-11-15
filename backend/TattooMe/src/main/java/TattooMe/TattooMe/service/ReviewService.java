@@ -5,6 +5,7 @@ import TattooMe.TattooMe.dto.review.CreateReviewDTO;
 import TattooMe.TattooMe.dto.review.ReviewAnswerDTO;
 import TattooMe.TattooMe.dto.review.ReviewDTO;
 import TattooMe.TattooMe.entity.*;
+import TattooMe.TattooMe.enums.StudioRole;
 import TattooMe.TattooMe.mapper.ReviewAnswerMapper;
 import TattooMe.TattooMe.mapper.ReviewMapper;
 import TattooMe.TattooMe.repository.*;
@@ -34,6 +35,8 @@ public class ReviewService {
     private ReviewMapper reviewMapper;
     @Autowired
     private ReviewAnswerMapper reviewAnswerMapper;
+    @Autowired
+    private TattooStudioArtistRepository tattooStudioArtistRepository;
 
     public List<ReviewDTO> getReviewsForArtist(UUID artistId) {
         return reviewRepository.findByTarget_Id(artistId).stream()
@@ -60,10 +63,10 @@ public class ReviewService {
             throw new AccessDeniedException("Tylko klient może wystawić opinię");
         }
 
-        if (!"ZATWIERDZONA".equals(visit.getStatus().getName())
-                || visit.getArtistDate().getDate().isAfter(LocalDateTime.now())) {
-            throw new RuntimeException("Opinia może być wystawiona tylko po zakończonej wizycie");
-        }
+//        if (!"ZATWIERDZONA".equals(visit.getStatus().getName())
+//                || visit.getArtistDate().getDate().isAfter(LocalDateTime.now())) {
+//            throw new RuntimeException("Opinia może być wystawiona tylko po zakończonej wizycie");
+//        }
 
         if (reviewRepository.findByVisit_Id(dto.getVisitId()).isPresent()) {
             throw new RuntimeException("Opinia już istnieje dla tej wizyty");
@@ -90,12 +93,29 @@ public class ReviewService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("Użytkownik nie znaleziony"));
 
-        boolean canAnswer = (review.getTarget() != null && review.getTarget().getId().equals(userId)) ||
-                (review.getTattooStudio() != null &&
-                        review.getTattooStudio().getOwner().getId().equals(userId));
+        boolean canAnswer = false;
+
+        // jeśli opinia jest do artysty
+        if (review.getTarget() != null && review.getTarget().getId().equals(userId)) {
+            canAnswer = true;
+        }
+
+        // jeśli opinia jest do studia
+        if (review.getTattooStudio() != null) {
+            Optional<TattooStudioArtist> member = review.getTattooStudio().getArtists().stream()
+                    .filter(m -> m.getUser().getId().equals(userId))
+                    .findFirst();
+
+            if (member.isPresent()) {
+                StudioRole role = member.get().getRole(); // enum
+                if (role == StudioRole.OWNER || role == StudioRole.EDITOR) {
+                    canAnswer = true;
+                }
+            }
+        }
 
         if (!canAnswer) {
-            throw new RuntimeException("Nie masz uprawnień do odpowiedzi na ta opinie");
+            throw new RuntimeException("Nie masz uprawnień do odpowiedzi na tę opinię");
         }
 
         ReviewAnswer answer = reviewAnswerMapper.fromCreateDTO(dto);

@@ -55,7 +55,9 @@ public class Review {
 
     @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
+    @OrderBy("createdAt ASC")
     private List<ReviewAnswer> answers = new ArrayList<>();
+
     @ManyToOne
     @JoinColumn(name = "visit_id", nullable = false)
     private Visit visit;
