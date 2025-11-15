@@ -18,19 +18,17 @@ export class ReviewsComponent implements OnInit {
   @Input() visitStatus?: string;
   @Input() visitDate?: string;
   @Input() isOwner: boolean = false;
-
-
+  @Input() studioRole: string | null = null;
 
   reviews: Review[] = [];
-
   rate = 0;
   content = '';
   showForm = false;
   submitted = false;
   visibleReviews: number = 3;
   isProfilePage: boolean = false;
-
   answerContent: { [key: string]: string } = {};
+  existingReview: Review | null = null;
 
   constructor(
     private reviewService: ReviewService,
@@ -38,18 +36,14 @@ export class ReviewsComponent implements OnInit {
     private router: Router
   ) { }
 
-  existingReview: Review | null = null;
-
-
   ngOnInit(): void {
     const currentUrl = this.router.url;
-    this.isProfilePage = currentUrl.includes('/profile');
+    this.isProfilePage = currentUrl.includes('/profile') || currentUrl.includes('/studio');
 
     if (this.visitId) {
       this.reviewService.getReviewForVisit(this.visitId).subscribe({
         next: r => this.existingReview = r,
         error: err => {
-
           console.warn('Brak opinii dla wizyty lub brak dostępu:', err);
           this.existingReview = null;
         }
@@ -59,24 +53,17 @@ export class ReviewsComponent implements OnInit {
     if (this.artistId) {
       this.reviewService.getReviewsForArtist(this.artistId).subscribe({
         next: r => this.reviews = r,
-        error: err => {
-          console.warn('Brak opinii dla artysty lub brak dostępu:', err);
-          this.reviews = [];
-        }
+        error: () => this.reviews = []
       });
     }
 
     if (this.studioId) {
       this.reviewService.getReviewsForStudio(this.studioId).subscribe({
         next: r => this.reviews = r,
-        error: err => {
-          console.warn('Brak opinii dla studia lub brak dostępu:', err);
-          this.reviews = [];
-        }
+        error: () => this.reviews = []
       });
     }
   }
-
 
   canAddReview(): boolean {
     return (
@@ -85,7 +72,17 @@ export class ReviewsComponent implements OnInit {
     );
   }
 
+  isAllowedToRespond(): boolean {
+    if (this.artistId) {
+      return this.isOwner;
+    }
 
+    if (this.studioId) {
+      return this.studioRole === 'OWNER' || this.studioRole === 'EDITOR';
+    }
+
+    return false;
+  }
 
   setRate(star: number) {
     this.rate = star;
@@ -101,16 +98,15 @@ export class ReviewsComponent implements OnInit {
       this.rate = 0;
       this.content = '';
     });
-
   }
 
   addAnswer(reviewId: string) {
     if (!this.answerContent[reviewId]) return;
+
     this.reviewService.addAnswer(reviewId, this.answerContent[reviewId]).subscribe(answer => {
       const review = this.reviews.find(r => r.id === reviewId);
-      if (review) {
-        review.answers.push(answer);
-      }
+      if (review) review.answers.push(answer);
+
       this.answerContent[reviewId] = '';
     });
   }

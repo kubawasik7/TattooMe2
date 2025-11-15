@@ -1,5 +1,5 @@
 <div *ngIf="!isProfilePage">
-  
+
   <div *ngIf="canAddReview() && !existingReview" class="review-form-wrapper">
     <button class="btn-review" (click)="showForm = !showForm">
       {{ showForm ? 'Anuluj' : 'Wystaw opinię' }}
@@ -8,15 +8,12 @@
     <div *ngIf="showForm" class="review-form">
       <label>Ocena:</label>
       <div class="stars">
-        <span *ngFor="let star of [1,2,3,4,5]"
-              (click)="setRate(star)"
-              [class.filled]="star <= rate">
+        <span *ngFor="let star of [1,2,3,4,5]" (click)="setRate(star)" [class.filled]="star <= rate">
           ★
         </span>
       </div>
 
-      <textarea [(ngModel)]="content"
-                placeholder="Napisz swoją opinię..."></textarea>
+      <textarea [(ngModel)]="content" placeholder="Napisz swoją opinię..."></textarea>
 
       <button class="btn-submit" (click)="submitReview()">Dodaj opinię</button>
     </div>
@@ -28,8 +25,7 @@
       <div class="review-header">
         <div class="review-author">{{ existingReview.clientName }}</div>
         <div class="review-rate">
-          <span *ngFor="let star of [1,2,3,4,5]"
-                [class.filled]="star <= existingReview.rate">
+          <span *ngFor="let star of [1,2,3,4,5]" [class.filled]="star <= existingReview.rate">
             ★
           </span>
         </div>
@@ -38,13 +34,10 @@
       <div class="review-date">{{ existingReview.createdAt | date:'short' }}</div>
     </div>
   </div>
-
 </div>
-
 
 <div *ngIf="isProfilePage" class="reviews-wrapper">
   <div class="opinion">Opinie</div>
-
 
   <div *ngIf="reviews.length === 0" class="empty-message">
     Brak opinii.
@@ -66,16 +59,15 @@
 
       <div class="answers" *ngIf="review.answers.length > 0">
         <div *ngFor="let ans of review.answers" class="answer">
-          <strong>{{ ans.artistName }}:</strong> {{ ans.content }}
+          <strong>{{ ans.responderName }}:</strong> {{ ans.content }}
           <span class="answer-date">{{ ans.createdAt | date:'short' }}</span>
         </div>
       </div>
 
-      <div class="answer-form" *ngIf="isOwner">
+      <div class="answer-form" *ngIf="isAllowedToRespond()">
         <input type="text" [(ngModel)]="answerContent[review.id]" placeholder="Napisz odpowiedź..." />
         <button (click)="addAnswer(review.id)">Odpowiedz</button>
       </div>
-
 
     </li>
   </ul>
