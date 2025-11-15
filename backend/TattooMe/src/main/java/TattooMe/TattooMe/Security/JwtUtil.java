@@ -62,6 +62,7 @@ public class JwtUtil {
         try {
             Jwts.parserBuilder()
                     .setSigningKey(key)
+                    .setAllowedClockSkewSeconds(60)
                     .build()
                     .parseClaimsJws(authToken);
             return true;
