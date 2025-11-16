@@ -8,7 +8,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #1b1b1b;
+  background: #1e1e1e;
   border-radius: 16px;
   padding: 1.5rem 2rem;
   color: #fff;
@@ -18,7 +18,7 @@
 .studio-schedules {
   margin-top: 30px;
   padding: 2rem;
-  background-color: #242424;
+  background-color: #1e1e1e;
   border-radius: 12px;
   color: #e0e0e0;
 }

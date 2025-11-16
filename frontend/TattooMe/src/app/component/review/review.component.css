@@ -1,6 +1,6 @@
 .reviews-wrapper {
   background: #1e1e1e;
-  padding: 1rem;
+  padding: 2rem;
   border-radius: 12px;
   border: 1px solid #222;
   margin-top: 2rem;
@@ -13,6 +13,7 @@
 }
 .opinion {
   font-size: 1.5rem;
+  color: white;
   font-weight: bold;
   padding-bottom: 10px;
   border-bottom: 2px solid #333;

@@ -204,6 +204,7 @@ body {
   text-decoration: none;
   color: inherit;
 }
+
 .featured-images {
   display: flex;
   flex-wrap: wrap;
@@ -232,6 +233,51 @@ body {
   object-fit: cover;
   display: block;
   border-radius: 6px;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 15px;
+  background: #1b1b1b;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+.filters input,
+.filters select {
+  flex: 1;
+  min-width: 200px;
+  padding: 10px 14px;
+  background: #2a2a2a;
+  border: 1px solid #333;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 15px;
+  transition: 0.3s ease;
+}
+
+.filters input::placeholder {
+  color: #8c8c8c;
+}
+
+.filters input:focus,
+.filters select:focus {
+  outline: none;
+  border-color: #ff8c42;
+  box-shadow: 0 0 8px rgba(255, 140, 66, 0.7);
+}
+
+.filters select {
+  cursor: pointer;
+  background-image: linear-gradient(135deg, #ff8c42 50%, transparent 50%);
+  background-size: 6px 6px;
+  background-repeat: no-repeat;
+}
+
+.filters select:hover {
+  border-color: #ff8c42;
 }
 
 pagination-controls {

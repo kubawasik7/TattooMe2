@@ -1,21 +1,41 @@
 <div class="tattoo-me">
+
+  <div class="filters">
+    <input type="text" placeholder="Szukaj po nazwie lub opisie..." [(ngModel)]="searchText"
+      (ngModelChange)="applyFilters()" />
+
+    <input type="text" placeholder="Filtruj po mieście" [(ngModel)]="filterCity" (ngModelChange)="applyFilters()" />
+
+    <select [(ngModel)]="sortOption" (change)="applyFilters()">
+      <option value="name-asc">Nazwa A-Z</option>
+      <option value="name-desc">Nazwa Z-A</option>
+      <option value="rate-desc">Najwyższa ocena</option>
+      <option value="rate-asc">Najniższa ocena</option>
+      <option value="reviews-desc">Najwięcej opinii</option>
+      <option value="reviews-asc">Najmniej opinii</option>
+    </select>
+  </div>
+
   <section class="tm-list">
-    <article class="tm-card" *ngFor="let studio of studios | paginate: {
+    <article class="tm-card" *ngFor="let studio of filteredStudios | paginate: {
       itemsPerPage: 5,
       currentPage: p,
-      totalItems: studios.length
+      totalItems: filteredStudios.length
     }">
-      <div class="avatar">zdjęcie<br/>profilowe</div>
+      <div class="avatar">
+
+        <div * class="avatar-placeholder">Brak zdjęcia</div>
+      </div>
+
       <div class="info" [routerLink]="['/studio', studio.id]">
-      
-          <h2 class="nickname">{{ studio.name }}</h2>
-  
+        <h2 class="nickname">{{ studio.name }}</h2>
+
         <div class="meta">
-          <span class="rating">★ 5/5 </span>
-          <span class="location">📍 Miasto</span>
+
         </div>
-        <p class="description">Opis tatuatora</p>
-        <p class="promo">Specjalna promocja</p>
+
+        <p class="description">desc</p>
+        <p class="promo">promo</p>
       </div>
     </article>
   </section>
@@ -24,6 +44,7 @@
     (pageChange)="p = $event"
     [autoHide]="true"
     previousLabel="‹ Prev"
-    nextLabel="Next ›"
-  ></pagination-controls>
+    nextLabel="Next ›">
+  </pagination-controls>
+
 </div>

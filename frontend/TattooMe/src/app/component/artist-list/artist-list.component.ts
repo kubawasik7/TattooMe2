@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { UserService } from '../../service/user.service';
 import { ActivatedRoute } from '@angular/router';
 import { User } from '../../model/user';
+import { FilterSortSearchService } from '../../service/filter-sort-search.service';
 
 @Component({
   selector: 'app-artist-list',
@@ -12,9 +13,19 @@ import { User } from '../../model/user';
 export class ArtistListComponent {
   role!: 'tattoo_artist' | 'trainee';
   users: User[] = [];
+  filteredUsers: User[] = [];
+  searchText = '';
+  filterCity = '';
+  sortOption = 'name-asc';
+
   p = 1;
 
-  constructor(private userService: UserService, private activatedRoute: ActivatedRoute) { }
+  constructor(
+    private userService: UserService,
+    private activatedRoute: ActivatedRoute,
+    private filterSortSearchService: FilterSortSearchService
+  ) {}
+
   ngOnInit(): void {
     this.role = this.activatedRoute.snapshot.data['role'];
     this.loadUsers();
@@ -26,6 +37,18 @@ export class ArtistListComponent {
         ...user,
         featuredPictures: user.featuredPictures ?? []
       }));
+      this.applyFilters();
     });
+  }
+
+  applyFilters() {
+    this.filteredUsers = this.filterSortSearchService.applyFilterSort(
+      this.users,
+      this.searchText,
+      this.filterCity,
+      this.sortOption
+    );
+
+    this.p = 1;
   }
 }

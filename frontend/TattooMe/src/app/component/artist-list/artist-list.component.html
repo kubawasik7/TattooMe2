@@ -1,14 +1,42 @@
+<div class="filters">
+  <input
+    type="text"
+    placeholder="Szukaj po nazwie lub opisie..."
+    [(ngModel)]="searchText"
+    (ngModelChange)="applyFilters()"
+  />
+
+  <input
+    type="text"
+    placeholder="Filtruj po mieście"
+    [(ngModel)]="filterCity"
+    (ngModelChange)="applyFilters()"
+  />
+
+  <select [(ngModel)]="sortOption" (change)="applyFilters()">
+    <option value="name-asc">Nazwa A-Z</option>
+    <option value="name-desc">Nazwa Z-A</option>
+    <option value="rate-desc">Najwyższa ocena</option>
+    <option value="rate-asc">Najniższa ocena</option>
+    <option value="reviews-desc">Najwięcej opinii</option>
+    <option value="reviews-asc">Najmniej opinii</option>
+  </select>
+</div>
+
 <div class="tattoo-me">
   <section class="tm-list">
-    <article class="tm-card" *ngFor="let user of users | paginate: {
-      itemsPerPage: 5,
-      currentPage: p,
-      totalItems: users.length
-    }">
+    <article class="tm-card"
+      *ngFor="let user of filteredUsers | paginate: {
+        itemsPerPage: 5,
+        currentPage: p,
+        totalItems: filteredUsers.length
+      }">
 
       <div class="avatar">
-        <img *ngIf="user?.profilePicture" [src]="'data:image/png;base64,' + user.profilePicture" alt="avatar"
-          class="avatar-img" />
+        <img *ngIf="user?.profilePicture"
+             [src]="'data:image/png;base64,' + user.profilePicture"
+             class="avatar-img" />
+
         <div *ngIf="!user?.profilePicture" class="avatar-placeholder">
           brak zdjęcia
         </div>
@@ -18,23 +46,32 @@
         <a class="profile-link" [routerLink]="['/profile', user?.id]">
           <h2 class="nickname">{{ user?.nickname }}</h2>
         </a>
+
         <div class="meta">
-          <span class="rating">★ {{ user?.averageRate | number:'1.2-2' }} ({{ user?.reviewsCount }})</span>
-          <span class="location">📍 Miasto</span>
+          <span class="rating">
+            ★ {{ user?.averageRate | number:'1.2-2' }} ({{ user?.reviewsCount }})
+          </span>
+          <span class="location">📍 {{ 'Brak danych' }}</span>
         </div>
+
         <p class="description" *ngIf="user?.description">
           {{ user.description | slice:0:250 }}{{ user.description.length > 250 ? '...' : '' }}
         </p>
 
         <div class="featured-images" *ngIf="user.featuredPictures.length > 0">
           <div class="featured-item" *ngFor="let pic of user.featuredPictures">
-            <img [src]="'data:image/png;base64,' + pic.image" alt="featured tattoo" class="featured-img" />
+            <img [src]="'data:image/png;base64,' + pic.image" class="featured-img" />
           </div>
         </div>
       </div>
+
     </article>
   </section>
 
-  <pagination-controls (pageChange)="p = $event" [autoHide]="true" previousLabel="‹ Prev" nextLabel="Next ›">
+  <pagination-controls
+    (pageChange)="p = $event"
+    [autoHide]="true"
+    previousLabel="‹ Prev"
+    nextLabel="Next ›">
   </pagination-controls>
 </div>
