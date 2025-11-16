@@ -38,6 +38,13 @@ public class TattooStudio {
     @Column(name = "postal_code", nullable = false, length = 6)
     private String postalCode;
 
+    @Lob
+    @Column(name = "profile_picture", columnDefinition = "LONGBLOB")
+    private byte[] profilePicture;
+
+    @Column(name = "description", columnDefinition = "TEXT")
+    private String description;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner", nullable = false)
     private User owner;
