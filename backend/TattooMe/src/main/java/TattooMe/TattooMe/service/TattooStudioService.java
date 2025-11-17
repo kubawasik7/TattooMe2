@@ -7,7 +7,6 @@ import TattooMe.TattooMe.dto.tattooStudio.TattooStudioDTO;
 import TattooMe.TattooMe.dto.user.DescriptionProfileDTO;
 import TattooMe.TattooMe.dto.user.StudioArtistDTO;
 
-import TattooMe.TattooMe.dto.user.UserDTO;
 import TattooMe.TattooMe.entity.ArtistDate;
 import TattooMe.TattooMe.entity.TattooStudio;
 import TattooMe.TattooMe.entity.TattooStudioArtist;
@@ -50,14 +49,14 @@ public class TattooStudioService {
 
 
     public TattooStudioDTO getTattooStudioById(UUID id) {
-        TattooStudio tattooStudio = tattooStudioRepository.findById(id)
+        TattooStudioDTO tattooStudio = tattooStudioRepository.findStudioByIdWithRating(id)
                 .orElseThrow(() -> new EntityNotFoundException("Studio nie znalezione"));
-        return tattooStudioMapper.toDTO(tattooStudio);
+        return tattooStudio;
     }
 
     public List<TattooStudioDTO> getAllStudios() {
-        List<TattooStudio> studios = tattooStudioRepository.findAll();
-        return tattooStudioMapper.toDTOList(studios);
+        List<TattooStudioDTO> studios = tattooStudioRepository.findAllWithRating();
+        return studios;
     }
 
     public List<StudioArtistDTO> getUsersByStudioIdWithAvgRatingAndFeatured(UUID studioId) {

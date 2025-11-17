@@ -1,12 +1,19 @@
 <div class="tattoo-me">
 
   <div class="filters">
-    <input type="text" placeholder="Szukaj po nazwie lub opisie..." [(ngModel)]="searchText"
-      (ngModelChange)="applyFilters()" />
+    <input type="text" 
+    placeholder="Szukaj po nazwie lub opisie..."
+    [(ngModel)]="searchText"
+    (ngModelChange)="applyFilters()" 
+    />
 
-    <input type="text" placeholder="Filtruj po mieście" [(ngModel)]="filterCity" (ngModelChange)="applyFilters()" />
+    <input type="text"
+    placeholder="Filtruj po mieście"
+    [(ngModel)]="filterCity"
+    (ngModelChange)="applyFilters()"
+    />
 
-    <select [(ngModel)]="sortOption" (change)="applyFilters()">
+    <select [(ngModel)]="sortOption">
       <option value="name-asc">Nazwa A-Z</option>
       <option value="name-desc">Nazwa Z-A</option>
       <option value="rate-desc">Najwyższa ocena</option>
@@ -14,6 +21,9 @@
       <option value="reviews-desc">Najwięcej opinii</option>
       <option value="reviews-asc">Najmniej opinii</option>
     </select>
+    <button type="button" (click)="applyFilters()" class="btn-apply">
+      Zastosuj
+    </button>
   </div>
 
   <section class="tm-list">
@@ -22,7 +32,7 @@
       currentPage: p,
       totalItems: filteredStudios.length
     }">
-    
+
       <div class="avatar">
         <img *ngIf="studio.profilePicture" [src]="'data:image/jpeg;base64,' + studio.profilePicture" class="avatar-img"
           alt="Studio avatar" />
@@ -36,10 +46,11 @@
         <h2 class="nickname">{{ studio.name }}</h2>
 
         <div class="meta">
-
+          <span class="rating">
+            ★ {{ studio?.averageRate | number:'1.2-2' }} ({{ studio?.reviewsCount }})
+          </span>
         </div>
 
-        
         <p class="description" *ngIf="studio.description">
           {{ studio.description | slice:0:250 }}{{ studio.description.length > 250 ? '...' : '' }}
         </p>
@@ -48,7 +59,10 @@
     </article>
   </section>
 
-  <pagination-controls (pageChange)="p = $event" [autoHide]="true" previousLabel="‹ Prev" nextLabel="Next ›">
+  <pagination-controls
+    (pageChange)="p = $event"
+    [autoHide]="true" 
+    previousLabel="‹ Prev"
+    nextLabel="Next ›">
   </pagination-controls>
-
 </div>

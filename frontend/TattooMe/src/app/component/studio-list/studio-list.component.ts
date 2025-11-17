@@ -34,7 +34,7 @@ export class StudioListComponent implements OnInit {
           ...studio,
           name: studio.name ?? '',
         }));
-        this.applyFilters();
+      this.filteredStudios = [...this.studios];
       },
       error: err => {
         console.error('Błąd podczas ładowania studiów:', err);

@@ -10,4 +10,6 @@ export interface TattooStudio {
   profilePicture: string | null;
   description: string;
   ownerNickname: string;
+  averageRate: number;
+  reviewsCount: number;
 }

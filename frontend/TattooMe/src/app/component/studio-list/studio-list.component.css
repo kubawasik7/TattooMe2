@@ -163,14 +163,29 @@ body {
   color: #bbb;
   margin-bottom: 10px;
 }
+
 .rating {
   margin-right: 10px;
   color: gold;
 }
-
 .location {
   color: lightgray;
 }
+
+.btn-apply {
+  padding: 6px 12px;
+  margin-left: 8px;
+  border: none;
+  border-radius: 6px;
+  background-color: #ff7f50;
+  color: white;
+  cursor: pointer;
+}
+
+.btn-apply:hover {
+  background-color: #ff9a70;
+}
+
 
 .description,
 .promo {
