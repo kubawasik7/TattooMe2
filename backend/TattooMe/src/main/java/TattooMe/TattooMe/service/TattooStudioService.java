@@ -4,8 +4,10 @@ import TattooMe.TattooMe.dto.Featured.FeaturedDTO;
 import TattooMe.TattooMe.dto.schedule.StudioScheduleDTO;
 import TattooMe.TattooMe.dto.tattooStudio.CreateStudioDTO;
 import TattooMe.TattooMe.dto.tattooStudio.TattooStudioDTO;
+import TattooMe.TattooMe.dto.user.DescriptionProfileDTO;
 import TattooMe.TattooMe.dto.user.StudioArtistDTO;
 
+import TattooMe.TattooMe.dto.user.UserDTO;
 import TattooMe.TattooMe.entity.ArtistDate;
 import TattooMe.TattooMe.entity.TattooStudio;
 import TattooMe.TattooMe.entity.TattooStudioArtist;
@@ -197,5 +199,15 @@ public class TattooStudioService {
         tattooStudioRepository.save(studio);
 
         return tattooStudioMapper.toDTO(studio);
+    }
+
+    public TattooStudioDTO updateDescription(UUID studioId, DescriptionProfileDTO dto) {
+        TattooStudio tattooStudio = tattooStudioRepository.findById(studioId)
+                .orElseThrow(() -> new EntityNotFoundException("Studio nie istnieje"));
+
+        tattooStudioMapper.updateDescriptionFromDto(dto, tattooStudio);
+        TattooStudio saved = tattooStudioRepository.save(tattooStudio);
+
+        return tattooStudioMapper.toDTO(saved);
     }
 }

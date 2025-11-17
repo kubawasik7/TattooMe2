@@ -2,9 +2,12 @@ package TattooMe.TattooMe.mapper;
 
 import TattooMe.TattooMe.dto.tattooStudio.CreateStudioDTO;
 import TattooMe.TattooMe.dto.tattooStudio.TattooStudioDTO;
+import TattooMe.TattooMe.dto.user.DescriptionProfileDTO;
 import TattooMe.TattooMe.entity.TattooStudio;
+import TattooMe.TattooMe.entity.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 
 import java.util.List;
@@ -18,4 +21,6 @@ public interface TattooStudioMapper {
     TattooStudioDTO toDTO(TattooStudio tattooStudio);
 
     List<TattooStudioDTO> toDTOList(List<TattooStudio> studios);
+    void updateDescriptionFromDto(DescriptionProfileDTO dto, @MappingTarget TattooStudio tattooStudio);
+
 }

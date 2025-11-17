@@ -6,6 +6,7 @@ import { AuthService } from '../../service/auth.service';
 import { NotificationService } from '../../service/notification.service';
 import { StudioArtist } from '../../model/studio-artist';
 import { ChatService } from '../../service/chat.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-tattoo-studio',
@@ -26,6 +27,8 @@ export class TattooStudioComponent implements OnInit {
   isMember = false;
   selectedFile?: File;
   previewUrl: string | null = null;
+  descriptionForm!: FormGroup;
+  editing = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -33,13 +36,18 @@ export class TattooStudioComponent implements OnInit {
     private chatService: ChatService,
     private studioService: StudioService,
     private authService: AuthService,
-    private notification: NotificationService
+    private notification: NotificationService,
+    private fb: FormBuilder
   ) { }
 
   ngOnInit(): void {
     this.studioId = this.route.snapshot.paramMap.get('id')!;
     this.currentUserId = this.authService.getUserId();
     this.isLoggedIn = this.authService.isLoggedIn();
+    this.descriptionForm = this.fb.group({
+      description: ['', [Validators.maxLength(1000)]],
+    });
+
 
     
     this.loadStudio();
@@ -51,6 +59,7 @@ export class TattooStudioComponent implements OnInit {
         this.tattooStudio = studio;
         this.loadMembers();
         this.previewUrl = studio.profilePicture ? `data:image/png;base64,${studio.profilePicture}` : null;
+        this.descriptionForm.patchValue({ description: this.tattooStudio.description || '' });
       },
       error: err => {
         console.log("Nie udało się załadować studia");
@@ -117,5 +126,44 @@ export class TattooStudioComponent implements OnInit {
 
   get canEdit(): boolean {
     return this.currentUserRole === 'OWNER' || this.currentUserRole === 'EDITOR';
+  }
+
+  startEdit(): void {
+    this.editing = true;
+    setTimeout(() => {
+      const textarea = document.querySelector<HTMLTextAreaElement>('textarea');
+      if (textarea) this.adjustHeight(textarea);
+    });
+  }
+
+  cancelEdit(): void {
+    this.editing = false;
+    this.descriptionForm.patchValue({ description: this.tattooStudio.description });
+  }
+
+  get descriptionControl() {
+    return this.descriptionForm.get('description');
+  }
+
+  saveDescription(): void {
+    if (this.descriptionForm.invalid) return;
+
+    const newDescription = this.descriptionForm.value.description;
+
+    this.studioService.updateDescription(this.studioId, newDescription).subscribe({
+      next: updated => {
+        this.tattooStudio.description = updated.description;
+        this.editing = false;
+        this.notification.showSuccess("Opis został dodany");
+      },
+      error: err => {
+        this.notification.showError("Opis nie został dodany")
+      }
+    });
+  }
+
+  adjustHeight(element: HTMLTextAreaElement): void {
+    element.style.height = 'auto';
+    element.style.height = element.scrollHeight + 'px';
   }
 }

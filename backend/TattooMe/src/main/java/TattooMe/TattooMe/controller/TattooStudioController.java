@@ -4,7 +4,9 @@ import TattooMe.TattooMe.Security.CustomUserDetails;
 import TattooMe.TattooMe.dto.schedule.StudioScheduleDTO;
 import TattooMe.TattooMe.dto.tattooStudio.CreateStudioDTO;
 import TattooMe.TattooMe.dto.tattooStudio.TattooStudioDTO;
+import TattooMe.TattooMe.dto.user.DescriptionProfileDTO;
 import TattooMe.TattooMe.dto.user.StudioArtistDTO;
+import TattooMe.TattooMe.dto.user.UserDTO;
 import TattooMe.TattooMe.entity.TattooStudio;
 import TattooMe.TattooMe.service.TattooStudioService;
 import jakarta.validation.Valid;
@@ -88,6 +90,13 @@ public class TattooStudioController {
 
         TattooStudioDTO updatedStudio = studioService.updateAvatar(studioId, file);
         return ResponseEntity.ok(updatedStudio); // zwraca JSON
+    }
+
+    @PutMapping("/{studioId}/description")
+    public ResponseEntity<TattooStudioDTO> updateDescription(@RequestBody DescriptionProfileDTO dto,
+                                                     @PathVariable UUID studioId) {
+        TattooStudioDTO updated = studioService.updateDescription(studioId, dto);
+        return ResponseEntity.ok(updated);
     }
 
 }

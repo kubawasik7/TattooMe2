@@ -1,6 +1,6 @@
 <main class="container profile-page">
   <section class="profile-header">
-    
+
     <div class="profile-avatar">
       <div class="profile-picture-wrapper" (click)="isOwner && fileInput.click()">
         <img [src]="previewUrl || defaultAvatar" class="profile-picture" alt="Avatar studia">
@@ -45,6 +45,38 @@
     <app-work-hour [studioId]="studioId"></app-work-hour>
     <button class="btn-close" (click)="showWorkHourEditor=false">✖ Zamknij</button>
   </div>
+
+  <div class="description" *ngIf="descriptionForm" [formGroup]="descriptionForm">
+    <h3 class="section-title">Opis</h3>
+
+    <ng-container *ngIf="!editing; else editTpl">
+      <p class="description-text" [class.no-description]="!descriptionForm.get('description')?.value">
+        {{ descriptionForm.get('description')?.value || 'Brak opisu...' }}
+        <button *ngIf="isOwner" type="button" class="edit-btn" (click)="startEdit()">
+          <i class="fas fa-pen"></i>
+        </button>
+      </p>
+    </ng-container>
+
+    <ng-template #editTpl>
+      <textarea formControlName="description" rows="3" #autoResize (input)="adjustHeight(autoResize)"
+        placeholder="Wpisz swój opis..."></textarea>
+
+      <div class="error" *ngIf="
+      descriptionForm.get('description')?.touched &&
+      descriptionForm.get('description')?.hasError('maxlength')
+    ">
+        Opis nie może mieć więcej niż 1000 znaków.
+      </div>
+
+      <div class="btn-row">
+        <button type="button" class="btn2 saveDesc-btn" (click)="saveDescription()">Zapisz</button>
+        <button type="button" class="btn2 cancel-btn" (click)="cancelEdit()">Anuluj</button>
+      </div>
+    </ng-template>
+  </div>
+
+
 
   <section class="studio-members">
     <app-studio-member [studioId]="studioId" [users]="studioArtists" (membersUpdated)="loadMembers()">

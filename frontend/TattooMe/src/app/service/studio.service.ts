@@ -54,4 +54,11 @@ export class StudioService {
   return this.http.put<TattooStudio>(`${this.baseUrl}/${studioId}/avatar`, formData);
 }
 
+updateDescription(studioId: string, description: string): Observable<TattooStudio> {
+    return this.http.put<TattooStudio>(
+      `${this.baseUrl}/${studioId}/description`,
+      { description }
+    );
+  }
+
 }
