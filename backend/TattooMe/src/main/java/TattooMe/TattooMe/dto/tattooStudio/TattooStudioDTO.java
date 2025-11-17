@@ -14,5 +14,7 @@ public class TattooStudioDTO {
     private String street;
     private String streetNumber;
     private String postalCode;
+    private String profilePicture;
+    private String description;
     private String ownerNickname;
 }

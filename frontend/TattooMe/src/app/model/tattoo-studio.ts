@@ -7,5 +7,7 @@ export interface TattooStudio {
   street: string;
   streetNumber: string;
   postalCode: string;
+  profilePicture: string | null;
+  description: string;
   ownerNickname: string;
 }

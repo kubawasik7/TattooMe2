@@ -19,8 +19,10 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -43,6 +45,7 @@ public class TattooStudioService {
     private ReviewRepository reviewRepository;
     @Autowired
     private ArtistDateRepository artistDateRepository;
+
 
     public TattooStudioDTO getTattooStudioById(UUID id) {
         TattooStudio tattooStudio = tattooStudioRepository.findById(id)
@@ -121,8 +124,6 @@ public class TattooStudioService {
         return allSlots;
     }
 
-
-
     @Transactional
     public TattooStudioDTO createStudio(CreateStudioDTO dto, UUID ownerId) {
         User owner = userRepository.findById(ownerId)
@@ -182,5 +183,19 @@ public class TattooStudioService {
 
         member.setRole(StudioRole.valueOf(newRole));
         tattooStudioArtistRepository.save(member);
+    }
+    public TattooStudioDTO updateAvatar(UUID studioId, MultipartFile file) {
+        TattooStudio studio = tattooStudioRepository.findById(studioId)
+                .orElseThrow(() -> new RuntimeException("Studio nie znalezione"));
+
+        try {
+            studio.setProfilePicture(file.getBytes());
+        } catch (IOException e) {
+            throw new RuntimeException("Błąd przy odczycie pliku");
+        }
+
+        tattooStudioRepository.save(studio);
+
+        return tattooStudioMapper.toDTO(studio);
     }
 }

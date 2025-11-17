@@ -1,7 +1,16 @@
 <main class="container profile-page">
   <section class="profile-header">
+    
     <div class="profile-avatar">
-      <img [src]="defaultAvatar" alt="Profilowe studia" class="avatar-img" />
+      <div class="profile-picture-wrapper" (click)="isOwner && fileInput.click()">
+        <img [src]="previewUrl || defaultAvatar" class="profile-picture" alt="Avatar studia">
+      </div>
+
+      <input #fileInput type="file" accept="image/*" style="display: none" (change)="onFileSelected($event)" />
+
+      <button *ngIf="selectedFile && isLoggedIn && isOwner" (click)="uploadAvatar()" class="btn2 save-btn">
+        Zapisz zdjęcie
+      </button>
     </div>
 
     <div class="profile-info">
@@ -41,13 +50,13 @@
     <app-studio-member [studioId]="studioId" [users]="studioArtists" (membersUpdated)="loadMembers()">
     </app-studio-member>
   </section>
-  
+
   <section class="studio-users studio-schedules">
     <div class="studio-users-header">
       <h2>Terminy tatuatorów</h2>
     </div>
 
-    <hr class="divider"/>
+    <hr class="divider" />
 
     <div *ngIf="studioArtists.length > 0; else noArtists">
       <div *ngFor="let artist of studioArtists" class="user-wrapper">
@@ -73,10 +82,8 @@
     </ng-template>
   </section>
 
-  <app-faq
-    [currentUserRole]="currentUserRole"
-    [studioId]="studioId">
+  <app-faq [currentUserRole]="currentUserRole" [studioId]="studioId">
   </app-faq>
 
-  <app-review [studioId] = "studioId" [studioRole]="currentUserRole"></app-review>
+  <app-review [studioId]="studioId" [studioRole]="currentUserRole"></app-review>
 </main>

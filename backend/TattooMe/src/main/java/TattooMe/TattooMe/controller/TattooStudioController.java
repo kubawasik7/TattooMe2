@@ -5,6 +5,7 @@ import TattooMe.TattooMe.dto.schedule.StudioScheduleDTO;
 import TattooMe.TattooMe.dto.tattooStudio.CreateStudioDTO;
 import TattooMe.TattooMe.dto.tattooStudio.TattooStudioDTO;
 import TattooMe.TattooMe.dto.user.StudioArtistDTO;
+import TattooMe.TattooMe.entity.TattooStudio;
 import TattooMe.TattooMe.service.TattooStudioService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +13,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -76,4 +79,15 @@ public class TattooStudioController {
         studioService.updateMemberRole(studioId, userId, newRole, user.getUsername());
         return ResponseEntity.ok(Map.of("role", newRole));
     }
+
+
+    @PutMapping("/{studioId}/avatar")
+    public ResponseEntity<TattooStudioDTO> uploadAvatar(
+            @PathVariable UUID studioId,
+            @RequestParam("file") MultipartFile file) {
+
+        TattooStudioDTO updatedStudio = studioService.updateAvatar(studioId, file);
+        return ResponseEntity.ok(updatedStudio); // zwraca JSON
+    }
+
 }

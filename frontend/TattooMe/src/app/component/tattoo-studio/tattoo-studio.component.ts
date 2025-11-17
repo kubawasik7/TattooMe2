@@ -24,6 +24,8 @@ export class TattooStudioComponent implements OnInit {
   isLoggedIn = false;
   isOwner = false;
   isMember = false;
+  selectedFile?: File;
+  previewUrl: string | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -38,6 +40,8 @@ export class TattooStudioComponent implements OnInit {
     this.studioId = this.route.snapshot.paramMap.get('id')!;
     this.currentUserId = this.authService.getUserId();
     this.isLoggedIn = this.authService.isLoggedIn();
+
+    
     this.loadStudio();
   }
 
@@ -46,6 +50,7 @@ export class TattooStudioComponent implements OnInit {
       next: studio => {
         this.tattooStudio = studio;
         this.loadMembers();
+        this.previewUrl = studio.profilePicture ? `data:image/png;base64,${studio.profilePicture}` : null;
       },
       error: err => {
         console.log("Nie udało się załadować studia");
@@ -60,6 +65,7 @@ export class TattooStudioComponent implements OnInit {
         const current = this.studioArtists.find(a => a.id === this.currentUserId);
         this.currentUserRole = current?.studioRole || null;
         this.isMember = !!current;
+        this.isOwner = this.currentUserRole === 'OWNER';
       },
       error: err => {
         console.log("Nie udało się załadować członków");
@@ -80,6 +86,33 @@ export class TattooStudioComponent implements OnInit {
         console.log("Nie udało się rozpocząc rozmowy");
       }
     });
+  }
+
+   onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (!input.files?.length) return;
+    this.selectedFile = input.files[0];
+
+    const reader = new FileReader();
+    reader.onload = () => this.previewUrl = reader.result as string;
+    reader.readAsDataURL(this.selectedFile);
+  }
+
+  uploadAvatar(): void {
+    if (!this.selectedFile) return;
+
+    this.studioService.uploadAvatar(this.tattooStudio.id, this.selectedFile)
+      .subscribe({
+        next: updatedStudio => {
+          this.tattooStudio = updatedStudio;
+          this.previewUrl = updatedStudio.profilePicture 
+            ? `data:image/png;base64,${updatedStudio.profilePicture}`
+            : null;
+          this.notification.showSuccess("Zdjęcie zostało dodane");
+          this.selectedFile = undefined;
+        },
+        error: () => this.notification.showError("Nie udało się dodać zdjęcia")
+      });
   }
 
   get canEdit(): boolean {

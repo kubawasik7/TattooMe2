@@ -47,4 +47,11 @@ export class StudioService {
     const body = { role };
     return this.http.put(`${this.baseUrl}/${studioId}/members/${userId}/role`, body);
   }
+
+ uploadAvatar(studioId: string, file: File) {
+  const formData = new FormData();
+  formData.append('file', file); // nazwa parametru musi zgadzać się z backendem
+  return this.http.put<TattooStudio>(`${this.baseUrl}/${studioId}/avatar`, formData);
+}
+
 }
