@@ -39,7 +39,10 @@
 
         </div>
 
-        <p class="description">desc</p>
+        
+        <p class="description" *ngIf="studio.description">
+          {{ studio.description | slice:0:250 }}{{ studio.description.length > 250 ? '...' : '' }}
+        </p>
         <p class="promo">promo</p>
       </div>
     </article>
