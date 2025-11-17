@@ -22,9 +22,14 @@
       currentPage: p,
       totalItems: filteredStudios.length
     }">
+    
       <div class="avatar">
+        <img *ngIf="studio.profilePicture" [src]="'data:image/jpeg;base64,' + studio.profilePicture" class="avatar-img"
+          alt="Studio avatar" />
 
-        <div * class="avatar-placeholder">Brak zdjęcia</div>
+        <div *ngIf="!studio.profilePicture" class="avatar-placeholder">
+          Brak zdjęcia
+        </div>
       </div>
 
       <div class="info" [routerLink]="['/studio', studio.id]">
@@ -40,11 +45,7 @@
     </article>
   </section>
 
-  <pagination-controls
-    (pageChange)="p = $event"
-    [autoHide]="true"
-    previousLabel="‹ Prev"
-    nextLabel="Next ›">
+  <pagination-controls (pageChange)="p = $event" [autoHide]="true" previousLabel="‹ Prev" nextLabel="Next ›">
   </pagination-controls>
 
 </div>
