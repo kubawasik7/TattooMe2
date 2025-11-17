@@ -2,13 +2,13 @@
   <section class="profile-header">
 
     <div class="profile-avatar">
-      <div class="profile-picture-wrapper" (click)="isOwner && fileInput.click()">
+      <div class="profile-picture-wrapper" (click)="canEdit && fileInput.click()">
         <img [src]="previewUrl || defaultAvatar" class="profile-picture" alt="Avatar studia">
       </div>
 
       <input #fileInput type="file" accept="image/*" style="display: none" (change)="onFileSelected($event)" />
 
-      <button *ngIf="selectedFile && isLoggedIn && isOwner" (click)="uploadAvatar()" class="btn2 save-btn">
+      <button *ngIf="selectedFile && isLoggedIn && canEdit" (click)="uploadAvatar()" class="btn2 save-btn">
         Zapisz zdjęcie
       </button>
     </div>
@@ -52,7 +52,7 @@
     <ng-container *ngIf="!editing; else editTpl">
       <p class="description-text" [class.no-description]="!descriptionForm.get('description')?.value">
         {{ descriptionForm.get('description')?.value || 'Brak opisu...' }}
-        <button *ngIf="isOwner" type="button" class="edit-btn" (click)="startEdit()">
+        <button *ngIf="canEdit" type="button" class="edit-btn" (click)="startEdit()">
           <i class="fas fa-pen"></i>
         </button>
       </p>
