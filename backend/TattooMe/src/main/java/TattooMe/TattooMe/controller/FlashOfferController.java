@@ -2,6 +2,7 @@ package TattooMe.TattooMe.controller;
 
 import TattooMe.TattooMe.dto.flashOffer.FlashOfferDTO;
 import TattooMe.TattooMe.service.FlashOfferService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ public class FlashOfferController {
     }
 
     @PostMapping
-    public ResponseEntity<FlashOfferDTO> create(@RequestBody FlashOfferDTO dto) {
+    public ResponseEntity<FlashOfferDTO> create(@RequestBody @Valid FlashOfferDTO dto) {
         return ResponseEntity.ok(flashOfferService.createFlashOffer(dto));
     }
 

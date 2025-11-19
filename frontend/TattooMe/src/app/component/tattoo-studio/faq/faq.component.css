@@ -129,3 +129,7 @@
 .add-faq button:hover {
   background-color: #43a047;
 }
+
+.error {
+  color: #c9302c;
+}

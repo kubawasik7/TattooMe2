@@ -2,6 +2,7 @@ package TattooMe.TattooMe.controller;
 
 import TattooMe.TattooMe.dto.faq.FaqDTO;
 import TattooMe.TattooMe.service.FaqService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +21,7 @@ public class FaqController {
     }
 
     @PostMapping
-    public FaqDTO addFaq(@PathVariable UUID studioId, @RequestBody FaqDTO faqDTO) {
+    public FaqDTO addFaq(@PathVariable UUID studioId, @RequestBody @Valid FaqDTO faqDTO) {
         return faqService.addFaq(studioId, faqDTO);
     }
 
