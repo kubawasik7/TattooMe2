@@ -12,7 +12,7 @@
 
     <div class="profile-info">
       <div class="nickname-rating">
-        <h2 class="nickname">{{ user.nickname }}</h2>
+        <h2 class="nickname" *ngIf="user">{{ user.nickname }}</h2>
         <h2 class="rating">★ {{ user.averageRate | number:'1.2-2' }} ({{user.reviewsCount}})</h2>
       </div>
 
