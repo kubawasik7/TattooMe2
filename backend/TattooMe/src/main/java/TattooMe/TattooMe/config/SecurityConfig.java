@@ -93,6 +93,9 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/api/users/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/studios/**").permitAll()
                 .requestMatchers(HttpMethod.PATCH, "/api/visits/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/flash-offer/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/offers").permitAll()
+
 
                 .anyRequest().authenticated()
         );
