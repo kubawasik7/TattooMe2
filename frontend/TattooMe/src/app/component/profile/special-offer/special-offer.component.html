@@ -85,6 +85,15 @@
       <div class="discount-wrapper">
         <label for="percentOff">Rabat (%)</label>
         <input type="number" formControlName="percentOff" id="percentOff" min="0" max="100" />
+           <div class="error"
+          *ngIf="editingForm.get('percentOff')?.touched && editingForm.get('percentOff')?.hasError('min')">
+          Minimalnie 1 %
+        </div>
+
+        <div class="error"
+          *ngIf="editingForm.get('percentOff')?.touched && editingForm.get('percentOff')?.hasError('max')">
+          Maksymalnie 100 %
+        </div>
       </div>
 
       <div class="action-buttons">
