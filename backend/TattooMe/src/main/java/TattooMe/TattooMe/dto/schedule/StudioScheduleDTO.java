@@ -12,7 +12,6 @@ public class StudioScheduleDTO {
     private UUID slotId;
     private LocalDateTime dateTime;
     private boolean available;
-
     private UUID artistId;
     private String artistNickname;
     private String artistName;

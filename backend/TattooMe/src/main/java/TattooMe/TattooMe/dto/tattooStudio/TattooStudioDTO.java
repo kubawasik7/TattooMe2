@@ -9,9 +9,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @AllArgsConstructor
-
 public class TattooStudioDTO {
-
     private UUID id;
     private String name;
     private String city;

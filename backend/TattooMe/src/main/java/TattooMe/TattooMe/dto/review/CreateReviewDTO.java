@@ -1,9 +1,6 @@
 package TattooMe.TattooMe.dto.review;
 
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +9,6 @@ import java.util.UUID;
 @Getter
 @Setter
 public class CreateReviewDTO {
-
     @NotNull(message = "ID wizyty jest wymagane")
     private UUID visitId;
 
@@ -21,5 +17,6 @@ public class CreateReviewDTO {
     private int rate;
 
     @NotBlank(message = "Treść opinii nie może być pusta")
+    @Size(max = 255, message = "Treść opinii nie może przekraczać 255 znaków")
     private String content;
 }

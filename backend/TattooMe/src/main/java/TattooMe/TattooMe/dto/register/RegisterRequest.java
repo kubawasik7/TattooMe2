@@ -14,7 +14,7 @@ public class RegisterRequest {
     private String nickname;
 
     @NotBlank(message = "Hasło nie może być puste")
-    @Size(min = 6, max = 60, message = "Hasło musi mieć co najmniej 6 znaków")
+    @Size(min = 6, max = 60, message = "Hasło musi mieć od 6 do 60 znaków")
     private String password;
 
     @NotBlank(message = "Email nie może być pusty")
