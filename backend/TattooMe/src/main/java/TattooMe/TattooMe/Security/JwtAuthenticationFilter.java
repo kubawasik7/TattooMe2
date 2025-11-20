@@ -1,5 +1,6 @@
 package TattooMe.TattooMe.Security;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,27 +30,38 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             HttpServletRequest req,
             HttpServletResponse res,
             FilterChain chain
-    ) throws ServletException, IOException {
+    ) throws IOException {
         String header = req.getHeader("Authorization");
-        if (header != null && header.startsWith("Bearer ")) {
-            String token = header.substring(7);
-            if (jwtUtil.validateToken(token)) {
-                String idStr = jwtUtil.getUsernameFromJWT(token);
-                UUID id = UUID.fromString(idStr);
+        try {
+            if (header != null && header.startsWith("Bearer ")) {
+                String token = header.substring(7);
+                if (jwtUtil.validateToken(token)) {
 
-                CustomUserDetails userDetails = customUserDetailsService.loadUserById(id);
+                    String idStr = jwtUtil.getUsernameFromJWT(token);
+                    UUID id = UUID.fromString(idStr);
 
-                UsernamePasswordAuthenticationToken auth =
-                        new UsernamePasswordAuthenticationToken(
-                                userDetails,
-                                null,
-                                userDetails.getAuthorities()
-                        );
-                auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(req));
+                    CustomUserDetails userDetails = customUserDetailsService.loadUserById(id);
 
-                SecurityContextHolder.getContext().setAuthentication(auth);
+                    UsernamePasswordAuthenticationToken auth =
+                            new UsernamePasswordAuthenticationToken(
+                                    userDetails,
+                                    null,
+                                    userDetails.getAuthorities()
+                            );
+
+                    auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(req));
+                    SecurityContextHolder.getContext().setAuthentication(auth);
+                }
             }
+            chain.doFilter(req, res);
+        } catch (ExpiredJwtException ex) {
+            res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            res.getWriter().write("TOKEN_EXPIRED");
+
+        } catch (Exception ex) {
+            res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            res.getWriter().write("INVALID_TOKEN");
         }
-        chain.doFilter(req, res);
     }
+
 }
