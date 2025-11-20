@@ -15,7 +15,7 @@
 
   <div class="profile-info">
   <div class="nickname-rating">
-    <h2 class="nickname">{{ tattooStudio.name }}</h2>
+    <h2 class="nickname" *ngIf="tattooStudio">{{ tattooStudio.name }}</h2>
     <h2 class="rating">★ {{ tattooStudio.averageRate | number:'1.2-2' }} ({{ tattooStudio.reviewsCount }})</h2>
   </div>
 
@@ -23,14 +23,16 @@
 
   <div class="studio-address">
     <p>{{ tattooStudio.city }}</p>
-    <p>{{ tattooStudio.street }} {{ tattooStudio.streetNumber }}</p>
+    <p>Ul. {{ tattooStudio.street }} {{ tattooStudio.streetNumber }}</p>
     <p>{{ tattooStudio.postalCode }}</p>
   </div>
 </div>
 
 
     <div class="profile-actions">
-      <app-work-hour-mini [studioId]="studioId" (openEditor)="showWorkHourEditor = true">
+      <app-work-hour-mini
+      [studioId]="studioId"
+      (openEditor)="showWorkHourEditor = true">
       </app-work-hour-mini>
 
       <div class="profile-buttons">
