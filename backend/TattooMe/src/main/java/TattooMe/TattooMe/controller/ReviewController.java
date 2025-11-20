@@ -20,7 +20,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/reviews")
-@RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:4200")
 public class ReviewController {
     @Autowired
     private ReviewService reviewService;

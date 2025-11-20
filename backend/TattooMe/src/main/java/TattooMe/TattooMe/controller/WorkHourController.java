@@ -3,6 +3,7 @@ package TattooMe.TattooMe.controller;
 import TattooMe.TattooMe.dto.workHour.WorkHourDTO;
 import TattooMe.TattooMe.service.WorkHourService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,10 +12,10 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/studios")
-@RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:4200")
 public class WorkHourController {
-
-    private final WorkHourService workHourService;
+    @Autowired
+    private WorkHourService workHourService;
 
     @GetMapping("/{studioId}/work-hours")
     public ResponseEntity<List<WorkHourDTO>> getWorkHours(@PathVariable UUID studioId) {

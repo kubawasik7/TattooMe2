@@ -11,6 +11,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/studios/{studioId}/faq")
+@CrossOrigin(origins = "http://localhost:4200")
 public class FaqController {
     @Autowired
     private FaqService faqService;

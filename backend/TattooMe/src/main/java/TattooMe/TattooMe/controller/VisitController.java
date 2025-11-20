@@ -5,6 +5,7 @@ import TattooMe.TattooMe.dto.visit.NewVisitDTO;
 import TattooMe.TattooMe.dto.visit.VisitDTO;
 import TattooMe.TattooMe.service.VisitService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,10 +17,10 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/visits")
-@RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:4200")
 public class VisitController {
-    private final VisitService visitService;
+    @Autowired
+    private VisitService visitService;
 
     @PostMapping
     public ResponseEntity<Void> createVisit(@AuthenticationPrincipal CustomUserDetails user, @RequestBody NewVisitDTO newVisitDTO) {

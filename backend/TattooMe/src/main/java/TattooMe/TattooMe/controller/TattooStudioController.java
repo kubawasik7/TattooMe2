@@ -11,6 +11,7 @@ import TattooMe.TattooMe.entity.TattooStudio;
 import TattooMe.TattooMe.service.TattooStudioService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -22,13 +23,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-
 @RestController
 @RequestMapping("/api/studios")
-@RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:4200")
 public class TattooStudioController {
-
-    private final TattooStudioService studioService;
+    @Autowired
+    private TattooStudioService studioService;
 
     @GetMapping("/{id}")
     public ResponseEntity<TattooStudioDTO> getUserById(@PathVariable UUID id) {
@@ -94,7 +94,7 @@ public class TattooStudioController {
 
     @PutMapping("/{studioId}/description")
     public ResponseEntity<TattooStudioDTO> updateDescription(@RequestBody DescriptionProfileDTO dto,
-                                                     @PathVariable UUID studioId) {
+                                                             @PathVariable UUID studioId) {
         TattooStudioDTO updated = studioService.updateDescription(studioId, dto);
         return ResponseEntity.ok(updated);
     }
