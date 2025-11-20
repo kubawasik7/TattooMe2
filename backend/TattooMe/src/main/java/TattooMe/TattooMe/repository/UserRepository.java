@@ -28,17 +28,16 @@ public interface UserRepository extends JpaRepository<User, UUID> {
             """)
     Optional<UserDTO> findUserByIdWithRating(@Param("id") UUID id);
 
-
     @Query("""
-        SELECT new TattooMe.TattooMe.dto.user.UserDTO(
-            u.id, u.nickname, u.name, u.surname, u.email, u.description, u.profilePicture,
-            COALESCE(AVG(r.rate), 0), COUNT(r), null)
-        FROM User u
-        LEFT JOIN Review r ON r.target.id = u.id
-        WHERE (:role IS NULL OR u.role = :role)
-        GROUP BY u.id
-        ORDER BY u.nickname
-    """)
+                SELECT new TattooMe.TattooMe.dto.user.UserDTO(
+                    u.id, u.nickname, u.name, u.surname, u.email, u.description, u.profilePicture,
+                    COALESCE(AVG(r.rate), 0), COUNT(r), null)
+                FROM User u
+                LEFT JOIN Review r ON r.target.id = u.id
+                WHERE (:role IS NULL OR u.role = :role)
+                GROUP BY u.id
+                ORDER BY u.nickname
+            """)
     List<UserDTO> findAllUsersWithAvgRating(@Param("role") String role);
 
     @Query("""
@@ -51,10 +50,4 @@ public interface UserRepository extends JpaRepository<User, UUID> {
             ORDER BY COUNT(r) DESC, AVG(r.rate) DESC
             """)
     List<UserDTO> findTopUsersWithAvgRating(Pageable pageable);
-
-    @Query("SELECT DISTINCT u FROM User u " +
-            "LEFT JOIN FETCH u.featuredList f " +
-            "LEFT JOIN FETCH u.reviews r " +
-            "WHERE (:role IS NULL OR u.role = :role)")
-    List<User> findAllByRoleWithFeatured(@Param("role") String role);
 }

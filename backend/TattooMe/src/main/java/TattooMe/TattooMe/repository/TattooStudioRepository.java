@@ -33,14 +33,14 @@ public interface TattooStudioRepository extends JpaRepository<TattooStudio, UUID
     Optional<TattooStudioDTO> findStudioByIdWithRating(@Param("id") UUID id);
 
     @Query("""
-    SELECT new TattooMe.TattooMe.dto.tattooStudio.TattooStudioDTO(
-        s.id, s.name, s.city, s.street, s.streetNumber, s.postalCode,
-        s.description, s.profilePicture, s.owner.nickname,
-        COALESCE(AVG(r.rate), 0), COUNT(r), null)
-    FROM TattooStudio s
-    LEFT JOIN Review r ON r.tattooStudio.id = s.id
-    GROUP BY s.id
-    ORDER BY COUNT(r) DESC, COALESCE(AVG(r.rate), 0) DESC
-""")
+                SELECT new TattooMe.TattooMe.dto.tattooStudio.TattooStudioDTO(
+                    s.id, s.name, s.city, s.street, s.streetNumber, s.postalCode,
+                    s.description, s.profilePicture, s.owner.nickname,
+                    COALESCE(AVG(r.rate), 0), COUNT(r), null)
+                FROM TattooStudio s
+                LEFT JOIN Review r ON r.tattooStudio.id = s.id
+                GROUP BY s.id
+                ORDER BY COUNT(r) DESC, COALESCE(AVG(r.rate), 0) DESC
+            """)
     List<TattooStudioDTO> findAllWithRating();
 }
