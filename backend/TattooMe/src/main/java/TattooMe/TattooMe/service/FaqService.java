@@ -17,7 +17,6 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class FaqService {
     @Autowired
     private FaqRepository faqRepository;
@@ -48,6 +47,5 @@ public class FaqService {
     public void deleteFaq(UUID faqId) {
         faqRepository.deleteById(faqId);
     }
-
 }
 

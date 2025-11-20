@@ -30,7 +30,6 @@ import java.util.UUID;
 
 
 @Service
-@RequiredArgsConstructor
 public class TattooStudioService {
     @Autowired
     private UserRepository userRepository;
@@ -98,6 +97,7 @@ public class TattooStudioService {
                 })
                 .toList();
     }
+
     public List<StudioScheduleDTO> getAllArtistSlots(UUID studioId) {
         List<TattooStudioArtist> artists = tattooStudioArtistRepository.findByTattooStudio_Id(studioId);
 
@@ -185,6 +185,7 @@ public class TattooStudioService {
         member.setRole(StudioRole.valueOf(newRole));
         tattooStudioArtistRepository.save(member);
     }
+
     public TattooStudioDTO updateAvatar(UUID studioId, MultipartFile file) {
         TattooStudio studio = tattooStudioRepository.findById(studioId)
                 .orElseThrow(() -> new RuntimeException("Studio nie znalezione"));

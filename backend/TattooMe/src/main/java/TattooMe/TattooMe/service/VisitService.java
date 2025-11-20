@@ -19,7 +19,6 @@ import java.util.UUID;
 
 
 @Service
-@RequiredArgsConstructor
 public class VisitService {
     @Autowired
     private VisitRepository visitRepository;

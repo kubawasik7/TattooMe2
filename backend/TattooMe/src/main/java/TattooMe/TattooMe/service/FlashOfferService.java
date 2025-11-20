@@ -10,19 +10,22 @@ import TattooMe.TattooMe.repository.FlashRepository;
 import TattooMe.TattooMe.repository.TattooArtistOfferRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
 @Service
-@RequiredArgsConstructor
 public class FlashOfferService {
-
-    private final FlashOfferRepository flashOfferRepository;
-    private final FlashRepository flashRepository;
-    private final TattooArtistOfferRepository tattooArtistOfferRepository;
-    private final FlashOfferMapper flashOfferMapper;
+    @Autowired
+    private FlashOfferRepository flashOfferRepository;
+    @Autowired
+    private FlashRepository flashRepository;
+    @Autowired
+    private TattooArtistOfferRepository tattooArtistOfferRepository;
+    @Autowired
+    private FlashOfferMapper flashOfferMapper;
 
     public List<FlashOfferDTO> getOffersByArtistOffer(UUID tattooArtistOfferId) {
         return flashOfferRepository.findByTattooArtistOfferId(tattooArtistOfferId)
@@ -46,7 +49,7 @@ public class FlashOfferService {
     }
 
     public void deleteFlashOffer(UUID id) {
-        if(!flashOfferRepository.existsById(id)) {
+        if (!flashOfferRepository.existsById(id)) {
             throw new EntityNotFoundException("Flash nie znaleziony");
         }
         flashOfferRepository.deleteById(id);

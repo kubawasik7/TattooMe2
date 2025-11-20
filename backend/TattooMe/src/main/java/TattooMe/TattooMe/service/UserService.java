@@ -77,7 +77,6 @@ public class UserService {
         return users;
     }
 
-
     public List<UserDTO> getTop5Artists() {
         Pageable top4 = PageRequest.of(0, 4);
         return userRepository.findTopUsersWithAvgRating(top4);
@@ -113,7 +112,6 @@ public class UserService {
 
         return new LoginResponse(token);
     }
-
 
     public UserDTO updateProfilePicture(UUID userId, MultipartFile multipartFile) throws IOException {
         User user = userRepository.findById(userId)
@@ -153,5 +151,4 @@ public class UserService {
 
         return userMapper.toDTO(updated);
     }
-
 }

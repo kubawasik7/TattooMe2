@@ -21,7 +21,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-@RequiredArgsConstructor
 public class ReviewService {
     @Autowired
     private ReviewRepository reviewRepository;
@@ -35,8 +34,6 @@ public class ReviewService {
     private ReviewMapper reviewMapper;
     @Autowired
     private ReviewAnswerMapper reviewAnswerMapper;
-    @Autowired
-    private TattooStudioArtistRepository tattooStudioArtistRepository;
 
     public List<ReviewDTO> getReviewsForArtist(UUID artistId) {
         return reviewRepository.findByTarget_Id(artistId).stream()
@@ -63,10 +60,10 @@ public class ReviewService {
             throw new AccessDeniedException("Tylko klient może wystawić opinię");
         }
 
-//        if (!"ZATWIERDZONA".equals(visit.getStatus().getName())
-//                || visit.getArtistDate().getDate().isAfter(LocalDateTime.now())) {
-//            throw new RuntimeException("Opinia może być wystawiona tylko po zakończonej wizycie");
-//        }
+        if (!"ZATWIERDZONA".equals(visit.getStatus().getName())
+                || visit.getArtistDate().getDate().isAfter(LocalDateTime.now())) {
+            throw new RuntimeException("Opinia może być wystawiona tylko po zakończonej wizycie");
+        }
 
         if (reviewRepository.findByVisit_Id(dto.getVisitId()).isPresent()) {
             throw new RuntimeException("Opinia już istnieje dla tej wizyty");

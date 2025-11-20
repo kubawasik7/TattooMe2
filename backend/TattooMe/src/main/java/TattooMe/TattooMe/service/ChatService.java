@@ -19,7 +19,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-@RequiredArgsConstructor
 public class ChatService {
     @Autowired
     private ChatRepository chatRepository;

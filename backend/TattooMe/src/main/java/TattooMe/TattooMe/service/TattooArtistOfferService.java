@@ -48,7 +48,6 @@ public class TattooArtistOfferService {
         return offerMapper.toDTO(artistOfferRepository.save(offer));
     }
 
-
     @Transactional
     public OfferDTO updateOffer(UUID artistId, UUID offerId, CreateOfferDTO dto) throws AccessDeniedException {
         TattooArtistOffer offer = artistOfferRepository.findById(offerId)

@@ -22,7 +22,7 @@ public class FavoriteArtistService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private FavoriteArtistMapper  favoriteArtistMapper;
+    private FavoriteArtistMapper favoriteArtistMapper;
 
     public List<FavoriteArtistDTO> getFavorites(UUID userId) {
         userRepository.findById(userId)
