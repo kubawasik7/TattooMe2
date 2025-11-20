@@ -23,10 +23,9 @@ export class ArtistDateComponent implements OnInit {
   isBookingOpen = false;
   showVisitModal = false;
   showAll = false;
-
+  todayDate: string | undefined;
   currentSlot?: ScheduleSlot;
   selectedSlotId = '';
-
   slotForm!: FormGroup<{ dateTime: FormControl<string> }>;
   bookingForm!: FormGroup<{ clientName: FormControl<string>; contact: FormControl<string> }>;
 
@@ -37,6 +36,7 @@ export class ArtistDateComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.todayDate = new Date().toISOString().slice(0, 16);
     this.initForms();
     this.loadSlots();
   }

@@ -36,7 +36,7 @@
   </div>
 
   <div *ngIf="isNewOpen" class="new-slot-form">
-    <input type="datetime-local" [formControl]="slotForm.controls.dateTime">
+    <input type="datetime-local" [formControl]="slotForm.controls.dateTime" [min]="todayDate">
     <button class="btn save-btn" (click)="saveNew()">Zapisz</button>
     <button class="btn cancel-btn" (click)="closeNew()">Anuluj</button>
   </div>
