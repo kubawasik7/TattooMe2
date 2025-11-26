@@ -10,4 +10,6 @@ import java.util.UUID;
 @Repository
 public interface TattooArtistOfferRepository extends JpaRepository<TattooArtistOffer, UUID> {
     List<TattooArtistOffer> findAllByTattooArtistId(UUID userId);
+
+    List<TattooArtistOffer> findAllByTattooArtistIdIn(List<UUID> artistIds);
 }

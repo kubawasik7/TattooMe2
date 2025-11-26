@@ -1,6 +1,6 @@
 package TattooMe.TattooMe.repository;
 
-import TattooMe.TattooMe.entity.FlashOffer;
+import TattooMe.TattooMe.entity.TattooStudioOffer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface FlashOfferRepository extends JpaRepository<FlashOffer, UUID> {
-    List<FlashOffer> findByTattooArtistOfferId(UUID tattooArtistOfferId);
+public interface TattooStudioOfferRepository extends JpaRepository<TattooStudioOffer, UUID> {
+    List<TattooStudioOffer> findAllByStudioId(UUID studioId);
 }
+

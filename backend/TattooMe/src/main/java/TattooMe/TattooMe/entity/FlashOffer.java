@@ -38,6 +38,10 @@ public class FlashOffer {
     private TattooArtistOffer tattooArtistOffer;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tattoo_studio_offer_id")
+    private TattooStudioOffer tattooStudioOffer;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "flash_id")
     private Flash flash;
 }

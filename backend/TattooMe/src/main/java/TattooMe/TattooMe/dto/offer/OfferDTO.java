@@ -1,6 +1,5 @@
 package TattooMe.TattooMe.dto.offer;
 
-import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,4 +13,5 @@ public class OfferDTO {
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private String description;
+    private String name;
 }

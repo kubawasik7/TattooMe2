@@ -8,6 +8,7 @@ import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -38,5 +39,8 @@ public class TattooStudioOffer {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tattoo_studio_id", nullable = false)
-    private TattooStudio tattooStudio;
+    private TattooStudio studio;
+
+    @OneToMany(mappedBy = "tattooStudioOffer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FlashOffer> flashOffers;
 }

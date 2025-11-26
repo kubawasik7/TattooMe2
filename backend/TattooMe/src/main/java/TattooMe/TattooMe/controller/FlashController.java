@@ -27,6 +27,10 @@ public class FlashController {
     public ResponseEntity<List<FlashDTO>> getUserFlashes(@PathVariable UUID userId) {
         return ResponseEntity.ok(flashService.getUserFlashes(userId));
     }
+    @GetMapping("/studio/{studioId}")
+    public List<FlashDTO> getFlashesForStudio(@PathVariable UUID studioId) {
+        return flashService.getFlashesForStudio(studioId);
+    }
 
     @PostMapping("/upload")
     public ResponseEntity<FlashDTO> uploadFlash(

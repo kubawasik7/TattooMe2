@@ -2,6 +2,7 @@ package TattooMe.TattooMe.repository;
 
 import TattooMe.TattooMe.dto.tattooStudio.TattooStudioDTO;
 import TattooMe.TattooMe.entity.TattooStudio;
+import TattooMe.TattooMe.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

@@ -6,6 +6,7 @@ import TattooMe.TattooMe.entity.Flash;
 import TattooMe.TattooMe.entity.User;
 import TattooMe.TattooMe.mapper.FlashMapper;
 import TattooMe.TattooMe.repository.FlashRepository;
+import TattooMe.TattooMe.repository.TattooStudioRepository;
 import TattooMe.TattooMe.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -14,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
 
@@ -29,6 +29,13 @@ public class FlashService {
 
     public List<FlashDTO> getUserFlashes(UUID userId) {
         return flashMapper.toDTOList(flashRepository.findAllByUser_Id(userId));
+    }
+
+    public List<FlashDTO> getFlashesForStudio(UUID studioId) {
+        return flashRepository.findAllFlashesByStudioId(studioId)
+                .stream()
+                .map(flashMapper::toDTO)
+                .toList();
     }
 
     @Transactional
