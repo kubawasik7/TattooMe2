@@ -33,7 +33,7 @@ public class ArtistDateController {
     }
 
     @PostMapping
-    public ResponseEntity<ScheduleDTO> create(
+    public ResponseEntity<ScheduleDTO> createArtistDate(
             @AuthenticationPrincipal CustomUserDetails user,
             @Valid @RequestBody CreateScheduleDTO dto) {
         ScheduleDTO created = artistDateService.createSlot(user.getId(), dto);
@@ -42,7 +42,7 @@ public class ArtistDateController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<Void> delete(
+    public ResponseEntity<Void> deleteArtistDate(
             @AuthenticationPrincipal CustomUserDetails user,
             @PathVariable UUID id) throws AccessDeniedException {
         artistDateService.deleteSlot(user.getId(), id);

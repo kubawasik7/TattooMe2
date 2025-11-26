@@ -36,5 +36,4 @@ public class WorkStyleController {
         List<TattooStyleDTO> tattooStyles = service.saveUserStyles(user.getId(), styleIds);
         return ResponseEntity.status(HttpStatus.CREATED).body(tattooStyles);
     }
-
 }

@@ -23,7 +23,7 @@ public class TattooStudioOfferController {
     private TattooStudioOfferService studioOfferService;
 
     @GetMapping("/{studioId}")
-    public ResponseEntity<List<OfferDTO>> list(@PathVariable UUID studioId) {
+    public ResponseEntity<List<OfferDTO>> getTattooStudioOffers(@PathVariable UUID studioId) {
         return ResponseEntity.ok(studioOfferService.getStudioOffers(studioId));
     }
 
@@ -34,15 +34,15 @@ public class TattooStudioOfferController {
     }
 
     @PostMapping("/{studioId}")
-    public ResponseEntity<OfferDTO> create(@PathVariable UUID studioId,
-                                           @RequestBody @Valid CreateOfferDTO dto) {
+    public ResponseEntity<OfferDTO> createTattooStudioOffer(@PathVariable UUID studioId,
+                                                            @RequestBody @Valid CreateOfferDTO dto) {
 
         OfferDTO offer = studioOfferService.createOffer(studioId, dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(offer);
     }
 
     @PutMapping("/{studioId}/{offerId}")
-    public ResponseEntity<OfferDTO> update(@PathVariable UUID studioId,
+    public ResponseEntity<OfferDTO> updateTattooStudioOffer(@PathVariable UUID studioId,
                                            @PathVariable UUID offerId,
                                            @RequestBody @Valid CreateOfferDTO dto)
             throws AccessDeniedException {
@@ -51,10 +51,8 @@ public class TattooStudioOfferController {
     }
 
     @DeleteMapping("/{studioId}/{offerId}")
-    public ResponseEntity<Void> delete(@PathVariable UUID studioId,
-                                       @PathVariable UUID offerId)
-            throws AccessDeniedException {
-
+    public ResponseEntity<Void> deleteTattooStudioOffer(@PathVariable UUID studioId,
+                                       @PathVariable UUID offerId) {
         studioOfferService.deleteOffer(studioId, offerId);
         return ResponseEntity.noContent().build();
     }

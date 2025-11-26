@@ -23,19 +23,19 @@ public class TattooArtistOfferController {
     private TattooArtistOfferService artistOfferService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<List<OfferDTO>> list(@PathVariable UUID id) {
+    public ResponseEntity<List<OfferDTO>> getTattooArtistOffers(@PathVariable UUID id) {
         return ResponseEntity.ok(artistOfferService.getOffers(id));
     }
 
     @PostMapping
-    public ResponseEntity<OfferDTO> create(@AuthenticationPrincipal CustomUserDetails user,
+    public ResponseEntity<OfferDTO> createTattooArtistOffer(@AuthenticationPrincipal CustomUserDetails user,
                                            @RequestBody @Valid CreateOfferDTO dto) {
         OfferDTO offer = artistOfferService.createOffer(user.getId(), dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(offer);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<OfferDTO> update(@AuthenticationPrincipal CustomUserDetails user,
+    public ResponseEntity<OfferDTO> updateTattooArtistOffer(@AuthenticationPrincipal CustomUserDetails user,
                                            @PathVariable UUID id,
                                            @RequestBody @Valid CreateOfferDTO dto) throws AccessDeniedException {
         return ResponseEntity.ok(artistOfferService.updateOffer(user.getId(), id, dto));
@@ -43,7 +43,7 @@ public class TattooArtistOfferController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<Void> delete(@AuthenticationPrincipal CustomUserDetails user,
+    public ResponseEntity<Void> deleteTattooArtistOffer(@AuthenticationPrincipal CustomUserDetails user,
                                        @PathVariable UUID id) throws AccessDeniedException {
         artistOfferService.deleteOffer(user.getId(), id);
         return ResponseEntity.noContent().build();

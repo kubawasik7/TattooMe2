@@ -36,7 +36,7 @@ public class PortfolioController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable UUID id) {
+    public ResponseEntity<Void> deletePortfolioImage(@PathVariable UUID id) {
         portfolioService.deletePortfolioImage(id);
         return ResponseEntity.noContent().build();
     }

@@ -82,7 +82,6 @@ public class TattooStudioController {
         return ResponseEntity.ok(Map.of("role", newRole));
     }
 
-
     @PutMapping("/{studioId}/avatar")
     public ResponseEntity<TattooStudioDTO> uploadAvatar(
             @PathVariable UUID studioId,
@@ -98,5 +97,4 @@ public class TattooStudioController {
         TattooStudioDTO updated = studioService.updateDescription(studioId, dto);
         return ResponseEntity.ok(updated);
     }
-
 }

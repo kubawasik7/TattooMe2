@@ -24,12 +24,12 @@ public class FlashOfferController {
     }
 
     @PostMapping
-    public ResponseEntity<FlashOfferDTO> create(@RequestBody @Valid FlashOfferDTO dto) {
+    public ResponseEntity<FlashOfferDTO> createOffer(@RequestBody @Valid FlashOfferDTO dto) {
         return ResponseEntity.ok(flashOfferService.createFlashOffer(dto));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable UUID id) {
+    public ResponseEntity<Void> deleteOffer(@PathVariable UUID id) {
         flashOfferService.deleteFlashOffer(id);
         return ResponseEntity.noContent().build();
     }
