@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/flash-offer")
+@RequestMapping("/api/flash-offer")
 @CrossOrigin(origins = "http://localhost:4200")
 public class FlashOfferController {
     @Autowired

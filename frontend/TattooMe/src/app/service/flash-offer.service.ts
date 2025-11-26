@@ -9,7 +9,7 @@ import { FlashOffer } from '../model/flash-offer';
 
 export class FlashOfferService {
 
-  private api = 'http://localhost:8080/flash-offer';
+  private api = 'http://localhost:8080/api/flash-offer';
 
   constructor(private http: HttpClient) {}
 
