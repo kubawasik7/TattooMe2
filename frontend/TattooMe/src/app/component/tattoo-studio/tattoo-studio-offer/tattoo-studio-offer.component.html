@@ -1,7 +1,7 @@
 <div class="offer-section">
   <div class="section-header">
     <h2 class="section-title">Promocje</h2>
-    <button  *ngIf="currentUserRole === 'OWNER'">
+    <button class="btn-add" *ngIf="currentUserRole === 'OWNER' || currentUserRole === 'EDITOR'" (click)="startAddOffer()">
       Dodaj promocję
     </button>
   </div>
@@ -9,7 +9,6 @@
   <div class="offers-container">
     <ng-container *ngIf="offers.length; else noOffers">
       <div class="offer-card" *ngFor="let o of offers">
-
         <div class="offer-dates">
           <span>Start: {{ o.startDate | date:'short' }}</span>
           <span>Koniec: {{ o.endDate | date:'short' }}</span>
@@ -19,23 +18,72 @@
 
         <div class="offer-flash" *ngIf="flashOffersMap[o.id]">
           <img *ngIf="flashOffersMap[o.id]?.flash?.picture"
-               [src]="'data:image/png;base64,' + flashOffersMap[o.id]?.flash?.picture"
-               alt="flash" />
+            [src]="'data:image/png;base64,' + flashOffersMap[o.id]?.flash?.picture" alt="flash" />
           <span *ngIf="flashOffersMap[o.id]?.percentOff">
             Rabat: {{ flashOffersMap[o.id]?.percentOff }}%
           </span>
         </div>
+
         <div class="artist-name" *ngIf="o.name">
           Artysta: {{ o.name }}
         </div>
 
-    
+        <div class="action-buttons"
+          *ngIf="(currentUserRole === 'OWNER' || currentUserRole === 'EDITOR') && o.name === 'Studio'">
+          <button class="edit-btn" (click)="startEditOffer(o)">
+            <i class="fas fa-pen"></i>
+          </button>
+          <button class="delete-btn" (click)="deleteOffer(o)">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
       </div>
     </ng-container>
 
-  
     <ng-template #noOffers>
       <div class="no-offer-message">Brak promocji dla tego studia.</div>
     </ng-template>
+  </div>
+
+  <div *ngIf="editingOffer" class="editing-card">
+
+    <label>Data rozpoczęcia</label>
+    <input 
+      type="datetime-local" 
+      [(ngModel)]="editingOffer.startDate" 
+      [min]="todayDate"
+      [class.invalid]="editingOffer.startDate && editingOffer.endDate && editingOffer.endDate < editingOffer.startDate">
+
+    <div class="error-global"
+      *ngIf="editingOffer.startDate && editingOffer.endDate && editingOffer.endDate < editingOffer.startDate">
+      Data zakończenia musi być późniejsza niż data rozpoczęcia.
+    </div>
+    <div class="error-global" *ngIf="editingOffer.startDate && !isStartDateValid()">
+      Data rozpoczęcia musi być w przyszłości.
+    </div>
+
+    <label>Data zakończenia</label>
+    <input
+      type="datetime-local"
+      [(ngModel)]="editingOffer.endDate" 
+      [min]="editingOffer.startDate || todayDate"
+      [class.invalid]="editingOffer.startDate && editingOffer.endDate && editingOffer.endDate < editingOffer.startDate">
+
+    <label>Opis promocji</label>
+    <textarea
+     [(ngModel)]="editingOffer.description"
+     placeholder="Opis promocji"
+     [class.invalid]="editingOffer.description && (editingOffer.description.length < 5 || editingOffer.description.length > 500)">
+    </textarea>
+
+    <div class="error-global"
+      *ngIf="editingOffer.description && (editingOffer.description.length < 5 || editingOffer.description.length > 500)">
+      Opis musi mieć od 5 do 500 znaków.
+    </div>
+
+    <div class="action-buttons">
+      <button class="btn-save" (click)="saveOffer()" [disabled]="!isFormValid()">Zapisz</button>
+      <button class="btn-cancel" (click)="cancelEdit()">Anuluj</button>
+    </div>
   </div>
 </div>
