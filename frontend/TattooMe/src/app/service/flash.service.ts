@@ -14,6 +14,10 @@ export class FlashService {
     return this.http.get<Flash[]>(`${this.baseUrl}/${userId}`);
   }
 
+   getFlashesFromStudio(studioId: string) {
+    return this.http.get<Flash[]>(`${this.baseUrl}/studio/${studioId}`);
+  }
+
   upload(formData: FormData): Observable<void> {
     return this.http.post<void>(`${this.baseUrl}/upload`, formData);
   }

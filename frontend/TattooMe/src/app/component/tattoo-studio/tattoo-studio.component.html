@@ -13,26 +13,24 @@
       </button>
     </div>
 
-  <div class="profile-info">
-  <div class="nickname-rating">
-    <h2 class="nickname" *ngIf="tattooStudio">{{ tattooStudio.name }}</h2>
-    <h2 class="rating">★ {{ tattooStudio.averageRate | number:'1.2-2' }} ({{ tattooStudio.reviewsCount }})</h2>
-  </div>
+    <div class="profile-info">
+      <div class="nickname-rating">
+        <h2 class="nickname" *ngIf="tattooStudio">{{ tattooStudio.name }}</h2>
+        <h2 class="rating">★ {{ tattooStudio.averageRate | number:'1.2-2' }} ({{ tattooStudio.reviewsCount }})</h2>
+      </div>
 
-  <h3 class="owner">Właściciel: {{ tattooStudio.ownerNickname }}</h3>
+      <h3 class="owner">Właściciel: {{ tattooStudio.ownerNickname }}</h3>
 
-  <div class="studio-address">
-    <p>{{ tattooStudio.city }}</p>
-    <p>Ul. {{ tattooStudio.street }} {{ tattooStudio.streetNumber }}</p>
-    <p>{{ tattooStudio.postalCode }}</p>
-  </div>
-</div>
+      <div class="studio-address">
+        <p>{{ tattooStudio.city }}</p>
+        <p>Ul. {{ tattooStudio.street }} {{ tattooStudio.streetNumber }}</p>
+        <p>{{ tattooStudio.postalCode }}</p>
+      </div>
+    </div>
 
 
     <div class="profile-actions">
-      <app-work-hour-mini
-      [studioId]="studioId"
-      (openEditor)="showWorkHourEditor = true">
+      <app-work-hour-mini [studioId]="studioId" (openEditor)="showWorkHourEditor = true">
       </app-work-hour-mini>
 
       <div class="profile-buttons">
@@ -83,10 +81,16 @@
     </ng-template>
   </div>
 
-
+  <app-tattoo-studio-offer
+   [currentUserRole]="currentUserRole" 
+   [studioId]="studioId"
+   [isOwner]="isOwner"></app-tattoo-studio-offer>
 
   <section class="studio-members">
-    <app-studio-member [studioId]="studioId" [users]="studioArtists" (membersUpdated)="loadMembers()">
+    <app-studio-member
+      [studioId]="studioId"
+      [users]="studioArtists"
+      (membersUpdated)="loadMembers()">
     </app-studio-member>
   </section>
 
@@ -108,7 +112,10 @@
           </div>
 
           <div *ngIf="artist.showSlots" class="artist-slots">
-            <app-artist-date [userId]="artist.id" [studioId]="studioId" [isOwner]="artist.id === currentUserId"
+            <app-artist-date
+              [userId]="artist.id"
+              [studioId]="studioId"
+              [isOwner]="artist.id === currentUserId"
               [isLoggedIn]="isLoggedIn">
             </app-artist-date>
           </div>
@@ -121,8 +128,13 @@
     </ng-template>
   </section>
 
-  <app-faq [currentUserRole]="currentUserRole" [studioId]="studioId">
+  <app-faq
+   [currentUserRole]="currentUserRole"
+   [studioId]="studioId">
   </app-faq>
 
-  <app-review [studioId]="studioId" [studioRole]="currentUserRole"></app-review>
+  <app-review
+   [studioId]="studioId"
+   [studioRole]="currentUserRole">
+  </app-review>
 </main>

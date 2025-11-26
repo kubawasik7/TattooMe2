@@ -280,6 +280,20 @@ body {
   border-color: #ff8c42;
 }
 
+.btn-apply {
+  padding: 6px 12px;
+  margin-left: 8px;
+  border: none;
+  border-radius: 6px;
+  background-color: #ff7f50;
+  color: white;
+  cursor: pointer;
+}
+
+.btn-apply:hover {
+  background-color: #ff9a70;
+}
+
 pagination-controls {
   display: flex;
   justify-content: center;

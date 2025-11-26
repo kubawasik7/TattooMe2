@@ -19,25 +19,23 @@
     <p class="no-faq">Brak pytań FAQ w tym studiu.</p>
   </ng-template>
 
-<div *ngIf="canEdit" [formGroup]="faqForm" class="add-faq">
-  <input formControlName="question" placeholder="Nowe pytanie" />
-  <div class="error" *ngIf="
+  <div *ngIf="canEdit" [formGroup]="faqForm" class="add-faq">
+    <input formControlName="question" placeholder="Nowe pytanie" />
+    <div class="error" *ngIf="
     faqForm.get('question')?.touched &&
     faqForm.get('question')?.hasError('maxlength')
   ">
-    Pytanie nie może mieć więcej niż 150 znaków.
-  </div>
+      Pytanie nie może mieć więcej niż 150 znaków.
+    </div>
 
-  <textarea formControlName="answer" placeholder="Odpowiedź"></textarea>
-  <div class="error" *ngIf="
+    <textarea formControlName="answer" placeholder="Odpowiedź"></textarea>
+    <div class="error" *ngIf="
     faqForm.get('answer')?.touched &&
     faqForm.get('answer')?.hasError('maxlength')
   ">
-    Odpowiedź nie może mieć więcej niż 1000 znaków.
+      Odpowiedź nie może mieć więcej niż 1000 znaków.
+    </div>
+
+    <button (click)="addFaq()" [disabled]="faqForm.invalid">Dodaj FAQ</button>
   </div>
-
-  <button (click)="addFaq()" [disabled]="faqForm.invalid">Dodaj FAQ</button>
-</div>
-
-
 </section>

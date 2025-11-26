@@ -1,19 +1,10 @@
 <div class="filters">
-  <input
-    type="text"
-    placeholder="Szukaj po nazwie lub opisie..."
-    [(ngModel)]="searchText"
-    (ngModelChange)="applyFilters()"
-  />
+  <input type="text" placeholder="Szukaj po nazwie lub opisie..." [(ngModel)]="searchText"
+    (ngModelChange)="applyFilters()" />
 
-  <input
-    type="text"
-    placeholder="Filtruj po mieście"
-    [(ngModel)]="filterCity"
-    (ngModelChange)="applyFilters()"
-  />
+  <input type="text" placeholder="Filtruj po mieście" [(ngModel)]="filterCity" (ngModelChange)="applyFilters()" />
 
-  <select [(ngModel)]="sortOption" (change)="applyFilters()">
+  <select [(ngModel)]="sortOption">
     <option value="name-asc">Nazwa A-Z</option>
     <option value="name-desc">Nazwa Z-A</option>
     <option value="rate-desc">Najwyższa ocena</option>
@@ -21,21 +12,21 @@
     <option value="reviews-desc">Najwięcej opinii</option>
     <option value="reviews-asc">Najmniej opinii</option>
   </select>
+  <button type="button" (click)="applyFilters()" class="btn-apply">
+    Zastosuj
+  </button>
 </div>
 
 <div class="tattoo-me">
   <section class="tm-list">
-    <article class="tm-card"
-      *ngFor="let user of filteredUsers | paginate: {
+    <article class="tm-card" *ngFor="let user of filteredUsers | paginate: {
         itemsPerPage: 5,
         currentPage: p,
         totalItems: filteredUsers.length
       }">
 
       <div class="avatar">
-        <img *ngIf="user?.profilePicture"
-             [src]="'data:image/png;base64,' + user.profilePicture"
-             class="avatar-img" />
+        <img *ngIf="user?.profilePicture" [src]="'data:image/png;base64,' + user.profilePicture" class="avatar-img" />
 
         <div *ngIf="!user?.profilePicture" class="avatar-placeholder">
           brak zdjęcia
@@ -68,10 +59,6 @@
     </article>
   </section>
 
-  <pagination-controls
-    (pageChange)="p = $event"
-    [autoHide]="true"
-    previousLabel="‹ Prev"
-    nextLabel="Next ›">
+  <pagination-controls (pageChange)="p = $event" [autoHide]="true" previousLabel="‹ Prev" nextLabel="Next ›">
   </pagination-controls>
 </div>

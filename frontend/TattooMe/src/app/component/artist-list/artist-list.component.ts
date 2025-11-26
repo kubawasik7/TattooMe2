@@ -35,9 +35,9 @@ export class ArtistListComponent {
     this.userService.getUsersByRole(this.role).subscribe((data) => {
       this.users = data.map(user => ({
         ...user,
-        featuredPictures: user.featuredPictures ?? []
+        featuredPictures: user.featuredPictures ?? [],
       }));
-      this.applyFilters();
+      this.filteredUsers = [...this.users];
     });
   }
 

@@ -1,0 +1,41 @@
+<div class="offer-section">
+  <div class="section-header">
+    <h2 class="section-title">Promocje</h2>
+    <button  *ngIf="currentUserRole === 'OWNER'">
+      Dodaj promocję
+    </button>
+  </div>
+
+  <div class="offers-container">
+    <ng-container *ngIf="offers.length; else noOffers">
+      <div class="offer-card" *ngFor="let o of offers">
+
+        <div class="offer-dates">
+          <span>Start: {{ o.startDate | date:'short' }}</span>
+          <span>Koniec: {{ o.endDate | date:'short' }}</span>
+        </div>
+
+        <div class="offer-description">{{ o.description }}</div>
+
+        <div class="offer-flash" *ngIf="flashOffersMap[o.id]">
+          <img *ngIf="flashOffersMap[o.id]?.flash?.picture"
+               [src]="'data:image/png;base64,' + flashOffersMap[o.id]?.flash?.picture"
+               alt="flash" />
+          <span *ngIf="flashOffersMap[o.id]?.percentOff">
+            Rabat: {{ flashOffersMap[o.id]?.percentOff }}%
+          </span>
+        </div>
+        <div class="artist-name" *ngIf="o.name">
+          Artysta: {{ o.name }}
+        </div>
+
+    
+      </div>
+    </ng-container>
+
+  
+    <ng-template #noOffers>
+      <div class="no-offer-message">Brak promocji dla tego studia.</div>
+    </ng-template>
+  </div>
+</div>
