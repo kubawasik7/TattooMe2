@@ -1,5 +1,5 @@
 export interface Visit {
- id: string;
+  id: string;
   status: string;
   date: string;
   artistName: string;
