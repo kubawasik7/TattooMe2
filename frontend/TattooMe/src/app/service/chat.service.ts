@@ -7,16 +7,16 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ChatService {
-  private baseUrl = 'http://localhost:8080/api/chats';
+  private url = 'http://localhost:8080/api/chats';
 
   constructor(private http: HttpClient) { }
 
   getUserChats(): Observable<Chat[]> {
-    return this.http.get<Chat[]>(this.baseUrl);
+    return this.http.get<Chat[]>(this.url);
   }
-  
+
   startChat(receiverId: string): Observable<Chat> {
     const params = new HttpParams().set('receiverId', receiverId);
-    return this.http.post<Chat>(`${this.baseUrl}/start`, null, { params });
+    return this.http.post<Chat>(`${this.url}/start`, null, { params });
   }
 }

@@ -7,19 +7,19 @@ import { FavoriteArtist } from '../model/favorite-artist';
   providedIn: 'root'
 })
 export class FavoriteService {
-  private baseUrl = 'http://localhost:8080/api/favorites';
+  private url = 'http://localhost:8080/api/favorites';
 
   constructor(private http: HttpClient) {}
 
   getFavorites(): Observable<FavoriteArtist[]> {
-    return this.http.get<FavoriteArtist[]>(this.baseUrl);
+    return this.http.get<FavoriteArtist[]>(this.url);
   }
 
   addFavorite(artistId: string): Observable<void> {
-    return this.http.post<void>(`${this.baseUrl}/${artistId}`, {});
+    return this.http.post<void>(`${this.url}/${artistId}`, {});
   }
 
   removeFavorite(artistId: string): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${artistId}`);
+    return this.http.delete<void>(`${this.url}/${artistId}`);
   }
 }

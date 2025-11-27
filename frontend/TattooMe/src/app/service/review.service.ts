@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ReviewService {
-  private apiUrl = 'http://localhost:8080/api/reviews';
+  private url = 'http://localhost:8080/api/reviews';
 
   constructor(private http: HttpClient) { }
 
@@ -19,25 +19,25 @@ export class ReviewService {
       visitId: visitId
     };
 
-    return this.http.post<Review>(`${this.apiUrl}/${visitId}`, body);
+    return this.http.post<Review>(`${this.url}/${visitId}`, body);
   }
 
   addAnswer(reviewId: string, content: string): Observable<ReviewAnswer> {
-    return this.http.post<ReviewAnswer>(`${this.apiUrl}/answers`, {
+    return this.http.post<ReviewAnswer>(`${this.url}/answers`, {
       reviewId,
       content
     });
   }
 
   getReviewsForArtist(artistId: string): Observable<Review[]> {
-    return this.http.get<Review[]>(`${this.apiUrl}/artist/${artistId}`);
+    return this.http.get<Review[]>(`${this.url}/artist/${artistId}`);
   }
 
   getReviewsForStudio(studioId: string): Observable<Review[]> {
-    return this.http.get<Review[]>(`${this.apiUrl}/studio/${studioId}`);
+    return this.http.get<Review[]>(`${this.url}/studio/${studioId}`);
   }
 
   getReviewForVisit(visitId: string): Observable<Review | null> {
-    return this.http.get<Review>(`${this.apiUrl}/visit/${visitId}`);
+    return this.http.get<Review>(`${this.url}/visit/${visitId}`);
   }
 }

@@ -21,8 +21,8 @@ export interface CreateOffer {
   providedIn: 'root'
 })
 export class ProfileService {
-  private baseUrl = 'http://localhost:8080/api/users';
-  private baseUrlOffer = 'http://localhost:8080/api/offers';
+  private url = 'http://localhost:8080/api/users';
+  private urlOffer = 'http://localhost:8080/api/offers';
 
 
   constructor(private http: HttpClient) { }
@@ -37,33 +37,33 @@ export class ProfileService {
     });
 
     return this.http.post<void>(
-      `${this.baseUrl}/avatar`,
+      `${this.url}/avatar`,
       formData,
       { headers }
     );
   }
-  
+
   updateDescription(description: string): Observable<User> {
     return this.http.put<User>(
-      `${this.baseUrl}/description`,
+      `${this.url}/description`,
       { description }
     );
   }
 
   //SEKCJA OFERT
   getOffers(id: string): Observable<Offer[]> {
-    return this.http.get<Offer[]>(`${this.baseUrlOffer}/${id}`);
+    return this.http.get<Offer[]>(`${this.urlOffer}/${id}`);
   }
 
   createOffer(o: CreateOffer): Observable<Offer> {
-    return this.http.post<Offer>(`${this.baseUrlOffer}`, o);
+    return this.http.post<Offer>(`${this.urlOffer}`, o);
   }
 
   updateOffer(id: string, o: CreateOffer): Observable<Offer> {
-    return this.http.put<Offer>(`${this.baseUrlOffer}/${id}`, o);
+    return this.http.put<Offer>(`${this.urlOffer}/${id}`, o);
   }
 
   deleteOffer(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrlOffer}/${id}`);
+    return this.http.delete<void>(`${this.urlOffer}/${id}`);
   }
 }

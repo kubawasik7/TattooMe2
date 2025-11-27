@@ -13,7 +13,7 @@ export class FilterSortSearchService {
   ): T[] {
     let res = [...items];
 
-    // search
+    //search
     if (searchText.trim().length > 0) {
       const search = searchText.toLowerCase();
       res = res.filter((item: any) =>
@@ -24,13 +24,13 @@ export class FilterSortSearchService {
       );
     }
 
-    // filtr miasta
+    //filtr miasta
     if (filterCity.trim().length > 0) {
       const city = filterCity.toLowerCase();
       res = res.filter((item: any) => item.city?.toLowerCase().includes(city));
     }
 
-    // sort
+    //soort
     switch (sortOption) {
       case 'name-asc':
         res.sort((a: any, b: any) => {

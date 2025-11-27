@@ -7,18 +7,18 @@ import { Flash } from '../model/flash';
   providedIn: 'root'
 })
 export class FlashService {
-  private baseUrl = 'http://localhost:8080/api/flashes';
+  private url = 'http://localhost:8080/api/flashes';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
   getByUser(userId: string): Observable<Flash[]> {
-    return this.http.get<Flash[]>(`${this.baseUrl}/${userId}`);
+    return this.http.get<Flash[]>(`${this.url}/${userId}`);
   }
 
-   getFlashesFromStudio(studioId: string) {
-    return this.http.get<Flash[]>(`${this.baseUrl}/studio/${studioId}`);
+  getFlashesFromStudio(studioId: string) {
+    return this.http.get<Flash[]>(`${this.url}/studio/${studioId}`);
   }
 
   upload(formData: FormData): Observable<void> {
-    return this.http.post<void>(`${this.baseUrl}/upload`, formData);
+    return this.http.post<void>(`${this.url}/upload`, formData);
   }
 }

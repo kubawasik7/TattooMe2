@@ -6,15 +6,15 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class UserInfoService {
-  private apiUrl = 'http://localhost:8080/api/personinfo';
+  private url = 'http://localhost:8080/api/personinfo';
 
   constructor(private http: HttpClient) {}
 
   getInfo(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/me`);
+    return this.http.get(`${this.url}/me`);
   }
 
   updateInfo(info: any): Observable<any> {
-    return this.http.put(`${this.apiUrl}`, info);
+    return this.http.put(`${this.url}`, info);
   }
 }

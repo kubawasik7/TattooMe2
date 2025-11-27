@@ -7,19 +7,19 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class WorkStyleService {
-  private apiUrl = 'http://localhost:8080/api/styles';
+  private url = 'http://localhost:8080/api/styles';
 
   constructor(private http: HttpClient) {}
 
   getAllStyles(): Observable<TattooStyle[]> {
-    return this.http.get<TattooStyle[]>(`${this.apiUrl}/all`);
+    return this.http.get<TattooStyle[]>(`${this.url}/all`);
   }
 
   getUserStyles(userId: string): Observable<TattooStyle[]> {
-    return this.http.get<TattooStyle[]>(`${this.apiUrl}/user/${userId}`);
+    return this.http.get<TattooStyle[]>(`${this.url}/user/${userId}`);
   }
   
   saveUserStyles(userId: string, styleIds: string[]): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}/user/${userId}`, styleIds);
+    return this.http.post<void>(`${this.url}/user/${userId}`, styleIds);
   }
 }

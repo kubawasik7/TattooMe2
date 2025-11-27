@@ -16,7 +16,7 @@ interface JwtPayload {
   providedIn: 'root'
 })
 export class AuthService {
-  private baseUrl = 'http://localhost:8080/api/auth';
+  private url = 'http://localhost:8080/api/auth';
 
   constructor(private http: HttpClient) { }
 
@@ -64,11 +64,11 @@ export class AuthService {
   }
 
   register(registerRequest: RegisterRequest): Observable<any> {
-    return this.http.post(`${this.baseUrl}/register`, registerRequest);
+    return this.http.post(`${this.url}/register`, registerRequest);
   }
 
   login(loginRequest: LoginRequest): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.baseUrl}/login`, loginRequest)
+    return this.http.post<LoginResponse>(`${this.url}/login`, loginRequest)
       .pipe(tap(res => {
         console.log('[AuthService] otrzymany response:', res);
         console.log('[AuthService] otrzymany token:', res.token);
