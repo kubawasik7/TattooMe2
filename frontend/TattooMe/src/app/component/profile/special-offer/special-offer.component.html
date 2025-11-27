@@ -41,6 +41,19 @@
         <input type="datetime-local" class="form-control" formControlName="endDate" [min]="todayDate">
       </div>
 
+      <div class="error" *ngIf="startDate?.touched && startDate?.invalid">
+        <span *ngIf="startDate?.errors?.['required']">Data rozpoczęcia jest wymagana</span>
+        <span *ngIf="startDate?.errors?.['notFuture']">Data musi być w przyszłości</span>
+      </div>
+
+      <div class="error" *ngIf="endDate?.touched && endDate?.invalid">
+        <span *ngIf="endDate?.errors?.['required']">Data zakończenia jest wymagana</span>
+      </div>
+
+      <div class="error" *ngIf="editingForm.errors?.['endBeforeStart']">
+        <span>Data zakończenia musi być późniejsza niż data rozpoczęcia</span>
+      </div>
+
       <div class="description-container">
         <textarea #autoResize class="form-control auto-expand" formControlName="description" placeholder="Opis promocji"
           rows="1" (input)="adjustHeight(autoResize)">
@@ -85,7 +98,7 @@
       <div class="discount-wrapper">
         <label for="percentOff">Rabat (%)</label>
         <input type="number" formControlName="percentOff" id="percentOff" min="0" max="100" />
-           <div class="error"
+        <div class="error"
           *ngIf="editingForm.get('percentOff')?.touched && editingForm.get('percentOff')?.hasError('min')">
           Minimalnie 1 %
         </div>

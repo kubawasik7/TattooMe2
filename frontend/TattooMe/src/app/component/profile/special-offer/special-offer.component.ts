@@ -1,6 +1,6 @@
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { CreateOffer, Offer, ProfileService } from '../../../service/profile.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NotificationService } from '../../../service/notification.service';
 import Swal from 'sweetalert2';
 import { Flash } from '../../../model/flash';
@@ -46,10 +46,9 @@ export class SpecialOfferComponent {
     this.profileService.getOffers(this.userId).subscribe({
       next: (list) => {
         this.offers = list;
-
-        this.offers.forEach(o => {
-          this.flashOfferService.getByArtistOffer(o.id).subscribe(flashOffers => {
-            this.flashOffersMap[o.id] = flashOffers.length ? flashOffers[0] : null;
+        this.offers.forEach(off => {
+          this.flashOfferService.getByArtistOffer(off.id).subscribe(flashOffers => {
+            this.flashOffersMap[off.id] = flashOffers.length ? flashOffers[0] : null;
           });
         });
       },
@@ -66,13 +65,39 @@ export class SpecialOfferComponent {
 
   startNew() {
     this.editingId = 'new';
+
     this.editingForm = this.fb.group({
-      startDate: ['', Validators.required],
+      startDate: ['', [Validators.required, this.futureDateValidator]],
       endDate: ['', Validators.required],
       description: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(500)]],
       flashId: [null],
       percentOff: [0, [Validators.required, Validators.min(0), Validators.max(100)]]
+    }, {
+      validators: this.endDateAfterStartValidator
     });
+  }
+
+  futureDateValidator = (control: AbstractControl) => {
+    if (!control.value) return null;
+    const selected = new Date(control.value);
+    return selected > new Date() ? null : { notFuture: true };
+  };
+
+  endDateAfterStartValidator = (group: AbstractControl) => {
+    const start = group.get('startDate')?.value;
+    const end = group.get('endDate')?.value;
+
+    if (!start || !end) return null;
+
+    return new Date(end) > new Date(start) ? null : { endBeforeStart: true };
+  };
+
+  get startDate() {
+    return this.editingForm?.get('startDate') || null;
+  }
+
+  get endDate() {
+    return this.editingForm?.get('endDate') || null;
   }
 
   startEditOffer(offer: Offer) {
@@ -135,7 +160,6 @@ export class SpecialOfferComponent {
         error: () => this.notification.showError("Nie udało się zapisać zmian")
       });
     }
-
     this.cancel();
   }
 
@@ -178,6 +202,7 @@ export class SpecialOfferComponent {
     this.editingForm?.get('flashId')?.setValue(flash.id);
     this.flashListOpen = false;
   }
+
   clearFlash() {
     this.selectedFlash = null;
     if (this.editingForm) {
