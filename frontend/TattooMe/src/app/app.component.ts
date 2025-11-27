@@ -12,15 +12,15 @@ export class AppComponent {
   title = 'TattooMe';
   constructor(public authService: AuthService) { }
 
-   onLogout(): void {
+  onLogout(): void {
     this.authService.logout();
   }
 
   getUserId(): string | null {
-  const token = localStorage.getItem('token');
-  if (!token) return null;
+    const token = localStorage.getItem('token');
+    if (!token) return null;
 
-  const decoded: any = jwtDecode(token);
-  return decoded.sub;
-}
+    const decoded: any = jwtDecode(token);
+    return decoded.sub;
+  }
 }
