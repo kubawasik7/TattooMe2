@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { CreateSlot } from '../../../model/create-slot';
 import { ScheduleSlot } from '../../../model/schedule-slot';
 import { ArtistDateService } from '../../../service/artist-date.service';
@@ -43,13 +43,23 @@ export class ArtistDateComponent implements OnInit {
 
   private initForms(): void {
     this.slotForm = this.fb.nonNullable.group({
-      dateTime: ['', Validators.required],
+      dateTime: ['', [Validators.required, this.futureDateValidator]]
     });
 
     this.bookingForm = this.fb.nonNullable.group({
       clientName: ['', Validators.required],
       contact: ['', Validators.required],
     });
+  }
+
+  futureDateValidator = (control: AbstractControl) => {
+    if (!control.value) return null;
+    const selected = new Date(control.value);
+    return selected > new Date() ? null : { notFuture: true };
+  };
+
+  get dateTime() {
+    return this.slotForm?.get('dateTime') || null;
   }
 
   private loadSlots(): void {

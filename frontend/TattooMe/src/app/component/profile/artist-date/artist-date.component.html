@@ -1,7 +1,11 @@
 <div class="date-list">
   <div class="section-header">
     <h3 class="section-title">Wolne terminy</h3>
-    <button *ngIf="isOwner" class="btn-add" (click)="openNew()"><i class="fas fa-plus"></i> Dodaj termin</button>
+
+    <button *ngIf="isOwner" class="btn-add" (click)="openNew()"><i class="fas fa-plus"></i>
+      Dodaj termin
+    </button>
+
   </div>
   <div class="slots-with-add">
     <ng-container *ngIf="slots?.length; else noSlots">
@@ -20,9 +24,10 @@
           <button *ngIf="isLoggedIn && !isOwner && slot.available" class="reservation-btn" (click)="book(slot)">
             Zarezerwuj
           </button>
- 
+
           <div *ngIf="isOwner" class="owner-buttons">
             <button class="delete-btn" (click)="delete(slot.id)">Usuń</button>
+
             <button class="btn-toggle" [ngClass]="slot.available ? 'deactivate' : 'activate'" (click)="toggle(slot.id)">
               {{ slot.available ? 'Dezaktywuj' : 'Aktywuj' }}
             </button>
@@ -37,6 +42,12 @@
 
   <div *ngIf="isNewOpen" class="new-slot-form">
     <input type="datetime-local" [formControl]="slotForm.controls.dateTime" [min]="todayDate">
+
+    <div class="error" *ngIf="dateTime?.touched && dateTime?.invalid">
+      <span *ngIf="dateTime?.errors?.['required']">Data rozpoczęcia jest wymagana</span>
+      <span *ngIf="dateTime?.errors?.['notFuture']">Data musi być w przyszłości</span>
+    </div>
+
     <button class="btn save-btn" (click)="saveNew()">Zapisz</button>
     <button class="btn cancel-btn" (click)="closeNew()">Anuluj</button>
   </div>
@@ -49,4 +60,5 @@
 </div>
 
 <app-visit *ngIf="showVisitModal" [artistId]="userId" [studioId]="studioId" [artistDateId]="selectedSlotId"
-  (close)="showVisitModal = false"></app-visit>
+  (close)="showVisitModal = false">
+</app-visit>

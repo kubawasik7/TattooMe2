@@ -3,15 +3,15 @@
   padding: 1rem;
   border-radius: 10px;
 }
+
 .section-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   border-bottom: 2px solid #333;
   margin-bottom: 1rem;
-  padding-bottom: 0.75rem; 
+  padding-bottom: 0.75rem;
 }
-
 
 .section-title {
   font-size: 1.5rem;
@@ -19,9 +19,8 @@
   margin: 0;
 }
 
-
 .btn-add {
-   background-color: #333;
+  background-color: #333;
   color: #fff;
   border: none;
   padding: 0.5rem 1rem;
@@ -41,13 +40,13 @@
   gap: 15px;
   flex-wrap: wrap;
 }
+
 .no-slots-message {
   text-align: center;
   color: #aaa;
   font-style: italic;
   width: 100%;
 }
-
 
 .slots-grid {
   display: flex;
@@ -207,4 +206,9 @@
 
 .cancel-btn:hover {
   background-color: #7a3636;
+}
+
+.error {
+  color: #ff4d4f;
+  font-size: 0.8rem;
 }
