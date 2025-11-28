@@ -9,6 +9,7 @@ import TattooMe.TattooMe.dto.user.StudioArtistDTO;
 import TattooMe.TattooMe.dto.user.UserDTO;
 import TattooMe.TattooMe.entity.TattooStudio;
 import TattooMe.TattooMe.service.TattooStudioService;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,9 +60,21 @@ public class TattooStudioController {
     }
 
     @PostMapping("/{studioId}/users/by-nickname")
-    public ResponseEntity<Void> addUserToStudioByNickname(@PathVariable UUID studioId, @RequestParam String nickname) {
-        studioService.addUserToStudio(studioId, nickname);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<?> addUserToStudioByNickname(@PathVariable UUID studioId,
+                                                       @RequestParam String nickname) {
+        try {
+            studioService.addUserToStudio(studioId, nickname);
+            return ResponseEntity.ok().build();
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("error", e.getMessage()));
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("error", e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "Coś poszło nie tak"));
+        }
     }
 
     @DeleteMapping("/{studioId}/users/{userId}")
