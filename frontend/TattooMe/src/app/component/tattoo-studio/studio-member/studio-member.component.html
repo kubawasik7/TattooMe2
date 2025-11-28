@@ -3,7 +3,7 @@
     <h2>Członkowie studia</h2>
     <div *ngIf="currentUserRoleInStudio === 'OWNER'" class="add-user-inline">
       <input [(ngModel)]="newUserNickname" placeholder="Podaj nick użytkownika" />
-      <button (click)="addUser()">Dodaj członka</button>
+      <button class="add-member-btn" (click)="addUser()">Dodaj członka</button>
     </div>
   </div>
 

@@ -13,25 +13,27 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 export class FaqComponent implements OnInit {
   @Input() studioId!: string;
   @Input() currentUserRole: string | null = null;
-
   faqs: Faq[] = [];
   faqForm!: FormGroup;
-
+  showAddForm = false;
   faqStates: Map<string, boolean> = new Map();
 
-  constructor(private fb: FormBuilder, private faqService: FaqService) {}
+  constructor(private fb: FormBuilder, private faqService: FaqService) { }
 
   ngOnInit(): void {
     this.faqForm = this.fb.group({
       question: ['', [Validators.required, Validators.maxLength(150)]],
       answer: ['', [Validators.required, Validators.maxLength(1000)]]
     });
-
     this.loadFaqs();
   }
 
   get canEdit(): boolean {
     return this.currentUserRole === 'OWNER' || this.currentUserRole === 'EDITOR';
+  }
+
+  toggleAddFaq() {
+    this.showAddForm = !this.showAddForm;
   }
 
   loadFaqs(): void {
@@ -47,9 +49,10 @@ export class FaqComponent implements OnInit {
     const { question, answer } = this.faqForm.value;
 
     this.faqService.addFaq(this.studioId, { question, answer }).subscribe(faq => {
-      this.faqs.push(faq);
+      this.faqs.unshift(faq);
       this.faqStates.set(faq.id, false);
       this.faqForm.reset();
+      this.showAddForm = false;
     });
   }
 

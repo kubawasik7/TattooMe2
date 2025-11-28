@@ -99,20 +99,6 @@
   color: #e0e0e0;
 }
 
-.add-user-inline button {
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  border: none;
-  background-color: #4caf50;
-  color: #fff;
-  cursor: pointer;
-  transition: background 0.2s ease-in-out;
-}
-
-.add-user-inline button:hover {
-  background-color: #45a049;
-}
-
 .divider {
   border: none;
   border-top: 1px solid #3a3a3a;
@@ -159,4 +145,19 @@
 
 .featured-item img:hover {
   transform: scale(1.05);
+}
+
+.add-member-btn {
+  background-color: #333;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease;
+}
+
+.add-member-btn:hover {
+  background-color: #555;
 }
