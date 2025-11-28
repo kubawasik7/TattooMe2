@@ -1,46 +1,20 @@
 <section class="offer">
   <div class="section-header">
     <h3 class="section-title">Oferta</h3>
-    <button *ngIf="isOwner" class="btn-add" (click)="openFlashModal()"><i class="fas fa-plus"></i> Dodaj
+    <button *ngIf="isOwner" class="btn-add" (click)="openFlashForm()"><i class="fas fa-plus"></i> Dodaj
       zdjęcie</button>
   </div>
 
-  <div class="offer-grid">
-    <ng-container *ngIf="flashes?.length; else noFlashes">
-      <div class="offer-card" *ngFor="let f of flashes">
-        <img *ngIf="f.picture" [src]="'data:image/png;base64,' + f.picture" alt="flash" />
-        <div class="offer-info">
-          <div class="row">
-            <span>Rozmiar:</span> <strong>{{ f.sizeMin }}–{{ f.sizeMax }} cm</strong>
-          </div>
-          <div class="row">
-            <span>Cena:</span> <strong>{{ f.priceMin }}–{{ f.priceMax }} zł</strong>
-          </div>
-          <div class="row">
-            <span>Miejsce:</span> <strong>{{ f.reccomendedPlace || '—' }}</strong>
-          </div>
-          <p class="desc">{{ f.description || 'Brak opisu' }}</p>
-        </div>
-      </div>
-    </ng-container>
-
-    <ng-template #noFlashes>
-      <p class="no-offer-message">Brak ofert</p>
-    </ng-template>
-  </div>
-</section>
-
-<div class="modal-backdrop" *ngIf="showFlashModal">
-  <div class="modal">
+  <div class="flash-form-wrapper" *ngIf="showFlashForm">
     <h4 class="new-offer">Nowa oferta</h4>
 
-    <form [formGroup]="flashForm">
+    <form [formGroup]="flashForm" class="flash-form">
+
       <label class="form-label">Zdjęcie</label>
-      <label for="flashFileInput" class="modal-btn file-btn">
+      <label for="flashFileInput" class="form-btn file-btn">
         <i class="fas fa-upload"></i> Wybierz plik
       </label>
       <input type="file" id="flashFileInput" (change)="onFlashFileSelected($event)" hidden />
-
 
       <div *ngIf="flashFile" class="selected-file">
         <i class="fas fa-image"></i>
@@ -79,14 +53,39 @@
       <input type="text" formControlName="reccomendedPlace" />
 
       <div class="actions">
-        <button *ngIf="isOwner" class="modal-btn btn-success" type="button" (click)="submitFlash()"
+        <button *ngIf="isOwner" class="form-btn btn-success" type="button" (click)="submitFlash()"
           [disabled]="!flashForm.valid || !flashFile">
           Zapisz
         </button>
-        <button *ngIf="isOwner" class="modal-btn btn-cancel" type="button" (click)="closeFlashModal()">
+
+        <button *ngIf="isOwner" class="form-btn btn-cancel" type="button" (click)="showFlashForm = false">
           Anuluj
         </button>
       </div>
     </form>
   </div>
-</div>
+
+  <div class="offer-grid">
+    <ng-container *ngIf="flashes?.length; else noFlashes">
+      <div class="offer-card" *ngFor="let f of flashes">
+        <img *ngIf="f.picture" [src]="'data:image/png;base64,' + f.picture" alt="flash" />
+        <div class="offer-info">
+          <div class="row">
+            <span>Rozmiar:</span> <strong>{{ f.sizeMin }}–{{ f.sizeMax }} cm</strong>
+          </div>
+          <div class="row">
+            <span>Cena:</span> <strong>{{ f.priceMin }}–{{ f.priceMax }} zł</strong>
+          </div>
+          <div class="row">
+            <span>Miejsce:</span> <strong>{{ f.reccomendedPlace || '—' }}</strong>
+          </div>
+          <p class="desc">{{ f.description || 'Brak opisu' }}</p>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-template #noFlashes>
+      <p class="no-offer-message">Brak ofert</p>
+    </ng-template>
+  </div>
+</section>

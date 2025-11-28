@@ -15,7 +15,7 @@ export class OfferComponent implements OnInit {
   @Input() isOwner = false;
 
   flashes: Flash[] = [];
-  showFlashModal = false;
+  showFlashForm: boolean = false;
   flashFile: File | null = null;
   flashForm!: FormGroup;
 
@@ -38,21 +38,6 @@ export class OfferComponent implements OnInit {
       sizeMax: [0, [Validators.min(0)]],
       priceMin: [0, [Validators.min(0)]],
       priceMax: [0, [Validators.min(0)]],
-    });
-  }
-
-  openFlashModal(): void {
-    this.showFlashModal = true;
-  }
-
-  closeFlashModal(): void {
-    this.showFlashModal = false;
-    this.flashFile = null;
-    this.flashForm.reset({
-      sizeMin: 0,
-      sizeMax: 0,
-      priceMin: 0,
-      priceMax: 0
     });
   }
 
@@ -82,12 +67,20 @@ export class OfferComponent implements OnInit {
 
     this.flashService.upload(form).subscribe({
       next: () => {
-        this.closeFlashModal();
+        this.closeFlashForm();
         this.notification.showSuccess("Wzór został dodany");
         this.loadFlashes();
       },
       error: (err) => this.notification.showError("Wzór nie został dodany")
     });
+  }
+
+  openFlashForm() {
+    this.showFlashForm = true;
+  }
+
+  closeFlashForm() {
+    this.showFlashForm = false;
   }
 
   clearSelectedFile(): void {
