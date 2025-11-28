@@ -4,6 +4,8 @@ import { StudioService } from '../../../service/studio.service';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../service/auth.service';
 import { StudioArtist } from '../../../model/studio-artist';
+import { NotificationService } from '../../../service/notification.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-studio-member',
@@ -23,7 +25,8 @@ export class StudioMemberComponent {
   constructor(
     private studioService: StudioService,
     private route: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
+    private notification: NotificationService
   ) { }
 
   ngOnInit(): void {
@@ -44,17 +47,43 @@ export class StudioMemberComponent {
         this.membersUpdated.emit();
         this.newUserNickname = '';
       },
-      error: err => alert('Błąd dodawania użytkownika: ' + err.error.message)
+      error: err => this.notification.showError("Nie udalo sie dodac uzytkownika")
     });
   }
 
   removeUser(userId: string): void {
-    if (confirm('Czy na pewno chcesz usunąć tego użytkownika ze studia?')) {
-      this.studioService.removeUserFromStudio(this.studioId, userId).subscribe({
-        next: () => this.membersUpdated.emit(),
-        error: err => alert('Błąd podczas usuwania: ' + err.error.message)
-      });
-    }
+    Swal.fire({
+      title: 'Czy na pewno chcesz usunąć tego użytkownika?',
+      text: 'Tej akcji nie można cofnąć.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      background: '#1e1e1e',
+      color: '#ffffffff',
+      confirmButtonText: 'Tak, usuń',
+      cancelButtonText: 'Anuluj'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.studioService.removeUserFromStudio(this.studioId, userId).subscribe({
+          next: () => {
+            this.membersUpdated.emit()
+            Swal.fire({
+              icon: 'success',
+              background: '#1e1e1e',
+              color: '#ffffffff',
+              title: 'Usunięto!',
+              text: 'Użytkownik został pomyślnie usunięty',
+              timer: 1500,
+              showConfirmButton: false
+            });
+          },
+          error: (err) => {
+            this.notification.showError('Nie udało się usunąć użytkownika');
+          }
+        });
+      }
+    });
   }
 
   togglePermissions(user: StudioArtist): void {
@@ -66,7 +95,7 @@ export class StudioMemberComponent {
         this.loading = false;
       },
       error: err => {
-        alert('Błąd przy zmianie uprawnień: ' + err.error.message);
+        this.notification.showError("Błąd przy zmianie uprawnień");
         this.loading = false;
       }
     });
