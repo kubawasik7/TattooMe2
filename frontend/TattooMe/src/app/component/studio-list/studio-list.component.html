@@ -1,17 +1,10 @@
 <div class="tattoo-me">
 
   <div class="filters">
-    <input type="text" 
-    placeholder="Szukaj po nazwie lub opisie..."
-    [(ngModel)]="searchText"
-    (ngModelChange)="applyFilters()" 
-    />
+    <input type="text" placeholder="Szukaj po nazwie lub opisie..." [(ngModel)]="searchText"
+      (ngModelChange)="applyFilters()" />
 
-    <input type="text"
-    placeholder="Filtruj po mieście"
-    [(ngModel)]="filterCity"
-    (ngModelChange)="applyFilters()"
-    />
+    <input type="text" placeholder="Filtruj po mieście" [(ngModel)]="filterCity" (ngModelChange)="applyFilters()" />
 
     <select [(ngModel)]="sortOption">
       <option value="name-asc">Nazwa A-Z</option>
@@ -43,12 +36,14 @@
       </div>
 
       <div class="info" [routerLink]="['/studio', studio.id]">
-        <h2 class="nickname">{{ studio.name }}</h2>
+        <div class="name-row">
+          <h2 class="nickname">{{ studio.name }}</h2>
 
-        <div class="meta">
-          <span class="rating">
-            ★ {{ studio?.averageRate | number:'1.2-2' }} ({{ studio?.reviewsCount }})
-          </span>
+          <div class="meta">
+            <span class="rating">
+              ★ {{ studio?.averageRate | number:'1.2-2' }} ({{ studio?.reviewsCount }})
+            </span>
+          </div>
         </div>
 
         <p class="description" *ngIf="studio.description">
@@ -59,10 +54,6 @@
     </article>
   </section>
 
-  <pagination-controls
-    (pageChange)="p = $event"
-    [autoHide]="true" 
-    previousLabel="‹ Prev"
-    nextLabel="Next ›">
+  <pagination-controls (pageChange)="p = $event" [autoHide]="true" previousLabel="‹ Prev" nextLabel="Next ›">
   </pagination-controls>
 </div>

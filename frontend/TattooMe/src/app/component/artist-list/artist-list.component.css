@@ -181,9 +181,25 @@ body {
   margin-bottom: 10px;
 }
 
-.rating {
-  margin-right: 10px;
+.name-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.name-row .rating {
   color: gold;
+  font-size: 16px;
+  margin: 0;
+  position: relative;
+  top: -0.5px;
+}
+
+.nickname {
+  margin: 0;
+  color: #f0f0f0;
+  font-size: 20px;
 }
 
 .description,

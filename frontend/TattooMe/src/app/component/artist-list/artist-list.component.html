@@ -33,15 +33,16 @@
       </div>
 
       <div class="info">
-        <a class="profile-link" [routerLink]="['/profile', user?.id]">
-          <h2 class="nickname">{{ user?.nickname }}</h2>
-        </a>
+        <div class="name-row">
+          <a class="profile-link" [routerLink]="['/profile', user?.id]">
+            <h2 class="nickname">{{ user?.nickname }}</h2>
+          </a>
 
-        <div class="meta">
           <span class="rating">
             ★ {{ user?.averageRate | number:'1.2-2' }} ({{ user?.reviewsCount }})
           </span>
         </div>
+
 
         <p class="description" *ngIf="user?.description">
           {{ user.description | slice:0:250 }}{{ user.description.length > 250 ? '...' : '' }}
