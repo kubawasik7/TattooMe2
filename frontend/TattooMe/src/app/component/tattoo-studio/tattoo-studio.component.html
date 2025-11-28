@@ -20,15 +20,14 @@
           tattooStudio.reviewsCount }})</h2>
       </div>
 
-      <h3 class="owner">Właściciel: {{ tattooStudio.ownerNickname }}</h3>
+      <h3 class="owner" *ngIf="tattooStudio">Właściciel: {{ tattooStudio.ownerNickname }}</h3>
 
       <div class="studio-address">
-        <p>{{ tattooStudio.city }}</p>
-        <p>Ul. {{ tattooStudio.street }} {{ tattooStudio.streetNumber }}</p>
-        <p>{{ tattooStudio.postalCode }}</p>
+        <p *ngIf="tattooStudio">{{ tattooStudio.city }}</p>
+        <p *ngIf="tattooStudio">Ul. {{ tattooStudio.street }} {{ tattooStudio.streetNumber }}</p>
+        <p *ngIf="tattooStudio">{{ tattooStudio.postalCode }}</p>
       </div>
     </div>
-
 
     <div class="profile-actions">
       <app-work-hour-mini [studioId]="studioId" (openEditor)="showWorkHourEditor = true">
@@ -69,8 +68,7 @@
 
       <div class="error" *ngIf="
       descriptionForm.get('description')?.touched &&
-      descriptionForm.get('description')?.hasError('maxlength')
-    ">
+      descriptionForm.get('description')?.hasError('maxlength')">
         Opis nie może mieć więcej niż 1000 znaków.
       </div>
 
