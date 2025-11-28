@@ -1,5 +1,11 @@
 <div class="work-hour-container">
-  <h3>Godziny otwarcia</h3>
+
+  <div class="panel-header">
+    <h3>Godziny otwarcia</h3>
+    <button class="close-panel-btn" (click)="closePanelMethod()">
+      Zamknij ✕
+    </button>
+  </div>
 
   <form [formGroup]="addForm" class="add-form" (ngSubmit)="add()">
     <div class="form-row">

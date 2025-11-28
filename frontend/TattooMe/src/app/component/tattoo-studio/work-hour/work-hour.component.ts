@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { WorkHour } from '../../../model/work-hour';
 import { WorkHourService } from '../../../service/work-hour.service';
@@ -14,12 +14,11 @@ import Swal from 'sweetalert2';
 })
 export class WorkHourComponent implements OnInit {
   @Input() studioId!: string;
+  @Output() closePanel = new EventEmitter<void>();
   workHours: WorkHour[] = [];
   editId: string | null = null;
-
   addForm: FormGroup;
   editForm: FormGroup;
-
   days = ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY'];
 
   constructor(
@@ -55,7 +54,7 @@ export class WorkHourComponent implements OnInit {
     const p = this.addForm.value;
 
     if (p.endTime <= p.startTime) {
-       this.notification.showError("Godzina zamknięcia nie może być wcześniejsza od godziny otwarcia");
+      this.notification.showError("Godzina zamknięcia nie może być wcześniejsza od godziny otwarcia");
       return;
     }
 
@@ -75,17 +74,13 @@ export class WorkHourComponent implements OnInit {
     });
   }
 
-  cancelEdit(): void {
-    this.editId = null;
-  }
-
   saveEdit(): void {
     if (!this.editId || this.editForm.invalid) return;
 
     const p = this.editForm.value;
 
     if (p.endTime <= p.startTime) {
-          this.notification.showError("Godzina zamknięcia nie może być wcześniejsza od godziny otwarcia");
+      this.notification.showError("Godzina zamknięcia nie może być wcześniejsza od godziny otwarcia");
       return;
     }
 
@@ -129,5 +124,13 @@ export class WorkHourComponent implements OnInit {
         });
       }
     });
+  }
+
+  cancelEdit(): void {
+    this.editId = null;
+  }
+  
+  closePanelMethod(): void {
+    this.closePanel.emit();
   }
 }

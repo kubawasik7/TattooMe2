@@ -16,7 +16,8 @@
     <div class="profile-info">
       <div class="nickname-rating">
         <h2 class="nickname" *ngIf="tattooStudio">{{ tattooStudio.name }}</h2>
-        <h2 class="rating" *ngIf="tattooStudio">★ {{ tattooStudio.averageRate | number:'1.2-2' }} ({{ tattooStudio.reviewsCount }})</h2>
+        <h2 class="rating" *ngIf="tattooStudio">★ {{ tattooStudio.averageRate | number:'1.2-2' }} ({{
+          tattooStudio.reviewsCount }})</h2>
       </div>
 
       <h3 class="owner">Właściciel: {{ tattooStudio.ownerNickname }}</h3>
@@ -47,8 +48,7 @@
   </section>
 
   <div *ngIf="showWorkHourEditor && canEdit" class="work-hour-editor-overlay">
-    <app-work-hour [studioId]="studioId"></app-work-hour>
-    <button class="btn-close" (click)="showWorkHourEditor=false">✖ Zamknij</button>
+    <app-work-hour [studioId]="studioId" (closePanel)="showWorkHourEditor=false"></app-work-hour>
   </div>
 
   <div class="description" *ngIf="descriptionForm" [formGroup]="descriptionForm">
@@ -81,16 +81,10 @@
     </ng-template>
   </div>
 
-  <app-tattoo-studio-offer
-   [currentUserRole]="currentUserRole" 
-   [studioId]="studioId"
-   ></app-tattoo-studio-offer>
+  <app-tattoo-studio-offer [currentUserRole]="currentUserRole" [studioId]="studioId"></app-tattoo-studio-offer>
 
   <section class="studio-members">
-    <app-studio-member
-      [studioId]="studioId"
-      [users]="studioArtists"
-      (membersUpdated)="loadMembers()">
+    <app-studio-member [studioId]="studioId" [users]="studioArtists" (membersUpdated)="loadMembers()">
     </app-studio-member>
   </section>
 
@@ -112,10 +106,7 @@
           </div>
 
           <div *ngIf="artist.showSlots" class="artist-slots">
-            <app-artist-date
-              [userId]="artist.id"
-              [studioId]="studioId"
-              [isOwner]="artist.id === currentUserId"
+            <app-artist-date [userId]="artist.id" [studioId]="studioId" [isOwner]="artist.id === currentUserId"
               [isLoggedIn]="isLoggedIn">
             </app-artist-date>
           </div>
@@ -128,13 +119,9 @@
     </ng-template>
   </section>
 
-  <app-faq
-   [currentUserRole]="currentUserRole"
-   [studioId]="studioId">
+  <app-faq [currentUserRole]="currentUserRole" [studioId]="studioId">
   </app-faq>
 
-  <app-review
-   [studioId]="studioId"
-   [studioRole]="currentUserRole">
+  <app-review [studioId]="studioId" [studioRole]="currentUserRole">
   </app-review>
 </main>

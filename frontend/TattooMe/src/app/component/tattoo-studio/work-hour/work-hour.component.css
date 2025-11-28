@@ -1,39 +1,90 @@
 .work-hour-container {
   background-color: #1e1e1e;
-  color: #fff;
-  padding: 1rem;
-  border-radius: 12px;
-  max-width: 500px;
+  color: #e6e6e6;
+  padding: 1.5rem;
+  border-radius: 16px;
+  max-width: 620px;
   margin: 0 auto;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
-  font-size: 0.85rem;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.4);
+  font-size: 0.9rem;
+  border: 1px solid #2d2d2d;
 }
 
-h3 {
-  margin-bottom: 0.5rem;
+.work-hour-container h3 {
   text-align: center;
-  font-size: 1rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #f0f0f0;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.panel-header h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.close-panel-btn {
+  background: #333;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.35rem 0.7rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.2s ease;
+}
+
+.close-panel-btn:hover {
+  background: #444;
 }
 
 .add-form,
 .edit-form {
+  background: #222;
+  padding: 1rem;
+  border-radius: 12px;
+  border: 1px solid #2f2f2f;
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem;
+  gap: 0.7rem;
   justify-content: center;
-  margin-bottom: 0.8rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.25);
+}
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  width: 100%;
+  justify-content: center;
 }
 
 .work-hour-list {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.7rem;
 }
 
 .work-hour-item {
-  background: #2a2a2a;
-  padding: 0.5rem 0.8rem;
-  border-radius: 8px;
+  background: #262626;
+  padding: 0.8rem 1rem;
+  border-radius: 12px;
+  border: 1px solid #333;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.work-hour-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
 }
 
 .view-row {
@@ -44,55 +95,75 @@ h3 {
 
 .day {
   font-weight: 600;
-  width: 100px;
+  width: 110px;
+  color: #fafafa;
 }
 
 .time {
-  width: 120px;
+  width: 150px;
   text-align: center;
+  color: #ddd;
 }
 
-.actions button {
-  background: #444;
+.actions {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.actions button,
+button[type="submit"],
+.edit-form button {
+  background: #333;
   border: none;
-  padding: 0.3rem 0.6rem;
-  margin-left: 0.3rem;
-  border-radius: 6px;
+  padding: 0.35rem 0.8rem;
+  border-radius: 8px;
   color: #fff;
   cursor: pointer;
-  transition: background 0.2s ease;
+  font-size: 0.85rem;
+  transition: background 0.2s ease, transform 0.1s ease;
 }
 
-.actions button:hover {
-  background: #666;
+.actions button:hover,
+button[type="submit"]:hover,
+.edit-form button:hover {
+  background: #444;
+}
+
+button[type="submit"] {
+  background: #2e5c2e;
+}
+
+button[type="submit"]:hover {
+  background: #3b7a3b;
+}
+
+.edit-form button:nth-child(4) {
+  background: #7a3636;
+}
+
+.edit-form button:nth-child(4):hover {
+  background: #9a4444;
 }
 
 button[disabled] {
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: not-allowed;
 }
 
 input,
 select {
-  background: #2a2a2a;
-  color: #fff;
-  border: 1px solid #555;
-  border-radius: 5px;
-  padding: 0.25rem 0.4rem;
-  font-size: 0.85rem;
-}
-
-button[type="submit"] {
-  background: #4caf50;
-  color: #fff;
-  border: none;
+  background: #1f1f1f;
+  color: #e6e6e6;
+  border: 1px solid #3a3a3a;
   border-radius: 6px;
-  padding: 0.3rem 0.7rem;
-  cursor: pointer;
-  font-size: 0.85rem;
-  transition: background 0.2s ease;
+  padding: 0.4rem 0.5rem;
+  font-size: 0.9rem;
+  width: 120px;
+  transition: border 0.2s ease;
 }
 
-button[type="submit"]:hover {
-  background: #43a047;
+input:focus,
+select:focus {
+  border-color: #555;
+  outline: none;
 }
