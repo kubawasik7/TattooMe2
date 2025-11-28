@@ -3,9 +3,14 @@
 
   <div class="style-tags">
     <ng-container *ngIf="!editing">
-      <span *ngFor="let style of styles" class="tag readonly selected">
-        {{ style.name }}
-      </span>
+      <ng-container *ngIf="styles.length > 0; else noStyles">
+        <span *ngFor="let style of styles" class="tag readonly selected">
+          {{ style.name }}
+        </span>
+      </ng-container>
+      <ng-template #noStyles>
+        <span class="no-styles">Brak wybranych styli</span>
+      </ng-template>
     </ng-container>
 
     <ng-container *ngIf="editing">
@@ -14,15 +19,14 @@
         {{ style.name }}
       </span>
     </ng-container>
+
     <button *ngIf="!editing && isOwner" class="btn-sm edit-btn" (click)="startEditing()">
       <i class="fas fa-pen"></i>
     </button>
   </div>
 
-  <div class="edit-actions">
-    <div *ngIf="editing">
-      <button *ngIf="isOwner" class="btn save-btn" (click)="saveStyles()">Zapisz</button>
-      <button class="btn cancel-btn" (click)="cancelEditing()">Anuluj</button>
-    </div>
+  <div class="edit-actions" *ngIf="editing">
+    <button *ngIf="isOwner" class="btn save-btn" (click)="saveStyles()">Zapisz</button>
+    <button class="btn cancel-btn" (click)="cancelEditing()">Anuluj</button>
   </div>
 </div>

@@ -15,8 +15,6 @@
         <h2 class="nickname" *ngIf="user">{{ user.nickname }}</h2>
         <h2 class="rating" *ngIf="user">★ {{ user.averageRate | number:'1.2-2' }} ({{user.reviewsCount}})</h2>
       </div>
-
-      <p class="location">Miasto, ulica 123/1</p>
       <app-style [userId]="userId" [isOwner]="isOwner"></app-style>
     </div>
 

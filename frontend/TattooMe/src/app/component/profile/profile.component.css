@@ -89,16 +89,6 @@
   font-size: 1.1rem;
 }
 
-
-.location {
-  margin: 0;
-  color: #bbbbbb;
-  font-size: 0.95rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
 .profile-info app-style {
   margin-top: 6px;
 }

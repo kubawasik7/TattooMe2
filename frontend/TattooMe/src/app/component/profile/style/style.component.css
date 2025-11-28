@@ -84,3 +84,9 @@
 .btn.cancel-btn:hover {
   background-color: #7a3636;
 }
+
+.no-styles {
+  color: #aaa;
+  font-style: italic;
+  width: 100%;
+}
