@@ -11,9 +11,11 @@
 
   <div *ngIf="users.length > 0; else noUsers">
     <div *ngFor="let user of users" class="user-wrapper">
-      <div class="user-card" [routerLink]="['/profile', user?.id]">
+      <div class="user-card">
         <div class="user-header">
-          <p class="nickname">{{ user.nickname }}</p>
+          <a class="nickname" [routerLink]="['/profile', user?.id]">
+            {{ user.nickname }}
+          </a>
 
           <div class="role-actions" *ngIf="currentUserRoleInStudio === 'OWNER' && user.id !== currentUserId">
             <span class="role">{{ user.studioRole }}</span>

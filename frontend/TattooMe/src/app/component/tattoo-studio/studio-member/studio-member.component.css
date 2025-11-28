@@ -12,6 +12,7 @@
   align-items: center;
   margin-bottom: 1rem;
 }
+
 .user-header {
   display: flex;
   justify-content: space-between;
@@ -23,9 +24,15 @@
   font-weight: bold;
   font-size: 1.4rem;
   margin-top: 0;
-  margin-bottom: 0.2rem; 
+  margin-bottom: 0.2rem;
+  color: #fff;
+  text-decoration: none;
 }
 
+.nickname:hover {
+  color: #ffb74d;
+  cursor: pointer;
+}
 
 .role-actions {
   display: flex;
@@ -120,10 +127,10 @@
 }
 
 .user-card {
-  background-color: #2b2b2b; 
+  background-color: #2b2b2b;
   padding: 1rem;
   border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.45);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.45);
 }
 
 .user-info p {
@@ -146,11 +153,10 @@
   object-fit: cover;
   border-radius: 8px;
   border: 2px solid #3a3a3a;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
   transition: transform 0.2s ease-in-out;
 }
 
 .featured-item img:hover {
   transform: scale(1.05);
 }
-
