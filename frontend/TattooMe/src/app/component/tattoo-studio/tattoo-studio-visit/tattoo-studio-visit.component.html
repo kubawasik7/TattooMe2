@@ -1,0 +1,17 @@
+<div class="visit-form">
+  <h3>Złóż wizytę w studiu</h3>
+  <form [formGroup]="visitForm" (ngSubmit)="submitVisit()">
+    <label>Data rozpoczęcia</label>
+    <input type="datetime-local" formControlName="startDate" />
+
+    <label>Data zakończenia</label>
+    <input type="datetime-local" formControlName="endDate" />
+
+    <label>Komentarz (opcjonalny)</label>
+    <textarea formControlName="comment" rows="3"></textarea>
+
+    <button type="submit" [disabled]="visitForm.invalid || submitting">
+      Złóż wizytę
+    </button>
+  </form>
+</div>

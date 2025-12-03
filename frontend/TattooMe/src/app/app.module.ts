@@ -41,6 +41,7 @@ import { FaqComponent } from './component/tattoo-studio/faq/faq.component';
 import { WorkHourComponent } from './component/tattoo-studio/work-hour/work-hour.component';
 import { WorkHourMiniComponent } from './component/tattoo-studio/work-hour-mini/work-hour-mini.component';
 import { TattooStudioOfferComponent } from './component/tattoo-studio/tattoo-studio-offer/tattoo-studio-offer.component';
+import { TattooStudioVisitComponent } from './component/tattoo-studio/tattoo-studio-visit/tattoo-studio-visit.component';
 
 const appRoutes: Routes = [
   { path: '', component: MainPageComponent },
@@ -89,7 +90,8 @@ const appRoutes: Routes = [
     FaqComponent,
     WorkHourComponent,
     WorkHourMiniComponent,
-    TattooStudioOfferComponent
+    TattooStudioOfferComponent,
+    TattooStudioVisitComponent
 
   ],
   imports: [

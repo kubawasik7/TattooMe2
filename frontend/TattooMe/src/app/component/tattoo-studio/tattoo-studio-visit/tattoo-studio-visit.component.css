@@ -1,0 +1,36 @@
+.visit-form {
+  background-color: #1e1e1e;
+  padding: 1rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  color: #fff;
+}
+
+.visit-form h3 {
+  margin-top: 0;
+}
+
+.visit-form input,
+.visit-form textarea {
+  width: 100%;
+  padding: 0.6rem;
+  margin: 0.3rem 0 1rem 0;
+  border-radius: 6px;
+  border: 1px solid #3a3a3a;
+  background-color: #111;
+  color: #fff;
+}
+
+.visit-form button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  background-color: #4caf50;
+  color: #fff;
+  cursor: pointer;
+}
+
+.visit-form button:disabled {
+  background-color: #555;
+  cursor: not-allowed;
+}

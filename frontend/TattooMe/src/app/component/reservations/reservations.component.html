@@ -1,122 +1,119 @@
-
-<div class="tabs-wrapper" *ngIf="authService.isTattooArtist()">
+<div class="tabs-wrapper">
   <div class="tabs role-tabs">
-    <button 
-      [class.active]="selectedRoleTab === 'client'" 
-      (click)="selectedRoleTab = 'client'; loadVisits()">
+    <button [class.active]="selectedRoleTab === 'client'" (click)="selectedRoleTab = 'client'; loadVisits()">
       Panel klienta
     </button>
-    <button 
-      [class.active]="selectedRoleTab === 'artist'" 
-      (click)="selectedRoleTab = 'artist'; loadVisits()">
+    <button *ngIf="authService.isTattooArtist() || authService.isTrainee()" [class.active]="selectedRoleTab === 'artist'" (click)="selectedRoleTab = 'artist'; loadVisits()">
       Panel tatuatora
+    </button>
+    <button *ngIf="authService.isTattooArtist() || authService.isTrainee()" [class.active]="selectedRoleTab === 'studio'" (click)="selectedRoleTab = 'studio'; loadVisits()">
+      Panel studia
     </button>
   </div>
 </div>
 
 <div class="tabs status-tabs">
-  <button 
-    [class.active]="selectedTab === 'active'" 
-    (click)="selectedTab = 'active'; loadVisits()">
-    Aktywne
-  </button>
-  <button 
-    [class.active]="selectedTab === 'past'" 
-    (click)="selectedTab = 'past'; loadVisits()">
-    Przeszłe
-  </button>
-  <button 
-    [class.active]="selectedTab === 'cancelled'" 
-    (click)="selectedTab = 'cancelled'; loadVisits()">
-    Odwołane
-  </button>
+  <button [class.active]="selectedTab === 'active'" (click)="selectTab('active')">Aktywne</button>
+  <button [class.active]="selectedTab === 'past'" (click)="selectTab('past')">Przeszłe</button>
+  <button [class.active]="selectedTab === 'cancelled'" (click)="selectTab('cancelled')">Odwołane</button>
 </div>
 
-<div *ngIf="visits.length === 0" class="empty-message">
-  Brak rezerwacji w tej kategorii.
+<div *ngIf="selectedRoleTab !== 'studio'">
+  <div *ngIf="visitsClientOrArtist.length === 0" class="empty-message">
+    Brak rezerwacji w tej kategorii.
+  </div>
+
+  <ul *ngIf="visitsClientOrArtist.length > 0" class="visit-list">
+    <li *ngFor="let visit of visitsClientOrArtist" class="visit-item"
+        (click)="openVisitDetails(visit.id)" tabindex="0" (keyup.enter)="openVisitDetails(visit.id)">
+      <div class="row">
+        <div class="pair"><span>Status:</span><strong>{{ visit.status }}</strong></div>
+        <div class="pair"><span>Data:</span><strong>{{ visit.date | date:'short' }}</strong></div>
+      </div>
+      <div class="row">
+        <div class="pair" *ngIf="visit.artistName"><span>Tatuator:</span><strong>{{ visit.artistName }}</strong></div>
+        <div class="pair" *ngIf="visit.tattooStudioName"><span>Studio:</span><strong>{{ visit.tattooStudioName }}</strong></div>
+      </div>
+    </li>
+  </ul>
 </div>
 
-<ul *ngIf="visits.length > 0" class="visit-list">
-  <li
-    *ngFor="let visit of visits"
-    class="visit-item"
-    (click)="openVisitDetails(visit.id)"
-    tabindex="0"
-    (keyup.enter)="openVisitDetails(visit.id)"
-  >
-    <div class="row">
-      <div class="pair"><span>Status:</span><strong>{{ visit.status }}</strong></div>
-      <div class="pair">
-        <span>Data:</span><strong>{{ visit.date | date:'short' }}</strong>
-      </div>
-    </div>
-    <div class="row">
-      <div class="pair">
-        <span>Tatuator:</span><strong>{{ visit.artistName }}</strong>
-      </div>
-      <div class="pair">
-        <span>Klient:</span><strong>{{ visit.clientName }}</strong>
-      </div>
-    </div>
+<div *ngIf="selectedRoleTab === 'studio'">
+  <div *ngIf="visitsStudio.length === 0" class="empty-message">
+    Brak rezerwacji w tej kategorii.
+  </div>
 
-    <div
-      class="action-buttons"
-      *ngIf="authService.isTattooArtist() && selectedRoleTab === 'artist' && visit.status === 'OCZEKUJĄCA'"
-      (click)="$event.stopPropagation()"
-    >
-      <button class="btn btn-approve" (click)="confirmVisit(visit.id)">Zatwierdź</button>
-      <button class="btn btn-cancel" (click)="cancelVisit()">Anuluj</button>
-    </div>
-  </li>
-</ul>
+  <ul *ngIf="visitsStudio.length > 0" class="visit-list">
+    <li *ngFor="let visit of visitsStudio" class="visit-item"
+        (click)="openVisitDetails(visit.id)" tabindex="0" (keyup.enter)="openVisitDetails(visit.id)">
+      <div class="row">
+        <div class="pair"><span>Status:</span><strong>{{ visit.status }}</strong></div>
+        <div class="pair"><span>Start / Koniec:</span>
+          <strong>{{ visit.startDate | date:'short' }} - {{ visit.endDate | date:'short' }}</strong>
+        </div>
+      </div>
+      <div class="row">
+        <div class="pair" *ngIf="visit.artistName"><span>Artysta:</span><strong>{{ visit.artistName }}</strong></div>
+        <div class="pair"><span>Studio:</span><strong>{{ visit.studioName || '—' }}</strong></div>
+      </div>
 
-<div class="modal" *ngIf="showDetails" (click)="closeDetails()">
+      <div class="action-buttons" *ngIf="visit.status === 'OCZEKUJĄCA'" (click)="$event.stopPropagation()">
+        <button class="btn btn-approve" (click)="confirmVisit(visit.id)">Zatwierdź</button>
+        <button class="btn btn-cancel" (click)="cancelVisit()">Odrzuć</button>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<div class="modal" *ngIf="currentVisitClientOrArtist && showDetails" (click)="closeDetails()">
   <div class="modal-content" (click)="$event.stopPropagation()">
     <button class="modal-close" (click)="closeDetails()" aria-label="Zamknij">✕</button>
-
     <div class="modal-body">
       <h3>Szczegóły wizyty</h3>
-
       <div class="details-list">
-        <div class="detail"><span>Status:</span> <strong>{{ currentVisit?.status }}</strong></div>
-        <div class="detail"><span>Data:</span> <strong>{{ currentVisit?.date | date:'full' }}</strong></div>
-        <div class="detail"><span>Tatuator:</span> <strong>{{ currentVisit?.artistName }}</strong></div>
-        <div class="detail"><span>Klient:</span> <strong>{{ currentVisit?.clientName }}</strong></div>
-        <div class="detail"><span>Komentarz:</span> <strong>{{ currentVisit?.comment || '—' }}</strong></div>
-
-        <div class="detail">
-          <span>Flash:</span>
-          <ng-container *ngIf="currentVisit?.flashImage; else noFlash">
-            <img [src]="'data:image/png;base64,' + currentVisit!.flashImage" class="flash-img" alt="Flash" />
-          </ng-container>
-          <ng-template #noFlash>
-            <strong>{{ currentVisit?.flashDescription || '—' }}</strong>
-          </ng-template>
-        </div>
-
-        <div class="detail"><span>Studio:</span> <strong>{{ currentVisit?.tattooStudioName || '—' }}</strong></div>
+        <div class="detail"><span>Status:</span> <strong>{{ currentVisitClientOrArtist.status }}</strong></div>
+        <div class="detail"><span>Data:</span> <strong>{{ currentVisitClientOrArtist.date | date:'full' }}</strong></div>
+        <div class="detail"><span>Artysta:</span> <strong>{{ currentVisitClientOrArtist.artistName }}</strong></div>
+        <div class="detail"><span>Klient:</span> <strong>{{ currentVisitClientOrArtist.clientName }}</strong></div>
+        <div class="detail"><span>Komentarz:</span> <strong>{{ currentVisitClientOrArtist.comment || '—' }}</strong></div>
+        <div class="detail"><span>Studio:</span> <strong>{{ currentVisitClientOrArtist.tattooStudioName || '—' }}</strong></div>
       </div>
 
-      <h4>Informacje zdrowotne</h4>
       <div class="details-list">
-        <div class="detail"><span>Alergie:</span> <strong>{{ currentVisit?.allergies || '—' }}</strong></div>
-        <div class="detail"><span>Choroby przewlekłe:</span> <strong>{{ currentVisit?.chronicDiseases || '—' }}</strong></div>
-        <div class="detail"><span>Leki:</span> <strong>{{ currentVisit?.medicines || '—' }}</strong></div>
-        <div class="detail"><span>Doświadczenia:</span> <strong>{{ currentVisit?.experiences || '—' }}</strong></div>
+        <h4>Informacje zdrowotne</h4>
+        <div class="detail"><span>Alergie:</span> <strong>{{ currentVisitClientOrArtist.allergies || '—' }}</strong></div>
+        <div class="detail"><span>Choroby przewlekłe:</span> <strong>{{ currentVisitClientOrArtist.chronicDiseases || '—' }}</strong></div>
+        <div class="detail"><span>Leki:</span> <strong>{{ currentVisitClientOrArtist.medicines || '—' }}</strong></div>
+        <div class="detail"><span>Doświadczenia:</span> <strong>{{ currentVisitClientOrArtist.experiences || '—' }}</strong></div>
+
+        <app-review
+          [visitId]="currentVisitClientOrArtist.id"
+          [visitStatus]="currentVisitClientOrArtist.status"
+          [visitDate]="currentVisitClientOrArtist.date">
+        </app-review>
       </div>
-  <app-review
-    [visitId]="currentVisit?.id"
-    [visitStatus]="currentVisit?.status"
-    [visitDate]="currentVisit?.date"
-  ></app-review>
     </div>
-  
-    <div
-      class="modal-actions"
-      *ngIf="authService.isTattooArtist() && selectedRoleTab === 'artist' && currentVisit?.status === 'OCZEKUJĄCA'"
-    >
-      <button class="btn btn-approve" (click)="confirmVisit(currentVisit!.id)">Zatwierdź</button>
-      <button class="btn btn-cancel" (click)="cancelVisit()">Anuluj</button>
+  </div>
+</div>
+
+<div class="modal" *ngIf="currentVisitStudio && showDetails" (click)="closeDetails()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <button class="modal-close" (click)="closeDetails()" aria-label="Zamknij">✕</button>
+    <div class="modal-body">
+      <h3>Szczegóły wizyty</h3>
+      <div class="details-list">
+        <div class="detail"><span>Status:</span> <strong>{{ currentVisitStudio.status }}</strong></div>
+        <div class="detail"><span>Data rozpoczęcia:</span> <strong>{{ currentVisitStudio.startDate | date:'full' }}</strong></div>
+        <div class="detail"><span>Data zakończenia:</span> <strong>{{ currentVisitStudio.endDate | date:'full' }}</strong></div>
+        <div class="detail" *ngIf="currentVisitStudio.artistName"><span>Artysta:</span> <strong>{{ currentVisitStudio.artistName }}</strong></div>
+        <div class="detail"><span>Studio:</span> <strong>{{ currentVisitStudio.studioName || '—' }}</strong></div>
+        <div class="detail"><span>Komentarz:</span> <strong>{{ currentVisitStudio.comment || '—' }}</strong></div>
+      </div>
+
+      <div class="modal-actions" *ngIf="currentVisitStudio.status === 'OCZEKUJĄCA'">
+        <button class="btn btn-approve" (click)="confirmVisit(currentVisitStudio.id)">Zatwierdź</button>
+        <button class="btn btn-cancel" (click)="cancelVisit()">Odrzuć</button>
+      </div>
     </div>
   </div>
 </div>
