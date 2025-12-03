@@ -98,6 +98,10 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/api/studio-offers/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/studio-offers/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/flash-offer/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/studio-visits/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/studio-visits/**").permitAll()
+                .requestMatchers(HttpMethod.PATCH, "/api/studio-visits/**").permitAll()
+
 
 
                 .anyRequest().authenticated()
