@@ -11,33 +11,36 @@ import TattooMe.TattooMe.repository.StatusRepository;
 import TattooMe.TattooMe.repository.TattooStudioRepository;
 import TattooMe.TattooMe.repository.TattooStudioVisitRepository;
 import TattooMe.TattooMe.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
 @Service
-@RequiredArgsConstructor
 @Transactional
 public class TattooStudioVisitService {
-
-    private final TattooStudioVisitRepository visitRepository;
-    private final UserRepository userRepository;
-    private final TattooStudioRepository studioRepository;
-    private final StatusRepository statusRepository;
-    private final TattooStudioVisitMapper visitMapper;
+    @Autowired
+    private TattooStudioVisitRepository visitRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private TattooStudioRepository studioRepository;
+    @Autowired
+    private StatusRepository statusRepository;
+    @Autowired
+    private TattooStudioVisitMapper visitMapper;
 
     public TattooStudioVisitResponse createVisit(UUID studioId, TattooStudioVisitRequest request, UUID artistId) {
         Status status = statusRepository.findByName("OCZEKUJĄCA");
-        if (status == null) throw new RuntimeException("Status OCZEKUJĄCA nie istnieje");
 
         User artist = userRepository.findById(artistId)
-                .orElseThrow(() -> new RuntimeException("Artysta nie istnieje"));
+                .orElseThrow(() -> new EntityNotFoundException("Artysta nie istnieje"));
 
         TattooStudio studio = studioRepository.findById(studioId)
-                .orElseThrow(() -> new RuntimeException("Studio nie istnieje"));
+                .orElseThrow(() -> new EntityNotFoundException("Studio nie istnieje"));
 
         TattooStudioVisit visit = visitMapper.toEntity(request, studio, artist, status);
         visitRepository.save(visit);
@@ -47,7 +50,7 @@ public class TattooStudioVisitService {
 
     public TattooStudioVisitResponse getById(UUID visitId) {
         TattooStudioVisit visit = visitRepository.findById(visitId)
-                .orElseThrow(() -> new RuntimeException("Wizyta nie istnieje"));
+                .orElseThrow(() -> new EntityNotFoundException("Wizyta nie istnieje"));
         return visitMapper.toDto(visit);
     }
 
