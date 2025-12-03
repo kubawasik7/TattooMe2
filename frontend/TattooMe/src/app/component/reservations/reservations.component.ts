@@ -18,13 +18,10 @@ import { Observable } from 'rxjs';
 export class ReservationsComponent implements OnInit {
   selectedRoleTab: 'client' | 'artist' | 'studio' = 'client';
   selectedTab: 'active' | 'past' | 'cancelled' = 'active';
-
   visitsClientOrArtist: Visit[] = [];
   visitsStudio: StudioVisit[] = [];
-
   currentVisitClientOrArtist?: Visit;
   currentVisitStudio?: StudioVisit;
-
   showDetails: boolean = false;
 
   constructor(
@@ -75,35 +72,72 @@ export class ReservationsComponent implements OnInit {
   confirmVisit(id: string) {
     if (this.selectedRoleTab === 'studio') {
       this.studioVisitService.confirmVisit(id).subscribe(() =>
-        this.reloadAfterAction("Wizyta została zatwierdzona w studiu")
+        this.reload("Wizyta została zatwierdzona w studiu")
       );
     } else {
       this.visitService.confirmVisit(id).subscribe(() =>
-        this.reloadAfterAction("Wizyta została potwierdzona")
+        this.reload("Wizyta została potwierdzona")
       );
     }
   }
 
-  cancelVisit() {
-    let cancel$: Observable<void>;
+cancelVisit() {
+  let visitId: string | undefined;
 
-    if (this.selectedRoleTab === 'studio' && this.currentVisitStudio) {
-      cancel$ = this.studioVisitService.cancelVisitAsStudio(this.currentVisitStudio.id);
-    } else if ((this.selectedRoleTab === 'client' || this.selectedRoleTab === 'artist') && this.currentVisitClientOrArtist) {
-      cancel$ = this.selectedRoleTab === 'artist'
-        ? this.visitService.cancelVisitAsArtist(this.currentVisitClientOrArtist.id)
-        : this.visitService.cancelVisitAsClient(this.currentVisitClientOrArtist.id);
-    } else {
-      return;
-    }
-
-    cancel$.subscribe({
-      next: () => this.reloadAfterAction("Wizyta została anulowana"),
-      error: () => this.notification.showError("Nie udało się anulować wizyty")
-    });
+  if (this.selectedRoleTab === 'studio' && this.currentVisitStudio) {
+    visitId = this.currentVisitStudio.id;
+  } else if ((this.selectedRoleTab === 'client' || this.selectedRoleTab === 'artist') && this.currentVisitClientOrArtist) {
+    visitId = this.selectedRoleTab === 'artist'
+      ? this.currentVisitClientOrArtist.id
+      : this.currentVisitClientOrArtist.id;
+  } else {
+    return;
   }
 
-  private reloadAfterAction(message: string) {
+  Swal.fire({
+    title: 'Usunąć tę wizytę?',
+    text: 'Tej akcji nie można cofnąć.',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
+    background: '#1e1e1e',
+    color: '#ffffffff',
+    confirmButtonText: 'Tak, usuń',
+    cancelButtonText: 'Anuluj'
+  }).then((result) => {
+    if (result.isConfirmed && visitId) {
+      let cancel$: Observable<void>;
+      
+      if (this.selectedRoleTab === 'studio') {
+        cancel$ = this.studioVisitService.cancelVisitAsStudio(visitId);
+      } else {
+        cancel$ = this.selectedRoleTab === 'artist'
+          ? this.visitService.cancelVisitAsArtist(visitId)
+          : this.visitService.cancelVisitAsClient(visitId);
+      }
+
+      cancel$.subscribe({
+        next: () => {
+          this.reload("Wizyta została anulowana");
+          Swal.fire({
+            icon: 'success',
+            background: '#1e1e1e',
+            color: '#ffffffff',
+            title: 'Usunięto!',
+            text: 'Wizyta została pomyślnie anulowana.',
+            timer: 1500,
+            showConfirmButton: false
+          });
+        },
+        error: () => this.notification.showError("Nie udało się anulować wizyty")
+      });
+    }
+  });
+}
+
+
+  private reload(message: string) {
     this.loadVisits();
     this.closeDetails();
     this.notification.showSuccess(message);

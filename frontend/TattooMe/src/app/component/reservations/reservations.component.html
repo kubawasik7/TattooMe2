@@ -3,10 +3,12 @@
     <button [class.active]="selectedRoleTab === 'client'" (click)="selectedRoleTab = 'client'; loadVisits()">
       Panel klienta
     </button>
-    <button *ngIf="authService.isTattooArtist() || authService.isTrainee()" [class.active]="selectedRoleTab === 'artist'" (click)="selectedRoleTab = 'artist'; loadVisits()">
+    <button *ngIf="authService.isTattooArtist() || authService.isTrainee()"
+      [class.active]="selectedRoleTab === 'artist'" (click)="selectedRoleTab = 'artist'; loadVisits()">
       Panel tatuatora
     </button>
-    <button *ngIf="authService.isTattooArtist() || authService.isTrainee()" [class.active]="selectedRoleTab === 'studio'" (click)="selectedRoleTab = 'studio'; loadVisits()">
+    <button *ngIf="authService.isTattooArtist() || authService.isTrainee()"
+      [class.active]="selectedRoleTab === 'studio'" (click)="selectedRoleTab = 'studio'; loadVisits()">
       Panel studia
     </button>
   </div>
@@ -24,15 +26,16 @@
   </div>
 
   <ul *ngIf="visitsClientOrArtist.length > 0" class="visit-list">
-    <li *ngFor="let visit of visitsClientOrArtist" class="visit-item"
-        (click)="openVisitDetails(visit.id)" tabindex="0" (keyup.enter)="openVisitDetails(visit.id)">
+    <li *ngFor="let visit of visitsClientOrArtist" class="visit-item" (click)="openVisitDetails(visit.id)" tabindex="0"
+      (keyup.enter)="openVisitDetails(visit.id)">
       <div class="row">
         <div class="pair"><span>Status:</span><strong>{{ visit.status }}</strong></div>
         <div class="pair"><span>Data:</span><strong>{{ visit.date | date:'short' }}</strong></div>
       </div>
       <div class="row">
         <div class="pair" *ngIf="visit.artistName"><span>Tatuator:</span><strong>{{ visit.artistName }}</strong></div>
-        <div class="pair" *ngIf="visit.tattooStudioName"><span>Studio:</span><strong>{{ visit.tattooStudioName }}</strong></div>
+        <div class="pair" *ngIf="visit.tattooStudioName"><span>Studio:</span><strong>{{ visit.tattooStudioName
+            }}</strong></div>
       </div>
     </li>
   </ul>
@@ -44,12 +47,16 @@
   </div>
 
   <ul *ngIf="visitsStudio.length > 0" class="visit-list">
-    <li *ngFor="let visit of visitsStudio" class="visit-item"
-        (click)="openVisitDetails(visit.id)" tabindex="0" (keyup.enter)="openVisitDetails(visit.id)">
+    <li *ngFor="let visit of visitsStudio" class="visit-item" (click)="openVisitDetails(visit.id)" tabindex="0"
+      (keyup.enter)="openVisitDetails(visit.id)">
       <div class="row">
         <div class="pair"><span>Status:</span><strong>{{ visit.status }}</strong></div>
-        <div class="pair"><span>Start / Koniec:</span>
-          <strong>{{ visit.startDate | date:'short' }} - {{ visit.endDate | date:'short' }}</strong>
+        <div class="pair">
+          <span>Okres:</span>
+          <strong>
+            {{ visit.startDate | date:'dd.MM.yyyy HH:mm' }}<br>
+            {{ visit.endDate | date:'dd.MM.yyyy HH:mm' }}
+          </strong>
         </div>
       </div>
       <div class="row">
@@ -72,23 +79,27 @@
       <h3>Szczegóły wizyty</h3>
       <div class="details-list">
         <div class="detail"><span>Status:</span> <strong>{{ currentVisitClientOrArtist.status }}</strong></div>
-        <div class="detail"><span>Data:</span> <strong>{{ currentVisitClientOrArtist.date | date:'full' }}</strong></div>
+        <div class="detail"><span>Data:</span> <strong>{{ currentVisitClientOrArtist.date | date:'full' }}</strong>
+        </div>
         <div class="detail"><span>Artysta:</span> <strong>{{ currentVisitClientOrArtist.artistName }}</strong></div>
         <div class="detail"><span>Klient:</span> <strong>{{ currentVisitClientOrArtist.clientName }}</strong></div>
-        <div class="detail"><span>Komentarz:</span> <strong>{{ currentVisitClientOrArtist.comment || '—' }}</strong></div>
-        <div class="detail"><span>Studio:</span> <strong>{{ currentVisitClientOrArtist.tattooStudioName || '—' }}</strong></div>
+        <div class="detail"><span>Komentarz:</span> <strong>{{ currentVisitClientOrArtist.comment || '—' }}</strong>
+        </div>
+        <div class="detail"><span>Studio:</span> <strong>{{ currentVisitClientOrArtist.tattooStudioName || '—'
+            }}</strong></div>
       </div>
 
       <div class="details-list">
         <h4>Informacje zdrowotne</h4>
-        <div class="detail"><span>Alergie:</span> <strong>{{ currentVisitClientOrArtist.allergies || '—' }}</strong></div>
-        <div class="detail"><span>Choroby przewlekłe:</span> <strong>{{ currentVisitClientOrArtist.chronicDiseases || '—' }}</strong></div>
+        <div class="detail"><span>Alergie:</span> <strong>{{ currentVisitClientOrArtist.allergies || '—' }}</strong>
+        </div>
+        <div class="detail"><span>Choroby przewlekłe:</span> <strong>{{ currentVisitClientOrArtist.chronicDiseases ||
+            '—' }}</strong></div>
         <div class="detail"><span>Leki:</span> <strong>{{ currentVisitClientOrArtist.medicines || '—' }}</strong></div>
-        <div class="detail"><span>Doświadczenia:</span> <strong>{{ currentVisitClientOrArtist.experiences || '—' }}</strong></div>
+        <div class="detail"><span>Doświadczenia:</span> <strong>{{ currentVisitClientOrArtist.experiences || '—'
+            }}</strong></div>
 
-        <app-review
-          [visitId]="currentVisitClientOrArtist.id"
-          [visitStatus]="currentVisitClientOrArtist.status"
+        <app-review [visitId]="currentVisitClientOrArtist.id" [visitStatus]="currentVisitClientOrArtist.status"
           [visitDate]="currentVisitClientOrArtist.date">
         </app-review>
       </div>
@@ -103,9 +114,12 @@
       <h3>Szczegóły wizyty</h3>
       <div class="details-list">
         <div class="detail"><span>Status:</span> <strong>{{ currentVisitStudio.status }}</strong></div>
-        <div class="detail"><span>Data rozpoczęcia:</span> <strong>{{ currentVisitStudio.startDate | date:'full' }}</strong></div>
-        <div class="detail"><span>Data zakończenia:</span> <strong>{{ currentVisitStudio.endDate | date:'full' }}</strong></div>
-        <div class="detail" *ngIf="currentVisitStudio.artistName"><span>Artysta:</span> <strong>{{ currentVisitStudio.artistName }}</strong></div>
+        <div class="detail"><span>Data rozpoczęcia:</span> <strong> {{ currentVisitStudio.startDate | date:'dd.MM.yyyy
+            HH:mm' }}</strong></div>
+        <div class="detail"><span>Data zakończenia:</span> <strong> {{ currentVisitStudio.endDate | date:'dd.MM.yyyy
+            HH:mm' }}</strong></div>
+        <div class="detail" *ngIf="currentVisitStudio.artistName"><span>Artysta:</span> <strong>{{
+            currentVisitStudio.artistName }}</strong></div>
         <div class="detail"><span>Studio:</span> <strong>{{ currentVisitStudio.studioName || '—' }}</strong></div>
         <div class="detail"><span>Komentarz:</span> <strong>{{ currentVisitStudio.comment || '—' }}</strong></div>
       </div>
