@@ -55,9 +55,9 @@ public class TattooStudioVisitController {
         return ResponseEntity.ok().build();
     }
 
-    @PatchMapping("/{id}/cancel/studio")
-    public ResponseEntity<Void> cancelVisitAsStudio(@PathVariable UUID id) {
-        tattooStudioVisitService.cancelVisitAsStudio(id);
+    @PatchMapping("/{id}/cancel")
+    public ResponseEntity<Void> cancelVisit(@PathVariable UUID id) {
+        tattooStudioVisitService.cancelVisit(id);
         return ResponseEntity.ok().build();
     }
 }

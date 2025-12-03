@@ -80,15 +80,15 @@ public class TattooStudioVisitService {
 
     public void confirmVisit(UUID visitId) {
         TattooStudioVisit visit = visitRepository.findById(visitId)
-                .orElseThrow(() -> new RuntimeException("Wizyta nie istnieje"));
+                .orElseThrow(() -> new EntityNotFoundException("Wizyta nie istnieje"));
         Status confirmed = statusRepository.findByName("ZATWIERDZONA");
         visit.setStatus(confirmed);
         visitRepository.save(visit);
     }
 
-    public void cancelVisitAsStudio(UUID visitId) {
+    public void cancelVisit(UUID visitId) {
         TattooStudioVisit visit = visitRepository.findById(visitId)
-                .orElseThrow(() -> new RuntimeException("Wizyta nie istnieje"));
+                .orElseThrow(() -> new EntityNotFoundException("Wizyta nie istnieje"));
         Status cancelled = statusRepository.findByName("ANULOWANA");
         visit.setStatus(cancelled);
         visitRepository.save(visit);
