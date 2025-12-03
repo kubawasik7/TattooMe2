@@ -81,40 +81,29 @@ export class ReservationsComponent implements OnInit {
     }
   }
 
-cancelVisit() {
-  let visitId: string | undefined;
+  cancelVisit(id: string) {
+    Swal.fire({
+      title: 'Usunąć tę wizytę?',
+      text: 'Tej akcji nie można cofnąć.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      background: '#1e1e1e',
+      color: '#ffffffff',
+      confirmButtonText: 'Tak, usuń',
+      cancelButtonText: 'Anuluj'
+    }).then(result => {
+      if (!result.isConfirmed) return;
 
-  if (this.selectedRoleTab === 'studio' && this.currentVisitStudio) {
-    visitId = this.currentVisitStudio.id;
-  } else if ((this.selectedRoleTab === 'client' || this.selectedRoleTab === 'artist') && this.currentVisitClientOrArtist) {
-    visitId = this.selectedRoleTab === 'artist'
-      ? this.currentVisitClientOrArtist.id
-      : this.currentVisitClientOrArtist.id;
-  } else {
-    return;
-  }
-
-  Swal.fire({
-    title: 'Usunąć tę wizytę?',
-    text: 'Tej akcji nie można cofnąć.',
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#d33',
-    cancelButtonColor: '#3085d6',
-    background: '#1e1e1e',
-    color: '#ffffffff',
-    confirmButtonText: 'Tak, usuń',
-    cancelButtonText: 'Anuluj'
-  }).then((result) => {
-    if (result.isConfirmed && visitId) {
       let cancel$: Observable<void>;
-      
+
       if (this.selectedRoleTab === 'studio') {
-        cancel$ = this.studioVisitService.cancelVisitAsStudio(visitId);
+        cancel$ = this.studioVisitService.cancelVisit(id);
       } else {
         cancel$ = this.selectedRoleTab === 'artist'
-          ? this.visitService.cancelVisitAsArtist(visitId)
-          : this.visitService.cancelVisitAsClient(visitId);
+          ? this.visitService.cancelVisitAsArtist(id)
+          : this.visitService.cancelVisitAsClient(id);
       }
 
       cancel$.subscribe({
@@ -130,11 +119,12 @@ cancelVisit() {
             showConfirmButton: false
           });
         },
-        error: () => this.notification.showError("Nie udało się anulować wizyty")
+        error: () => {
+          this.notification.showError("Nie udało się anulować wizyty");
+        }
       });
-    }
-  });
-}
+    });
+  }
 
 
   private reload(message: string) {
@@ -170,5 +160,11 @@ cancelVisit() {
     this.showDetails = false;
     this.currentVisitClientOrArtist = undefined;
     this.currentVisitStudio = undefined;
+  }
+
+  isPast(date?: string | Date): boolean {
+    if (!date) return false;
+    console.log(new Date(date).getTime() < new Date().getTime());
+    return new Date(date).getTime() < new Date().getTime();
   }
 }
