@@ -1,58 +1,69 @@
 .contact-page {
+  min-height: 100vh;
+  padding: 4rem 2rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 3rem 1rem;
-  min-height: 100vh;
-  background: linear-gradient(to right, #1f1f1f, #2c2c2c);
+
 }
 
 .contact-card {
-  background-color: rgba(56, 54, 54, 0.85);
-  padding: 2.5rem;
-  border-radius: 10px;
-  max-width: 600px;
   width: 100%;
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
-  color: #fff;
+  max-width: 900px;
+  min-height: 60vh;
+  background-color: #2b2b2b;
+  border-radius: 16px;
+  padding: 4rem 3.5rem;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .contact-header {
-  font-size: 2rem;
-  margin-bottom: 1.5rem;
+  font-size: 2.6rem;
   text-align: center;
+  margin-bottom: 2.5rem;
+  padding-bottom: 1rem;
   border-bottom: 1px solid #444;
-  padding-bottom: 0.5rem;
+  color: #ffc107;
+}
+
+.contact-info {
+  max-width: 650px;
+  margin: 0 auto;
 }
 
 .contact-info p {
-  margin-bottom: 0.8rem;
-  font-size: 1rem;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  margin-bottom: 1.4rem;
+  text-align: center;
+}
+
+.contact-info .intro {
+  font-size: 1.15rem;
+}
+
+.contact-info .description {
+  color: #dddddd;
+}
+
+.contact-details {
+  margin-top: 2.5rem;
+}
+
+.contact-details p {
+  font-size: 1.15rem;
 }
 
 .contact-info a {
   color: #ffc107;
   text-decoration: none;
+  transition: color 0.2s ease;
 }
 
 .contact-info a:hover {
+  color: #ffd54f;
   text-decoration: underline;
-}
-
-.map-container {
-  margin-top: 2rem;
-  border-radius: 5px;
-  overflow: hidden;
-  border: 1px solid #555;
-}
-
-.socials {
-  margin-top: 2rem;
-  text-align: center;
-  color: #ffc107;
-}
-
-.socials a {
-  margin: 0 0.5rem;
-  color: aqua;
 }
