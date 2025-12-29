@@ -1,0 +1,7 @@
+{
+  "build": "mvn clean package",
+  "start": "java -jar target/TattooMe-0.0.1-SNAPSHOT.jar",
+  "engines": {
+    "java": "20"
+  }
+}
