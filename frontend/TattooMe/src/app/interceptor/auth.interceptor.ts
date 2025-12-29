@@ -21,15 +21,6 @@ export class AuthInterceptor implements HttpInterceptor {
       }
     }
 
-    return next.handle(authReq).pipe(
-      catchError((err: any) => {
-        if (err instanceof HttpErrorResponse && err.status === 401) {
-          localStorage.removeItem('token');
-          this.notification.showError('Twoja sesja wygasła. Zaloguj się ponownie.');
-          this.router.navigate(['/login']);
-        }
-        return throwError(() => err);
-      })
-    );
+    return next.handle(authReq);
   }
 }

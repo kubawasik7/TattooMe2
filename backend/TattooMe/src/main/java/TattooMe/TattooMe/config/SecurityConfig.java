@@ -81,7 +81,8 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .requestMatchers("/api/auth/**").permitAll()
+            .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/reviews/**").permitAll()
                 .requestMatchers(HttpMethod.GET,"/api/studios/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/users/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/portfolio/**").permitAll()
@@ -90,17 +91,10 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/api/styles/user/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/offers/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/reviews/**").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/users/**").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/studios/**").permitAll()
-                .requestMatchers(HttpMethod.PATCH, "/api/visits/**").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/flash-offer/**").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/offers").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/studio-offers/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/studio-offers/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/flash-offer/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/studio-visits/**").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/studio-visits/**").permitAll()
-                .requestMatchers(HttpMethod.PATCH, "/api/studio-visits/**").permitAll()
+
 
 
 

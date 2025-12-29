@@ -3,6 +3,8 @@ import { Review } from '../../model/review';
 import { ReviewService } from '../../service/review.service';
 import { AuthService } from '../../service/auth.service';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
+import { NotificationService } from '../../service/notification.service';
 
 
 @Component({
@@ -33,7 +35,8 @@ export class ReviewsComponent implements OnInit {
   constructor(
     private reviewService: ReviewService,
     public authService: AuthService,
-    private router: Router
+    private router: Router,
+    private notification: NotificationService
   ) { }
 
   ngOnInit(): void {
@@ -88,17 +91,38 @@ export class ReviewsComponent implements OnInit {
     this.rate = star;
   }
 
-  submitReview() {
-    if (!this.visitId || this.rate === 0) return;
+submitReview() { 
+  if (!this.visitId || this.rate === 0) return;
 
-    this.reviewService.addReview(this.visitId, this.rate, this.content).subscribe(r => {
-      this.reviews.unshift(r);
-      this.submitted = true;
-      this.showForm = false;
-      this.rate = 0;
-      this.content = '';
-    });
+  if (!this.isAllowedToReview()) {
+    this.notification.showError("Opinię można wystawić tylko po zakończonej lub anulowanej wizycie.");
+    return;
   }
+
+  this.reviewService.addReview(this.visitId, this.rate, this.content).subscribe(r => {
+    this.reviews.unshift(r);
+    this.submitted = true;
+    this.showForm = false;
+    this.rate = 0;
+    this.content = '';
+    this.notification.showSuccess("Dziękujemy za opinię!");
+  });
+}
+
+
+  isPastVisit(): boolean {
+  if (!this.visitDate) return false;
+  return new Date(this.visitDate).getTime() < Date.now();
+}
+isAllowedToReview(): boolean {
+  if (!this.visitId) return false;
+
+  const isPast = this.isPastVisit();     // Twoja istniejąca metoda
+  const isCancelled = this.visitStatus === 'ANULOWANA';
+
+  return isPast || isCancelled;
+}
+
 
   addAnswer(reviewId: string) {
     if (!this.answerContent[reviewId]) return;

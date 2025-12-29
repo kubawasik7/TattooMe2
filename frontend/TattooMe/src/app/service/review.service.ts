@@ -12,15 +12,15 @@ export class ReviewService {
 
   constructor(private http: HttpClient) { }
 
-  addReview(visitId: string, rate: number, content?: string): Observable<Review> {
-    const body = {
-      rate: rate,
-      content: content,
-      visitId: visitId
-    };
+addReview(visitId: string, rate: number, content: string) {
+  console.log("Sending review, token:", localStorage.getItem('token'), 'AAAAAAAAAAAAAA',visitId);
+  return this.http.post<Review>(
+    `${this.url}/${visitId}`,
+    { visitId, rate, content },
+    { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }
+  );
+}
 
-    return this.http.post<Review>(`${this.url}/${visitId}`, body);
-  }
 
   addAnswer(reviewId: string, content: string): Observable<ReviewAnswer> {
     return this.http.post<ReviewAnswer>(`${this.url}/answers`, {

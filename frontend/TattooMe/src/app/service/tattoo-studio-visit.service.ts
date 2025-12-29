@@ -34,7 +34,7 @@ export class TattooStudioVisitService {
     return this.http.patch<void>(`${this.url}/${id}/confirm`, {});
   }
 
-  cancelVisitAsStudio(visitId: string): Observable<void> {
-    return this.http.patch<void>(`${this.url}/${visitId}/cancel/studio`, {});
+  cancelVisit(visitId: string): Observable<void> {
+    return this.http.patch<void>(`${this.url}/${visitId}/cancel`, {});
   }
 }

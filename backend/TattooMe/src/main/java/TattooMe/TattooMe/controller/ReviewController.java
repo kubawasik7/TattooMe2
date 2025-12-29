@@ -44,6 +44,8 @@ public class ReviewController {
     public ResponseEntity<ReviewDTO> addReview(@RequestBody CreateReviewDTO dto,
                                                @AuthenticationPrincipal CustomUserDetails user) throws AccessDeniedException {
         ReviewDTO review = reviewService.addReview(dto, user.getId());
+        System.out.println("User ID: " + user.getId() + ", VisitId: " + dto.getVisitId());
+
         return ResponseEntity.status(HttpStatus.CREATED).body(review);
     }
 
