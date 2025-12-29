@@ -3,6 +3,8 @@ package TattooMe.TattooMe.config;
 import TattooMe.TattooMe.Security.CustomUserDetailService;
 import TattooMe.TattooMe.Security.JwtAuthenticationFilter;
 import TattooMe.TattooMe.Security.JwtUtil;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -81,6 +83,7 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .requestMatchers("/**").permitAll()
             .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/reviews/**").permitAll()
                 .requestMatchers(HttpMethod.GET,"/api/studios/**").permitAll()
@@ -105,9 +108,24 @@ public class SecurityConfig {
         http.formLogin(AbstractHttpConfigurer::disable);
 
         http.addFilterBefore(
-                jwtAuthenticationFilter(),
+                new JwtAuthenticationFilter(jwtUtil, customUserDetailsService) {
+                    @Override
+                    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+                        String path = request.getServletPath();
+                        // pozwól na wszystkie statyczne pliki Angulara
+                        return path.startsWith("/assets/") ||
+                                path.startsWith("/favicon.ico") ||
+                                path.equals("/") ||
+                                path.startsWith("/index.html") ||
+                                path.startsWith("/main.js") ||
+                                path.startsWith("/polyfills.js") ||
+                                path.startsWith("/runtime.js") ||
+                                path.startsWith("/styles.css");
+                    }
+                },
                 UsernamePasswordAuthenticationFilter.class
         );
+
 
         return http.build();
     }
