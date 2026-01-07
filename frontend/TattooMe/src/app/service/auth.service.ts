@@ -73,6 +73,16 @@ export class AuthService {
     }
     return false;
   }
+  isClient(): boolean | null {
+    const token = this.getToken();
+    if (!token) return null;
+    const decodedToken: any = jwtDecode(token);
+
+    if (decodedToken.role === 'user') {
+      return true;
+    }
+    return false;
+  }
 
   register(registerRequest: RegisterRequest): Observable<any> {
     return this.http.post(`${this.url}/register`, registerRequest);

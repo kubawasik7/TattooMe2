@@ -69,18 +69,22 @@
           },
           "defaultConfiguration": "production"
         },
-        "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
-          "configurations": {
-            "production": {
-              "browserTarget": "TattooMe:build:production"
-            },
-            "development": {
-              "browserTarget": "TattooMe:build:development"
-            }
-          },
-          "defaultConfiguration": "development"
-        },
+    "serve": {
+  "builder": "@angular-devkit/build-angular:dev-server",
+  "options": {
+    "buildTarget": "TattooMe:build"
+  },
+  "configurations": {
+    "production": {
+      "buildTarget": "TattooMe:build:production"
+    },
+    "development": {
+      "buildTarget": "TattooMe:build:development"
+    }
+  },
+  "defaultConfiguration": "development"
+}
+,
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n"
         },

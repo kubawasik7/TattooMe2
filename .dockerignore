@@ -1,0 +1,89 @@
+# flyctl launch added from backend\.idea\.gitignore
+# Default ignored files
+backend\.idea\shelf
+backend\.idea\workspace.xml
+# Editor-based HTTP Client requests
+backend\.idea\httpRequests
+# Datasource local storage ignored files
+backend\.idea\dataSources
+backend\.idea\dataSources.local.xml
+
+# flyctl launch added from backend\TattooMe\.gitignore
+backend\TattooMe\**\HELP.md
+backend\TattooMe\**\target
+!backend\TattooMe\**\.mvn\wrapper\maven-wrapper.jar
+!backend\TattooMe\**\**\src\main\**\target
+!backend\TattooMe\**\**\src\test\**\target
+
+### STS ###
+backend\TattooMe\**\.apt_generated
+backend\TattooMe\**\.classpath
+backend\TattooMe\**\.factorypath
+backend\TattooMe\**\.project
+backend\TattooMe\**\.settings
+backend\TattooMe\**\.springBeans
+backend\TattooMe\**\.sts4-cache
+
+### IntelliJ IDEA ###
+backend\TattooMe\**\.idea
+backend\TattooMe\**\*.iws
+backend\TattooMe\**\*.iml
+backend\TattooMe\**\*.ipr
+
+### NetBeans ###
+backend\TattooMe\nbproject\private
+backend\TattooMe\nbbuild
+backend\TattooMe\dist
+backend\TattooMe\nbdist
+backend\TattooMe\.nb-gradle
+backend\TattooMe\**\build
+!backend\TattooMe\**\**\src\main\**\build
+!backend\TattooMe\**\**\src\test\**\build
+
+### VS Code ###
+backend\TattooMe\**\.vscode
+
+# flyctl launch added from frontend\TattooMe\.gitignore
+# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+
+# Compiled output
+frontend\TattooMe\dist
+frontend\TattooMe\tmp
+frontend\TattooMe\out-tsc
+frontend\TattooMe\bazel-out
+
+# Node
+frontend\TattooMe\node_modules
+frontend\TattooMe\**\npm-debug.log
+frontend\TattooMe\**\yarn-error.log
+
+# IDEs and editors
+frontend\TattooMe\**\.idea
+frontend\TattooMe\**\.project
+frontend\TattooMe\**\.classpath
+frontend\TattooMe\**\.c9
+frontend\TattooMe\**\*.launch
+frontend\TattooMe\**\.settings
+frontend\TattooMe\**\*.sublime-workspace
+
+# Visual Studio Code
+frontend\TattooMe\**\.vscode\*
+!frontend\TattooMe\**\.vscode\settings.json
+!frontend\TattooMe\**\.vscode\tasks.json
+!frontend\TattooMe\**\.vscode\launch.json
+!frontend\TattooMe\**\.vscode\extensions.json
+frontend\TattooMe\**\.history\*
+
+# Miscellaneous
+frontend\TattooMe\.angular\cache
+frontend\TattooMe\**\.sass-cache
+frontend\TattooMe\connect.lock
+frontend\TattooMe\coverage
+frontend\TattooMe\libpeerconnection.log
+frontend\TattooMe\**\testem.log
+frontend\TattooMe\typings
+
+# System files
+frontend\TattooMe\**\.DS_Store
+frontend\TattooMe\**\Thumbs.db
+fly.toml
