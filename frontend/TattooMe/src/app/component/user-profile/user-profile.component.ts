@@ -1,9 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../../service/user.service';
 import { User } from '../../model/user';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NotificationService } from '../../service/notification.service';
+import { ProfileService } from '../../service/profile.service';
+import { AuthService } from '../../service/auth.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -15,18 +17,28 @@ export class UserProfileComponent {
   user!: User;
   userForm!: FormGroup;
   editMode = false;
-  selectedFile: any;
+
+  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
+  selectedFile: File | null = null;
+  previewUrl: string | null = null;
+  defaultAvatar = '/pobrane.png';
 
   constructor(private route: ActivatedRoute,
     private userService: UserService,
     private fb: FormBuilder,
-    private notification: NotificationService
+    private notification: NotificationService,
+    private profileService: ProfileService
   ) { }
 
   ngOnInit() {
     const userId = this.route.snapshot.paramMap.get('id')!;
     this.userService.getUserById(userId).subscribe((data: User) => {
       this.user = data;
+      if (this.user.profilePicture) {
+        this.previewUrl = `data:image/png;base64,${this.user.profilePicture}`;
+      } else {
+        this.previewUrl = null;
+      }
       this.initializeForm();
     });
   }
@@ -73,5 +85,16 @@ export class UserProfileComponent {
 
   onFileSelected(event: any): void {
     this.selectedFile = event.target.files[0];
+  }
+  upload(): void {
+    if (!this.selectedFile) return;
+    this.profileService.uploadAvatar(this.selectedFile)
+      .subscribe({
+        next: () => {
+          this.notification.showSuccess("Zdjęcie zostało dodane");
+          this.selectedFile = null;
+        },
+        error: err => this.notification.showError("Nie udało się dodać zdjęcia")
+      });
   }
 }
