@@ -1,6 +1,7 @@
 package TattooMe.TattooMe.service;
 
 import TattooMe.TattooMe.dto.favoriteArtist.FavoriteArtistDTO;
+import TattooMe.TattooMe.dto.user.UserDTO;
 import TattooMe.TattooMe.entity.FavoriteArtist;
 import TattooMe.TattooMe.entity.User;
 import TattooMe.TattooMe.mapper.FavoriteArtistMapper;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -23,15 +25,24 @@ public class FavoriteArtistService {
     private UserRepository userRepository;
     @Autowired
     private FavoriteArtistMapper favoriteArtistMapper;
+    @Autowired
+    private UserService userService;
 
-    public List<FavoriteArtistDTO> getFavorites(UUID userId) {
-        userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("Użytkownik nie znaleziony"));
-
-        return favoriteArtistRepository.findAllByUser_Id(userId)
+    public List<UserDTO> getFavoriteArtists(UUID userId) {
+        List<UUID> artistIds = favoriteArtistRepository
+                .findAllByUser_Id(userId)
                 .stream()
-                .map(favoriteArtistMapper::toDTO)
-                .collect(Collectors.toList());
+                .map(f -> f.getArtist().getId())
+                .toList();
+
+        List<UserDTO> result = new ArrayList<>();
+
+        for (UUID artistId : artistIds) {
+            userService.getUserByIdWithAvgRating(artistId)
+                    .ifPresent(result::add);
+        }
+
+        return result;
     }
 
     @Transactional

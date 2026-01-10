@@ -3,6 +3,7 @@ package TattooMe.TattooMe.controller;
 
 import TattooMe.TattooMe.Security.CustomUserDetails;
 import TattooMe.TattooMe.dto.favoriteArtist.FavoriteArtistDTO;
+import TattooMe.TattooMe.dto.user.UserDTO;
 import TattooMe.TattooMe.service.FavoriteArtistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,8 +22,8 @@ public class FavoriteArtistController {
     private FavoriteArtistService favoriteArtistService;
 
     @GetMapping
-    public ResponseEntity<List<FavoriteArtistDTO>> getFavorites(@AuthenticationPrincipal CustomUserDetails user) {
-        List<FavoriteArtistDTO> favorites = favoriteArtistService.getFavorites(user.getId());
+    public ResponseEntity<List<UserDTO>> getFavorites(@AuthenticationPrincipal CustomUserDetails user) {
+        List<UserDTO> favorites = favoriteArtistService.getFavoriteArtists(user.getId());
         return ResponseEntity.ok(favorites);
     }
 

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { FavoriteArtist } from '../../model/favorite-artist';
 import { NotificationService } from '../../service/notification.service';
 import Swal from 'sweetalert2';
+import { User } from '../../model/user';
 
 
 @Component({
@@ -13,13 +14,14 @@ import Swal from 'sweetalert2';
   styleUrl: './favorite.component.css'
 })
 export class FavoriteComponent implements OnInit {
-  favorites: FavoriteArtist[] = [];
+  users: User[] = [];
+  p = 1;
 
   constructor(
     private favoriteService: FavoriteService,
     private router: Router,
     private notification: NotificationService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.loadFavorites();
@@ -28,11 +30,14 @@ export class FavoriteComponent implements OnInit {
   loadFavorites(): void {
     this.favoriteService.getFavorites().subscribe({
       next: (data) => {
-        this.favorites = data;
+        this.users = data.map(u => ({
+          ...u,
+          featuredPictures: u.featuredPictures ?? []
+        }));
       },
-      error: (err) => {
-        console.log(err)
-      },
+      error: () => {
+        this.notification.showError('Nie udało się pobrać ulubionych');
+      }
     });
   }
 
@@ -52,11 +57,11 @@ export class FavoriteComponent implements OnInit {
       if (result.isConfirmed) {
         this.favoriteService.removeFavorite(artistId).subscribe({
           next: () => {
-            this.loadFavorites();
-            this.notification.showSuccess("Artysta został usunięty z ulubionych");
+            this.users = this.users.filter(u => u.id !== artistId);
+            this.notification.showSuccess('Artysta został usunięty z ulubionych');
           },
-          error: (err) => {
-            this.notification.showError("Nie udało się usunąć artysty z ulubionych");
+          error: () => {
+            this.notification.showError('Nie udało się usunąć artysty z ulubionych');
           }
         });
       }

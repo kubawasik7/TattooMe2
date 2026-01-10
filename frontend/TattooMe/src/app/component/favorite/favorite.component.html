@@ -1,13 +1,52 @@
 <h2 class="section-title">Ulubieni twórcy</h2>
 
-<div *ngFor="let artist of favorites" class="favorite-card">
-  <div class="avatar">*zdjęcie*</div>
-  <div class="info" (click)="goToArtistProfile(artist.artistId)" style="cursor: pointer;">
-    <strong>{{ artist.username }}</strong>
-    <div class="styles">dotwork realism minimalizm</div>
-    <p>{{artist.description}}</p>
-  </div>
-  <button (click)="removeFavorite(artist.artistId)" class="delete-btn">
-    🗑️
-  </button>
+<div class="tattoo-me">
+  <section class="tm-list">
+
+    <article class="tm-card" *ngFor="let user of users | paginate: {
+        itemsPerPage: 5,
+        currentPage: p,
+        totalItems: users.length }">
+
+      <div class="avatar">
+        <img *ngIf="user.profilePicture" [src]="'data:image/png;base64,' + user.profilePicture" class="avatar-img" />
+
+        <div *ngIf="!user.profilePicture" class="avatar-placeholder">
+          brak zdjęcia
+        </div>
+      </div>
+
+      <div class="info">
+        <div class="name-row">
+          <a class="profile-link" [routerLink]="['/profile', user.id]">
+            <h2 class="nickname">{{ user.nickname }}</h2>
+          </a>
+
+          <span class="rating">
+            ★ {{ user.averageRate | number:'1.2-2' }}
+            ({{ user.reviewsCount }})
+          </span>
+
+          <button class="delete-btn" (click)="removeFavorite(user.id)">
+            🗑️
+          </button>
+        </div>
+
+        <p class="description" *ngIf="user.description">
+          {{ user.description | slice:0:250 }}
+          {{ user.description.length > 250 ? '...' : '' }}
+        </p>
+
+        <div class="featured-images" *ngIf="user.featuredPictures.length > 0">
+          <div class="featured-item" *ngFor="let pic of user.featuredPictures">
+            <img [src]="'data:image/png;base64,' + pic.image" class="featured-img" />
+          </div>
+        </div>
+      </div>
+
+    </article>
+  </section>
+
+  <pagination-controls (pageChange)="p = $event" [autoHide]="true">
+  </pagination-controls>
 </div>
