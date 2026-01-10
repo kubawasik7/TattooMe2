@@ -40,18 +40,48 @@ export class TattooStudioComponent implements OnInit {
     private fb: FormBuilder
   ) { }
 
-  ngOnInit(): void {
-    this.studioId = this.route.snapshot.paramMap.get('id')!;
-    this.currentUserId = this.authService.getUserId();
-    this.isLoggedIn = this.authService.isLoggedIn();
-    this.descriptionForm = this.fb.group({
-      description: ['', [Validators.maxLength(1000)]],
-    });
-
-
-    
-    this.loadStudio();
+ngOnInit(): void {
+  const routeId = this.route.snapshot.paramMap.get('id');
+  
+  if (routeId) {
+    this.studioId = routeId;
+    this.initStudio();
+  } else {
+    this.resolveStudioRedirect();
   }
+}
+
+ private resolveStudioRedirect(): void {
+  this.studioService.getUserStudio().subscribe({
+    next: studio => {
+      if (studio) {
+        this.router.navigate(['/studio', studio.id]);
+        return;
+      } else if (this.authService.isTattooArtist()) {
+        this.router.navigate(['/createStudio']);
+        return;
+      } else {
+        this.router.navigate(['/']);
+        return;
+      }
+    },
+    error: () => {
+      this.router.navigate(['/']);
+    }
+  });
+}
+
+private initStudio(): void {
+  this.currentUserId = this.authService.getUserId();
+  this.isLoggedIn = this.authService.isLoggedIn();
+
+  this.descriptionForm = this.fb.group({
+    description: ['', [Validators.maxLength(1000)]],
+  });
+
+  this.loadStudio();
+}
+
 
   loadStudio(): void {
     this.studioService.getStudioById(this.studioId).subscribe({

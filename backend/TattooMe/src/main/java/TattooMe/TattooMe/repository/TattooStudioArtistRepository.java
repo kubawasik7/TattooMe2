@@ -12,6 +12,7 @@ import java.util.UUID;
 
 @Repository
 public interface TattooStudioArtistRepository extends JpaRepository<TattooStudioArtist, UUID> {
+    List<TattooStudioArtist> findByUser_Id(UUID userId);
     boolean existsByTattooStudioAndUser(TattooStudio tattooStudio, User user);
 
     Optional<TattooStudioArtist> findByTattooStudioIdAndUserId(UUID tattooStudioId, UUID userId);

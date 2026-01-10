@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -39,6 +40,15 @@ public class TattooStudioController {
     @GetMapping
     public List<TattooStudioDTO> getStudios() {
         return studioService.getAllStudios();
+    }
+
+    @GetMapping("/user/studio")
+    public ResponseEntity<TattooStudioDTO> getUserStudio(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        UUID userId = userDetails.getId();
+
+        TattooStudioDTO studio = studioService.getStudioForCurrentUser(userId);
+
+        return ResponseEntity.ok(studio);
     }
 
     @GetMapping("/{studioId}/users")

@@ -18,6 +18,10 @@ export class StudioService {
   getStudioById(id: string): Observable<TattooStudio> {
     return this.http.get<TattooStudio>(`${this.url}/${id}`);
   }
+  getUserStudio(): Observable<TattooStudio | null> {
+  return this.http.get<TattooStudio | null>(`${this.url}/user/studio`);
+}
+
 
   getUsersByStudioId(studioId: string): Observable<StudioArtist[]> {
     return this.http.get<StudioArtist[]>(`${this.url}/${studioId}/users`);

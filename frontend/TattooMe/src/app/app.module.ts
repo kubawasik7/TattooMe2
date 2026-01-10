@@ -57,6 +57,7 @@ const appRoutes: Routes = [
   { path: 'chats', component: ChatListComponent },
   { path: 'createStudio', component: CreateStudioComponent },
   { path: 'studios', component: StudioListComponent },
+  { path: 'studio', component: TattooStudioComponent },
   { path: 'studio/:id', component: TattooStudioComponent },
   { path: 'reservations', component: ReservationsComponent },
   { path: '**', redirectTo: '' }

@@ -78,9 +78,10 @@
       </div>
     </ng-template>
   </div>
+  <ng-container *ngIf="studioId">
 
   <app-tattoo-studio-offer [currentUserRole]="currentUserRole" [studioId]="studioId"></app-tattoo-studio-offer>
-
+  </ng-container>
   <section class="studio-members">
     <app-studio-member [studioId]="studioId" [users]="studioArtists" (membersUpdated)="loadMembers()">
     </app-studio-member>
@@ -112,7 +113,7 @@
       </div>
     </div>
 
-    <app-tattoo-studio-visit [studioId]="studioId"></app-tattoo-studio-visit>
+     <!-- <app-tattoo-studio-visit [studioId]="studioId"></app-tattoo-studio-visit> !-->
 
 
     <ng-template #noArtists>

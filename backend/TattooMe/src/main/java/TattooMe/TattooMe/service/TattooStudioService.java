@@ -52,6 +52,18 @@ public class TattooStudioService {
                 .orElseThrow(() -> new EntityNotFoundException("Studio nie znalezione"));
         return tattooStudio;
     }
+    public TattooStudioDTO getStudioForCurrentUser(UUID userId) {
+        List<TattooStudioArtist> memberships = tattooStudioArtistRepository.findByUser_Id(userId);
+
+        if (memberships.isEmpty()) {
+            return null;
+        }
+        
+        TattooStudio studio = memberships.get(0).getTattooStudio();
+
+        return tattooStudioMapper.toDTO(studio);
+    }
+
 
     public List<TattooStudioDTO> getAllStudios() {
         List<TattooStudioDTO> studios = tattooStudioRepository.findAllWithRating();
