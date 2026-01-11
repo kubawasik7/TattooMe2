@@ -46,6 +46,7 @@ public interface UserRepository extends JpaRepository<User, UUID> {
                    COALESCE(AVG(r.rate), 0), COUNT(r), null)
             FROM User u
             LEFT JOIN Review r ON r.target.id = u.id
+            WHERE NOT u.role = 'user'
             GROUP BY u.id
             ORDER BY COUNT(r) DESC, AVG(r.rate) DESC
             """)
