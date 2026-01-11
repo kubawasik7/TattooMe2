@@ -1,4 +1,3 @@
-
 <div class="top-banner">
   <h1 [routerLink]="['/#']">TattooMe</h1>
 </div>
@@ -19,7 +18,7 @@
 
     <ng-template #loggedIn>
       <a [routerLink]="['/favorites', getUserId()]" routerLinkActive="active"><i class="fa fa-heart"></i> Ulubione</a>
-      <a [routerLink]="['/chats']"routerLinkActive="active"><i class="fa fa-comment"></i> Chat</a>
+      <a [routerLink]="['/chats']" routerLinkActive="active"><i class="fa fa-comment"></i> Chat</a>
       <div class="dropdown">
         <span><i class="fa fa-user"></i> {{authService.getNickname()}}</span>
       </div>
@@ -30,10 +29,10 @@
 <div class="container">
   <aside class="sidebar-left">
     <ng-container *ngIf="authService.isLoggedIn()">
-      <a *ngIf="!authService.isClient()" [routerLink]="['/profile', getUserId()]" routerLinkActive="active">Twój profil</a>
+      <a *ngIf="!authService.isClient()" [routerLink]="['/profile', getUserId()]" routerLinkActive="active">Twój
+        profil</a>
       <a [routerLink]="['/reservations']" routerLinkActive="active">Rezerwacje</a>
-      <a [routerLink]="['/studio']" routerLinkActive="active">Studio</a>
-
+      <a *ngIf="!authService.isClient()" [routerLink]="['/studio']" routerLinkActive="active">Studio</a>
     </ng-container>
   </aside>
 
@@ -43,7 +42,7 @@
 
   <aside class="sidebar-right">
     <ng-container *ngIf="authService.isLoggedIn()">
-      <a [routerLink]="['/userProfile', getUserId()] "routerLinkActive="active">Dane użytkownika</a>
+      <a [routerLink]="['/userProfile', getUserId()] " routerLinkActive="active">Dane użytkownika</a>
       <a [routerLink]="['/me', getUserId()]" routerLinkActive="active">Informacje o uzytkowniku</a>
       <a href="#" (click)="onLogout()">Wyloguj się</a>
     </ng-container>
