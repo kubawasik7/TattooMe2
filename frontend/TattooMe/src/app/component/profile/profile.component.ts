@@ -26,6 +26,7 @@ export class ProfileComponent implements OnInit {
   editing = false;
   isOwner = false;
   isLoggedIn = false;
+  isFavorite = false;
   descriptionForm!: FormGroup;
   reviews: Review[] = [];
 
@@ -69,6 +70,7 @@ export class ProfileComponent implements OnInit {
       }
 
       this.descriptionForm.patchValue({ description: this.user.description || '' });
+      this.checkFavorite();
     });
     this.loadReviews();
   }
@@ -150,6 +152,7 @@ export class ProfileComponent implements OnInit {
   addToFavorites(artistId: string) {
     this.favoriteService.addFavorite(artistId).subscribe(({
       next: () => {
+        this.isFavorite = true;
         this.notification.showSuccess("Dodano do ulubionych");
       },
       error: (err) => {
@@ -157,6 +160,15 @@ export class ProfileComponent implements OnInit {
       }
     }));
   }
+
+     checkFavorite() {
+    if (!this.isLoggedIn || this.isOwner) return;
+
+    this.favoriteService.isFavorite(this.user.id).subscribe(res => {
+      this.isFavorite = res;
+    });
+  }
+
 
   loadReviews() {
     this.reviewService.getReviewsForArtist(this.userId).subscribe({

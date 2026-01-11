@@ -15,6 +15,9 @@ export class FavoriteService {
   getFavorites(): Observable<User[]> {
     return this.http.get<User[]>(this.url);
   }
+   isFavorite(artistId: string): Observable<boolean> {
+    return this.http.get<boolean>(`${this.url}/check/${artistId}`);
+  }
 
   addFavorite(artistId: string): Observable<void> {
     return this.http.post<void>(`${this.url}/${artistId}`, {});

@@ -33,7 +33,7 @@
         <i class="fa-solid fa-heart"></i> Ulubione
       </button>
 
-      <button *ngIf="isLoggedIn && !isOwner" (click)="addToFavorites(user.id)" class="button-fav">
+      <button *ngIf="isLoggedIn && !isOwner && !isFavorite" (click)="addToFavorites(user.id)" class="button-fav">
         <i class="fa-solid fa-heart"></i> Ulubione
       </button>
     </div>

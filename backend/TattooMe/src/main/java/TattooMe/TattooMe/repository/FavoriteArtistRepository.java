@@ -17,4 +17,6 @@ public interface FavoriteArtistRepository extends JpaRepository<FavoriteArtist, 
 
     @Transactional
     void deleteByUser_IdAndArtist_Id(UUID userId, UUID artistId);
+
+    boolean existsByUserIdAndArtistId(UUID userId, UUID artistId);
 }

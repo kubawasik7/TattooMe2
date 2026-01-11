@@ -26,6 +26,12 @@ public class FavoriteArtistController {
         List<UserDTO> favorites = favoriteArtistService.getFavoriteArtists(user.getId());
         return ResponseEntity.ok(favorites);
     }
+    @GetMapping("/check/{artistId}")
+    public ResponseEntity<Boolean> isFavorite(@PathVariable UUID artistId, @AuthenticationPrincipal CustomUserDetails user) {
+        return ResponseEntity.ok(
+                favoriteArtistService.isFavorite(artistId, user.getId())
+        );
+    }
 
     @PostMapping("/{artistId}")
     public ResponseEntity<FavoriteArtistDTO> addFavorite(@PathVariable UUID artistId,

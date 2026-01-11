@@ -45,6 +45,10 @@ public class FavoriteArtistService {
         return result;
     }
 
+    public boolean isFavorite(UUID artistId, UUID userId) {
+        return favoriteArtistRepository.existsByUserIdAndArtistId(userId, artistId);
+    }
+
     @Transactional
     public FavoriteArtistDTO addFavorite(UUID artistId, UUID userId) {
         boolean exists = favoriteArtistRepository.existsByUser_IdAndArtist_Id(userId, artistId);
