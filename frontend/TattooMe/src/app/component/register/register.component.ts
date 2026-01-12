@@ -6,9 +6,7 @@ import { NotificationService } from '../../service/notification.service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 
-
 type Role = 'user' | 'trainee' | 'tattoo_artist';
-
 @Component({
   selector: 'app-register',
   standalone: false,
@@ -67,9 +65,7 @@ export class RegisterComponent {
 
     const passwordValid = hasUpperCase && hasLowerCase && hasNumber && hasSpecialChar && hasNoSpaces;
 
-    return !passwordValid
-      ? { weakPassword: true }
-      : null;
+    return !passwordValid ? { weakPassword: true } : null;
   }
 
   passwordsMatchValidator(group: FormGroup) {
@@ -84,11 +80,8 @@ export class RegisterComponent {
       return;
     }
     this.loading = true;
-
     const { username, email, password } = this.form.value;
-
     this.registerRequest = { nickname: username, email, password, role: this.selectedRole };
-
     this.authService.register(this.registerRequest).subscribe({
       next: response => {
         Swal.fire({

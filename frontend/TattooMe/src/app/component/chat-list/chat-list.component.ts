@@ -14,7 +14,7 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './chat-list.component.html',
   styleUrl: './chat-list.component.css'
 })
-export class ChatListComponent implements OnInit, AfterViewChecked  {
+export class ChatListComponent implements OnInit, AfterViewChecked {
   chats: Chat[] = [];
   activeChatId?: string;
   activeChatName = '';
@@ -24,7 +24,7 @@ export class ChatListComponent implements OnInit, AfterViewChecked  {
   attachmentB64: string = '';
   sending = false;
 
-   @ViewChild('messagesContainer') private messagesContainer!: ElementRef;
+  @ViewChild('messagesContainer') private messagesContainer!: ElementRef;
 
   constructor(
     private chatService: ChatService,
@@ -44,11 +44,11 @@ export class ChatListComponent implements OnInit, AfterViewChecked  {
     });
   }
 
-    ngAfterViewChecked(): void {
+  ngAfterViewChecked(): void {
     this.scrollToBottom();
   }
-  
-   private scrollToBottom(): void {
+
+  private scrollToBottom(): void {
     if (this.messagesContainer) {
       try {
         this.messagesContainer.nativeElement.scrollTop =

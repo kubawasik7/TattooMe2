@@ -21,7 +21,7 @@ export class FavoriteComponent implements OnInit {
     private favoriteService: FavoriteService,
     private router: Router,
     private notification: NotificationService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loadFavorites();

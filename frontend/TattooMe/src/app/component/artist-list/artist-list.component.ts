@@ -17,14 +17,13 @@ export class ArtistListComponent {
   searchText = '';
   filterCity = '';
   sortOption = 'name-asc';
-
   p = 1;
 
   constructor(
     private userService: UserService,
     private activatedRoute: ActivatedRoute,
     private filterSortSearchService: FilterSortSearchService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.role = this.activatedRoute.snapshot.data['role'];

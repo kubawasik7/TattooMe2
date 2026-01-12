@@ -1,7 +1,8 @@
 <div class="offer-section">
   <div class="section-header">
     <h2 class="section-title">Promocje</h2>
-    <button class="btn-add" *ngIf="currentUserRole === 'OWNER' || currentUserRole === 'EDITOR'" (click)="startAddOffer()">
+    <button class="btn-add" *ngIf="currentUserRole === 'OWNER' || currentUserRole === 'EDITOR'"
+      (click)="startAddOffer()">
       Dodaj promocję
     </button>
   </div>
@@ -48,10 +49,7 @@
   <div *ngIf="editingOffer" class="editing-card">
 
     <label>Data rozpoczęcia</label>
-    <input 
-      type="datetime-local" 
-      [(ngModel)]="editingOffer.startDate" 
-      [min]="todayDate"
+    <input type="datetime-local" [(ngModel)]="editingOffer.startDate" [min]="todayDate"
       [class.invalid]="editingOffer.startDate && editingOffer.endDate && editingOffer.endDate < editingOffer.startDate">
 
     <div class="error-global"
@@ -63,17 +61,12 @@
     </div>
 
     <label>Data zakończenia</label>
-    <input
-      type="datetime-local"
-      [(ngModel)]="editingOffer.endDate" 
-      [min]="editingOffer.startDate || todayDate"
+    <input type="datetime-local" [(ngModel)]="editingOffer.endDate" [min]="editingOffer.startDate || todayDate"
       [class.invalid]="editingOffer.startDate && editingOffer.endDate && editingOffer.endDate < editingOffer.startDate">
 
     <label>Opis promocji</label>
-    <textarea
-     [(ngModel)]="editingOffer.description"
-     placeholder="Opis promocji"
-     [class.invalid]="editingOffer.description && (editingOffer.description.length < 5 || editingOffer.description.length > 500)">
+    <textarea [(ngModel)]="editingOffer.description" placeholder="Opis promocji"
+      [class.invalid]="editingOffer.description && (editingOffer.description.length < 5 || editingOffer.description.length > 500)">
     </textarea>
 
     <div class="error-global"

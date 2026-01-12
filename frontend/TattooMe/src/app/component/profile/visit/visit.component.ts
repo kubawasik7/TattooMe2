@@ -16,7 +16,7 @@ import { NotificationService } from '../../../service/notification.service';
 export class VisitComponent implements OnInit, OnChanges {
   @Input() artistId!: string;
   @Input() artistDateId!: string;
-  @Input() studioId?: string;  
+  @Input() studioId?: string;
   @Output() close = new EventEmitter<void>();
 
   flashList: Flash[] = [];
@@ -29,7 +29,7 @@ export class VisitComponent implements OnInit, OnChanges {
     private flashService: FlashService,
     private userInfoService: UserInfoService,
     private notification: NotificationService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.initForm();

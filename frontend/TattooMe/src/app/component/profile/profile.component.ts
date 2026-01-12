@@ -11,8 +11,6 @@ import { NotificationService } from '../../service/notification.service';
 import { ReviewService } from '../../service/review.service';
 import { Review } from '../../model/review';
 
-
-
 @Component({
   selector: 'app-profile',
   standalone: false,
@@ -161,14 +159,13 @@ export class ProfileComponent implements OnInit {
     }));
   }
 
-     checkFavorite() {
+  checkFavorite() {
     if (!this.isLoggedIn || this.isOwner) return;
 
     this.favoriteService.isFavorite(this.user.id).subscribe(res => {
       this.isFavorite = res;
     });
   }
-
 
   loadReviews() {
     this.reviewService.getReviewsForArtist(this.userId).subscribe({

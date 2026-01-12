@@ -34,9 +34,10 @@
       </div>
       <div class="row">
         <div class="pair" *ngIf="visit.artistName"><span>Tatuator:</span><strong>{{ visit.artistName }}</strong></div>
-        <div class="pair" *ngIf="visit.tattooStudioName"><span>Studio:</span><strong>{{ visit.tattooStudioName}}</strong></div>
+        <div class="pair" *ngIf="visit.tattooStudioName"><span>Studio:</span><strong>{{
+            visit.tattooStudioName}}</strong></div>
       </div>
-       <div class="action-buttons" *ngIf="visit.status === 'OCZEKUJĄCA'" (click)="$event.stopPropagation()">
+      <div class="action-buttons" *ngIf="visit.status === 'OCZEKUJĄCA'" (click)="$event.stopPropagation()">
         <button class="btn btn-approve" (click)="confirmVisit(visit.id)">Zatwierdź</button>
         <button class="btn btn-cancel" (click)="cancelVisit(visit.id)">Odrzuć</button>
       </div>
@@ -102,12 +103,9 @@
         <div class="detail"><span>Doświadczenia:</span> <strong>{{ currentVisitClientOrArtist.experiences || '—'
             }}</strong></div>
 
-       <app-review
-  *ngIf="isPast(currentVisitClientOrArtist?.date)"
-  [visitId]="currentVisitClientOrArtist.id"
-  [visitStatus]="currentVisitClientOrArtist.status"
-  [visitDate]="currentVisitClientOrArtist.date">
-</app-review>
+        <app-review *ngIf="isPast(currentVisitClientOrArtist?.date)" [visitId]="currentVisitClientOrArtist.id"
+          [visitStatus]="currentVisitClientOrArtist.status" [visitDate]="currentVisitClientOrArtist.date">
+        </app-review>
 
       </div>
     </div>

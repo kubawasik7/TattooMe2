@@ -40,47 +40,47 @@ export class TattooStudioComponent implements OnInit {
     private fb: FormBuilder
   ) { }
 
-ngOnInit(): void {
-  const routeId = this.route.snapshot.paramMap.get('id');
-  
-  if (routeId) {
-    this.studioId = routeId;
-    this.initStudio();
-  } else {
-    this.resolveStudioRedirect();
-  }
-}
+  ngOnInit(): void {
+    const routeId = this.route.snapshot.paramMap.get('id');
 
- private resolveStudioRedirect(): void {
-  this.studioService.getUserStudio().subscribe({
-    next: studio => {
-      if (studio) {
-        this.router.navigate(['/studio', studio.id]);
-        return;
-      } else if (this.authService.isTattooArtist()) {
-        this.router.navigate(['/createStudio']);
-        return;
-      } else {
-        this.router.navigate(['/']);
-        return;
-      }
-    },
-    error: () => {
-      this.router.navigate(['/']);
+    if (routeId) {
+      this.studioId = routeId;
+      this.initStudio();
+    } else {
+      this.resolveStudioRedirect();
     }
-  });
-}
+  }
 
-private initStudio(): void {
-  this.currentUserId = this.authService.getUserId();
-  this.isLoggedIn = this.authService.isLoggedIn();
+  private resolveStudioRedirect(): void {
+    this.studioService.getUserStudio().subscribe({
+      next: studio => {
+        if (studio) {
+          this.router.navigate(['/studio', studio.id]);
+          return;
+        } else if (this.authService.isTattooArtist()) {
+          this.router.navigate(['/createStudio']);
+          return;
+        } else {
+          this.router.navigate(['/']);
+          return;
+        }
+      },
+      error: () => {
+        this.router.navigate(['/']);
+      }
+    });
+  }
 
-  this.descriptionForm = this.fb.group({
-    description: ['', [Validators.maxLength(1000)]],
-  });
+  private initStudio(): void {
+    this.currentUserId = this.authService.getUserId();
+    this.isLoggedIn = this.authService.isLoggedIn();
 
-  this.loadStudio();
-}
+    this.descriptionForm = this.fb.group({
+      description: ['', [Validators.maxLength(1000)]],
+    });
+
+    this.loadStudio();
+  }
 
 
   loadStudio(): void {
@@ -127,7 +127,7 @@ private initStudio(): void {
     });
   }
 
-   onFileSelected(event: Event): void {
+  onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (!input.files?.length) return;
     this.selectedFile = input.files[0];
@@ -144,7 +144,7 @@ private initStudio(): void {
       .subscribe({
         next: updatedStudio => {
           this.tattooStudio = updatedStudio;
-          this.previewUrl = updatedStudio.profilePicture 
+          this.previewUrl = updatedStudio.profilePicture
             ? `data:image/png;base64,${updatedStudio.profilePicture}`
             : null;
           this.notification.showSuccess("Zdjęcie zostało dodane");
@@ -197,5 +197,5 @@ private initStudio(): void {
     element.style.height = element.scrollHeight + 'px';
   }
 
-  
+
 }
