@@ -110,9 +110,8 @@ public class SecurityConfig {
         http.addFilterBefore(
                 new JwtAuthenticationFilter(jwtUtil, customUserDetailsService) {
                     @Override
-                    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+                    protected boolean shouldNotFilter(HttpServletRequest request) {
                         String path = request.getServletPath();
-                        // pozwól na wszystkie statyczne pliki Angulara
                         return path.startsWith("/assets/") ||
                                 path.startsWith("/favicon.ico") ||
                                 path.equals("/") ||

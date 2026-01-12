@@ -7,10 +7,7 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface WorkHourMapper {
-
     WorkHourDTO toDTO(WorkHour workHour);
-
     WorkHour toEntity(WorkHourDTO dto);
-
 }
 

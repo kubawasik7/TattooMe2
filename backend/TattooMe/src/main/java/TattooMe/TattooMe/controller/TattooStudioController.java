@@ -43,8 +43,8 @@ public class TattooStudioController {
     }
 
     @GetMapping("/user/studio")
-    public ResponseEntity<TattooStudioDTO> getUserStudio(@AuthenticationPrincipal CustomUserDetails userDetails) {
-        UUID userId = userDetails.getId();
+    public ResponseEntity<TattooStudioDTO> getUserStudio(@AuthenticationPrincipal CustomUserDetails user) {
+        UUID userId = user.getId();
 
         TattooStudioDTO studio = studioService.getStudioForCurrentUser(userId);
 
