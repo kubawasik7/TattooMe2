@@ -164,6 +164,7 @@ export class ReservationsComponent implements OnInit {
 
   isPast(date?: string | Date): boolean {
     if (!date) return false;
+
     return new Date(date).getTime() < new Date().getTime();
   }
 }

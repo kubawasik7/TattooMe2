@@ -3,9 +3,7 @@ import { Review } from '../../model/review';
 import { ReviewService } from '../../service/review.service';
 import { AuthService } from '../../service/auth.service';
 import { Router } from '@angular/router';
-import Swal from 'sweetalert2';
 import { NotificationService } from '../../service/notification.service';
-
 
 @Component({
   selector: 'app-review',
@@ -91,38 +89,37 @@ export class ReviewsComponent implements OnInit {
     this.rate = star;
   }
 
-submitReview() { 
-  if (!this.visitId || this.rate === 0) return;
+  submitReview() {
+    if (!this.visitId || this.rate === 0) return;
 
-  if (!this.isAllowedToReview()) {
-    this.notification.showError("Opinię można wystawić tylko po zakończonej lub anulowanej wizycie.");
-    return;
+    if (!this.isAllowedToReview()) {
+      this.notification.showError("Opinię można wystawić tylko po zakończonej lub anulowanej wizycie.");
+      return;
+    }
+
+    this.reviewService.addReview(this.visitId, this.rate, this.content).subscribe(r => {
+      this.reviews.unshift(r);
+      this.submitted = true;
+      this.showForm = false;
+      this.rate = 0;
+      this.content = '';
+      this.notification.showSuccess("Dziękujemy za opinię!");
+    });
   }
 
-  this.reviewService.addReview(this.visitId, this.rate, this.content).subscribe(r => {
-    this.reviews.unshift(r);
-    this.submitted = true;
-    this.showForm = false;
-    this.rate = 0;
-    this.content = '';
-    this.notification.showSuccess("Dziękujemy za opinię!");
-  });
-}
-
-
   isPastVisit(): boolean {
-  if (!this.visitDate) return false;
-  return new Date(this.visitDate).getTime() < Date.now();
-}
-isAllowedToReview(): boolean {
-  if (!this.visitId) return false;
+    if (!this.visitDate) return false;
+    return new Date(this.visitDate).getTime() < Date.now();
+  }
 
-  const isPast = this.isPastVisit();     // Twoja istniejąca metoda
-  const isCancelled = this.visitStatus === 'ANULOWANA';
+  isAllowedToReview(): boolean {
+    if (!this.visitId) return false;
 
-  return isPast || isCancelled;
-}
+    const isPast = this.isPastVisit();
+    const isCancelled = this.visitStatus === 'ANULOWANA';
 
+    return isPast || isCancelled;
+  }
 
   addAnswer(reviewId: string) {
     if (!this.answerContent[reviewId]) return;
