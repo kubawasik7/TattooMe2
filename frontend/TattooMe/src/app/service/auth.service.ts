@@ -91,8 +91,6 @@ export class AuthService {
   login(loginRequest: LoginRequest): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.url}/login`, loginRequest)
       .pipe(tap(res => {
-        console.log('[AuthService] otrzymany response:', res);
-        console.log('[AuthService] otrzymany token:', res.token);
         localStorage.setItem('token', res.token)
       }));
   }
@@ -103,6 +101,16 @@ export class AuthService {
 
   logout(): void {
     localStorage.removeItem('token');
+  }
+
+  isTokenExpired(token: string): boolean {
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      const exp = payload.exp * 1000;
+      return Date.now() > exp;
+    } catch {
+      return true;
+    }
   }
 }
 
