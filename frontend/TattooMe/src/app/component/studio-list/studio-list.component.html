@@ -46,11 +46,17 @@
           </div>
         </div>
 
+        <div class="location">
+          📍 {{ studio.city }},
+          {{ studio.street }} {{ studio.streetNumber }},
+          {{ studio.postalCode }}
+        </div>
+
         <p class="description" *ngIf="studio.description">
           {{ studio.description | slice:0:250 }}{{ studio.description.length > 250 ? '...' : '' }}
         </p>
-        <p class="promo">promo</p>
       </div>
+
     </article>
   </section>
 

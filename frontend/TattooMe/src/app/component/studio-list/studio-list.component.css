@@ -263,6 +263,14 @@ body {
   background-size: 6px 6px;
   background-repeat: no-repeat;
 }
+.location {
+  font-size: 0.9rem;
+  color: #bdbdbd;
+  margin: 0.25rem 0 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
 
 .filters select:hover {
   border-color: #ff8c42;
