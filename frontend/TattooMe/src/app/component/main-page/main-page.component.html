@@ -3,13 +3,13 @@
     <section class="hero">
         <h1>Znajdź swojego tatuatora online!</h1>
         <p>Zarezerwuj wizytę w kilku kliknięciach i poznaj najlepszych artystów w swojej okolicy.</p>
-        <button class="cta-btn">Znajdź artystę</button>
+        <button routerLink="/tattooArtist" routerLinkActive="active" class="cta-btn">Znajdź artystę</button>
     </section>
 
     <section class="featured-artists">
         <h2>Wyrożnieni artyści</h2>
         <div class="artists-grid">
-            <div class="artist-card" *ngFor="let user of users">
+            <div class="artist-card" *ngFor="let user of users" [routerLink]="['/profile', user.id]">
                 <img [src]="user.profilePicture" alt="{{ user.nickname }} Avatar">
                 <h3>{{ user.nickname }}</h3>
                 <p>★ {{ user.averageRate | number:'1.1-1' }} ({{user.reviewsCount}})</p>
@@ -41,7 +41,7 @@
 
     <section class="cta">
         <h2>Dołącz do naszej społeczności</h2>
-        <button class="cta-btn">Zarejestruj się teraz</button>
+        <button routerLink="/register" routerLinkActive="active" class="cta-btn">Zarejestruj się teraz</button>
     </section>
 
 </main>
