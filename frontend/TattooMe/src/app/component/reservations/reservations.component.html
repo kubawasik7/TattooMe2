@@ -38,7 +38,7 @@
             visit.tattooStudioName}}</strong></div>
       </div>
       <div class="action-buttons" *ngIf="visit.status === 'OCZEKUJĄCA'" (click)="$event.stopPropagation()">
-        <button class="btn btn-approve" (click)="confirmVisit(visit.id)">Zatwierdź</button>
+        <button class="btn btn-approve" *ngIf="selectedRoleTab === 'artist' && authService.isTattooArtist()"  (click)="confirmVisit(visit.id)">Zatwierdź</button>
         <button class="btn btn-cancel" (click)="cancelVisit(visit.id)">Odrzuć</button>
       </div>
     </li>
@@ -69,7 +69,7 @@
       </div>
 
       <div class="action-buttons" *ngIf="visit.status === 'OCZEKUJĄCA'" (click)="$event.stopPropagation()">
-        <button class="btn btn-approve" (click)="confirmVisit(visit.id)">Zatwierdź</button>
+        <button class="btn btn-approve"  (click)="confirmVisit(visit.id)">Zatwierdź</button>
         <button class="btn btn-cancel" (click)="cancelVisit(visit.id)">Odrzuć</button>
       </div>
     </li>
