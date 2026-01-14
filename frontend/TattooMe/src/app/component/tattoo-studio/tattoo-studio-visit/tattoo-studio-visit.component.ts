@@ -2,6 +2,8 @@ import { Component, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TattooStudioVisitService } from '../../../service/tattoo-studio-visit.service';
 import { NotificationService } from '../../../service/notification.service';
+import { StudioService } from '../../../service/studio.service';
+import { StudioArtist } from '../../../model/studio-artist';
 
 @Component({
   selector: 'app-tattoo-studio-visit',
@@ -14,12 +16,19 @@ export class TattooStudioVisitComponent {
 
   visitForm!: FormGroup;
   submitting = false;
+  showForm = false;
+  isMember: boolean = false;
+  isOwner: boolean = false;
+  currentUserRole: string | null = null;
+  studioArtists: StudioArtist[] = [];
+  currentUserId: string | null = null;
 
   constructor(
     private fb: FormBuilder,
     private visitService: TattooStudioVisitService,
-    private notification: NotificationService
-  ) {}
+    private notification: NotificationService,
+    private studioService: StudioService
+  ) { }
 
   ngOnInit(): void {
     this.visitForm = this.fb.group({
@@ -27,6 +36,10 @@ export class TattooStudioVisitComponent {
       endDate: ['', Validators.required],
       comment: ['']
     });
+  }
+
+  toggleForm(): void {
+    this.showForm = !this.showForm;
   }
 
   submitVisit(): void {
@@ -45,10 +58,25 @@ export class TattooStudioVisitComponent {
         this.notification.showSuccess('Wizyta została wysłana do studia.');
         this.visitForm.reset();
         this.submitting = false;
+        this.showForm = false;
       },
-      error: err => {
+      error: () => {
         this.notification.showError('Nie udało się wysłać wizyty.');
         this.submitting = false;
+      }
+    });
+  }
+  loadMembers(): void {
+    this.studioService.getUsersByStudioId(this.studioId).subscribe({
+      next: data => {
+        this.studioArtists = data;
+        const current = this.studioArtists.find(a => a.id === this.currentUserId);
+        this.currentUserRole = current?.studioRole || null;
+        this.isMember = !!current;
+        this.isOwner = this.currentUserRole === 'OWNER';
+      },
+      error: () => {
+        console.log("Nie udało się załadować członków");
       }
     });
   }

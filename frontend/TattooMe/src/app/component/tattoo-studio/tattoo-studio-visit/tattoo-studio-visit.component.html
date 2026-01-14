@@ -1,17 +1,30 @@
-<div class="visit-form">
-  <h3>Złóż wizytę w studiu</h3>
-  <form [formGroup]="visitForm" (ngSubmit)="submitVisit()">
-    <label>Data rozpoczęcia</label>
-    <input type="datetime-local" formControlName="startDate" />
+<div class="visit-form-wrapper">
 
-    <label>Data zakończenia</label>
-    <input type="datetime-local" formControlName="endDate" />
+  <button class="toggle-btn" (click)="toggleForm()">
+    {{ showForm ? 'Ukryj formularz' : 'Złóż wizytę w studiu' }}
+  </button>
 
-    <label>Komentarz (opcjonalny)</label>
-    <textarea formControlName="comment" rows="3"></textarea>
+  <div class="visit-form" *ngIf="showForm">
+    <h3>Złóż wizytę w studiu</h3>
 
-    <button type="submit" [disabled]="visitForm.invalid || submitting">
-      Złóż wizytę
-    </button>
-  </form>
+    <div class="guest-info">
+      <strong>Wizyta gościnna tatuatora</strong><br />
+      Składasz prośbę o gościnny termin pracy w tym studiu.
+    </div>
+
+    <form [formGroup]="visitForm" (ngSubmit)="submitVisit()">
+      <label>Data rozpoczęcia</label>
+      <input type="datetime-local" formControlName="startDate" />
+
+      <label>Data zakończenia</label>
+      <input type="datetime-local" formControlName="endDate" />
+
+      <label>Komentarz (opcjonalny)</label>
+      <textarea formControlName="comment" rows="3"></textarea>
+
+      <button type="submit" [disabled]="visitForm.invalid || submitting">
+        Wyślij wizytę
+      </button>
+    </form>
+  </div>
 </div>

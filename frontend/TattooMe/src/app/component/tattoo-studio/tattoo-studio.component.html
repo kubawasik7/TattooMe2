@@ -112,13 +112,10 @@
         </div>
       </div>
     </div>
-
-    <!-- <app-tattoo-studio-visit [studioId]="studioId"></app-tattoo-studio-visit> !-->
-
-
     <ng-template #noArtists>
       <p>Brak artystów przypisanych do studia.</p>
     </ng-template>
+    <app-tattoo-studio-visit *ngIf="!authService.isClient() && !isMember && !isOwner" [studioId]="studioId"></app-tattoo-studio-visit>
   </section>
 
   <app-faq [currentUserRole]="currentUserRole" [studioId]="studioId">

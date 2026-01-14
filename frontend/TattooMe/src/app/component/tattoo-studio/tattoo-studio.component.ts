@@ -35,7 +35,7 @@ export class TattooStudioComponent implements OnInit {
     private router: Router,
     private chatService: ChatService,
     private studioService: StudioService,
-    private authService: AuthService,
+    public authService: AuthService,
     private notification: NotificationService,
     private fb: FormBuilder
   ) { }
@@ -81,7 +81,6 @@ export class TattooStudioComponent implements OnInit {
 
     this.loadStudio();
   }
-
 
   loadStudio(): void {
     this.studioService.getStudioById(this.studioId).subscribe({
@@ -196,6 +195,4 @@ export class TattooStudioComponent implements OnInit {
     element.style.height = 'auto';
     element.style.height = element.scrollHeight + 'px';
   }
-
-
 }
