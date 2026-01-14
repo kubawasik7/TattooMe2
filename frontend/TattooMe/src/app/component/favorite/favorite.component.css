@@ -148,24 +148,3 @@ pagination-controls {
 ::ng-deep .pagination-controls .ngx-pagination {
   color: white;
 }
-
-@media (max-width: 600px) {
-  .tm-card {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-
-  .avatar {
-    margin-bottom: 10px;
-  }
-
-  .name-row {
-    flex-direction: column;
-    gap: 5px;
-  }
-
-  .rating {
-    margin-left: 0;
-  }
-}

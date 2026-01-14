@@ -101,17 +101,3 @@
   transform: translateY(0);
   box-shadow: none;
 }
-
-@media (max-width: 600px) {
-  .studio-page {
-    padding: 2rem 0.8rem;
-  }
-
-  .header-info {
-    padding: 1.4rem;
-  }
-
-  .studio-form {
-    padding: 1.6rem;
-  }
-}
