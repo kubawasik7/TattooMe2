@@ -51,4 +51,6 @@ public interface UserRepository extends JpaRepository<User, UUID> {
             ORDER BY COUNT(r) DESC, AVG(r.rate) DESC
             """)
     List<UserDTO> findTopUsersWithAvgRating(Pageable pageable);
+
+    Optional<User> findByEmail(String email);
 }

@@ -98,10 +98,17 @@ export class RegisterComponent {
         this.loading = false;
       },
       error: err => {
-        this.notification.showError("Błąd rejestracji");
+        if (err.status === 409) {
+          this.notification.showError(err.error?.message ||
+            'Konto z tym adresem e-mail juz istnieje.');
+
+          this.form.get('email')?.setErrors({ emailExists: true });
+        } else {
+          this.notification.showError('Błąd rejestracji');
+        }
+
         this.form.get('password')?.reset();
         this.form.get('confirmPassword')?.reset();
-
         this.loading = false;
       }
     });

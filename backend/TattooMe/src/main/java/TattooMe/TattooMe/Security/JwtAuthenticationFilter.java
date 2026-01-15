@@ -30,7 +30,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             HttpServletRequest req,
             HttpServletResponse res,
             FilterChain chain
-    ) throws IOException {
+    ) throws IOException, ServletException {
+        String path = req.getServletPath();
+        if (path.equals("/api/auth/login") || path.equals("/api/auth/register")) {
+            chain.doFilter(req, res);
+            return;
+        }
         String header = req.getHeader("Authorization");
         try {
             if (header != null && header.startsWith("Bearer ")) {
@@ -63,5 +68,4 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             res.getWriter().write("INVALID_TOKEN");
         }
     }
-
 }

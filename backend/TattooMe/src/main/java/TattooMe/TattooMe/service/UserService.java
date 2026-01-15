@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
@@ -29,6 +30,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 
 import java.io.IOException;
@@ -85,6 +87,12 @@ public class UserService {
     public RegisterResponse registerUser(RegisterRequest registerRequest) {
         if (userRepository.findByNickname(registerRequest.getNickname()).isPresent()) {
             throw new RuntimeException("Nazwa użytkownika jest już zajęta");
+        }
+        if (userRepository.findByEmail(registerRequest.getEmail()).isPresent()) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "Konto z tym adresem e-mail już istnieje."
+            );
         }
 
         User user = authMapper.toEntity(registerRequest);
