@@ -78,6 +78,7 @@
   font-size: 1.1rem;
   font-weight: bold;
   margin-bottom: 0.5rem;
+  
 }
 
 .owner-buttons {
@@ -182,6 +183,16 @@
   color: #f5f5f5;
   font-size: 0.9rem;
   width: 200px;
+}
+
+.new-slot-form input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+  filter: invert(1) brightness(1.2);
+  opacity: 1;
+  cursor: pointer;
+}
+
+.new-slot-form input[type="datetime-local"]:hover::-webkit-calendar-picker-indicator {
+  filter: invert(1) brightness(1.4);
 }
 
 .btn {

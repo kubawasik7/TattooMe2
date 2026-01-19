@@ -111,6 +111,16 @@
   margin-bottom: 0.5rem;
 }
 
+.editing-card input.form-control[type="datetime-local"]::-webkit-calendar-picker-indicator {
+  filter: invert(1) brightness(1.2);
+  opacity: 1;
+  cursor: pointer;
+}
+
+.editing-card input.form-control[type="datetime-local"]:hover::-webkit-calendar-picker-indicator {
+  filter: invert(1) brightness(1.4);
+}
+
 textarea.form-control {
   width: 100%;
   min-width: 100%;
