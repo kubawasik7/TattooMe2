@@ -102,6 +102,14 @@ export class ArtistDateComponent implements OnInit {
     });
   }
 
+  isReserved(slot: ScheduleSlot) {
+    return !!slot.reserved;
+  }
+
+  isInactive(slot: ScheduleSlot) {
+    return !slot.available && !slot.reserved;
+  }
+
   delete(id: string): void {
     Swal.fire({
       title: 'Usunąć ten termin?',
@@ -129,10 +137,16 @@ export class ArtistDateComponent implements OnInit {
     });
   }
 
-  toggle(id: string): void {
-    this.artistDateService.toggleSlot(id).subscribe({
-      next: () => this.loadSlots(),
-      error: (err) => this.notification.showError("Nie udało się zmienić dostępnosci terminu")
+  toggle(slotId: string): void {
+    const slot = this.slots.find(s => s.id === slotId);
+    if (slot?.reserved) return;
+
+    this.artistDateService.toggleSlot(slotId).subscribe({
+      next: () => {
+        if (slot) slot.available = !slot.available;
+        this.notification.showSuccess("Status terminu został zmieniony");
+      },
+      error: () => this.notification.showError("Nie udało się zmienić statusu terminu")
     });
   }
 

@@ -10,6 +10,7 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface ArtistDateMapper {
     @Mapping(source = "date", target = "dateTime")
+    @Mapping(target = "reserved", expression = "java(artistDate.getVisit() != null)")
     ScheduleDTO toDTO(ArtistDate artistDate);
 
     @Mapping(source = "dateTime", target = "date")

@@ -34,7 +34,7 @@ public class ArtistDateService {
     }
 
     public List<ScheduleDTO> getAvailableByArtist(UUID artistId) {
-        List<ArtistDate> artistDates = dateRepository.findByTattooArtist_IdAndIsAvailableTrueOrderByDateAsc(artistId);
+        List<ArtistDate> artistDates = dateRepository.findByTattooArtistIdAndIsAvailableTrueAndVisitIsNullOrderByDateAsc(artistId);
         return dateMapper.toDTOList(artistDates);
     }
 

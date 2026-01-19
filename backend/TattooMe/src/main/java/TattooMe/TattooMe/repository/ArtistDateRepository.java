@@ -12,4 +12,6 @@ public interface ArtistDateRepository extends JpaRepository<ArtistDate, UUID> {
     List<ArtistDate> findAllByTattooArtistId(UUID userId);
 
     List<ArtistDate> findByTattooArtist_IdAndIsAvailableTrueOrderByDateAsc(UUID artistId);
+
+    List<ArtistDate> findByTattooArtistIdAndIsAvailableTrueAndVisitIsNullOrderByDateAsc(UUID artistId);
 }

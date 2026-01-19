@@ -1,5 +1,6 @@
 export interface ScheduleSlot {
-    id: string;
-    dateTime: string;
-    available: boolean;
+  id: string;
+  dateTime: string;
+  available: boolean;
+  reserved?: boolean;
 }
