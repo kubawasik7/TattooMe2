@@ -64,14 +64,10 @@
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.slot-card.active {
-  background: #3a8d3b;
-  color: #f5f5f5;
-}
 
 .slot-card.inactive {
-  background: #434343;
-  color: #ccc;
+  background: #303841;
+  color: #bbb;
 }
 
 .slot-card.reserved {
