@@ -13,6 +13,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.server.ResponseStatusException;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
@@ -70,6 +72,24 @@ public class UserServiceTest {
         RuntimeException runtimeException = assertThrows(RuntimeException.class, () -> userService.registerUser(registerRequest));
 
         assertEquals("Nazwa użytkownika jest już zajęta", runtimeException.getMessage());
+
+        verify(userRepository, never()).save(any(User.class));
+
+        verify(authMapper, never())
+                .toEntity(any());
+
+        verify(passwordEncoder, never())
+                .encode(anyString());
+    }
+    @Test
+    void shouldThrowExceptionWhenEmailAlreadyExists(){
+        when(userRepository.findByNickname(registerRequest.getNickname())).thenReturn(Optional.empty());
+
+        when(userRepository.findByEmail(registerRequest.getEmail())).thenReturn(Optional.of(new User()));
+
+        ResponseStatusException responseStatusException = assertThrows(ResponseStatusException.class, () -> userService.registerUser(registerRequest));
+
+        assertEquals("Konto z tym adresem e-mail już istnieje.", responseStatusException.getReason());
 
         verify(userRepository, never()).save(any(User.class));
 
