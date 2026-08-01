@@ -53,27 +53,44 @@ public class UserServiceTest {
 
     @Test
     void shouldRegisterUserSuccessfully(){
-        when(userRepository.findByNickname(registerRequest.getNickname())).thenReturn(Optional.empty());
-        when(userRepository.findByEmail(registerRequest.getEmail())).thenReturn(Optional.empty());
+        when(userRepository.findByNickname(registerRequest.getNickname()))
+                .thenReturn(Optional.empty());
+
+        when(userRepository.findByEmail(registerRequest.getEmail()))
+                .thenReturn(Optional.empty());
 
         User user = new User();
 
-        when(authMapper.toEntity(registerRequest)).thenReturn(user);
-        when(passwordEncoder.encode(registerRequest.getPassword())).thenReturn("encodedPassword");
-        when(userRepository.save(user)).thenReturn(user);
-        when(authMapper.toResponse(user)).thenReturn(registerResponse);
+        when(authMapper.toEntity(registerRequest))
+                .thenReturn(user);
 
-        RegisterResponse result = userService.registerUser(registerRequest);
+        when(passwordEncoder.encode(registerRequest.getPassword()))
+                .thenReturn("encodedPassword");
+
+        when(userRepository.save(user))
+                .thenReturn(user);
+
+        when(authMapper.toResponse(user))
+                .thenReturn(registerResponse);
+
+        RegisterResponse result =
+                userService.registerUser(registerRequest);
+
         assertEquals(registerResponse, result);
 
-        verify(passwordEncoder).encode(registerRequest.getPassword());
-        verify(userRepository).save(user);
+        verify(passwordEncoder)
+                .encode(registerRequest.getPassword());
+
+        verify(userRepository)
+                .save(user);
     }
     @Test
     void shouldThrowExceptionWhenNicknameAlreadyExists(){
-        when(userRepository.findByNickname(registerRequest.getNickname())).thenReturn(Optional.of(new User()));
+        when(userRepository.findByNickname(registerRequest.getNickname()))
+                .thenReturn(Optional.of(new User()));
 
-        RuntimeException runtimeException = assertThrows(RuntimeException.class, () -> userService.registerUser(registerRequest));
+        RuntimeException runtimeException =
+                assertThrows(RuntimeException.class, () -> userService.registerUser(registerRequest));
 
         assertEquals("Nazwa użytkownika jest już zajęta", runtimeException.getMessage());
 
@@ -87,11 +104,14 @@ public class UserServiceTest {
     }
     @Test
     void shouldThrowExceptionWhenEmailAlreadyExists(){
-        when(userRepository.findByNickname(registerRequest.getNickname())).thenReturn(Optional.empty());
+        when(userRepository.findByNickname(registerRequest.getNickname()))
+                .thenReturn(Optional.empty());
 
-        when(userRepository.findByEmail(registerRequest.getEmail())).thenReturn(Optional.of(new User()));
+        when(userRepository.findByEmail(registerRequest.getEmail()))
+                .thenReturn(Optional.of(new User()));
 
-        ResponseStatusException responseStatusException = assertThrows(ResponseStatusException.class, () -> userService.registerUser(registerRequest));
+        ResponseStatusException responseStatusException =
+                assertThrows(ResponseStatusException.class, () -> userService.registerUser(registerRequest));
 
         assertEquals("Konto z tym adresem e-mail już istnieje.", responseStatusException.getReason());
 
@@ -105,31 +125,41 @@ public class UserServiceTest {
     }
     @Test
     void shouldSaveUserWithEncodedPassword(){
-        when(userRepository.findByNickname(registerRequest.getNickname())).thenReturn(Optional.empty());
+        when(userRepository.findByNickname(registerRequest.getNickname()))
+                .thenReturn(Optional.empty());
 
-        when(userRepository.findByEmail(registerRequest.getEmail())).thenReturn(Optional.empty());
+        when(userRepository.findByEmail(registerRequest.getEmail()))
+                .thenReturn(Optional.empty());
 
         User user = new User();
 
-        when(authMapper.toEntity(registerRequest)).thenReturn(user);
+        when(authMapper.toEntity(registerRequest))
+                .thenReturn(user);
 
-        when(passwordEncoder.encode(registerRequest.getPassword())).thenReturn("encodedPassword");
+        when(passwordEncoder.encode(registerRequest.getPassword()))
+                .thenReturn("encodedPassword");
 
-        when(userRepository.save(user)).thenReturn(user);
+        when(userRepository.save(user))
+                .thenReturn(user);
 
-        when(authMapper.toResponse(user)).thenReturn(registerResponse);
+        when(authMapper.toResponse(user))
+                .thenReturn(registerResponse);
 
-        RegisterResponse result = userService.registerUser(registerRequest);
+        RegisterResponse result =
+                userService.registerUser(registerRequest);
 
         assertEquals(registerResponse, result);
 
 
-        verify(userRepository).save(captor.capture());
+        verify(userRepository)
+                .save(captor.capture());
 
-        User savedUser = captor.getValue();
+        User savedUser =
+                captor.getValue();
 
         assertEquals("encodedPassword", savedUser.getPassword());
 
-        verify(passwordEncoder).encode(registerRequest.getPassword());
+        verify(passwordEncoder)
+                .encode(registerRequest.getPassword());
     }
 }
