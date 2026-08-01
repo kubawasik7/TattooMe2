@@ -19,8 +19,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Optional;
 
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
@@ -62,5 +62,21 @@ public class UserServiceTest {
 
         verify(passwordEncoder).encode(registerRequest.getPassword());
         verify(userRepository).save(user);
+    }
+    @Test
+    void shouldThrowExceptionWhenNicknameAlreadyExist(){
+        when(userRepository.findByNickname(registerRequest.getNickname())).thenReturn(Optional.of(new User()));
+
+        RuntimeException runtimeException = assertThrows(RuntimeException.class, () -> userService.registerUser(registerRequest));
+
+        assertEquals("Nazwa użytkownika jest już zajęta", runtimeException.getMessage());
+
+        verify(userRepository, never()).save(any(User.class));
+
+        verify(authMapper, never())
+                .toEntity(any());
+
+        verify(passwordEncoder, never())
+                .encode(anyString());
     }
 }
