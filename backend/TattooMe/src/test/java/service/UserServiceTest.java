@@ -9,6 +9,7 @@ import TattooMe.TattooMe.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -98,5 +99,35 @@ public class UserServiceTest {
 
         verify(passwordEncoder, never())
                 .encode(anyString());
+    }
+    @Test
+    void shouldSaveUserWithEncodedPassword(){
+        when(userRepository.findByNickname(registerRequest.getNickname())).thenReturn(Optional.empty());
+
+        when(userRepository.findByEmail(registerRequest.getEmail())).thenReturn(Optional.empty());
+
+        User user = new User();
+
+        when(authMapper.toEntity(registerRequest)).thenReturn(user);
+
+        when(passwordEncoder.encode(registerRequest.getPassword())).thenReturn("encodedPassword");
+
+        when(userRepository.save(user)).thenReturn(user);
+
+        when(authMapper.toResponse(user)).thenReturn(registerResponse);
+
+        RegisterResponse result = userService.registerUser(registerRequest);
+
+        assertEquals(registerResponse, result);
+
+        ArgumentCaptor<User> captor = ArgumentCaptor.forClass(User.class);
+
+        verify(userRepository).save(captor.capture());
+
+        User savedUser = captor.getValue();
+
+        assertEquals("encodedPassword", savedUser.getPassword());
+
+        verify(passwordEncoder).encode(registerRequest.getPassword());
     }
 }
