@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -33,6 +34,8 @@ public class UserServiceTest {
     private AuthMapper authMapper;
     @Mock
     private PasswordEncoder passwordEncoder;
+    @Captor
+    private ArgumentCaptor<User> captor;
     @InjectMocks
     private UserService userService;
     private RegisterRequest registerRequest;
@@ -67,7 +70,7 @@ public class UserServiceTest {
         verify(userRepository).save(user);
     }
     @Test
-    void shouldThrowExceptionWhenNicknameAlreadyExist(){
+    void shouldThrowExceptionWhenNicknameAlreadyExists(){
         when(userRepository.findByNickname(registerRequest.getNickname())).thenReturn(Optional.of(new User()));
 
         RuntimeException runtimeException = assertThrows(RuntimeException.class, () -> userService.registerUser(registerRequest));
@@ -120,7 +123,6 @@ public class UserServiceTest {
 
         assertEquals(registerResponse, result);
 
-        ArgumentCaptor<User> captor = ArgumentCaptor.forClass(User.class);
 
         verify(userRepository).save(captor.capture());
 
