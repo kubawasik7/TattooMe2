@@ -5,6 +5,7 @@ import TattooMe.TattooMe.repository.UserRepository;
 import TattooMe.TattooMe.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -68,5 +69,24 @@ public class UserServiceGetTopArtistsTest {
 
         verify(userRepository)
                 .findTopUsersWithAvgRating(any(Pageable.class));
+    }
+
+    @Test
+    void shouldReturnTop5Artists(){
+        when(userRepository.findTopUsersWithAvgRating(any(Pageable.class)))
+                .thenReturn(List.of());
+
+        userService.getTop5Artists();
+
+        ArgumentCaptor<Pageable> captor =
+                ArgumentCaptor.forClass(Pageable.class);
+
+        verify(userRepository)
+                .findTopUsersWithAvgRating(captor.capture());
+
+        Pageable pageable = captor.getValue();
+
+        assertEquals(0, pageable.getPageNumber());
+        assertEquals(4, pageable.getPageSize());
     }
 }
