@@ -14,6 +14,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -89,6 +90,23 @@ public class UserServiceLoginTests {
 
         verify(passwordEncoder, never())
                 .matches(anyString(), anyString());
+
+        verify(jwtUtil, never())
+                .generateToken(any());
+    }
+
+    @Test
+    void ShouldThrowExceptionWhenPasswordIsIncorrect(){
+        when(userRepository.findByNickname(loginRequest.getNickname()))
+                .thenReturn(Optional.of(user));
+
+        when(passwordEncoder.matches(loginRequest.getPassword(), user.getPassword()))
+                .thenReturn(false);
+
+        BadCredentialsException badCredentialsException =
+                assertThrows(BadCredentialsException.class, () -> userService.loginUser(loginRequest));
+
+        assertEquals("Błędny login lub hasło", badCredentialsException.getMessage());
 
         verify(jwtUtil, never())
                 .generateToken(any());
