@@ -6,6 +6,7 @@ import TattooMe.TattooMe.entity.User;
 import TattooMe.TattooMe.mapper.UserMapper;
 import TattooMe.TattooMe.repository.UserRepository;
 import TattooMe.TattooMe.service.UserService;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,6 +18,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 
@@ -65,5 +67,22 @@ public class UserServiceUpdateDescriptionTests {
 
         verify(userRepository)
                 .save(user);
+    }
+
+    @Test
+    void shouldThrowExceptionWhenUserNotFound() {
+        when(userRepository.findById(userId))
+                .thenReturn(Optional.empty());
+
+        EntityNotFoundException entityNotFoundException =
+                assertThrows(EntityNotFoundException.class, () -> userService.updateDescription(userId, dto));
+
+        assertEquals("Użytkownik nie istnieje", entityNotFoundException.getMessage());
+
+        verify(userMapper, never())
+                .updateDescriptionFromDto(any(), any());
+
+        verify(userRepository, never())
+                .save(any());
     }
 }
