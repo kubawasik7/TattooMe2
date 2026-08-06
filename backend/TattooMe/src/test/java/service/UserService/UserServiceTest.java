@@ -1,4 +1,4 @@
-package service;
+package service.UserService;
 
 import TattooMe.TattooMe.dto.register.RegisterRequest;
 import TattooMe.TattooMe.dto.register.RegisterResponse;
