@@ -66,4 +66,38 @@ public class UserControllerTest {
 
         verify(userService).getUserByIdWithAvgRating(userId);
     }
+
+    @Test
+    void shouldReturnAllArtistsWithRating() throws Exception {
+        UUID userId = UUID.randomUUID();
+
+        UserDTO userDTO = new UserDTO(
+                userId,
+                "jan",
+                "Jan",
+                "Kowalski",
+                "jan@test.pl",
+                "Opis",
+                null,
+                4.8,
+                10L,
+                List.of()
+        );
+
+        List<UserDTO> users = List.of(userDTO);
+
+        when(userService.getAllUsersWithAvgRatingAndFeatured("ARTIST"))
+                .thenReturn(users);
+
+        mockMvc.perform(
+                get("/api/users")
+                        .param("role", "ARTIST")
+        )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].nickname")
+                        .value("jan"));
+
+        verify(userService)
+                .getAllUsersWithAvgRatingAndFeatured("ARTIST");
+    }
 }
